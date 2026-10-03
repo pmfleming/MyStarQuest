@@ -3,7 +3,7 @@
   "task_id": "quality.lint",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:41.056Z",
+    "measured_at": "2026-10-03T13:15:29.922Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:d1b507fb8f7383763969628e6947f8cd8be0bab99d40828bd44ef5acc93b07b2"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:6922a39b0cc3ec2b5837573ab73edf6092d82a81d78d4e99d1947f6e58259b69"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -116,9 +116,9 @@
     "stale_input": []
   },
   "summary": {
-    "records": 0,
+    "records": 4,
     "blocking_findings": 0,
-    "warning_findings": 0
+    "warning_findings": 4
   },
   "tool_status": {
     "typed_eslint": {
@@ -134,9 +134,198 @@
       },
       "project_mode": "project-service",
       "configured_project": null,
-      "duration_ms": 3505,
+      "duration_ms": 3469,
       "ruleset": "tsrqlens-typescript-recommended-v1"
     }
   },
-  "records": []
+  "records": [
+    {
+      "id": "typescript-eslint:cc3ab796:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "line": 13,
+      "column": 10,
+      "end_line": 13,
+      "end_column": 42,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "cc3ab796",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:cc3ab796:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:d9b66c67:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "line": 245,
+      "column": 10,
+      "end_line": 245,
+      "end_column": 31,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedOperation' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedOperation' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "d9b66c67",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:d9b66c67:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:9ae7aa38:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "line": 585,
+      "column": 34,
+      "end_line": 585,
+      "end_column": 74,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "9ae7aa38",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:9ae7aa38:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typescript-eslint:a05805e8:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "line": 837,
+      "column": 16,
+      "end_line": 837,
+      "end_column": 50,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "a05805e8",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:a05805e8:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
 }

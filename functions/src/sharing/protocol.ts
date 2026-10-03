@@ -61,7 +61,6 @@ export type InvitationEntry = {
   deliveryState: string
   expiresAt: number
 }
-export const SHARED_DATA_VERSION = 1
 
 export function sharedDateKey(time = Date.now(), timeZone = 'Europe/London') {
   return new Intl.DateTimeFormat('en-CA', {

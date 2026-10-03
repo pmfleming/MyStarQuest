@@ -1,16 +1,16 @@
-## TypeScript quality gate
+# Quality comparison: frontend
 
-Mode: **new blockers**. Verdict: **warn**.
+Fresh working-tree baseline; latest Lens 0.3.0 (233239b).
 
-| Metric | Committed baseline | Current | Change |
+| Metric | Before | After | Change |
 | --- | ---: | ---: | ---: |
-| source_lines | 31873 | 31782 | -91 |
-| cognitive_complexity | 1507 | 1483 | -24 |
-| cyclomatic_complexity | 2172 | 2148 | -24 |
-| halstead_effort | 10285069 | 9759668 | -525401 |
-| clone_groups | 0 | 0 | 0 |
-| locality_risk | 12152 | 12257 | 105 |
-| leverage_risk | 256 | 244 | -12 |
-| lint_blockers | 0 | 0 | 0 |
+| source_lines | 33447 | 33354 | -93 |
+| cognitive_complexity | 1671 | 1674 | 3 |
+| cyclomatic_complexity | 2346 | 2344 | -2 |
+| halstead_effort | 11572736 | 11035991 | -536745 |
+| clone_groups | 2 | 0 | -2 |
+| locality_risk | 12712 | 12713 | 1 |
+| leverage_risk | 672 | 476 | -196 |
+| lint_blockers | 5 | 0 | -5 |
 
-Baseline uses committed Lens artifacts at the merge base; current uses this run. Complexity/effort sum callables; lines sum files; locality/leverage sum risk scores (lower is better). Aggregates are comparison aids, not additional Lens scores.
+Fresh pre-refactor working-tree baseline includes pending Parents UI edits. Same tool revision and unchanged configs. Complexity/effort sum named callable signals; source lines sum file signals; locality/leverage sum module risk scores. Lower is better. Physical counts include TS/TSX/JS/CSS/scripts/tests/Android Java. Source/report snapshots are under output/quality-sharing-review.

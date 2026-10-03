@@ -1,3 +1,4 @@
+import { keyboardActivation } from './keyboardActivation'
 import { useContext } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
@@ -73,12 +74,7 @@ const ImageStarFrame = ({
             }
             onKeyDown={
               onExpandImage
-                ? (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      onExpandImage()
-                    }
-                  }
+                ? (event) => keyboardActivation(event, onExpandImage)
                 : undefined
             }
             style={{

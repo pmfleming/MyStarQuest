@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T08:06:38.110Z",
+    "measured_at": "2026-10-03T13:14:40.455Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:f2b8aa91bd5c4513b36e6b86ef3d0b674e0c15a92fd57dc9a73ece60718a4c0d",
-    "input_set_hash": "sha256:2931f4c1cc98470512fa143d32364bfc4b889a86192a739794132f7ba56301f2"
+    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
+    "input_set_hash": "sha256:2c3e9c3817682375f631fc8ed50aab6c551dbaf1f36dce80f246a10a59af9f0e"
   },
   "analysis_identity": {
-    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
+    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
+    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -82,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "jscpd_available": true,
     "jscpd_ran": true,
@@ -123,10 +123,10 @@
     "ast_clone_groups": 0,
     "source_clone_groups": 0,
     "test_clone_groups": 0,
-    "duplication_records": 0,
-    "high_duplication_records": 0,
+    "duplication_records": 1,
+    "high_duplication_records": 1,
     "clone_pressure_records": 0,
-    "same_purpose_records": 0
+    "same_purpose_records": 1
   },
   "tool_status": {
     "jscpd": {
@@ -134,7 +134,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-10-03T08:06:35.699Z",
+        "detectionDate": "2026-10-03T13:14:38.003Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -559,8 +559,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionListTypes.ts": {
-                "lines": 53,
-                "tokens": 553,
+                "lines": 54,
+                "tokens": 569,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -585,6 +585,18 @@
               "src/components/ui/PrimaryActionImageContext.ts": {
                 "lines": 20,
                 "tokens": 146,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/keyboardActivation.ts": {
+                "lines": 8,
+                "tokens": 80,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -739,8 +751,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptorTypes.ts": {
-                "lines": 36,
-                "tokens": 378,
+                "lines": 37,
+                "tokens": 385,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -906,6 +918,54 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/sharing/scope.ts": {
+                "lines": 31,
+                "tokens": 306,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/invitationPath.ts": {
+                "lines": 24,
+                "tokens": 210,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/ChildAccessContext.ts": {
+                "lines": 59,
+                "tokens": 531,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/api.ts": {
+                "lines": 45,
+                "tokens": 348,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/routes/routeModules.ts": {
                 "lines": 28,
                 "tokens": 293,
@@ -919,8 +979,8 @@
                 "newClones": 0
               },
               "src/offline/transport.ts": {
-                "lines": 148,
-                "tokens": 1434,
+                "lines": 159,
+                "tokens": 1559,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -931,8 +991,8 @@
                 "newClones": 0
               },
               "src/offline/sync.ts": {
-                "lines": 123,
-                "tokens": 1194,
+                "lines": 152,
+                "tokens": 1396,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -943,8 +1003,8 @@
                 "newClones": 0
               },
               "src/offline/store.ts": {
-                "lines": 116,
-                "tokens": 1172,
+                "lines": 196,
+                "tokens": 1964,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -967,8 +1027,8 @@
                 "newClones": 0
               },
               "src/offline/runtime.ts": {
-                "lines": 131,
-                "tokens": 1142,
+                "lines": 233,
+                "tokens": 1982,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1003,8 +1063,8 @@
                 "newClones": 0
               },
               "src/offline/model.ts": {
-                "lines": 197,
-                "tokens": 2104,
+                "lines": 287,
+                "tokens": 3201,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1027,8 +1087,8 @@
                 "newClones": 0
               },
               "src/offline/firebaseTransport.ts": {
-                "lines": 57,
-                "tokens": 590,
+                "lines": 74,
+                "tokens": 734,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1039,8 +1099,8 @@
                 "newClones": 0
               },
               "src/offline/actions.ts": {
-                "lines": 134,
-                "tokens": 1116,
+                "lines": 199,
+                "tokens": 1693,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1063,8 +1123,8 @@
                 "newClones": 0
               },
               "src/lib/today.ts": {
-                "lines": 118,
-                "tokens": 1085,
+                "lines": 120,
+                "tokens": 1045,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1111,8 +1171,8 @@
                 "newClones": 0
               },
               "src/lib/starActions.ts": {
-                "lines": 199,
-                "tokens": 1646,
+                "lines": 200,
+                "tokens": 1674,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1494,6 +1554,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/hooks/useAsyncFeedback.ts": {
+                "lines": 22,
+                "tokens": 225,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/hooks/useAsyncAction.ts": {
                 "lines": 49,
                 "tokens": 478,
@@ -1531,8 +1603,8 @@
                 "newClones": 0
               },
               "src/data/useUserDocumentUpdates.ts": {
-                "lines": 86,
-                "tokens": 651,
+                "lines": 90,
+                "tokens": 731,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1543,8 +1615,8 @@
                 "newClones": 0
               },
               "src/data/useUserCollection.ts": {
-                "lines": 129,
-                "tokens": 1020,
+                "lines": 144,
+                "tokens": 1176,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1555,8 +1627,8 @@
                 "newClones": 0
               },
               "src/data/useTests.ts": {
-                "lines": 300,
-                "tokens": 2485,
+                "lines": 335,
+                "tokens": 2704,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1567,8 +1639,8 @@
                 "newClones": 0
               },
               "src/data/useRewards.ts": {
-                "lines": 102,
-                "tokens": 795,
+                "lines": 117,
+                "tokens": 1013,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1579,8 +1651,8 @@
                 "newClones": 0
               },
               "src/data/useChores.ts": {
-                "lines": 182,
-                "tokens": 1531,
+                "lines": 185,
+                "tokens": 1518,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1591,8 +1663,8 @@
                 "newClones": 0
               },
               "src/data/useChoreActivityActions.ts": {
-                "lines": 183,
-                "tokens": 1530,
+                "lines": 185,
+                "tokens": 1546,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1603,8 +1675,8 @@
                 "newClones": 0
               },
               "src/data/useChildTaskCollection.ts": {
-                "lines": 87,
-                "tokens": 859,
+                "lines": 100,
+                "tokens": 948,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1615,8 +1687,8 @@
                 "newClones": 0
               },
               "src/data/useChildren.ts": {
-                "lines": 196,
-                "tokens": 1586,
+                "lines": 204,
+                "tokens": 1775,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1627,8 +1699,8 @@
                 "newClones": 0
               },
               "src/data/types.ts": {
-                "lines": 449,
-                "tokens": 3704,
+                "lines": 460,
+                "tokens": 3834,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1651,8 +1723,8 @@
                 "newClones": 0
               },
               "src/data/taskLimits.ts": {
-                "lines": 72,
-                "tokens": 731,
+                "lines": 38,
+                "tokens": 406,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1663,8 +1735,8 @@
                 "newClones": 0
               },
               "src/data/taskDocuments.ts": {
-                "lines": 182,
-                "tokens": 1156,
+                "lines": 117,
+                "tokens": 764,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1747,8 +1819,8 @@
                 "newClones": 0
               },
               "src/data/dailyTaskState.ts": {
-                "lines": 229,
-                "tokens": 2010,
+                "lines": 231,
+                "tokens": 2037,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1940,9 +2012,9 @@
               }
             },
             "total": {
-              "lines": 13553,
-              "tokens": 115986,
-              "sources": 150,
+              "lines": 14150,
+              "tokens": 121868,
+              "sources": 156,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2087,8 +2159,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 339,
-                "tokens": 2560,
+                "lines": 341,
+                "tokens": 2576,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2231,8 +2303,8 @@
                 "newClones": 0
               },
               "src/components/ui/ImageStarFrame.tsx": {
-                "lines": 55,
-                "tokens": 263,
+                "lines": 78,
+                "tokens": 389,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2303,8 +2375,8 @@
                 "newClones": 0
               },
               "src/components/ui/CardShell.tsx": {
-                "lines": 6,
-                "tokens": 35,
+                "lines": 24,
+                "tokens": 202,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2459,8 +2531,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 76,
-                "tokens": 754,
+                "lines": 78,
+                "tokens": 779,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2483,8 +2555,44 @@
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 149,
-                "tokens": 1133,
+                "lines": 155,
+                "tokens": 1171,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/ParentAccessPanel.tsx": {
+                "lines": 145,
+                "tokens": 1078,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/InvitationPage.tsx": {
+                "lines": 21,
+                "tokens": 177,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/ChildAccessProvider.tsx": {
+                "lines": 95,
+                "tokens": 862,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2543,8 +2651,8 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 41,
-                "tokens": 290,
+                "lines": 86,
+                "tokens": 668,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2555,8 +2663,8 @@
                 "newClones": 0
               },
               "src/pages/RewardsPage.tsx": {
-                "lines": 78,
-                "tokens": 512,
+                "lines": 123,
+                "tokens": 875,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2579,8 +2687,8 @@
                 "newClones": 0
               },
               "src/pages/ManageChildrenPage.tsx": {
-                "lines": 47,
-                "tokens": 280,
+                "lines": 54,
+                "tokens": 346,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2627,8 +2735,8 @@
                 "newClones": 0
               },
               "src/offline/OfflineBoundary.tsx": {
-                "lines": 45,
-                "tokens": 357,
+                "lines": 59,
+                "tokens": 513,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2675,8 +2783,8 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildProvider.tsx": {
-                "lines": 69,
-                "tokens": 527,
+                "lines": 89,
+                "tokens": 703,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2711,8 +2819,8 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerControls.tsx": {
-                "lines": 131,
-                "tokens": 827,
+                "lines": 128,
+                "tokens": 824,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2735,8 +2843,8 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerCalendarIcon.tsx": {
-                "lines": 1,
-                "tokens": 3,
+                "lines": 26,
+                "tokens": 165,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2773,6 +2881,18 @@
               "src/components/SchoolCalendar.tsx": {
                 "lines": 214,
                 "tokens": 1589,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/RewardImagePreview.tsx": {
+                "lines": 31,
+                "tokens": 189,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2879,8 +2999,8 @@
                 "newClones": 0
               },
               "src/components/ExpandableAgendaItem.tsx": {
-                "lines": 4,
-                "tokens": 32,
+                "lines": 13,
+                "tokens": 91,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2915,8 +3035,8 @@
                 "newClones": 0
               },
               "src/components/AppMenu.tsx": {
-                "lines": 250,
-                "tokens": 2137,
+                "lines": 268,
+                "tokens": 2343,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3023,8 +3143,8 @@
                 "newClones": 0
               },
               "src/App.tsx": {
-                "lines": 53,
-                "tokens": 421,
+                "lines": 57,
+                "tokens": 442,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3036,9 +3156,9 @@
               }
             },
             "total": {
-              "lines": 8300,
-              "tokens": 60394,
-              "sources": 90,
+              "lines": 8827,
+              "tokens": 64656,
+              "sources": 94,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -3183,8 +3303,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 412,
-                "tokens": 3099,
+                "lines": 414,
+                "tokens": 3115,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3339,8 +3459,8 @@
                 "newClones": 0
               },
               "src/components/ui/ImageStarFrame.tsx": {
-                "lines": 107,
-                "tokens": 612,
+                "lines": 133,
+                "tokens": 766,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3411,8 +3531,8 @@
                 "newClones": 0
               },
               "src/components/ui/CardShell.tsx": {
-                "lines": 115,
-                "tokens": 955,
+                "lines": 140,
+                "tokens": 1112,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3603,8 +3723,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreDescriptors.tsx": {
-                "lines": 159,
-                "tokens": 1567,
+                "lines": 168,
+                "tokens": 1655,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3639,8 +3759,56 @@
                 "newClones": 0
               },
               "src/ui/definitionRowDescriptors.tsx": {
-                "lines": 228,
-                "tokens": 1855,
+                "lines": 239,
+                "tokens": 1926,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/ParentAccessPanel.tsx": {
+                "lines": 216,
+                "tokens": 1931,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/InvitationPage.tsx": {
+                "lines": 92,
+                "tokens": 874,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/InvitationLinks.tsx": {
+                "lines": 34,
+                "tokens": 354,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/ChildAccessProvider.tsx": {
+                "lines": 242,
+                "tokens": 2167,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3699,8 +3867,8 @@
                 "newClones": 0
               },
               "src/routes/ProtectedDataRoute.tsx": {
-                "lines": 13,
-                "tokens": 79,
+                "lines": 16,
+                "tokens": 97,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3735,8 +3903,8 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 125,
-                "tokens": 959,
+                "lines": 193,
+                "tokens": 1529,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3747,8 +3915,8 @@
                 "newClones": 0
               },
               "src/pages/RewardsPage.tsx": {
-                "lines": 173,
-                "tokens": 1234,
+                "lines": 229,
+                "tokens": 1747,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3759,8 +3927,8 @@
                 "newClones": 0
               },
               "src/pages/RewardCreationFlow.tsx": {
-                "lines": 121,
-                "tokens": 874,
+                "lines": 127,
+                "tokens": 921,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3771,8 +3939,8 @@
                 "newClones": 0
               },
               "src/pages/ManageChildrenPage.tsx": {
-                "lines": 84,
-                "tokens": 537,
+                "lines": 95,
+                "tokens": 650,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3795,8 +3963,8 @@
                 "newClones": 0
               },
               "src/pages/DashboardPage.tsx": {
-                "lines": 366,
-                "tokens": 3099,
+                "lines": 369,
+                "tokens": 3133,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3819,8 +3987,8 @@
                 "newClones": 0
               },
               "src/offline/OfflineBoundary.tsx": {
-                "lines": 88,
-                "tokens": 714,
+                "lines": 103,
+                "tokens": 882,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3891,8 +4059,8 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildProvider.tsx": {
-                "lines": 120,
-                "tokens": 960,
+                "lines": 145,
+                "tokens": 1166,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3903,8 +4071,8 @@
                 "newClones": 0
               },
               "src/contexts/ActiveChildContext.tsx": {
-                "lines": 21,
-                "tokens": 154,
+                "lines": 26,
+                "tokens": 174,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3939,7 +4107,7 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerControls.tsx": {
-                "lines": 192,
+                "lines": 189,
                 "tokens": 1332,
                 "sources": 1,
                 "clones": 0,
@@ -3963,8 +4131,8 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerCalendarIcon.tsx": {
-                "lines": 49,
-                "tokens": 277,
+                "lines": 55,
+                "tokens": 343,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4037,6 +4205,18 @@
               "src/components/SchoolCalendar.tsx": {
                 "lines": 336,
                 "tokens": 2781,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/RewardImagePreview.tsx": {
+                "lines": 93,
+                "tokens": 690,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4143,8 +4323,8 @@
                 "newClones": 0
               },
               "src/components/ExpandableAgendaItem.tsx": {
-                "lines": 80,
-                "tokens": 602,
+                "lines": 76,
+                "tokens": 570,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4203,8 +4383,8 @@
                 "newClones": 0
               },
               "src/components/AppMenu.tsx": {
-                "lines": 298,
-                "tokens": 2511,
+                "lines": 313,
+                "tokens": 2725,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4299,8 +4479,8 @@
                 "newClones": 0
               },
               "src/auth/AuthProvider.tsx": {
-                "lines": 82,
-                "tokens": 698,
+                "lines": 83,
+                "tokens": 717,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4335,8 +4515,8 @@
                 "newClones": 0
               },
               "src/App.tsx": {
-                "lines": 98,
-                "tokens": 776,
+                "lines": 105,
+                "tokens": 830,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4348,9 +4528,9 @@
               }
             },
             "total": {
-              "lines": 16179,
-              "tokens": 123838,
-              "sources": 108,
+              "lines": 17143,
+              "tokens": 132350,
+              "sources": 113,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -4438,9 +4618,9 @@
           }
         },
         "total": {
-          "lines": 38058,
-          "tokens": 300479,
-          "sources": 353,
+          "lines": 40146,
+          "tokens": 319135,
+          "sources": 368,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,
@@ -4453,5 +4633,107 @@
     }
   },
   "groups": [],
-  "records": []
+  "records": [
+    {
+      "id": "same-purpose:export:a98cc29",
+      "kind": "same_purpose_export",
+      "file": "src/sharing/ChildAccessContext.ts",
+      "files": [
+        "src/sharing/ChildAccessContext.ts",
+        "src/sharing/scope.ts"
+      ],
+      "line": 23,
+      "score": 86,
+      "risk": "high",
+      "purpose_key": "child:key:storage",
+      "purpose_terms": [
+        "child",
+        "key",
+        "storage"
+      ],
+      "candidates": [
+        {
+          "module_id": "src/sharing/ChildAccessContext",
+          "file": "src/sharing/ChildAccessContext.ts",
+          "name": "storageKeyForChild",
+          "line": 23,
+          "exported": true,
+          "signature": "(actorUid: string, child: AccessibleChild) => string",
+          "entrypoint_roles": []
+        },
+        {
+          "module_id": "src/sharing/scope",
+          "file": "src/sharing/scope.ts",
+          "name": "childStorageKey",
+          "line": 10,
+          "exported": true,
+          "signature": "(scope: ChildScope) => string",
+          "entrypoint_roles": []
+        }
+      ],
+      "signals": [
+        {
+          "kind": "same_purpose_name_heuristic",
+          "value": "child:key:storage"
+        },
+        {
+          "kind": "candidate_count",
+          "value": 2
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "distinct_name_count",
+          "value": 2
+        },
+        {
+          "kind": "exported_candidate_count",
+          "value": 2
+        },
+        {
+          "kind": "typed_candidate_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/same_purpose_export",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "same purpose export",
+      "reason_code": "ts-react-quality-lens/same_purpose_export",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "related_locations": [
+        {
+          "file": "src/sharing/scope.ts",
+          "start_line": 1,
+          "role": "related"
+        }
+      ],
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this same_purpose_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "same-purpose:export:a98cc29",
+            "kind": "same_purpose_export",
+            "file": "src/sharing/ChildAccessContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
 }

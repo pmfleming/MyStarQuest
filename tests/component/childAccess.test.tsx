@@ -106,8 +106,48 @@ it('waits for the invited profile, isolates colliding IDs, and clears a removed 
   )
   expect(screen.getByText('Shared child')).toBeInTheDocument()
   expect(screen.getByText('Secondary')).toBeInTheDocument()
+  const oldProfile = fixtures.listeners.get('users/owner/children/child')!
+  // A new membership replaces the old subscription and discards its cached scope.
+  act(() =>
+    fixtures.listeners.get('users/parent/childAccess')!({
+      docs: [
+        snapshot('grant', {
+          ownerUid: 'owner',
+          childId: 'child',
+          membershipVersion: 2,
+          status: 'active',
+        }),
+      ],
+    })
+  )
+  expect(screen.getByText('Opening')).toBeInTheDocument()
+  act(() =>
+    oldProfile({
+      exists: () => true,
+      data: () => ({ displayName: 'Stale child' }),
+      metadata: { fromCache: false },
+    })
+  )
+  expect(screen.queryByText('Stale child')).toBeNull()
+  expect(screen.getByText('Opening')).toBeInTheDocument()
+  act(() =>
+    fixtures.listeners.get('users/owner/children/child')!({
+      exists: () => true,
+      data: () => ({ displayName: 'Renewed child' }),
+      metadata: { fromCache: false },
+    })
+  )
+  expect(screen.getByText('Renewed child')).toBeInTheDocument()
   act(() => fixtures.listeners.get('users/parent/childAccess')!({ docs: [] }))
   expect(fixtures.revoke).toHaveBeenCalled()
   expect(screen.getByText('Own child')).toBeInTheDocument()
   expect(screen.getByText('Admin')).toBeInTheDocument()
+  act(() =>
+    oldProfile({
+      exists: () => true,
+      data: () => ({ displayName: 'Stale child' }),
+      metadata: { fromCache: false },
+    })
+  )
+  expect(screen.queryByText('Stale child')).toBeNull()
 })

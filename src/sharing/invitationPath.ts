@@ -1,13 +1,14 @@
 export function invitationPath(link: string) {
   try {
     const url = new URL(link)
-    const configured = import.meta.env.VITE_INVITATION_APP_URL as
-      string | undefined
+    const configured: unknown = import.meta.env.VITE_INVITATION_APP_URL
     const allowed = new Set([
       window.location.origin,
       'https://mystarquest-1b6f8.web.app',
       'https://mystarquest-1b6f8.firebaseapp.com',
-      ...(configured ? [new URL(configured).origin] : []),
+      ...(typeof configured === 'string' && configured
+        ? [new URL(configured).origin]
+        : []),
     ])
     if (
       url.protocol !== 'https:' ||

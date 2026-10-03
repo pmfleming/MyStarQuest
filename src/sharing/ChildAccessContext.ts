@@ -52,6 +52,7 @@ export function useDataScope() {
     canAdmin,
     access,
     actorUid: user?.uid,
+    actorEmail: user?.email,
     childId: active.activeChildId,
     timeZone: access?.selected?.timeZone ?? 'Europe/London',
   }

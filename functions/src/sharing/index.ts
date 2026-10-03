@@ -11,7 +11,6 @@ import {
 import { defineSecret, defineString } from 'firebase-functions/params'
 import { SharingService, type Caller } from './service'
 import { id, record, fail } from './policy'
-import type { ChildScope } from './protocol'
 
 const appUrl = defineString('INVITATION_APP_URL', {
   default: '',
@@ -47,10 +46,12 @@ export const prepareChildSharing = onCall(options, async (request) => {
     data.dryRun === true
   )
 })
-export const listChildParents = onCall(options, async (request) => {
-  const { ownerUid, childId } = scope(request)
-  return service().list(caller(request), ownerUid, childId)
-})
+const childCommand = (method: 'list' | 'deleteChild') =>
+  onCall(options, (request) => {
+    const { ownerUid, childId } = scope(request)
+    return service()[method](caller(request), ownerUid, childId)
+  })
+export const listChildParents = childCommand('list')
 function invitationOrigin() {
   try {
     const url = new URL(appUrl.value())
@@ -96,18 +97,15 @@ export const acceptParentInvitation = onCall(options, async (request) => {
     String(data.token ?? '')
   )
 })
-export const revokeParentInvitation = onCall(options, async (request) => {
-  const { data, ownerUid, childId } = scope(request)
-  return service().revoke(caller(request), ownerUid, childId, {
-    inviteId: id(data.inviteId),
+const revokeAccess = (key: 'inviteId' | 'parentUid') =>
+  onCall(options, (request) => {
+    const { data, ownerUid, childId } = scope(request)
+    return service().revoke(caller(request), ownerUid, childId, {
+      [key]: id(data[key]),
+    })
   })
-})
-export const removeParentAccess = onCall(options, async (request) => {
-  const { data, ownerUid, childId } = scope(request)
-  return service().revoke(caller(request), ownerUid, childId, {
-    parentUid: id(data.parentUid),
-  })
-})
+export const revokeParentInvitation = revokeAccess('inviteId')
+export const removeParentAccess = revokeAccess('parentUid')
 export const applyChildOperation = onCall(options, async (request) => {
   const data = record(request.data),
     target = record(data.scope)
@@ -116,12 +114,18 @@ export const applyChildOperation = onCall(options, async (request) => {
     Number(target.membershipVersion) < 0
   )
     fail('Invalid membership.')
-  return service().apply(caller(request), target as ChildScope, data.operation)
+  return service().apply(
+    caller(request),
+    {
+      actorUid: id(target.actorUid),
+      ownerUid: id(target.ownerUid),
+      childId: id(target.childId),
+      membershipVersion: Number(target.membershipVersion),
+    },
+    data.operation
+  )
 })
-export const deleteSharedChild = onCall(options, async (request) => {
-  const { ownerUid, childId } = scope(request)
-  return service().deleteChild(caller(request), ownerUid, childId)
-})
+export const deleteSharedChild = childCommand('deleteChild')
 export const cleanupSharedChild = onDocumentDeleted(
   { document: 'users/{ownerUid}/children/{childId}', retry: true },
   async (event) => {
@@ -201,13 +205,13 @@ export const deliverParentInvitation = onDocumentCreated(
       })
       return
     }
-    const result = (await response.json()) as { id?: string }
+    const result = record(await response.json())
     await db.runTransaction(async (tx) => {
       const current = await tx.get(inviteRef)
       tx.update(jobRef, {
         state: 'sent',
         sentAt: Date.now(),
-        providerId: result.id ?? '',
+        providerId: typeof result.id === 'string' ? result.id : '',
         link: FieldValue.delete(),
       })
       if (current.data()?.jobId === event.params.messageId)

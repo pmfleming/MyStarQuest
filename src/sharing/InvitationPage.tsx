@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useAsyncFeedback } from '../hooks/useAsyncFeedback'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
@@ -11,23 +11,11 @@ export default function InvitationPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const token = location.hash.slice(1)
-  const [busy, setBusy] = useState(false)
-  const [error, setError] = useState('')
-  const run = async (action: () => Promise<void>) => {
-    setBusy(true)
-    setError('')
-    try {
-      await action()
-    } catch (reason) {
-      setError(
-        reason instanceof Error
-          ? reason.message
-          : 'Could not accept the invitation.'
-      )
-    } finally {
-      setBusy(false)
-    }
-  }
+  const {
+    busy,
+    message: error,
+    run,
+  } = useAsyncFeedback('Could not accept the invitation.')
   return (
     <main className="flex min-h-dvh items-center justify-center bg-pink-50 p-6 text-purple-950">
       <section className="flex w-full max-w-lg flex-col gap-5 rounded-3xl bg-white p-6 shadow-lg">

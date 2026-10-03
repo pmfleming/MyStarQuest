@@ -1,8 +1,16 @@
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  where,
+  type Query,
+  type FirestoreError,
+} from 'firebase/firestore'
 import { Capacitor } from '@capacitor/core'
 import { db } from '../firebaseDb'
 import { getTodayDescriptor } from '../lib/today'
-import { collections, type CollectionName } from './model'
+import { collections, type CollectionName, type LocalDocument } from './model'
 import { IndexedDbPersistence } from './persistence'
 import { OfflineStore } from './store'
 import { OfflineSync } from './sync'
@@ -19,6 +27,28 @@ import { emptyState } from './model'
 
 const persistence = new IndexedDbPersistence()
 const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
+
+// Query caches can be incomplete; keep the durable snapshot until a server result.
+function subscribeToCollection(
+  source: Query,
+  merge: (documents: Record<string, LocalDocument>) => Promise<unknown>,
+  report: (error: unknown) => void,
+  denied: (error: FirestoreError) => void
+) {
+  return onSnapshot(
+    source,
+    { includeMetadataChanges: true },
+    (snapshot) => {
+      if (snapshot.metadata.fromCache) return
+      void merge(
+        Object.fromEntries(
+          snapshot.docs.map((doc) => [doc.id, localDocument(doc.data())])
+        )
+      ).catch(report)
+    },
+    denied
+  )
+}
 
 function createRuntime(userId: string) {
   let connections = 0
@@ -102,9 +132,11 @@ function createRuntime(userId: string) {
             }
           }
           cleanup.push(sync.start())
-          if (scope) {
-            const childPath = `users/${scope.ownerUid}/children/${scope.childId}`
-            const denied = (error: { code: string }) => {
+          const childPath = scope
+            ? `users/${scope.ownerUid}/children/${scope.childId}`
+            : ''
+          const denied = (error: FirestoreError) => {
+            if (scope) {
               if (error.code === 'permission-denied')
                 void store
                   .revoke()
@@ -112,7 +144,14 @@ function createRuntime(userId: string) {
                     report(new Error('Access to this child was removed.'))
                   )
               else report(error)
-            }
+            } else if (error.code === 'permission-denied')
+              report(
+                new Error(
+                  'Cloud access was denied. Local data is still available; check account access.'
+                )
+              )
+          }
+          if (scope) {
             cleanup.push(
               onSnapshot(
                 doc(db, childPath),
@@ -131,92 +170,36 @@ function createRuntime(userId: string) {
                 denied
               )
             )
-            for (const name of ['chores', 'tests', 'rewards'] as const) {
-              const source =
-                name === 'rewards'
-                  ? collection(db, `${childPath}/rewards`)
-                  : query(
-                      collection(db, 'users', scope.ownerUid, name),
-                      where('childId', '==', scope.childId)
-                    )
-              cleanup.push(
-                onSnapshot(
-                  source,
-                  { includeMetadataChanges: true },
-                  (snapshot) => {
-                    if (snapshot.metadata.fromCache) return
-                    void store
-                      .mergeCollection(
-                        name,
-                        Object.fromEntries(
-                          snapshot.docs.map((doc) => [
-                            doc.id,
-                            localDocument(doc.data()),
-                          ])
-                        )
-                      )
-                      .catch(report)
-                  },
-                  denied
-                )
-              )
-            }
             cleanup.push(
-              onSnapshot(
+              subscribeToCollection(
                 collection(db, `${childPath}/activityProgress`),
-                { includeMetadataChanges: true },
-                (snapshot) => {
-                  if (snapshot.metadata.fromCache) return
-                  void store
-                    .mergeProgress(
-                      Object.fromEntries(
-                        snapshot.docs.map((doc) => [
-                          doc.id,
-                          localDocument(doc.data()),
-                        ])
-                      )
-                    )
-                    .catch(report)
-                },
+                (documents) => store.mergeProgress(documents),
+                report,
                 denied
               )
             )
-          } else {
-            for (const name of collections) {
-              const unsubscribe = onSnapshot(
-                collection(db, 'users', userId, name),
-                { includeMetadataChanges: true },
-                (snapshot) => {
-                  // Firestore's query cache can be incomplete. Our own durable
-                  // snapshot remains authoritative until a full server result.
-                  if (snapshot.metadata.fromCache) return
-                  const documents = Object.fromEntries(
-                    snapshot.docs.map((document) => [
-                      document.id,
-                      localDocument(document.data()),
-                    ])
-                  )
-                  void store
-                    .mergeCollection(
-                      name,
-                      documents,
-                      Capacitor.getPlatform() === 'web'
-                    )
-                    .catch(report)
-                },
-                (error) => {
-                  // Keep local data on backend failure. Permission errors need attention;
-                  // queued writes retain their own error/retry state independently.
-                  if (error.code === 'permission-denied')
-                    report(
-                      new Error(
-                        'Cloud access was denied. Local data is still available; check account access.'
-                      )
-                    )
-                }
+          }
+          for (const name of collections) {
+            if (scope && name === 'children') continue
+            const source =
+              scope && name === 'rewards'
+                ? collection(db, `${childPath}/rewards`)
+                : collection(db, 'users', scope?.ownerUid ?? userId, name)
+            cleanup.push(
+              subscribeToCollection(
+                scope && name !== 'rewards'
+                  ? query(source, where('childId', '==', scope.childId))
+                  : source,
+                (documents) =>
+                  store.mergeCollection(
+                    name,
+                    documents,
+                    !scope && Capacitor.getPlatform() === 'web'
+                  ),
+                report,
+                denied
               )
-              cleanup.push(unsubscribe)
-            }
+            )
           }
           const wake = () => {
             if (document.visibilityState !== 'hidden') {

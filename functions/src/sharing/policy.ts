@@ -31,57 +31,6 @@ export function email(value: unknown) {
     return fail('Enter a valid email address.')
   return value.trim().toLowerCase()
 }
-const fields = new Set([
-  'title',
-  'childId',
-  'category',
-  'taskType',
-  'testType',
-  'choreType',
-  'starValue',
-  'isRepeating',
-  'imageKey',
-  'schoolDayEnabled',
-  'nonSchoolDayEnabled',
-  'dinnerDurationSeconds',
-  'dinnerTotalBites',
-  'mathTotalProblems',
-  'mathDifficulty',
-  'largeNumbersTotalProblems',
-  'fractionsTotalProblems',
-  'fractionsMaxDenominator',
-  'pvTotalProblems',
-  'alphabetTotalProblems',
-  'spellingTotalProblems',
-  'animalsTotalProblems',
-  'createdAt',
-])
-const rewardFields = new Set([
-  'title',
-  'costStars',
-  'isRepeating',
-  'imageKey',
-  'createdAt',
-])
-const profileFields = new Set([
-  'displayName',
-  'avatarToken',
-  'totalStars',
-  'themeId',
-  'testFailureModeEnabled',
-])
-const types = new Set([
-  'standard',
-  'eating',
-  'watertoiletcheck',
-  'math',
-  'large-numbers',
-  'fractions',
-  'positional-notation',
-  'alphabet',
-  'spelling',
-  'animals',
-])
 export const completedFields: Record<string, string> = {
   standard: 'manageCompletedAt',
   eating: 'manageDinnerCompletedAt',
@@ -95,6 +44,66 @@ export const completedFields: Record<string, string> = {
   animals: 'manageAnimalsCompletedAt',
 }
 
+type Validator = (value: unknown) => boolean
+const text: Validator = (value) =>
+  typeof value === 'string' && value.length <= 200
+const boolean: Validator = (value) => typeof value === 'boolean'
+const between =
+  (min: number, max: number): Validator =>
+  (value) =>
+    typeof value === 'number' &&
+    Number.isInteger(value) &&
+    value >= min &&
+    value <= max
+const oneOf =
+  (...values: unknown[]): Validator =>
+  (value) =>
+    values.includes(value)
+const taskType: Validator = (value) =>
+  Object.hasOwn(completedFields, String(value))
+const problemCount = between(1, 9)
+const starCount = between(0, 999)
+const taskRules: Record<string, Validator> = {
+  title: text,
+  category: text,
+  imageKey: text,
+  isRepeating: boolean,
+  schoolDayEnabled: boolean,
+  nonSchoolDayEnabled: boolean,
+  mathDifficulty: oneOf('easy', 'hard'),
+  taskType,
+  testType: taskType,
+  choreType: taskType,
+  starValue: problemCount,
+  dinnerDurationSeconds: between(1, 86400),
+  dinnerTotalBites: between(1, 20),
+  fractionsMaxDenominator: between(2, 9),
+  mathTotalProblems: problemCount,
+  largeNumbersTotalProblems: problemCount,
+  fractionsTotalProblems: problemCount,
+  pvTotalProblems: problemCount,
+  alphabetTotalProblems: problemCount,
+  spellingTotalProblems: problemCount,
+  animalsTotalProblems: problemCount,
+}
+const documentRules: Record<string, Record<string, Validator>> = {
+  chores: taskRules,
+  tests: taskRules,
+  rewards: {
+    title: text,
+    costStars: starCount,
+    isRepeating: boolean,
+    imageKey: text,
+  },
+  children: {
+    displayName: text,
+    avatarToken: text,
+    totalStars: starCount,
+    themeId: oneOf('princess', 'teenie'),
+    testFailureModeEnabled: boolean,
+  },
+}
+
 export function documentPatch(
   collection: string,
   input: unknown,
@@ -104,86 +113,61 @@ export function documentPatch(
   const data = record(input)
   if (collection === 'children' && !admin)
     deny('Only the admin can change the child profile.')
-  const allowed =
-    collection === 'children'
-      ? profileFields
-      : collection === 'rewards'
-        ? rewardFields
-        : fields
+  const rules = documentRules[collection]
   const clean: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(data)) {
-    if (!allowed.has(key)) fail(`This field cannot be edited: ${key}`)
-    if (key === 'createdAt') continue // Server controls creation time.
-    if (key === 'childId' && value !== childId) deny()
+    if (key === 'createdAt' && collection !== 'children') continue // Server controls creation time.
     if (
-      ['title', 'displayName', 'category', 'imageKey', 'avatarToken'].includes(
-        key
-      ) &&
-      (typeof value !== 'string' || value.length > 200)
-    )
-      fail(`Invalid ${key}.`)
-    if (
-      [
-        'isRepeating',
-        'schoolDayEnabled',
-        'nonSchoolDayEnabled',
-        'testFailureModeEnabled',
-      ].includes(key) &&
-      typeof value !== 'boolean'
-    )
-      fail(`Invalid ${key}.`)
-    if (key === 'themeId' && value !== 'princess' && value !== 'teenie')
-      fail('Invalid theme.')
-    if (key === 'mathDifficulty' && value !== 'easy' && value !== 'hard')
-      fail('Invalid difficulty.')
-    if (
-      ['taskType', 'testType', 'choreType'].includes(key) &&
-      !types.has(String(value))
-    )
-      fail('Invalid activity type.')
-    if (
-      [
-        'starValue',
-        'costStars',
-        'totalStars',
-        'dinnerDurationSeconds',
-        'dinnerTotalBites',
-        'mathTotalProblems',
-        'largeNumbersTotalProblems',
-        'fractionsTotalProblems',
-        'fractionsMaxDenominator',
-        'pvTotalProblems',
-        'alphabetTotalProblems',
-        'spellingTotalProblems',
-        'animalsTotalProblems',
-      ].includes(key)
+      key === 'childId' &&
+      (collection === 'chores' || collection === 'tests')
     ) {
-      const min = ['costStars', 'totalStars'].includes(key)
-        ? 0
-        : key === 'fractionsMaxDenominator'
-          ? 2
-          : 1
-      const max =
-        key === 'dinnerDurationSeconds'
-          ? 86400
-          : key === 'dinnerTotalBites'
-            ? 20
-            : ['costStars', 'totalStars'].includes(key)
-              ? 999
-              : 9
-      if (
-        typeof value !== 'number' ||
-        !Number.isInteger(value) ||
-        value < min ||
-        value > max
-      )
-        fail(`Invalid ${key}.`)
+      if (value !== childId) deny()
+    } else {
+      if (!Object.hasOwn(rules, key))
+        fail(`This field cannot be edited: ${key}`)
+      if (!rules[key](value)) fail(`Invalid ${key}.`)
     }
     clean[key] = value
   }
   return clean
 }
 
+const finiteNumber: Validator = (value) =>
+  typeof value === 'number' && Number.isFinite(value)
+const activityRules: Record<string, Validator> = {
+  manageWaterLevel: (value) =>
+    ['full', 'twothirds', 'onethird', 'empty'].includes(String(value)),
+  manageToiletStatus: oneOf('notpeepee', 'didpeepee'),
+}
+const extraActivityFields: Record<string, string[]> = {
+  eating: [
+    'manageDinnerRemainingSeconds',
+    'manageDinnerBitesLeft',
+    'manageDinnerTimerStartedAt',
+  ],
+  watertoiletcheck: ['manageWaterLevel', 'manageToiletStatus'],
+}
+function activityValue(
+  key: string,
+  value: unknown,
+  now: number,
+  dateKey: string,
+  occurredAt: number
+) {
+  if (key.endsWith('At')) {
+    if (value === null) return null
+    if (!finiteNumber(value)) fail('Invalid activity time.')
+    return key === 'manageDinnerTimerStartedAt' ? occurredAt : now
+  }
+  if (key === 'lastAttemptDateKey') return value ? dateKey : ''
+  if (key.endsWith('Outcome')) {
+    if (!oneOf(null, 'success', 'failure')(value)) fail('Invalid outcome.')
+  } else if (activityRules[key]) {
+    if (!activityRules[key](value)) fail(`Invalid activity state: ${key}`)
+  } else if (!finiteNumber(value) || Number(value) < 0 || Number(value) > 86400)
+    fail('Invalid activity value.')
+  return value
+}
 export function activityPatch(
   input: unknown,
   taskType: string,
@@ -191,64 +175,26 @@ export function activityPatch(
   dateKey: string,
   occurredAt = now
 ) {
-  const data = record(input)
+  const outcomeTypes: Record<string, string> = {
+    'positional-notation': 'PV',
+    'large-numbers': 'LargeNumbers',
+  }
+  const outcomeType =
+    outcomeTypes[taskType] ?? taskType[0].toUpperCase() + taskType.slice(1)
   const allowed = new Set([
     completedFields[taskType],
     'lastAttemptedAt',
     'lastAttemptDateKey',
     'lastAttemptOutcome',
-    `manage${taskType === 'positional-notation' ? 'PV' : taskType === 'large-numbers' ? 'LargeNumbers' : taskType[0].toUpperCase() + taskType.slice(1)}LastOutcome`,
+    `manage${outcomeType}LastOutcome`,
+    ...(extraActivityFields[taskType] ?? []),
   ])
-  if (taskType === 'eating')
-    [
-      'manageDinnerRemainingSeconds',
-      'manageDinnerBitesLeft',
-      'manageDinnerTimerStartedAt',
-    ].forEach((key) => allowed.add(key))
-  if (taskType === 'watertoiletcheck')
-    ['manageWaterLevel', 'manageToiletStatus'].forEach((key) =>
-      allowed.add(key)
-    )
-  const clean: Record<string, unknown> = {}
-  for (const [key, value] of Object.entries(data)) {
-    if (!allowed.has(key)) fail(`Invalid activity state: ${key}`)
-    if (key.endsWith('At')) {
-      if (
-        value !== null &&
-        (typeof value !== 'number' || !Number.isFinite(value))
-      )
-        fail('Invalid activity time.')
-      clean[key] =
-        value === null
-          ? null
-          : key === 'manageDinnerTimerStartedAt'
-            ? occurredAt
-            : now
-    } else if (key === 'lastAttemptDateKey') clean[key] = value ? dateKey : ''
-    else if (key.endsWith('Outcome')) {
-      if (value !== null && value !== 'success' && value !== 'failure')
-        fail('Invalid outcome.')
-      clean[key] = value
-    } else if (key === 'manageWaterLevel') {
-      if (!['full', 'twothirds', 'onethird', 'empty'].includes(String(value)))
-        fail('Invalid water level.')
-      clean[key] = value
-    } else if (key === 'manageToiletStatus') {
-      if (value !== 'notpeepee' && value !== 'didpeepee')
-        fail('Invalid toilet state.')
-      clean[key] = value
-    } else {
-      if (
-        typeof value !== 'number' ||
-        !Number.isFinite(value) ||
-        value < 0 ||
-        value > 86400
-      )
-        fail('Invalid activity value.')
-      clean[key] = value
-    }
-  }
-  return clean
+  return Object.fromEntries(
+    Object.entries(record(input)).map(([key, value]) => {
+      if (!allowed.has(key)) fail(`Invalid activity state: ${key}`)
+      return [key, activityValue(key, value, now, dateKey, occurredAt)]
+    })
+  )
 }
 
 export function parseOperation(input: unknown): SharedOperation {

@@ -10,9 +10,9 @@ import {
 } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'
+import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'
 import {
-  childSnapshotDataSchema,
+  parseChildProfile,
   type ChildProfile,
   type ChildUpdatableFields,
 } from './types'
@@ -49,32 +49,6 @@ const useChildrenState = () => {
     useActiveChild()
   const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
 
-  const mapChildDocument = useCallback((id: string, data: unknown) => {
-    const parsed = childSnapshotDataSchema.safeParse(data)
-    if (!parsed.success) {
-      console.warn('Skipping invalid child snapshot', {
-        id,
-        issues: parsed.error.issues,
-      })
-      return null
-    }
-
-    const childData = parsed.data
-    const themeId = childData.themeId
-    const normalizedThemeId =
-      themeId && isThemeId(themeId) ? themeId : undefined
-
-    return {
-      id,
-      displayName: childData.displayName,
-      avatarToken: childData.avatarToken,
-      totalStars: childData.totalStars,
-      themeId: normalizedThemeId,
-      testFailureModeEnabled: childData.testFailureModeEnabled,
-      createdAt: childData.createdAt?.toDate?.(),
-    }
-  }, [])
-
   const handleChildren = useCallback((nextChildren: ChildProfile[]) => {
     setNameDrafts((prev) =>
       mergeMissingTitleDrafts(
@@ -106,7 +80,7 @@ const useChildrenState = () => {
     collectionName: 'children',
     orderByField: 'createdAt',
     errorMessage: 'Failed to subscribe to children',
-    mapDocument: mapChildDocument,
+    mapDocument: parseChildProfile,
     onItems: handleChildren,
     onClear: clearChildren,
   })

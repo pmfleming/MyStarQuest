@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T08:06:51.394Z",
+    "measured_at": "2026-10-03T13:14:55.183Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:f2b8aa91bd5c4513b36e6b86ef3d0b674e0c15a92fd57dc9a73ece60718a4c0d",
-    "input_set_hash": "sha256:9cf1b14700f28acbb4dc5e0de90afa852c77173f1e8107f8007da23a71320913"
+    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
+    "input_set_hash": "sha256:994faa235a7a5f231f60cdf80914ff96640f9635fbec2da55c03cf1e59019688"
   },
   "analysis_identity": {
-    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
+    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
+    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -82,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "dependency_cruiser_available": true,
     "dependency_cruiser_ran": false,
@@ -116,14 +116,14 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1133,
-    "external_edges": 177,
+    "internal_edges": 1206,
+    "external_edges": 193,
     "cycles": 0,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 0,
-    "deep_relative_imports": 159,
+    "deep_relative_imports": 165,
     "barrel_modules": 1,
-    "layer_violations": 35,
+    "layer_violations": 37,
     "unsupported_patterns": 0,
     "workspaces": 1,
     "cross_workspace_edges": 0,
@@ -2339,12 +2339,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/ImageStarFrame:2",
+      "id": "deep-import:src/components/ui/ImageStarFrame:3",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/ImageStarFrame",
-      "line": 2,
+      "line": 3,
       "specifier": "../../contexts/ThemeContext",
       "evidence": "import type { Theme } from '../../contexts/ThemeContext'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2370,7 +2370,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/ImageStarFrame:2",
+            "id": "deep-import:src/components/ui/ImageStarFrame:3",
             "kind": "deep_relative_import",
             "file": "src/components/ui/ImageStarFrame",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2379,12 +2379,12 @@
       ]
     },
     {
-      "id": "deep-import:src/components/ui/ImageStarFrame:3",
+      "id": "deep-import:src/components/ui/ImageStarFrame:4",
       "kind": "deep_relative_import",
       "severity": "medium",
       "score": 35,
       "file": "src/components/ui/ImageStarFrame",
-      "line": 3,
+      "line": 4,
       "specifier": "../../tokens",
       "evidence": "import { uiTokens } from '../../tokens'",
       "rule_id": "ts-react-quality-lens/deep_relative_import",
@@ -2410,7 +2410,7 @@
           "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "deep-import:src/components/ui/ImageStarFrame:3",
+            "id": "deep-import:src/components/ui/ImageStarFrame:4",
             "kind": "deep_relative_import",
             "file": "src/components/ui/ImageStarFrame",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4979,6 +4979,46 @@
       ]
     },
     {
+      "id": "deep-import:src/data/taskDocuments:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/data/taskDocuments",
+      "line": 1,
+      "specifier": "../../functions/src/sharing/defaultTests",
+      "evidence": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/data/taskDocuments:1",
+            "kind": "deep_relative_import",
+            "file": "src/data/taskDocuments",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/features/dayNightExplorer/Clock:3",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -6459,6 +6499,206 @@
       ]
     },
     {
+      "id": "deep-import:src/offline/model:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/offline/model",
+      "line": 2,
+      "specifier": "../../functions/src/sharing/protocol",
+      "evidence": "import { progressKey } from '../../functions/src/sharing/protocol'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { progressKey } from '../../functions/src/sharing/protocol'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/offline/model:2",
+            "kind": "deep_relative_import",
+            "file": "src/offline/model",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/pages/TestsPage:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/pages/TestsPage",
+      "line": 2,
+      "specifier": "../../functions/src/sharing/defaultTests",
+      "evidence": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/pages/TestsPage:2",
+            "kind": "deep_relative_import",
+            "file": "src/pages/TestsPage",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/sharing/api:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/sharing/api",
+      "line": 1,
+      "specifier": "../../functions/src/sharing/protocol",
+      "evidence": "import type { ChildScope, InvitationEntry, ParentEntry, SharedOperation, SharedReceipt, } from '../../functions/src/sharing/protocol'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import type { ChildScope, InvitationEntry, ParentEntry, SharedOperation, SharedReceipt, } from '../../functions/src/sharing/protocol'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/sharing/api:1",
+            "kind": "deep_relative_import",
+            "file": "src/sharing/api",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/sharing/scope:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/sharing/scope",
+      "line": 2,
+      "specifier": "../../functions/src/sharing/protocol",
+      "evidence": "import type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/sharing/scope:2",
+            "kind": "deep_relative_import",
+            "file": "src/sharing/scope",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/sharing/scope:3",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/sharing/scope",
+      "line": 3,
+      "specifier": "../../functions/src/sharing/protocol",
+      "evidence": "export type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/sharing/scope:3",
+            "kind": "deep_relative_import",
+            "file": "src/sharing/scope",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "deep-import:src/ui/schoolEventAssets:2",
       "kind": "deep_relative_import",
       "severity": "medium",
@@ -6532,12 +6772,12 @@
       ]
     },
     {
-      "id": "layer:src/App:8:src/routes/ProtectedRoute",
+      "id": "layer:src/App:9:src/routes/ProtectedRoute",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 8,
+      "line": 9,
       "target": "src/routes/ProtectedRoute",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6566,7 +6806,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:8:src/routes/ProtectedRoute",
+            "id": "layer:src/App:9:src/routes/ProtectedRoute",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6575,12 +6815,12 @@
       ]
     },
     {
-      "id": "layer:src/App:9:src/routes/AnimatedTabLayout",
+      "id": "layer:src/App:10:src/routes/AnimatedTabLayout",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 9,
+      "line": 10,
       "target": "src/routes/AnimatedTabLayout",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6609,7 +6849,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:9:src/routes/AnimatedTabLayout",
+            "id": "layer:src/App:10:src/routes/AnimatedTabLayout",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6618,12 +6858,12 @@
       ]
     },
     {
-      "id": "layer:src/App:12:src/pages/LoginPage",
+      "id": "layer:src/App:13:src/pages/LoginPage",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 12,
+      "line": 13,
       "target": "src/pages/LoginPage",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6652,7 +6892,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:12:src/pages/LoginPage",
+            "id": "layer:src/App:13:src/pages/LoginPage",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6661,12 +6901,12 @@
       ]
     },
     {
-      "id": "layer:src/App:13:src/routes/routeModules",
+      "id": "layer:src/App:14:src/routes/routeModules",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 13,
+      "line": 14,
       "target": "src/routes/routeModules",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6695,7 +6935,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:13:src/routes/routeModules",
+            "id": "layer:src/App:14:src/routes/routeModules",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6704,12 +6944,12 @@
       ]
     },
     {
-      "id": "layer:src/App:14:src/routes/RoutePreloader",
+      "id": "layer:src/App:15:src/routes/RoutePreloader",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/App",
-      "line": 14,
+      "line": 15,
       "target": "src/routes/RoutePreloader",
       "from_layer": "ui",
       "to_layer": "route",
@@ -6738,7 +6978,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/App:14:src/routes/RoutePreloader",
+            "id": "layer:src/App:15:src/routes/RoutePreloader",
             "kind": "layer_violation",
             "file": "src/App",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7134,12 +7374,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:5:src/auth/AuthContext",
+      "id": "layer:src/data/useRewards:10:src/auth/AuthContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 5,
+      "line": 10,
       "target": "src/auth/AuthContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -7168,7 +7408,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:5:src/auth/AuthContext",
+            "id": "layer:src/data/useRewards:10:src/auth/AuthContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7177,12 +7417,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:6:src/contexts/ActiveChildContext",
+      "id": "layer:src/data/useRewards:12:src/contexts/ActiveChildContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 6,
+      "line": 12,
       "target": "src/contexts/ActiveChildContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -7211,7 +7451,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:6:src/contexts/ActiveChildContext",
+            "id": "layer:src/data/useRewards:12:src/contexts/ActiveChildContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7435,12 +7675,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/runtime:4:src/lib/today",
+      "id": "layer:src/offline/runtime:12:src/lib/today",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/runtime",
-      "line": 4,
+      "line": 12,
       "target": "src/lib/today",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7469,7 +7709,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/runtime:4:src/lib/today",
+            "id": "layer:src/offline/runtime:12:src/lib/today",
             "kind": "layer_violation",
             "file": "src/offline/runtime",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7478,12 +7718,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/runtime:15:src/lib/snapshotStore",
+      "id": "layer:src/offline/runtime:23:src/lib/snapshotStore",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/runtime",
-      "line": 15,
+      "line": 23,
       "target": "src/lib/snapshotStore",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7512,7 +7752,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/runtime:15:src/lib/snapshotStore",
+            "id": "layer:src/offline/runtime:23:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/runtime",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7521,12 +7761,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/store:11:src/lib/snapshotStore",
+      "id": "layer:src/offline/store:13:src/lib/snapshotStore",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/store",
-      "line": 11,
+      "line": 13,
       "target": "src/lib/snapshotStore",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7555,7 +7795,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/store:11:src/lib/snapshotStore",
+            "id": "layer:src/offline/store:13:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/store",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7601,6 +7841,92 @@
             "id": "layer:src/offline/sync:4:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/sync",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/sharing/ChildAccessContext:2:src/auth/AuthContext",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/sharing/ChildAccessContext",
+      "line": 2,
+      "target": "src/auth/AuthContext",
+      "from_layer": "core",
+      "to_layer": "ui",
+      "specifier": "../auth/AuthContext",
+      "evidence": "core imports upward into ui: ../auth/AuthContext",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into ui: ../auth/AuthContext",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/sharing/ChildAccessContext:2:src/auth/AuthContext",
+            "kind": "layer_violation",
+            "file": "src/sharing/ChildAccessContext",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/sharing/ChildAccessContext:3:src/contexts/ActiveChildContext",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/sharing/ChildAccessContext",
+      "line": 3,
+      "target": "src/contexts/ActiveChildContext",
+      "from_layer": "core",
+      "to_layer": "ui",
+      "specifier": "../contexts/ActiveChildContext",
+      "evidence": "core imports upward into ui: ../contexts/ActiveChildContext",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into ui: ../contexts/ActiveChildContext",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/sharing/ChildAccessContext:3:src/contexts/ActiveChildContext",
+            "kind": "layer_violation",
+            "file": "src/sharing/ChildAccessContext",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -8208,6 +8534,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/components/RewardImagePreview",
+        "file": "src/components/RewardImagePreview.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/components/SchoolCalendar",
         "file": "src/components/SchoolCalendar.tsx",
         "layer": "ui",
@@ -8522,6 +8854,12 @@
       {
         "id": "src/components/ui/activityAnimationStyles",
         "file": "src/components/ui/activityAnimationStyles.ts",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/ui/keyboardActivation",
+        "file": "src/components/ui/keyboardActivation.ts",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -9012,6 +9350,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/hooks/useAsyncFeedback",
+        "file": "src/hooks/useAsyncFeedback.ts",
+        "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/hooks/useCalendarSchedule",
         "file": "src/hooks/useCalendarSchedule.ts",
         "layer": "hook",
@@ -9444,6 +9788,54 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/sharing/ChildAccessContext",
+        "file": "src/sharing/ChildAccessContext.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/ChildAccessProvider",
+        "file": "src/sharing/ChildAccessProvider.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/InvitationLinks",
+        "file": "src/sharing/InvitationLinks.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/InvitationPage",
+        "file": "src/sharing/InvitationPage.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/ParentAccessPanel",
+        "file": "src/sharing/ParentAccessPanel.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/api",
+        "file": "src/sharing/api.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/invitationPath",
+        "file": "src/sharing/invitationPath.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/sharing/scope",
+        "file": "src/sharing/scope.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/tokens/index",
         "file": "src/tokens/index.ts",
         "layer": "core",
@@ -9605,7 +9997,7 @@
         "tsconfigs": [
           "tsconfig.app.json"
         ],
-        "source_files": 259,
+        "source_files": 270,
         "project_loaded": true,
         "project_reason": null
       }
@@ -9624,7 +10016,7 @@
       },
       {
         "from": "src/App",
-        "to": "src/components/SchoolCalendarSync",
+        "to": "src/sharing/InvitationLinks",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -9634,13 +10026,23 @@
       },
       {
         "from": "src/App",
+        "to": "src/components/SchoolCalendarSync",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/App",
         "to": "react-router-dom",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/App",
@@ -9650,7 +10052,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/App",
@@ -9660,7 +10062,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/App",
@@ -9670,7 +10072,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/App",
@@ -9680,7 +10082,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/App",
@@ -9690,7 +10092,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 9
       },
       {
         "from": "src/App",
@@ -9700,7 +10102,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/App",
@@ -9710,7 +10112,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/App",
@@ -9720,7 +10122,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/App",
@@ -9730,7 +10132,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/App",
@@ -9740,7 +10142,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/App",
@@ -9750,7 +10152,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
+      },
+      {
+        "from": "src/App",
+        "to": "src/sharing/InvitationPage",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
       },
       {
         "from": "src/assets/chores/assets",
@@ -10174,7 +10586,7 @@
       },
       {
         "from": "src/assets/themes/princess/assets",
-        "to": "src/assets/themes/princess/maths.svg",
+        "to": "src/assets/themes/princess/maths-modern.png",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -10804,13 +11216,23 @@
       },
       {
         "from": "src/components/AppMenu",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/AppMenu",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/components/AppMenu",
@@ -10820,7 +11242,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/components/AppMenu",
@@ -10830,7 +11252,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/components/AppMenu",
@@ -10840,7 +11262,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/components/AppMenu",
@@ -10850,7 +11272,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/components/AppMenu",
@@ -10860,7 +11282,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/components/AppMenu",
@@ -10870,7 +11292,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/components/AppMenu",
@@ -10880,7 +11302,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 16
       },
       {
         "from": "src/components/AppMenu",
@@ -10890,7 +11312,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 17
       },
       {
         "from": "src/components/AppMenu",
@@ -10900,7 +11322,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 18
       },
       {
         "from": "src/components/AppMenu",
@@ -10910,7 +11332,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 19
       },
       {
         "from": "src/components/AppMenu",
@@ -10920,7 +11342,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 19
+        "line": 20
       },
       {
         "from": "src/components/AppMenu",
@@ -10930,7 +11352,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 20
+        "line": 21
       },
       {
         "from": "src/components/AppMenu",
@@ -10940,7 +11362,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 21
+        "line": 22
       },
       {
         "from": "src/components/ArithmeticTester",
@@ -11244,13 +11666,23 @@
       },
       {
         "from": "src/components/ExpandableAgendaItem",
+        "to": "src/components/ui/keyboardActivation",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/ExpandableAgendaItem",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/components/FractionFood",
@@ -11843,6 +12275,26 @@
         "line": 5
       },
       {
+        "from": "src/components/RewardImagePreview",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/RewardImagePreview",
+        "to": "src/components/ui/ImageWithOverlay",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/components/SchoolCalendar",
         "to": "src/ui/themeAssets",
         "kind": "relative",
@@ -12371,6 +12823,26 @@
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 1
+      },
+      {
+        "from": "src/components/TimeExplorerCalendarIcon",
+        "to": "src/assets/themes/princess/calendar-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/TimeExplorerCalendarIcon",
+        "to": "src/ui/themeOptions",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
       },
       {
         "from": "src/components/TimeExplorerClockIcon",
@@ -13564,13 +14036,23 @@
       },
       {
         "from": "src/components/ui/ImageStarFrame",
+        "to": "src/components/ui/keyboardActivation",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/ui/ImageStarFrame",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/components/ui/ImageStarFrame",
@@ -13580,7 +14062,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/components/ui/ImageStarFrame",
@@ -13590,7 +14072,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/components/ui/ImageStarFrame",
@@ -13600,7 +14082,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/components/ui/ImageStarFrame",
@@ -13610,7 +14092,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/components/ui/ImageStarFrame",
@@ -13620,7 +14102,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/components/ui/ImageWithOverlay",
@@ -14471,6 +14953,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/components/ui/keyboardActivation",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
       },
       {
         "from": "src/components/ui/standardActionCardAnimations",
@@ -16684,13 +17176,23 @@
       },
       {
         "from": "src/data/taskDocuments",
+        "to": "functions/src/sharing/defaultTests",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/taskDocuments",
         "to": "firebase/firestore",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 1
+        "line": 2
       },
       {
         "from": "src/data/taskDocuments",
@@ -16700,7 +17202,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/data/taskDocuments",
@@ -16710,7 +17212,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 27
+        "line": 14
       },
       {
         "from": "src/data/teeniepingKnowledge",
@@ -16746,7 +17248,7 @@
         "from": "src/data/types",
         "to": "src/ui/themeOptions",
         "kind": "relative",
-        "import_kind": "type",
+        "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
@@ -16873,6 +17375,26 @@
         "line": 15
       },
       {
+        "from": "src/data/useChildTaskCollection",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/data/useChildTaskCollection",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
         "from": "src/data/useChildren",
         "to": "react",
         "kind": "external",
@@ -16973,6 +17495,36 @@
         "line": 31
       },
       {
+        "from": "src/data/useChildren",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 32
+      },
+      {
+        "from": "src/data/useChildren",
+        "to": "src/sharing/api",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 33
+      },
+      {
+        "from": "src/data/useChildren",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 34
+      },
+      {
         "from": "src/data/useChoreActivityActions",
         "to": "react",
         "kind": "external",
@@ -17064,23 +17616,13 @@
       },
       {
         "from": "src/data/useChores",
-        "to": "src/offline/platform",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 6
-      },
-      {
-        "from": "src/data/useChores",
         "to": "src/offline/actions",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 6
       },
       {
         "from": "src/data/useChores",
@@ -17090,7 +17632,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 7
       },
       {
         "from": "src/data/useChores",
@@ -17100,7 +17642,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 8
       },
       {
         "from": "src/data/useChores",
@@ -17110,7 +17652,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 9
       },
       {
         "from": "src/data/useChores",
@@ -17120,7 +17662,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 10
       },
       {
         "from": "src/data/useChores",
@@ -17130,7 +17672,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 11
       },
       {
         "from": "src/data/useChores",
@@ -17140,7 +17682,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 12
       },
       {
         "from": "src/data/useChores",
@@ -17150,7 +17692,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 13
       },
       {
         "from": "src/data/useChores",
@@ -17160,7 +17702,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 14
       },
       {
         "from": "src/data/useChores",
@@ -17170,7 +17712,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 21
+        "line": 20
       },
       {
         "from": "src/data/useChores",
@@ -17180,7 +17722,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 21
       },
       {
         "from": "src/data/useChores",
@@ -17190,7 +17732,57 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 23
+        "line": 22
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "firebase/firestore",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "src/firebaseDb",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "src/offline/actions",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "src/offline/platform",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
       },
       {
         "from": "src/data/useRewards",
@@ -17200,7 +17792,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 3
+        "line": 8
       },
       {
         "from": "src/data/useRewards",
@@ -17210,7 +17802,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 9
       },
       {
         "from": "src/data/useRewards",
@@ -17220,7 +17812,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 10
+      },
+      {
+        "from": "src/data/useRewards",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
       },
       {
         "from": "src/data/useRewards",
@@ -17230,7 +17832,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 12
       },
       {
         "from": "src/data/useRewards",
@@ -17240,7 +17842,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 13
       },
       {
         "from": "src/data/useRewards",
@@ -17250,7 +17852,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 14
       },
       {
         "from": "src/data/useRewards",
@@ -17260,7 +17862,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 15
       },
       {
         "from": "src/data/useRewards",
@@ -17270,7 +17872,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 16
+      },
+      {
+        "from": "src/data/useTests",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
       },
       {
         "from": "src/data/useTests",
@@ -17280,7 +17892,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/data/useTests",
@@ -17290,21 +17902,11 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 4
-      },
-      {
-        "from": "src/data/useTests",
-        "to": "src/firebaseDb",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
         "line": 5
       },
       {
         "from": "src/data/useTests",
-        "to": "src/offline/platform",
+        "to": "src/firebaseDb",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -17440,7 +18042,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 34
+        "line": 35
       },
       {
         "from": "src/data/useUserCollection",
@@ -17501,6 +18103,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 14
+      },
+      {
+        "from": "src/data/useUserCollection",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
       },
       {
         "from": "src/data/useUserDocumentUpdates",
@@ -17581,6 +18193,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 15
+      },
+      {
+        "from": "src/data/useUserDocumentUpdates",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
       },
       {
         "from": "src/features/dayNightExplorer/Clock",
@@ -18503,6 +19125,16 @@
         "line": 1
       },
       {
+        "from": "src/hooks/useAsyncFeedback",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
         "from": "src/hooks/useCalendarSchedule",
         "to": "react",
         "kind": "external",
@@ -19134,13 +19766,13 @@
       },
       {
         "from": "src/lib/starActions",
-        "to": "src/offline/actions",
+        "to": "src/sharing/scope",
         "kind": "relative",
-        "import_kind": "dynamic",
+        "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 43
+        "line": 10
       },
       {
         "from": "src/lib/starActions",
@@ -19150,7 +19782,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 141
+        "line": 44
+      },
+      {
+        "from": "src/lib/starActions",
+        "to": "src/offline/actions",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 142
       },
       {
         "from": "src/lib/tabNavigation",
@@ -19414,7 +20056,7 @@
       },
       {
         "from": "src/offline/OfflineBoundary",
-        "to": "src/auth/AuthContext",
+        "to": "src/sharing/ChildAccessContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19424,7 +20066,7 @@
       },
       {
         "from": "src/offline/OfflineBoundary",
-        "to": "src/offline/runtime",
+        "to": "src/sharing/scope",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19434,7 +20076,7 @@
       },
       {
         "from": "src/offline/OfflineBoundary",
-        "to": "src/offline/platform",
+        "to": "src/offline/runtime",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19444,7 +20086,7 @@
       },
       {
         "from": "src/offline/OfflineBoundary",
-        "to": "src/lib/startupPerformance",
+        "to": "src/offline/platform",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -19454,13 +20096,23 @@
       },
       {
         "from": "src/offline/OfflineBoundary",
-        "to": "src/hooks/useConnectivity",
+        "to": "src/lib/startupPerformance",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 6
+      },
+      {
+        "from": "src/offline/OfflineBoundary",
+        "to": "src/hooks/useConnectivity",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
       },
       {
         "from": "src/offline/actions",
@@ -19491,6 +20143,36 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 10
+      },
+      {
+        "from": "src/offline/actions",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
+      },
+      {
+        "from": "src/offline/actions",
+        "to": "src/offline/platform",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/offline/actions",
+        "to": "src/sharing/api",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
       },
       {
         "from": "src/offline/firebaseTransport",
@@ -19553,6 +20235,26 @@
         "line": 11
       },
       {
+        "from": "src/offline/firebaseTransport",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/offline/firebaseTransport",
+        "to": "src/sharing/api",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
         "from": "src/offline/importWebProgress",
         "to": "src/lib/today",
         "kind": "relative",
@@ -19593,6 +20295,16 @@
         "line": 1
       },
       {
+        "from": "src/offline/model",
+        "to": "functions/src/sharing/protocol",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
         "from": "src/offline/persistence",
         "to": "src/offline/model",
         "kind": "relative",
@@ -19630,7 +20342,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 2
+        "line": 10
       },
       {
         "from": "src/offline/runtime",
@@ -19640,7 +20352,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 11
       },
       {
         "from": "src/offline/runtime",
@@ -19650,7 +20362,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 12
       },
       {
         "from": "src/offline/runtime",
@@ -19660,7 +20372,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 13
       },
       {
         "from": "src/offline/runtime",
@@ -19670,7 +20382,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 14
       },
       {
         "from": "src/offline/runtime",
@@ -19680,7 +20392,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 15
       },
       {
         "from": "src/offline/runtime",
@@ -19690,7 +20402,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 16
       },
       {
         "from": "src/offline/runtime",
@@ -19700,7 +20412,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 17
       },
       {
         "from": "src/offline/runtime",
@@ -19710,7 +20422,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 22
       },
       {
         "from": "src/offline/runtime",
@@ -19720,7 +20432,37 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 23
+      },
+      {
+        "from": "src/offline/runtime",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 24
+      },
+      {
+        "from": "src/offline/runtime",
+        "to": "src/offline/persistence",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 25
+      },
+      {
+        "from": "src/offline/runtime",
+        "to": "src/offline/model",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 26
       },
       {
         "from": "src/offline/selectors",
@@ -19750,7 +20492,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 12
       },
       {
         "from": "src/offline/store",
@@ -19760,7 +20502,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 13
       },
       {
         "from": "src/offline/store",
@@ -19770,7 +20512,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 14
       },
       {
         "from": "src/offline/store",
@@ -19780,7 +20522,17 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 15
+      },
+      {
+        "from": "src/offline/store",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
       },
       {
         "from": "src/offline/sync",
@@ -19821,6 +20573,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 4
+      },
+      {
+        "from": "src/offline/sync",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
       },
       {
         "from": "src/offline/transport",
@@ -20004,7 +20766,7 @@
       },
       {
         "from": "src/pages/DashboardPage",
-        "to": "src/ui/themeAssets",
+        "to": "src/sharing/ChildAccessContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20014,13 +20776,23 @@
       },
       {
         "from": "src/pages/DashboardPage",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/pages/DashboardPage",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 2
+        "line": 3
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20030,7 +20802,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 3
+        "line": 4
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20040,7 +20812,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20050,7 +20822,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20060,7 +20832,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20070,7 +20842,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20080,7 +20852,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 9
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20090,7 +20862,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20100,7 +20872,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20110,7 +20882,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20120,7 +20892,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 16
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20130,7 +20902,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 17
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20140,7 +20912,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 18
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20150,7 +20922,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 18
+        "line": 19
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20160,7 +20932,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 25
+        "line": 26
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20170,7 +20942,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 26
+        "line": 27
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20180,7 +20952,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 27
+        "line": 28
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20190,7 +20962,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 28
+        "line": 29
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20200,7 +20972,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 29
+        "line": 30
       },
       {
         "from": "src/pages/DashboardPage",
@@ -20210,7 +20982,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 30
+        "line": 31
       },
       {
         "from": "src/pages/LoginPage",
@@ -20304,17 +21076,17 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/ui/themeOptions",
-        "kind": "relative",
+        "to": "react-router-dom",
+        "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 1
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/contexts/ActiveChildContext",
+        "to": "src/sharing/ChildAccessContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20324,7 +21096,7 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/contexts/ThemeContext",
+        "to": "src/sharing/ParentAccessPanel",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20334,7 +21106,7 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/components/PageShell",
+        "to": "src/ui/themeOptions",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20344,7 +21116,7 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/components/ui/StandardActionList",
+        "to": "src/contexts/ActiveChildContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20354,7 +21126,7 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/tokens/index",
+        "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20364,7 +21136,7 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/ui/definitionRowDescriptors",
+        "to": "src/components/PageShell",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20374,13 +21146,43 @@
       },
       {
         "from": "src/pages/ManageChildrenPage",
-        "to": "src/data/useChildren",
+        "to": "src/components/ui/StandardActionList",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 8
+      },
+      {
+        "from": "src/pages/ManageChildrenPage",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/pages/ManageChildrenPage",
+        "to": "src/ui/definitionRowDescriptors",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
+        "from": "src/pages/ManageChildrenPage",
+        "to": "src/data/useChildren",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
       },
       {
         "from": "src/pages/RewardCreationFlow",
@@ -20514,13 +21316,23 @@
       },
       {
         "from": "src/pages/RewardsPage",
-        "to": "src/assets/rewards/assets",
+        "to": "src/components/RewardImagePreview",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 3
+      },
+      {
+        "from": "src/pages/RewardsPage",
+        "to": "src/assets/rewards/assets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20530,7 +21342,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 4
+        "line": 5
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20540,7 +21352,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 5
+        "line": 6
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20550,7 +21362,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 6
+        "line": 7
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20560,7 +21372,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 7
+        "line": 8
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20570,7 +21382,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 8
+        "line": 9
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20580,7 +21392,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 10
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20590,7 +21402,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 11
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20600,7 +21412,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 12
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20610,7 +21422,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 13
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20620,7 +21432,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 14
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20630,7 +21442,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 15
       },
       {
         "from": "src/pages/RewardsPage",
@@ -20640,31 +21452,31 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 16
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "react",
-        "kind": "external",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 1
-      },
-      {
-        "from": "src/pages/TestsPage",
-        "to": "src/contexts/ActiveChildContext",
+        "to": "src/hooks/useAsyncFeedback",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "functions/src/sharing/defaultTests",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
         "line": 2
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/contexts/ThemeContext",
+        "to": "src/data/types",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20674,7 +21486,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/components/TabContent",
+        "to": "src/sharing/ChildAccessContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20684,17 +21496,17 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/components/ui/StandardActionList",
-        "kind": "relative",
+        "to": "react",
+        "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
+        "to_workspace": null,
         "workspace_dependency": false,
         "line": 5
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/components/ui/ResourceLoadingIcon",
+        "to": "src/contexts/ActiveChildContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20704,7 +21516,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/lib/tabNavigation",
+        "to": "src/contexts/ThemeContext",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20714,7 +21526,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/ui/unifiedChoreDescriptors",
+        "to": "src/components/TabContent",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20724,7 +21536,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/tokens/index",
+        "to": "src/components/ui/StandardActionList",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20734,7 +21546,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/data/useTests",
+        "to": "src/components/ui/ResourceLoadingIcon",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20744,7 +21556,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/data/useChildren",
+        "to": "src/lib/tabNavigation",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20754,7 +21566,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/hooks/useTaskActivityState",
+        "to": "src/ui/unifiedChoreDescriptors",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20764,7 +21576,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/hooks/useTestCheckTriggers",
+        "to": "src/tokens/index",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20774,7 +21586,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/ui/testActivityBindings",
+        "to": "src/data/useTests",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20784,7 +21596,7 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/data/dailyTaskState",
+        "to": "src/data/useChildren",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -20794,13 +21606,53 @@
       },
       {
         "from": "src/pages/TestsPage",
-        "to": "src/hooks/useTaskCelebration",
+        "to": "src/hooks/useTaskActivityState",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 16
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "src/hooks/useTestCheckTriggers",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "src/ui/testActivityBindings",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "src/data/dailyTaskState",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/pages/TestsPage",
+        "to": "src/hooks/useTaskCelebration",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 20
       },
       {
         "from": "src/pages/TimeExplorerPage",
@@ -21123,6 +21975,16 @@
         "line": 3
       },
       {
+        "from": "src/routes/ProtectedDataRoute",
+        "to": "src/sharing/ChildAccessProvider",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
         "from": "src/routes/ProtectedRoute",
         "to": "react-router-dom",
         "kind": "external",
@@ -21291,6 +22153,426 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 7
+      },
+      {
+        "from": "src/sharing/ChildAccessContext",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/ChildAccessContext",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/ChildAccessContext",
+        "to": "src/contexts/ActiveChildContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/sharing/ChildAccessContext",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/sharing/ChildAccessContext",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/data/useUserCollection",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "firebase/firestore",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/firebaseDb",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 11
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/contexts/ActiveChildContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/offline/runtime",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/offline/platform",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/sharing/scope",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/sharing/ChildAccessProvider",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/sharing/InvitationLinks",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/InvitationLinks",
+        "to": "@capacitor/core",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/InvitationLinks",
+        "to": "react-router-dom",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/sharing/InvitationLinks",
+        "to": "src/sharing/invitationPath",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/sharing/InvitationLinks",
+        "to": "@capacitor/app",
+        "kind": "external",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "src/hooks/useAsyncFeedback",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "react-router-dom",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "src/auth/AuthContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "src/contexts/ActiveChildContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "src/ui/themeOptions",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/sharing/InvitationPage",
+        "to": "src/sharing/api",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/hooks/useAsyncFeedback",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/data/types",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/sharing/api",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/offline/runtime",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/offline/platform",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/sharing/ParentAccessPanel",
+        "to": "src/ui/schoolEventAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/sharing/api",
+        "to": "functions/src/sharing/protocol",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/api",
+        "to": "firebase/functions",
+        "kind": "external",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/sharing/api",
+        "to": "src/firebase",
+        "kind": "relative",
+        "import_kind": "dynamic",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/sharing/scope",
+        "to": "zod",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/sharing/scope",
+        "to": "functions/src/sharing/protocol",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/sharing/scope",
+        "to": "functions/src/sharing/protocol",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
       },
       {
         "from": "src/tokens/index",

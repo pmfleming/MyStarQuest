@@ -3,7 +3,7 @@
   "task_id": "audit",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "whole-project review 2026-10-03",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:30:43.353Z",
+    "measured_at": "2026-10-03T13:15:23.983Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:a784d5221e92a0399e6d0385a8cd3602fb32e42b2e9ef4ba6b506dc7e87686ec"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:9fc9b38836e153b286c7e20f2a06c763314e7355f26c27fbb9e266ce3757b9e0"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -82,11 +82,11 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "hit",
+    "analysis_cache_status": "miss",
     "unsupported_pattern": [],
     "confidence_scope": "changed_code_audit",
     "changed_files_available": false,
-    "audit_base": "",
+    "audit_base": null,
     "base_snapshot_available": false,
     "base_snapshot_compatible": null,
     "complete": true,
@@ -117,16 +117,16 @@
     "complete": true,
     "incomplete_reasons": [],
     "gate": "all",
-    "base": "",
+    "base": null,
     "changed_files": 0,
     "changed_hunks": 0,
     "base_snapshot_available": false,
     "base_snapshot_compatible": null,
-    "findings": 39,
+    "findings": 135,
     "active_findings": 0,
-    "introduced_findings": 39,
+    "introduced_findings": 135,
     "inherited_findings": 0,
-    "high_risk_findings": 3,
+    "high_risk_findings": 12,
     "blocking_findings": 0,
     "warning_findings": 0,
     "baseline_suppressed": 0,
@@ -135,23 +135,23 @@
   },
   "findings": [
     {
-      "id": "file:src/index",
+      "id": "file:src/sharing/service",
       "kind": "file",
-      "module_id": "src/index",
-      "file": "src/index.ts",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
       "line": 1,
-      "score": 166,
+      "score": 290,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/index.ts: 326 lines, 28 branches, 6 imports.",
+      "message": "src/sharing/service.ts: 881 lines, 7 branches, 6 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 326
+          "value": 881
         },
         {
           "kind": "branch_count",
-          "value": 28
+          "value": 7
         },
         {
           "kind": "import_count",
@@ -179,8 +179,429 @@
           "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
+            "id": "file:src/sharing/service",
+            "kind": "file",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/sharing/policy",
+      "kind": "file",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "line": 1,
+      "score": 211,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/sharing/policy.ts: 262 lines, 64 branches, 2 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 262
+        },
+        {
+          "kind": "branch_count",
+          "value": 64
+        },
+        {
+          "kind": "import_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/sharing/policy",
+            "kind": "file",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/index",
+      "kind": "file",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "line": 1,
+      "score": 180,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/index.ts: 353 lines, 30 branches, 7 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 353
+        },
+        {
+          "kind": "branch_count",
+          "value": 30
+        },
+        {
+          "kind": "import_count",
+          "value": 7
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
             "id": "file:src/index",
             "kind": "file",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:parseOperation:200",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "parseOperation",
+      "line": 200,
+      "score": 159,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "parseOperation: cyclomatic 17, cognitive 26, nesting 3, Halstead effort 57205.82, 47 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 17
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 26
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 57205.82
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 47
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:parseOperation:200",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:activityValue:150",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "activityValue",
+      "line": 150,
+      "score": 127,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "activityValue: cyclomatic 14, cognitive 23, nesting 3, Halstead effort 8129.87, 15 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 14
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 23
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 8129.87
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 15
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:activityValue:150",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:documentPatch:107",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "documentPatch",
+      "line": 107,
+      "score": 114,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "documentPatch: cyclomatic 12, cognitive 19, nesting 3, Halstead effort 14131.42, 22 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 12
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 19
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 14131.42
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 3
+        },
+        {
+          "kind": "line_count",
+          "value": 22
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:documentPatch:107",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/sharing/index",
+      "kind": "file",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "line": 1,
+      "score": 89,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/sharing/index.ts: 222 lines, 5 branches, 6 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 222
+        },
+        {
+          "kind": "branch_count",
+          "value": 5
+        },
+        {
+          "kind": "import_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/sharing/index",
+            "kind": "file",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:assertCallableChild:260",
+      "kind": "function",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "assertCallableChild",
+      "line": 260,
+      "score": 78,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "assertCallableChild: cyclomatic 10, cognitive 9, nesting 1, Halstead effort 7276.19, 27 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 10
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 9
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 7276.19
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 27
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/index.ts:assertCallableChild:260",
+            "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -309,16 +730,16 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:assertCallableChild:240",
+      "id": "src/sharing/policy.ts:awardFor:248",
       "kind": "function",
-      "module_id": "src/index",
-      "file": "src/index.ts",
-      "name": "assertCallableChild",
-      "line": 240,
-      "score": 63,
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "awardFor",
+      "line": 248,
+      "score": 67,
       "risk": "medium",
       "evidence_kind": "metric",
-      "message": "assertCallableChild: cyclomatic 8, cognitive 7, nesting 1, Halstead effort 7276.19, 20 lines.",
+      "message": "awardFor: cyclomatic 8, cognitive 11, nesting 1, Halstead effort 5505.83, 11 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -326,11 +747,11 @@
         },
         {
           "kind": "cognitive_complexity",
-          "value": 7
+          "value": 11
         },
         {
           "kind": "halstead_effort",
-          "value": 7276.19
+          "value": 5505.83
         },
         {
           "kind": "nesting_depth",
@@ -338,7 +759,7 @@
         },
         {
           "kind": "line_count",
-          "value": 20
+          "value": 11
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
@@ -356,9 +777,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:assertCallableChild:240",
+            "id": "src/sharing/policy.ts:awardFor:248",
             "kind": "function",
-            "file": "src/index.ts",
+            "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -425,12 +846,12 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:isScheduledForDay:64",
+      "id": "src/index.ts:isScheduledForDay:78",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "isScheduledForDay",
-      "line": 64,
+      "line": 78,
       "score": 51,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -472,7 +893,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:isScheduledForDay:64",
+            "id": "src/index.ts:isScheduledForDay:78",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -483,12 +904,70 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:getDailyActivityResetPatch:214",
+      "id": "src/sharing/index.ts:invitationOrigin:55",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "invitationOrigin",
+      "line": 55,
+      "score": 48,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "invitationOrigin: cyclomatic 5, cognitive 4, nesting 2, Halstead effort 2851.34, 17 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2851.34
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 17
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:invitationOrigin:55",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getDailyActivityResetPatch:234",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "getDailyActivityResetPatch",
-      "line": 214,
+      "line": 234,
       "score": 47,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -530,7 +1009,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:getDailyActivityResetPatch:214",
+            "id": "src/index.ts:getDailyActivityResetPatch:234",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -541,12 +1020,12 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:resetChildChores:146",
+      "id": "src/index.ts:resetChildChores:160",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "resetChildChores",
-      "line": 146,
+      "line": 160,
       "score": 40,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -588,9 +1067,125 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:resetChildChores:146",
+            "id": "src/index.ts:resetChildChores:160",
             "kind": "function",
             "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:id:15",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "id",
+      "line": 15,
+      "score": 40,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "id: cyclomatic 5, cognitive 4, nesting 1, Halstead effort 2742.55, 10 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2742.55
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:id:15",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:wireValue:63",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "wireValue",
+      "line": 63,
+      "score": 40,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "wireValue: cyclomatic 5, cognitive 4, nesting 1, Halstead effort 5061.59, 9 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 5061.59
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:wireValue:63",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -764,12 +1359,128 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:getActivityType:114",
+      "id": "src/sharing/policy.ts:email:25",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "email",
+      "line": 25,
+      "score": 34,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "email: cyclomatic 4, cognitive 3, nesting 1, Halstead effort 4970.9, 9 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 4970.9
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:email:25",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:record:10",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "record",
+      "line": 10,
+      "score": 32,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "record: cyclomatic 4, cognitive 3, nesting 1, Halstead effort 1837.26, 5 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1837.26
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 5
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:record:10",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getActivityType:128",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "getActivityType",
-      "line": 114,
+      "line": 128,
       "score": 29,
       "risk": "low",
       "evidence_kind": "metric",
@@ -811,7 +1522,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:getActivityType:114",
+            "id": "src/index.ts:getActivityType:128",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -822,12 +1533,12 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:getLocalizedDateInfo:33",
+      "id": "src/index.ts:getLocalizedDateInfo:47",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "getLocalizedDateInfo",
-      "line": 33,
+      "line": 47,
       "score": 29,
       "risk": "low",
       "evidence_kind": "metric",
@@ -869,7 +1580,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:getLocalizedDateInfo:33",
+            "id": "src/index.ts:getLocalizedDateInfo:47",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -880,12 +1591,128 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:isLegacyDayNight:128",
+      "id": "src/sharing/policy.ts:activityPatch:171",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "activityPatch",
+      "line": 171,
+      "score": 28,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "activityPatch: cyclomatic 3, cognitive 2, nesting 0, Halstead effort 4452.38, 22 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 3
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 2
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 4452.38
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 22
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:activityPatch:171",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:between:51",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "between",
+      "line": 51,
+      "score": 27,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "between: cyclomatic 4, cognitive 3, nesting 0, Halstead effort 800, 5 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 3
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 800
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 5
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:between:51",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:isLegacyDayNight:142",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "isLegacyDayNight",
-      "line": 128,
+      "line": 142,
       "score": 26,
       "risk": "low",
       "evidence_kind": "metric",
@@ -927,9 +1754,174 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:isLegacyDayNight:128",
+            "id": "src/index.ts:isLegacyDayNight:142",
             "kind": "function",
             "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/sharing/protocol",
+      "kind": "file",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "line": 1,
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/sharing/protocol.ts: 75 lines, 0 branches, 0 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 75
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/sharing/protocol",
+            "kind": "file",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:safeInvitation:52",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "safeInvitation",
+      "line": 52,
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "safeInvitation: cyclomatic 3, cognitive 2, nesting 0, Halstead effort 2235.02, 10 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 3
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 2
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2235.02
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 10
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:safeInvitation:52",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:caller:26",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "caller",
+      "line": 26,
+      "score": 22,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "caller: cyclomatic 2, cognitive 1, nesting 1, Halstead effort 3525.33, 9 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 3525.33
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:caller:26",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -996,12 +1988,12 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:isChoreType:125",
+      "id": "src/index.ts:isChoreType:139",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "isChoreType",
-      "line": 125,
+      "line": 139,
       "score": 18,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1043,7 +2035,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:isChoreType:125",
+            "id": "src/index.ts:isChoreType:139",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1054,12 +2046,293 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:getTemplateDocs:134",
+      "id": "src/sharing/service.ts:secretMatches:45",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "secretMatches",
+      "line": 45,
+      "score": 16,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "secretMatches: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 1572.95, 7 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1572.95
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 7
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:secretMatches:45",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:sendInvite:72",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "sendInvite",
+      "line": 72,
+      "score": 15,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "sendInvite: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 6145.01, 17 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 6145.01
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 17
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:sendInvite:72",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/sharing/defaultTests",
+      "kind": "file",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "line": 1,
+      "score": 14,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/sharing/defaultTests.ts: 47 lines, 0 branches, 0 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 47
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/sharing/defaultTests",
+            "kind": "file",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:finiteNumber:135",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "finiteNumber",
+      "line": 135,
+      "score": 13,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "finiteNumber: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 137.03, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 137.03
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:finiteNumber:135",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:text:48",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "text",
+      "line": 48,
+      "score": 12,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "text: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 99.06, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 99.06
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:text:48",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/index.ts:getTemplateDocs:148",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "getTemplateDocs",
-      "line": 134,
+      "line": 148,
       "score": 11,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1101,7 +2374,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:getTemplateDocs:134",
+            "id": "src/index.ts:getTemplateDocs:148",
             "kind": "function",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1112,12 +2385,12 @@
       "introduced": true
     },
     {
-      "id": "src/index.ts:resetTodayActivities:203",
+      "id": "src/index.ts:resetTodayActivities:223",
       "kind": "function",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "resetTodayActivities",
-      "line": 203,
+      "line": 223,
       "score": 11,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1159,9 +2432,937 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/index.ts:resetTodayActivities:203",
+            "id": "src/index.ts:resetTodayActivities:223",
             "kind": "function",
             "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:revokeAccess:100",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "revokeAccess",
+      "line": 100,
+      "score": 10,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "revokeAccess: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 2490.27, 6 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 2490.27
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:revokeAccess:100",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/protocol.ts:sharedDateKey:65",
+      "kind": "function",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "sharedDateKey",
+      "line": 65,
+      "score": 10,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "sharedDateKey: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 770.85, 8 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 770.85
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 8
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/protocol.ts:sharedDateKey:65",
+            "kind": "function",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:childCommand:49",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "childCommand",
+      "line": 49,
+      "score": 9,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "childCommand: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 1339.08, 4 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1339.08
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:childCommand:49",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:scope:35",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "scope",
+      "line": 35,
+      "score": 9,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "scope: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 1430, 4 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1430
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:scope:35",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:childItems:169",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "childItems",
+      "line": 169,
+      "score": 8,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "childItems: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 194.27, 4 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 194.27
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:childItems:169",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:deny:7",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "deny",
+      "line": 7,
+      "score": 7,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "deny: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 116.27, 3 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 116.27
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:deny:7",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:fail:4",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "fail",
+      "line": 4,
+      "score": 7,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "fail: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 116.27, 3 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 116.27
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 3
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:fail:4",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:oneOf:58",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "oneOf",
+      "line": 58,
+      "score": 7,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "oneOf: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 74.86, 2 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 74.86
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:oneOf:58",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/protocol.ts:progressKey:73",
+      "kind": "function",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "progressKey",
+      "line": 73,
+      "score": 7,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "progressKey: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 151.35, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 151.35
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/protocol.ts:progressKey:73",
+            "kind": "function",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:childPath:41",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "childPath",
+      "line": 41,
+      "score": 7,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "childPath: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 213.31, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 213.31
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:childPath:41",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/index.ts:service:25",
+      "kind": "function",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "name": "service",
+      "line": 25,
+      "score": 6,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "service: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 24.38, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 24.38
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/index.ts:service:25",
+            "kind": "function",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:taskType:62",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "taskType",
+      "line": 62,
+      "score": 6,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "taskType: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 69.74, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 69.74
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:taskType:62",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:accessKey:43",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "accessKey",
+      "line": 43,
+      "score": 6,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "accessKey: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 91.35, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 91.35
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:accessKey:43",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:dataOf:31",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "dataOf",
+      "line": 31,
+      "score": 6,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "dataOf: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 17.41, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 17.41
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:dataOf:31",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/service.ts:hash:40",
+      "kind": "function",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "hash",
+      "line": 40,
+      "score": 6,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "hash: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 66.57, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 66.57
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/service.ts:hash:40",
+            "kind": "function",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:boolean:50",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "boolean",
+      "line": 50,
+      "score": 5,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "boolean: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 8, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 8
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:boolean:50",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1205,13 +3406,293 @@
       "introduced": true
     },
     {
-      "id": "type:src/index:CurrentDayType:20",
+      "id": "escape:src/sharing/defaultTests:type_assertion:1:30",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 1,
+      "evidence": "{ fractions: { title: 'Fractions', starValue: 3, taskType: 'fractions', fractionsTotalProblems: 5, fractionsMaxDenominat",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ fractions: { title: 'Fractions', starValue: 3, taskType: 'fractions', fractionsTotalProblems: 5, fractionsMaxDenominat",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/defaultTests:type_assertion:1:30",
+            "kind": "type_assertion",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/policy:type_assertion:13:526",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 13,
+      "evidence": "value as Record<string, unknown>",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "value as Record<string, unknown>",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/policy:type_assertion:13:526",
+            "kind": "type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/policy:type_assertion:245:7587",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 245,
+      "evidence": "op as SharedOperation",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "op as SharedOperation",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/policy:type_assertion:245:7587",
+            "kind": "type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 101,
+      "evidence": "dataOf(child)!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(child)!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+            "kind": "non_null_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:198:5935",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 198,
+      "evidence": "[ ['chores', chores], ['tests', tests], ] as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ ['chores', chores], ['tests', tests], ] as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:198:5935",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:585:18874",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 585,
+      "evidence": "dataOf(receipt)!.result as SharedReceipt",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(receipt)!.result as SharedReceipt",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:585:18874",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 585,
+      "evidence": "dataOf(receipt)!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(receipt)!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+            "kind": "non_null_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:837:28355",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 837,
+      "evidence": "wireValue(result) as SharedReceipt",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "wireValue(result) as SharedReceipt",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:837:28355",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "type:src/index:CurrentDayType:34",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "CurrentDayType",
       "kind": "type",
       "exported": false,
-      "line": 20,
+      "line": 34,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -1219,7 +3700,7 @@
       "typed_info": {
         "name": "CurrentDayType",
         "kind": "TypeAliasDeclaration",
-        "line": 20,
+        "line": 34,
         "type": "any",
         "exported": false
       },
@@ -1246,7 +3727,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:CurrentDayType:20",
+            "id": "type:src/index:CurrentDayType:34",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1257,13 +3738,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/index:ScheduledTaskData:22",
+      "id": "type:src/index:ScheduledTaskData:36",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "ScheduledTaskData",
       "kind": "type",
       "exported": false,
-      "line": 22,
+      "line": 36,
       "score": 21,
       "risk": "low",
       "signals": [],
@@ -1271,7 +3752,7 @@
       "typed_info": {
         "name": "ScheduledTaskData",
         "kind": "TypeAliasDeclaration",
-        "line": 22,
+        "line": 36,
         "type": "any",
         "exported": false
       },
@@ -1298,7 +3779,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:ScheduledTaskData:22",
+            "id": "type:src/index:ScheduledTaskData:36",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1309,13 +3790,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/index:ActivityType:91",
+      "id": "type:src/index:ActivityType:105",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "ActivityType",
       "kind": "type",
       "exported": false,
-      "line": 91,
+      "line": 105,
       "score": 53,
       "risk": "medium",
       "signals": [
@@ -1328,7 +3809,7 @@
       "typed_info": {
         "name": "ActivityType",
         "kind": "TypeAliasDeclaration",
-        "line": 91,
+        "line": 105,
         "type": "any",
         "exported": false
       },
@@ -1355,7 +3836,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:ActivityType:91",
+            "id": "type:src/index:ActivityType:105",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1366,13 +3847,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/index:events:290",
+      "id": "typed-symbol:src/index:events:317",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "events",
       "kind": "VariableDeclaration",
       "exported": false,
-      "line": 290,
+      "line": 317,
       "score": 45,
       "risk": "medium",
       "source": "typescript-compiler-api",
@@ -1402,8 +3883,525 @@
           "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/index:events:290",
+            "id": "typed-symbol:src/index:events:317",
             "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:prepareChildSharing",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "prepareChildSharing",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:prepareChildSharing",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:listChildParents",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "listChildParents",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:listChildParents",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:inviteParent",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "inviteParent",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:inviteParent",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:resendParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "resendParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:resendParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:acceptParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "acceptParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:acceptParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:revokeParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "revokeParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:revokeParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:removeParentAccess",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "removeParentAccess",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:removeParentAccess",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:applyChildOperation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "applyChildOperation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:applyChildOperation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:deleteSharedChild",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "deleteSharedChild",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:deleteSharedChild",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:cleanupSharedChild",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "cleanupSharedChild",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:cleanupSharedChild",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/index:deliverParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "deliverParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:deliverParentInvitation",
+            "kind": "export",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -1715,6 +4713,1168 @@
       "introduced": true
     },
     {
+      "id": "type:src/sharing/policy:Validator:47",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "Validator",
+      "kind": "type",
+      "exported": false,
+      "line": 47,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "Validator",
+        "kind": "TypeAliasDeclaration",
+        "line": 47,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/policy:Validator:47",
+            "kind": "type",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:fail:4",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "fail",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 4,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(message: string) => never"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:fail:4",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:deny:7",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "deny",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 7,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(message?: string) => never"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:deny:7",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:record:10",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "record",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 10,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => Record<string, unknown>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:record:10",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:id:15",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "id",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 15,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:id:15",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:email:25",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "email",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 25,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:email:25",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:documentPatch:107",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "documentPatch",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 107,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(collection: string, input: unknown, childId: string, admin: boolean) => Record<string, unknown>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:documentPatch:107",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:activityPatch:171",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "activityPatch",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 171,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(input: unknown, taskType: string, now: number, dateKey: string, occurredAt?: number) => { [k: string]: unknown; }"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:activityPatch:171",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:parseOperation:200",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "parseOperation",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 200,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(input: unknown) => SharedOperation"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:parseOperation:200",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:awardFor:248",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "awardFor",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 248,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(task: Record<string, unknown>, patch: Record<string, unknown>) => number"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:awardFor:248",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:ChildScope:2",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "ChildScope",
+      "kind": "type",
+      "exported": true,
+      "line": 2,
+      "score": 16,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ChildScope",
+        "kind": "TypeAliasDeclaration",
+        "line": 2,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 4,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:ChildScope:2",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedAction:8",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedAction",
+      "kind": "type",
+      "exported": true,
+      "line": 8,
+      "score": 74,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 12
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedAction",
+        "kind": "TypeAliasDeclaration",
+        "line": 8,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 2,
+        "union_members": 12,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedAction:8",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedOperation:38",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedOperation",
+      "kind": "type",
+      "exported": true,
+      "line": 38,
+      "score": 20,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedOperation",
+        "kind": "TypeAliasDeclaration",
+        "line": 38,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedOperation:38",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedReceipt:45",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedReceipt",
+      "kind": "type",
+      "exported": true,
+      "line": 45,
+      "score": 115,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 9
+        },
+        {
+          "kind": "many_optional_fields",
+          "value": 6
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedReceipt",
+        "kind": "TypeAliasDeclaration",
+        "line": 45,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 9,
+        "optional_count": 6,
+        "union_members": 9,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedReceipt:45",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:ParentEntry:56",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "ParentEntry",
+      "kind": "type",
+      "exported": true,
+      "line": 56,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ParentEntry",
+        "kind": "TypeAliasDeclaration",
+        "line": 56,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 3,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:ParentEntry:56",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/protocol:InvitationEntry:57",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "InvitationEntry",
+      "kind": "type",
+      "exported": true,
+      "line": 57,
+      "score": 20,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "InvitationEntry",
+        "kind": "TypeAliasDeclaration",
+        "line": 57,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:InvitationEntry:57",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:65",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "sharedDateKey",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 65,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(time?: number, timeZone?: string) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:65",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/service:DocumentData:30",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "DocumentData",
+      "kind": "type",
+      "exported": false,
+      "line": 30,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "DocumentData",
+        "kind": "TypeAliasDeclaration",
+        "line": 30,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:DocumentData:30",
+            "kind": "type",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/service:Caller:34",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "Caller",
+      "kind": "type",
+      "exported": true,
+      "line": 34,
+      "score": 25,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "Caller",
+        "kind": "TypeAliasDeclaration",
+        "line": 34,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 4,
+        "optional_count": 3,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:Caller:34",
+            "kind": "type",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "type:src/sharing/service:SharingService:73",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "SharingService",
+      "kind": "class",
+      "exported": true,
+      "line": 73,
+      "score": 42,
+      "risk": "medium",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharingService",
+        "kind": "ClassDeclaration",
+        "line": 73,
+        "type": "typeof SharingService",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 4,
+        "union_members": 6,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/class",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "class",
+      "reason_code": "structural-type-scan/class",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this class finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:SharingService:73",
+            "kind": "class",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typescript-eslint:cc3ab796:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "line": 13,
+      "column": 10,
+      "end_line": 13,
+      "end_column": 42,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'Record<string, unknown>' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "cc3ab796",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:cc3ab796:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.lint",
+      "introduced": true
+    },
+    {
+      "id": "typescript-eslint:d9b66c67:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "line": 245,
+      "column": 10,
+      "end_line": 245,
+      "end_column": 31,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedOperation' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedOperation' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "d9b66c67",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:d9b66c67:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.lint",
+      "introduced": true
+    },
+    {
+      "id": "typescript-eslint:9ae7aa38:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "line": 585,
+      "column": 34,
+      "end_line": 585,
+      "end_column": 74,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "9ae7aa38",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:9ae7aa38:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.lint",
+      "introduced": true
+    },
+    {
+      "id": "typescript-eslint:a05805e8:1",
+      "rule_id": "@typescript-eslint/no-unsafe-type-assertion",
+      "kind": "typed_no_unsafe_type_assertion",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "line": 837,
+      "column": 16,
+      "end_line": 837,
+      "end_column": 50,
+      "score": 50,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "typescript-eslint",
+      "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type.",
+      "signals": [
+        {
+          "kind": "@typescript-eslint/no-unsafe-type-assertion",
+          "message": "Unsafe type assertion: type 'SharedReceipt' is more narrow than the original type."
+        }
+      ],
+      "fingerprint": "a05805e8",
+      "occurrence": 1,
+      "reason_code": "@typescript-eslint/no-unsafe-type-assertion",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this typed_no_unsafe_type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typescript-eslint:a05805e8:1",
+            "kind": "typed_no_unsafe_type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.lint",
+      "introduced": true
+    },
+    {
       "id": "locality:src/index",
       "module_id": "src/index",
       "file": "src/index.ts",
@@ -1727,7 +5887,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 15,
+        "commits": 16,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -1738,6 +5898,26 @@
         },
         {
           "file": "src/schoolEventCatalog.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
           "commits": 1
         }
       ],
@@ -1899,16 +6079,380 @@
       "introduced": true
     },
     {
+      "id": "locality:src/sharing/defaultTests",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/defaultTests.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/defaultTests",
+            "kind": "locality",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/sharing/index",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/index.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/index",
+            "kind": "locality",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/sharing/policy",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "score": 5,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/policy.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/policy",
+            "kind": "locality",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/sharing/protocol",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "score": 5,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/protocol.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/protocol",
+            "kind": "locality",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/sharing/service",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/service.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/service",
+            "kind": "locality",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
       "id": "leverage:src/index",
       "module_id": "src/index",
       "file": "src/index.ts",
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/index.ts: 0 consuming modules, 4 public names, 0 module escape hatches.",
-      "leverage_score": 8,
+      "message": "src/index.ts: 0 consuming modules, 15 public names, 0 module escape hatches.",
+      "leverage_score": 30,
       "inbound_reach": 0,
-      "public_surface": 4,
+      "public_surface": 15,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "leaf",
@@ -2024,6 +6568,426 @@
         }
       ],
       "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/sharing/defaultTests",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "score": 12,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/defaultTests.ts: 1 consuming modules, 1 public names, 1 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/sharing/defaultTests",
+            "kind": "leverage",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/sharing/index",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/index.ts: 1 consuming modules, 11 public names, 0 module escape hatches.",
+      "leverage_score": 32,
+      "inbound_reach": 1,
+      "public_surface": 11,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/sharing/index",
+            "kind": "leverage",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/sharing/policy",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "score": 24,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/policy.ts: 2 consuming modules, 10 public names, 2 module escape hatches.",
+      "leverage_score": 40,
+      "inbound_reach": 2,
+      "public_surface": 10,
+      "weak_surface": 2,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 2
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/sharing/policy",
+            "kind": "leverage",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/sharing/protocol",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/protocol.ts: 2 consuming modules, 8 public names, 0 module escape hatches.",
+      "leverage_score": 36,
+      "inbound_reach": 2,
+      "public_surface": 8,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/sharing/protocol",
+            "kind": "leverage",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/sharing/service",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "score": 60,
+      "risk": "medium",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/service.ts: 1 consuming modules, 3 public names, 5 module escape hatches.",
+      "leverage_score": 16,
+      "inbound_reach": 1,
+      "public_surface": 3,
+      "weak_surface": 5,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 5
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/sharing/service",
+            "kind": "leverage",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/sharing/protocol:ParentEntry",
+      "kind": "unused_export",
+      "file": "src/sharing/protocol.ts",
+      "line": 56,
+      "name": "ParentEntry",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "ParentEntry"
+        }
+      ],
+      "rule_id": "knip/types",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:56",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/types",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/sharing/protocol:ParentEntry",
+            "kind": "unused_export",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/sharing/protocol:InvitationEntry",
+      "kind": "unused_export",
+      "file": "src/sharing/protocol.ts",
+      "line": 57,
+      "name": "InvitationEntry",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "InvitationEntry"
+        }
+      ],
+      "rule_id": "knip/types",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:57",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/types",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/sharing/protocol:InvitationEntry",
+            "kind": "unused_export",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/sharing/service:accessKey",
+      "kind": "unused_export",
+      "file": "src/sharing/service.ts",
+      "line": 43,
+      "name": "accessKey",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "accessKey"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/sharing/service.ts:accessKey:43",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/sharing/service:accessKey",
+            "kind": "unused_export",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:scripts/migrate-child-sharing.cjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/migrate-child-sharing.cjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/migrate-child-sharing.cjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/migrate-child-sharing.cjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
       "introduced": true
     },
     {
@@ -2215,6 +7179,57 @@
             "id": "knip:types:src/schoolEventCatalog.ts:SchoolEventKind:27",
             "kind": "unused_type",
             "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedAction",
+      "line": 8,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: SharedAction.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "SharedAction"
+        }
+      ],
+      "reason_code": "knip/types",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+            "kind": "unused_type",
+            "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

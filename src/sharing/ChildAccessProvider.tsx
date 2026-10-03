@@ -1,10 +1,16 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useUserCollection } from '../data/useUserCollection'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react'
 import { collection, doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { childSnapshotDataSchema } from '../data/types'
-import { isThemeId } from '../ui/themeOptions'
+import { parseChildProfile } from '../data/types'
 import { offlineRuntime } from '../offline/runtime'
 import { isOfflineEnabled } from '../offline/platform'
 import { childStorageKey } from './scope'
@@ -16,26 +22,121 @@ function profile(
   data: unknown,
   membershipVersion = 0
 ): AccessibleChild | null {
-  const parsed = childSnapshotDataSchema.safeParse(data)
-  if (!parsed.success) return null
-  const item = parsed.data
-  return {
-    id: childId,
-    ownerUid,
-    membershipVersion,
-    displayName: item.displayName,
-    avatarToken: item.avatarToken,
-    totalStars: item.totalStars,
-    testFailureModeEnabled: item.testFailureModeEnabled,
-    themeId: isThemeId(item.themeId ?? '')
-      ? (item.themeId as AccessibleChild['themeId'])
-      : 'princess',
-    createdAt: item.createdAt?.toDate?.(),
-    sharedDataVersion: Number(item.sharedDataVersion ?? 0),
-    timeZone:
-      typeof item.timeZone === 'string' ? item.timeZone : 'Europe/London',
+  const child = parseChildProfile(childId, data)
+  return child
+    ? {
+        ...child,
+        ownerUid,
+        membershipVersion,
+        themeId: child.themeId ?? 'princess',
+      }
+    : null
+}
+// The index and its profile listeners share one lifetime. Removing or replacing
+// a grant invalidates its callbacks before clearing that grant's local cache.
+function subscribeSharedChildren(
+  actorUid: string,
+  update: (children: AccessibleChild[], ready: boolean) => void,
+  report: (message: string) => void
+) {
+  type Subscription = {
+    scope: string
+    stop: () => void
+    ready: boolean
+    child?: AccessibleChild
+  }
+  const entries = new Map<string, Subscription>()
+  let disposed = false
+  const updateChoices = () => {
+    const current = [...entries.values()]
+    update(
+      current.flatMap((entry) => (entry.child ? [entry.child] : [])),
+      current.every((entry) => entry.ready)
+    )
+  }
+  const remove = (key: string) => {
+    const entry = entries.get(key)
+    if (!entry) return
+    entries.delete(key)
+    entry.stop()
+    void offlineRuntime(entry.scope).revoke()
+  }
+  const stop = onSnapshot(
+    collection(db, 'users', actorUid, 'childAccess'),
+    (snapshot) => {
+      if (disposed) return
+      const keys = new Set<string>()
+      for (const grant of snapshot.docs) {
+        const {
+          ownerUid,
+          childId,
+          membershipVersion,
+          status,
+        }: Record<string, unknown> = grant.data()
+        if (
+          status !== 'active' ||
+          typeof ownerUid !== 'string' ||
+          typeof childId !== 'string' ||
+          typeof membershipVersion !== 'number' ||
+          !Number.isInteger(membershipVersion)
+        )
+          continue
+        keys.add(grant.id)
+        const scope = childStorageKey({
+          actorUid,
+          ownerUid,
+          childId,
+          membershipVersion,
+        })
+        if (entries.get(grant.id)?.scope === scope) continue
+        remove(grant.id)
+        const entry: Subscription = { scope, stop: () => {}, ready: false }
+        entries.set(grant.id, entry)
+        entry.stop = onSnapshot(
+          doc(db, 'users', ownerUid, 'children', childId),
+          (snapshot) => {
+            if (entries.get(grant.id) !== entry) return
+            entry.child = snapshot.exists()
+              ? (profile(
+                  ownerUid,
+                  childId,
+                  snapshot.data(),
+                  membershipVersion
+                ) ?? undefined)
+              : undefined
+            if (!entry.child && !snapshot.metadata.fromCache)
+              void offlineRuntime(scope).revoke()
+            entry.ready = true
+            updateChoices()
+          },
+          () => {
+            if (entries.get(grant.id) !== entry) return
+            remove(grant.id)
+            updateChoices()
+            report(
+              'Access to a shared child has ended or could not be verified.'
+            )
+          }
+        )
+      }
+      for (const key of entries.keys()) if (!keys.has(key)) remove(key)
+      updateChoices()
+    },
+    () => {
+      if (disposed) return
+      for (const key of entries.keys()) remove(key)
+      updateChoices()
+      report('Could not verify shared child access.')
+    }
+  )
+  return () => {
+    disposed = true
+    stop()
+    for (const entry of entries.values()) entry.stop()
+    entries.clear()
   }
 }
+
 export default function ChildAccessProvider({
   children,
 }: {
@@ -59,148 +160,46 @@ function AccountChildAccess({
 }) {
   const { activeChildId, activeOwnerUid, setActiveChild, clearActiveChild } =
     useActiveChild()
-  const [owned, setOwned] = useState<AccessibleChild[]>([])
-  const [invited, setInvited] = useState<Record<string, AccessibleChild>>({})
+  const [invited, setInvited] = useState<AccessibleChild[]>([])
   const [ready, setReady] = useState({ owned: false, grants: false })
   const [error, setError] = useState<string | null>(null)
   useEffect(() => {
     if (isOfflineEnabled()) return offlineRuntime(actorUid).connect()
   }, [actorUid])
-  useEffect(() => {
-    const stop = onSnapshot(
-      collection(db, 'users', actorUid, 'children'),
-      (snapshot) => {
-        setOwned(
-          snapshot.docs.flatMap((doc) => {
-            const child = profile(actorUid, doc.id, doc.data())
-            return child ? [child] : []
-          })
-        )
-        setReady((state) => ({ ...state, owned: true }))
-      },
-      () => {
-        setOwned([])
-        setError('Could not load your children. Reconnect and try again.')
-        setReady((state) => ({ ...state, owned: true }))
-      }
-    )
-    return stop
-  }, [actorUid])
-  useEffect(() => {
-    const subscriptions = new Map<
-      string,
-      { stop: () => void; scope: string; version: number }
-    >()
-    const pending = new Set<string>()
-    let disposed = false
-    const settled = () => {
-      if (!disposed)
-        setReady((state) => ({ ...state, grants: pending.size === 0 }))
-    }
-    const remove = (key: string) =>
-      setInvited((previous) => {
-        const next = { ...previous }
-        delete next[key]
-        return next
-      })
-    const stop = onSnapshot(
-      collection(db, 'users', actorUid, 'childAccess'),
-      (snapshot) => {
-        const grants = snapshot.docs.filter(
-          (doc) => doc.data().status === 'active'
-        )
-        const keys = new Set(grants.map((doc) => doc.id))
-        for (const [key, entry] of subscriptions)
-          if (!keys.has(key)) {
-            entry.stop()
-            subscriptions.delete(key)
-            pending.delete(key)
-            remove(key)
-            void offlineRuntime(entry.scope).revoke()
-          }
-        for (const grant of grants) {
-          const data = grant.data()
-          if (
-            typeof data.ownerUid !== 'string' ||
-            typeof data.childId !== 'string' ||
-            !Number.isInteger(data.membershipVersion)
-          )
-            continue
-          const previous = subscriptions.get(grant.id)
-          if (previous?.version === data.membershipVersion) continue
-          if (previous) {
-            previous.stop()
-            void offlineRuntime(previous.scope).revoke()
-            remove(grant.id)
-          }
-          const scope = childStorageKey({
-            actorUid,
-            ownerUid: data.ownerUid,
-            childId: data.childId,
-            membershipVersion: data.membershipVersion,
-          })
-          pending.add(grant.id)
-          const unsubscribe = onSnapshot(
-            doc(db, 'users', data.ownerUid, 'children', data.childId),
-            (snapshot) => {
-              if (disposed) return
-              const child = snapshot.exists()
-                ? profile(
-                    data.ownerUid,
-                    data.childId,
-                    snapshot.data(),
-                    data.membershipVersion
-                  )
-                : null
-              if (child)
-                setInvited((previous) => ({ ...previous, [grant.id]: child }))
-              else {
-                remove(grant.id)
-                if (!snapshot.metadata.fromCache)
-                  void offlineRuntime(scope).revoke()
-              }
-              pending.delete(grant.id)
-              settled()
-            },
-            () => {
-              remove(grant.id)
-              pending.delete(grant.id)
-              void offlineRuntime(scope).revoke()
-              settled()
-              setError(
-                'Access to a shared child has ended or could not be verified.'
-              )
-            }
-          )
-          subscriptions.set(grant.id, {
-            stop: unsubscribe,
-            scope,
-            version: data.membershipVersion,
-          })
-        }
-        settled()
-      },
-      () => {
-        for (const entry of subscriptions.values()) {
-          entry.stop()
-          void offlineRuntime(entry.scope).revoke()
-        }
-        pending.clear()
-        setInvited({})
-        settled()
-        setError('Could not verify shared child access.')
-      }
-    )
-    return () => {
-      disposed = true
-      stop()
-      for (const entry of subscriptions.values()) entry.stop()
-    }
-  }, [actorUid])
-  const choices = useMemo(
-    () => [...owned, ...Object.values(invited)],
-    [owned, invited]
+  const ownedReady = useCallback(
+    () => setReady((state) => ({ ...state, owned: true })),
+    []
   )
+  const ownedFailed = useCallback(() => {
+    setError('Could not load your children. Reconnect and try again.')
+    ownedReady()
+  }, [ownedReady])
+  const mapOwned = useCallback(
+    (id: string, data: unknown) => profile(actorUid, id, data),
+    [actorUid]
+  )
+  const owned = useUserCollection({
+    userId: actorUid,
+    collectionName: 'children',
+    mapDocument: mapOwned,
+    onItems: ownedReady,
+    onClear: ownedFailed,
+    errorMessage: 'Could not load your children.',
+  })
+
+  useEffect(
+    () =>
+      subscribeSharedChildren(
+        actorUid,
+        (children, grants) => {
+          setInvited(children)
+          setReady((state) => ({ ...state, grants }))
+        },
+        setError
+      ),
+    [actorUid]
+  )
+  const choices = useMemo(() => [...owned, ...invited], [owned, invited])
   const selected = choices.find(
     (child) =>
       child.id === activeChildId &&
@@ -209,21 +208,9 @@ function AccountChildAccess({
   const loading = !ready.owned || !ready.grants
   useEffect(() => {
     if (loading) return
-    if (selected) {
-      setActiveChild({
-        id: selected.id,
-        themeId: selected.themeId ?? 'princess',
-        ownerUid: selected.ownerUid,
-      })
-      return
-    }
-    const first = choices[0]
-    if (first)
-      setActiveChild({
-        id: first.id,
-        themeId: first.themeId ?? 'princess',
-        ownerUid: first.ownerUid,
-      })
+    const child = selected ?? choices[0]
+    if (child)
+      setActiveChild({ ...child, themeId: child.themeId ?? 'princess' })
     else if (activeChildId) clearActiveChild()
   }, [
     loading,
@@ -247,11 +234,7 @@ function AccountChildAccess({
         (!selected && choices.length > 0),
       error,
       select: (child: AccessibleChild) =>
-        setActiveChild({
-          id: child.id,
-          themeId: child.themeId ?? 'princess',
-          ownerUid: child.ownerUid,
-        }),
+        setActiveChild({ ...child, themeId: child.themeId ?? 'princess' }),
     }),
     [actorUid, choices, selected, loading, error, setActiveChild, activeChildId]
   )

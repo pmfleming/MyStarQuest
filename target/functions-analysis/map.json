@@ -3,7 +3,7 @@
   "task_id": "map.architecture",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:48.181Z",
+    "measured_at": "2026-10-03T13:15:36.784Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:3d3ff0a04d267bdae944b91a39f8ca0d60a4d79396c4f46db567b3c4c6df3e61"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:2bae0709da66ed090b588f89657bce6f20e1b6aa052053dfa22d221addab8ece"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -117,13 +117,13 @@
     "partial": false
   },
   "summary": {
-    "nodes": 3,
-    "edges": 8,
+    "nodes": 8,
+    "edges": 23,
     "workspaces": 1,
     "cross_workspace_edges": 0,
     "entrypoint_nodes": 1,
-    "high_risk_nodes": 2,
-    "unknown_metric_nodes": 3,
+    "high_risk_nodes": 6,
+    "unknown_metric_nodes": 8,
     "missing_inputs": 0,
     "stale_inputs": 0,
     "artifact_status": {
@@ -168,7 +168,7 @@
       "id": "src",
       "label": "src",
       "node_count": 3,
-      "risk_score": 166,
+      "risk_score": 180,
       "kind": "src",
       "rule_id": "ts-react-quality-lens/src",
       "evidence_kind": "heuristic",
@@ -191,6 +191,34 @@
           }
         }
       ]
+    },
+    {
+      "id": "src/sharing",
+      "label": "src/sharing",
+      "node_count": 5,
+      "risk_score": 290,
+      "kind": "src/sharing",
+      "rule_id": "ts-react-quality-lens/src/sharing",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "src/sharing",
+      "reason_code": "ts-react-quality-lens/src/sharing",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this src/sharing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing",
+            "kind": "src/sharing",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
     }
   ],
   "framework": {
@@ -198,7 +226,9 @@
     "routes": [],
     "stories": [],
     "client_components": [],
-    "server_only_signals": [],
+    "server_only_signals": [
+      "src/sharing/index.ts"
+    ],
     "conventions": {
       "next_app_router": false,
       "next_pages_router": false,
@@ -217,7 +247,7 @@
       "tsconfigs": [
         "tsconfig.json"
       ],
-      "source_files": 3,
+      "source_files": 8,
       "project_loaded": true,
       "project_reason": null
     }
@@ -234,25 +264,25 @@
       "entrypoint_roles": [
         "configured_public_api"
       ],
-      "risk_score": 166,
+      "risk_score": 180,
       "risk": "high",
       "classification": "unknown",
       "category_scores": {
-        "maintainability": 166,
+        "maintainability": 180,
         "correctness": null,
-        "architecture": 2,
+        "architecture": 4,
         "change": 34,
         "render_performance": 0,
         "performance": 0,
-        "quality": 53,
+        "quality": 55,
         "total": null
       },
-      "maintainability_risk": 166,
+      "maintainability_risk": 180,
       "change_risk": 34,
       "performance_risk": 0,
       "correctness_risk": null,
-      "architectural_risk": 2,
-      "quality_risk": 53,
+      "architectural_risk": 4,
+      "quality_risk": 55,
       "total_score": null,
       "unknown_metrics": [
         "correctness:no_measured_evidence"
@@ -261,8 +291,8 @@
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 6,
-        "exports": 4,
+        "imports": 7,
+        "exports": 15,
         "functions": 10,
         "components": 0,
         "types": 3,
@@ -371,6 +401,251 @@
         "suite_status": "not_run",
         "coverage_status": "not_collected"
       }
+    },
+    {
+      "id": "src/sharing/defaultTests",
+      "label": "defaultTests.ts",
+      "file": "src/sharing/defaultTests.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 50,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 14,
+        "correctness": null,
+        "architecture": 12,
+        "change": 23,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 14,
+      "change_risk": 23,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 12,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 0,
+        "exports": 1,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/index",
+      "label": "index.ts",
+      "file": "src/sharing/index.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 89,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 89,
+        "correctness": null,
+        "architecture": 0,
+        "change": 23,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 89,
+      "change_risk": 23,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 0,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 6,
+        "exports": 11,
+        "functions": 7,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/policy",
+      "label": "policy.ts",
+      "file": "src/sharing/policy.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 211,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 211,
+        "correctness": null,
+        "architecture": 24,
+        "change": 5,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 211,
+      "change_risk": 5,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 24,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 2,
+        "exports": 10,
+        "functions": 16,
+        "components": 0,
+        "types": 1,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/protocol",
+      "label": "protocol.ts",
+      "file": "src/sharing/protocol.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 115,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 23,
+        "correctness": null,
+        "architecture": 0,
+        "change": 5,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 115,
+        "total": null
+      },
+      "maintainability_risk": 23,
+      "change_risk": 5,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 0,
+      "quality_risk": 115,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 0,
+        "exports": 8,
+        "functions": 2,
+        "components": 0,
+        "types": 6,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/service",
+      "label": "service.ts",
+      "file": "src/sharing/service.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "entrypoint_roles": [],
+      "risk_score": 290,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 290,
+        "correctness": null,
+        "architecture": 84,
+        "change": 23,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 290,
+      "change_risk": 23,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 84,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 6,
+        "exports": 3,
+        "functions": 8,
+        "components": 0,
+        "types": 3,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
     }
   ],
   "edges": [
@@ -441,6 +716,17 @@
       "line": 13
     },
     {
+      "id": "import:src/index:src/sharing/index:18",
+      "from": "src/index",
+      "to": "src/sharing/index",
+      "type": "static_import",
+      "source": "export { prepareChildSharing, listChildParents, inviteParent, resendParentInvitation, acceptParentInvitation, revokeParentInvitation, removeParentAccess, applyChildOperation, delet",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 18
+    },
+    {
       "id": "import:src/schoolCalendar:node-ical:1",
       "from": "src/schoolCalendar",
       "to": "node-ical",
@@ -461,6 +747,160 @@
       "to_workspace": "mystarquest-functions",
       "workspace_dependency": false,
       "line": 2
+    },
+    {
+      "id": "import:src/sharing/index:firebase-admin/firestore:1",
+      "from": "src/sharing/index",
+      "to": "firebase-admin/firestore",
+      "type": "static_import",
+      "source": "import { getFirestore, FieldValue } from 'firebase-admin/firestore'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/index:firebase-functions/v2/https:2",
+      "from": "src/sharing/index",
+      "to": "firebase-functions/v2/https",
+      "type": "static_import",
+      "source": "import { HttpsError, onCall, type CallableRequest, } from 'firebase-functions/v2/https'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/index:firebase-functions/v2/firestore:7",
+      "from": "src/sharing/index",
+      "to": "firebase-functions/v2/firestore",
+      "type": "static_import",
+      "source": "import { onDocumentCreated, onDocumentDeleted, } from 'firebase-functions/v2/firestore'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 7
+    },
+    {
+      "id": "import:src/sharing/index:firebase-functions/params:11",
+      "from": "src/sharing/index",
+      "to": "firebase-functions/params",
+      "type": "static_import",
+      "source": "import { defineSecret, defineString } from 'firebase-functions/params'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/sharing/index:src/sharing/service:12",
+      "from": "src/sharing/index",
+      "to": "src/sharing/service",
+      "type": "static_import",
+      "source": "import { SharingService, type Caller } from './service'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/sharing/index:src/sharing/policy:13",
+      "from": "src/sharing/index",
+      "to": "src/sharing/policy",
+      "type": "static_import",
+      "source": "import { id, record, fail } from './policy'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/sharing/policy:firebase-functions/v2/https:1",
+      "from": "src/sharing/policy",
+      "to": "firebase-functions/v2/https",
+      "type": "static_import",
+      "source": "import { HttpsError } from 'firebase-functions/v2/https'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/policy:src/sharing/protocol:2",
+      "from": "src/sharing/policy",
+      "to": "src/sharing/protocol",
+      "type": "type_only_import",
+      "source": "import type { SharedOperation } from './protocol'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/service:src/sharing/defaultTests:1",
+      "from": "src/sharing/service",
+      "to": "src/sharing/defaultTests",
+      "type": "static_import",
+      "source": "import { TEST_TEMPLATES } from './defaultTests'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/service:node:crypto:2",
+      "from": "src/sharing/service",
+      "to": "node:crypto",
+      "type": "static_import",
+      "source": "import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/service:firebase-admin/firestore:3",
+      "from": "src/sharing/service",
+      "to": "firebase-admin/firestore",
+      "type": "static_import",
+      "source": "import { FieldValue, Timestamp, type Firestore, type Transaction, type DocumentSnapshot, } from 'firebase-admin/firestore'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/sharing/service:firebase-functions/v2/https:10",
+      "from": "src/sharing/service",
+      "to": "firebase-functions/v2/https",
+      "type": "static_import",
+      "source": "import { HttpsError } from 'firebase-functions/v2/https'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 10
+    },
+    {
+      "id": "import:src/sharing/service:src/sharing/policy:11",
+      "from": "src/sharing/service",
+      "to": "src/sharing/policy",
+      "type": "static_import",
+      "source": "import { record, activityPatch, awardFor, completedFields, deny, documentPatch, email, fail, id, parseOperation, } from './policy'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/sharing/service:src/sharing/protocol:23",
+      "from": "src/sharing/service",
+      "to": "src/sharing/protocol",
+      "type": "static_import",
+      "source": "import { progressKey, sharedDateKey, type ChildScope, type SharedReceipt, } from './protocol'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 23
     }
   ]
 }

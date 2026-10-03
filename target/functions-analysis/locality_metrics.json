@@ -3,7 +3,7 @@
   "task_id": "quality.locality_dynamic",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:43.154Z",
+    "measured_at": "2026-10-03T13:15:31.907Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:b19c37ff53ae9df87e7d99ec491743542db6a7a5ef33dd71f0e7379dca2787bd"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:9ed7ea4df79f33a1a894fb9f80bddee7f5e8cf884e70f0ccd6e00cb09d8388e6"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -109,7 +109,7 @@
     "stale_input": []
   },
   "summary": {
-    "records": 3,
+    "records": 8,
     "high_risk_records": 0
   },
   "records": [
@@ -126,7 +126,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 15,
+        "commits": 16,
         "contributors": 1
       },
       "defect_commits": 1,
@@ -137,6 +137,26 @@
         },
         {
           "file": "src/schoolEventCatalog.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
           "commits": 1
         }
       ],
@@ -286,6 +306,360 @@
             "id": "locality:src/schoolEventCatalog",
             "kind": "locality",
             "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/sharing/defaultTests",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/defaultTests.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/defaultTests",
+            "kind": "locality",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/sharing/index",
+      "module_id": "src/sharing/index",
+      "file": "src/sharing/index.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/index.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/index",
+            "kind": "locality",
+            "file": "src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/sharing/policy",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "score": 5,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/policy.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/policy",
+            "kind": "locality",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/sharing/protocol",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "score": 5,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/protocol.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/protocol",
+            "kind": "locality",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/sharing/service",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "score": 23,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/sharing/service.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/defaultTests.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/sharing/service",
+            "kind": "locality",
+            "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

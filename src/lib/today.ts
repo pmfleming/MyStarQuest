@@ -25,14 +25,16 @@ const getDatePartsInTimeZone = (date: Date, timeZone: string) => {
     weekday: 'long',
   })
 
-  const parts = formatter.formatToParts(date)
+  const parts = Object.fromEntries(
+    formatter.formatToParts(date).map(({ type, value }) => [type, value])
+  )
 
   return {
-    year: Number(parts.find((part) => part.type === 'year')?.value),
-    month: Number(parts.find((part) => part.type === 'month')?.value),
-    day: Number(parts.find((part) => part.type === 'day')?.value),
+    year: Number(parts.year),
+    month: Number(parts.month),
+    day: Number(parts.day),
     weekday:
-      parts.find((part) => part.type === 'weekday')?.value ??
+      parts.weekday ??
       date.toLocaleDateString('en-GB', { weekday: 'long', timeZone }),
   }
 }

@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:37.048Z",
+    "measured_at": "2026-10-03T13:15:26.050Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:5ef0a68d8e122e84af3ed41f3cd8cad55a79c3df6dd7715d1cb52c8d459ae7ed"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:22fff3b6f1e6c19b6df336d3945539596a7451fd5b152ada6af8c8ced7a26138"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -130,10 +130,70 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-10-03T07:42:36.820Z",
+        "detectionDate": "2026-10-03T13:15:25.719Z",
         "formats": {
           "typescript": {
             "sources": {
+              "src/sharing/service.ts": {
+                "lines": 880,
+                "tokens": 8829,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/protocol.ts": {
+                "lines": 74,
+                "tokens": 607,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/policy.ts": {
+                "lines": 261,
+                "tokens": 2583,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/index.ts": {
+                "lines": 221,
+                "tokens": 2249,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/sharing/defaultTests.ts": {
+                "lines": 46,
+                "tokens": 294,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/schoolEventCatalog.ts": {
                 "lines": 91,
                 "tokens": 775,
@@ -159,8 +219,8 @@
                 "newClones": 0
               },
               "src/index.ts": {
-                "lines": 325,
-                "tokens": 2654,
+                "lines": 352,
+                "tokens": 2792,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -172,9 +232,9 @@
               }
             },
             "total": {
-              "lines": 529,
-              "tokens": 4588,
-              "sources": 3,
+              "lines": 2038,
+              "tokens": 19288,
+              "sources": 8,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -186,9 +246,9 @@
           }
         },
         "total": {
-          "lines": 529,
-          "tokens": 4588,
-          "sources": 3,
+          "lines": 2038,
+          "tokens": 19288,
+          "sources": 8,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,

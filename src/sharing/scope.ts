@@ -1,6 +1,12 @@
+import { z } from 'zod'
 import type { ChildScope } from '../../functions/src/sharing/protocol'
 export type { ChildScope } from '../../functions/src/sharing/protocol'
 const prefix = 'child-scope:'
+const scopeId = z
+  .string()
+  .min(1)
+  .refine((value) => !value.includes('/'))
+const scopeTuple = z.tuple([scopeId, scopeId, scopeId, z.number().int()])
 export function childStorageKey(scope: ChildScope) {
   return (
     prefix +
@@ -15,23 +21,10 @@ export function childStorageKey(scope: ChildScope) {
 export function parseChildScope(key: string | undefined): ChildScope | null {
   if (!key?.startsWith(prefix)) return null
   try {
-    const [actorUid, ownerUid, childId, membershipVersion] = JSON.parse(
-      key.slice(prefix.length)
-    ) as unknown[]
-    if (
-      ![actorUid, ownerUid, childId].every(
-        (value) =>
-          typeof value === 'string' && value.length > 0 && !value.includes('/')
-      ) ||
-      !Number.isSafeInteger(membershipVersion)
+    const [actorUid, ownerUid, childId, membershipVersion] = scopeTuple.parse(
+      JSON.parse(key.slice(prefix.length))
     )
-      return null
-    return {
-      actorUid: actorUid as string,
-      ownerUid: ownerUid as string,
-      childId: childId as string,
-      membershipVersion: membershipVersion as number,
-    }
+    return { actorUid, ownerUid, childId, membershipVersion }
   } catch {
     return null
   }

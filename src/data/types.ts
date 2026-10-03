@@ -1,7 +1,7 @@
 // ── Shared data types and constants for the chore/task system ──
 
 import { z } from 'zod'
-import type { ThemeId } from '../ui/themeOptions'
+import { isThemeId, type ThemeId } from '../ui/themeOptions'
 import {
   MAX_DINNER_SLICES,
   MAX_TASK_VALUE,
@@ -84,6 +84,24 @@ export const childSnapshotDataSchema = z
     createdAt: firestoreTimestampLikeSchema.optional(),
   })
   .passthrough()
+
+export function parseChildProfile(id: string, input: unknown) {
+  const parsed = childSnapshotDataSchema.safeParse(input)
+  if (!parsed.success) return null
+  const data = parsed.data
+  return {
+    id,
+    displayName: data.displayName,
+    avatarToken: data.avatarToken,
+    totalStars: data.totalStars,
+    testFailureModeEnabled: data.testFailureModeEnabled,
+    themeId: data.themeId && isThemeId(data.themeId) ? data.themeId : undefined,
+    createdAt: data.createdAt?.toDate?.(),
+    sharedDataVersion: Number(data.sharedDataVersion ?? 0),
+    timeZone:
+      typeof data.timeZone === 'string' ? data.timeZone : 'Europe/London',
+  }
+}
 
 export const rewardSnapshotDataSchema = z
   .object({
@@ -317,19 +335,12 @@ export const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
 export const DEFAULT_DINNER_BITES = 2
 export const DEFAULT_DINNER_STARS = 3
 export const DEFAULT_MATH_PROBLEMS = 5
-export const DEFAULT_MATH_STARS = 3
 export const DEFAULT_LARGE_NUMBERS_PROBLEMS = 5
-export const DEFAULT_LARGE_NUMBERS_STARS = 3
 export const DEFAULT_FRACTIONS_PROBLEMS = 5
-export const DEFAULT_FRACTIONS_STARS = 3
 export const DEFAULT_PV_PROBLEMS = 5
-export const DEFAULT_PV_STARS = 3
 export const DEFAULT_ALPHABET_PROBLEMS = 5
-export const DEFAULT_ALPHABET_STARS = 3
 export const DEFAULT_SPELLING_PROBLEMS = 5
-export const DEFAULT_SPELLING_STARS = 3
 export const DEFAULT_ANIMALS_PROBLEMS = 5
-export const DEFAULT_ANIMALS_STARS = 3
 export const DEFAULT_WATER_TOILET_STARS = 1
 export const DEFAULT_WATER_LEVEL: WaterLevel = 'full'
 export const DEFAULT_TOILET_STATUS: ToiletStatus = 'notpeepee'

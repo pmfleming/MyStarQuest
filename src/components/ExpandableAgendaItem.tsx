@@ -1,3 +1,4 @@
+import { keyboardActivation } from './ui/keyboardActivation'
 import {
   useEffect,
   useRef,
@@ -66,12 +67,7 @@ export default function ExpandableAgendaItem({
         aria-expanded={expanded}
         aria-description="Double-click, Enter, or Space toggles the size. Click outside or press Escape to collapse."
         onDoubleClick={toggleExpanded}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault()
-            toggleExpanded()
-          }
-        }}
+        onKeyDown={(event) => keyboardActivation(event, toggleExpanded)}
       >
         {children}
       </div>

@@ -3,7 +3,7 @@
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:37.209Z",
+    "measured_at": "2026-10-03T13:15:26.178Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:787f98d449685ec4a9c947d821437eabfd7c24055b9e6adb02adcf79584d522d"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:ec6166962001b43b5651dcabbdc352da46b366574845a581f18c161f0db283bf"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -109,10 +109,11 @@
     "stale_input": []
   },
   "summary": {
-    "records": 1,
-    "files_with_escape_hatches": 1,
+    "records": 9,
+    "files_with_escape_hatches": 4,
     "by_kind": {
-      "type_assertion": 1
+      "type_assertion": 7,
+      "non_null_assertion": 2
     }
   },
   "records": [
@@ -144,6 +145,270 @@
             "id": "escape:src/schoolEventCatalog:type_assertion:2:125",
             "kind": "type_assertion",
             "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/defaultTests:type_assertion:1:30",
+      "module_id": "src/sharing/defaultTests",
+      "file": "src/sharing/defaultTests.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 1,
+      "evidence": "{ fractions: { title: 'Fractions', starValue: 3, taskType: 'fractions', fractionsTotalProblems: 5, fractionsMaxDenominat",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ fractions: { title: 'Fractions', starValue: 3, taskType: 'fractions', fractionsTotalProblems: 5, fractionsMaxDenominat",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/defaultTests:type_assertion:1:30",
+            "kind": "type_assertion",
+            "file": "src/sharing/defaultTests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/policy:type_assertion:13:526",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 13,
+      "evidence": "value as Record<string, unknown>",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "value as Record<string, unknown>",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/policy:type_assertion:13:526",
+            "kind": "type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/policy:type_assertion:245:7587",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 245,
+      "evidence": "op as SharedOperation",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "op as SharedOperation",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/policy:type_assertion:245:7587",
+            "kind": "type_assertion",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 101,
+      "evidence": "dataOf(child)!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(child)!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+            "kind": "non_null_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:198:5935",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 198,
+      "evidence": "[ ['chores', chores], ['tests', tests], ] as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ ['chores', chores], ['tests', tests], ] as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:198:5935",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:585:18874",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 585,
+      "evidence": "dataOf(receipt)!.result as SharedReceipt",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(receipt)!.result as SharedReceipt",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:585:18874",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 585,
+      "evidence": "dataOf(receipt)!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "dataOf(receipt)!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+            "kind": "non_null_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:837:28355",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 837,
+      "evidence": "wireValue(result) as SharedReceipt",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "wireValue(result) as SharedReceipt",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:837:28355",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

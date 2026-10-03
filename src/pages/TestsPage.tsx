@@ -1,3 +1,4 @@
+import { useAsyncFeedback } from '../hooks/useAsyncFeedback'
 import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'
 import { TEST_TYPES, type TestType } from '../data/types'
 import { useDataScope } from '../sharing/ChildAccessContext'
@@ -39,8 +40,11 @@ const TestsPage = () => {
 
   const [adding, setAdding] = useState(false)
   const [newType, setNewType] = useState<TestType>('math')
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
+  const {
+    busy: saving,
+    message: error,
+    run,
+  } = useAsyncFeedback('Could not add test.')
   const activityScope = `${activeChildId}:${todayInfo.dateKey}`
   const activity = useTaskActivityState(activityScope)
   const activeChild = children.find((child) => child.id === activeChildId)
@@ -126,18 +130,10 @@ const TestsPage = () => {
                   className="flex flex-col gap-3"
                   onSubmit={(event) => {
                     event.preventDefault()
-                    setSaving(true)
-                    setError('')
-                    void createTest(newType)
-                      .then(() => setAdding(false))
-                      .catch((reason) =>
-                        setError(
-                          reason instanceof Error
-                            ? reason.message
-                            : 'Could not add test.'
-                        )
-                      )
-                      .finally(() => setSaving(false))
+                    void run(async () => {
+                      await createTest(newType)
+                      setAdding(false)
+                    })
                   }}
                 >
                   <label>
@@ -146,7 +142,11 @@ const TestsPage = () => {
                       className="ml-3 rounded-lg border bg-white p-2 text-black"
                       value={newType}
                       onChange={(event) =>
-                        setNewType(event.target.value as TestType)
+                        setNewType(
+                          TEST_TYPES.find(
+                            (type) => type === event.target.value
+                          ) ?? newType
+                        )
                       }
                     >
                       {TEST_TYPES.map((type) => (

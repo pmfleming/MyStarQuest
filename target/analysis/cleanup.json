@@ -3,7 +3,7 @@
   "task_id": "quality.cleanup",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T08:08:07.768Z",
+    "measured_at": "2026-10-03T13:15:08.832Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:f2b8aa91bd5c4513b36e6b86ef3d0b674e0c15a92fd57dc9a73ece60718a4c0d",
-    "input_set_hash": "sha256:d68bb46183fd0bd4851153206481d804ecb7db8979fa229aed02cf2954e4bdac"
+    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
+    "input_set_hash": "sha256:d1127d6edac7c3791793197d077b1b9fa0bcc8205d6922f647c6918972516bdd"
   },
   "analysis_identity": {
-    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
+    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
+    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -82,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "knip_available": true,
     "knip_ran": true,
@@ -119,20 +119,20 @@
     "stale_input": []
   },
   "summary": {
-    "records": 38,
-    "unused_files": 6,
-    "unused_exports": 18,
+    "records": 65,
+    "unused_files": 9,
+    "unused_exports": 36,
     "unused_dependencies": 0,
-    "unused_dev_dependencies": 3,
-    "unlisted_dependencies": 5,
+    "unused_dev_dependencies": 2,
+    "unlisted_dependencies": 11,
     "type_only_production_dependencies": 0,
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
-    "entrypoint_files": 2,
-    "knip_findings": 38,
-    "tool_confirmed": 13,
+    "entrypoint_files": 3,
+    "knip_findings": 65,
+    "tool_confirmed": 8,
     "tool_disagreed": 2,
-    "tool_not_comparable": 3,
+    "tool_not_comparable": 5,
     "tool_excluded": 0
   },
   "tool_status": {
@@ -292,6 +292,94 @@
       ]
     },
     {
+      "id": "cleanup:unused-dev-dependency:@types/node",
+      "kind": "unused_dev_dependency",
+      "name": "@types/node",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/node"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/node",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dev-dependency:@types/react",
+      "kind": "unused_dev_dependency",
+      "name": "@types/react",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/react"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/react",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-dev-dependency:@types/react-dom",
       "kind": "unused_dev_dependency",
       "name": "@types/react-dom",
@@ -381,251 +469,6 @@
     }
   ],
   "records": [
-    {
-      "id": "cleanup:unused-export:src/data/taskLimits:isTaskValue",
-      "kind": "unused_export",
-      "file": "src/data/taskLimits.ts",
-      "line": 33,
-      "name": "isTaskValue",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "isTaskValue"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/data/taskLimits.ts:isTaskValue:33",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/taskLimits:isTaskValue",
-            "kind": "unused_export",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/taskLimits:assertTaskValue",
-      "kind": "unused_export",
-      "file": "src/data/taskLimits.ts",
-      "line": 36,
-      "name": "assertTaskValue",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "assertTaskValue"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/data/taskLimits.ts:assertTaskValue:36",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/taskLimits:assertTaskValue",
-            "kind": "unused_export",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/taskLimits:clampTaskValue",
-      "kind": "unused_export",
-      "file": "src/data/taskLimits.ts",
-      "line": 39,
-      "name": "clampTaskValue",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "clampTaskValue"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/data/taskLimits.ts:clampTaskValue:39",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/taskLimits:clampTaskValue",
-            "kind": "unused_export",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/taskLimits:isDinnerSliceCount",
-      "kind": "unused_export",
-      "file": "src/data/taskLimits.ts",
-      "line": 42,
-      "name": "isDinnerSliceCount",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "isDinnerSliceCount"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/data/taskLimits.ts:isDinnerSliceCount:42",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/taskLimits:isDinnerSliceCount",
-            "kind": "unused_export",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-export:src/data/taskLimits:assertDinnerSliceCount",
-      "kind": "unused_export",
-      "file": "src/data/taskLimits.ts",
-      "line": 45,
-      "name": "assertDinnerSliceCount",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "export_not_named_by_internal_imports",
-          "value": "assertDinnerSliceCount"
-        }
-      ],
-      "rule_id": "knip/exports",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:exports:src/data/taskLimits.ts:assertDinnerSliceCount:45",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_export",
-      "message": "unused export",
-      "reason_code": "knip/exports",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-export:src/data/taskLimits:assertDinnerSliceCount",
-            "kind": "unused_export",
-            "file": "src/data/taskLimits.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
     {
       "id": "cleanup:unused-export:src/features/dayNightExplorer/currentExplorerCity:getNearbyExplorerCity",
       "kind": "unused_export",
@@ -872,6 +715,55 @@
       ]
     },
     {
+      "id": "cleanup:unused-export:src/sharing/ChildAccessContext:useChildAccess",
+      "kind": "unused_export",
+      "file": "src/sharing/ChildAccessContext.ts",
+      "line": 22,
+      "name": "useChildAccess",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "useChildAccess"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/sharing/ChildAccessContext.ts:useChildAccess:22",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/sharing/ChildAccessContext:useChildAccess",
+            "kind": "unused_export",
+            "file": "src/sharing/ChildAccessContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-dev-dependency:@testing-library/user-event",
       "kind": "unused_dev_dependency",
       "name": "@testing-library/user-event",
@@ -889,7 +781,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:devDependencies:package.json:@testing-library/user-event:45",
+      "upstream_finding_id": "knip:devDependencies:package.json:@testing-library/user-event:48",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_dev_dependency",
       "message": "unused dev dependency",
@@ -934,7 +826,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:60",
+      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:64",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_dev_dependency",
       "message": "unused dev dependency",
@@ -955,51 +847,6 @@
           "config_key": "suppressions",
           "value": {
             "id": "cleanup:unused-dev-dependency:lint-staged",
-            "kind": "unused_dev_dependency",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "cleanup:unused-dev-dependency:firebase-tools",
-      "kind": "unused_dev_dependency",
-      "name": "firebase-tools",
-      "score": 45,
-      "risk": "medium",
-      "signals": [
-        {
-          "kind": "dev_dependency_not_observed",
-          "value": "firebase-tools"
-        }
-      ],
-      "validation_scope_complete": false,
-      "rule_id": "knip/devDependencies",
-      "evidence_kind": "tool-rule",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "source": "knip",
-      "upstream_finding_id": "knip:devDependencies:package.json:firebase-tools:68",
-      "tool_validation": "confirmed",
-      "validation_scope": "knip/unused_dev_dependency",
-      "message": "unused dev dependency",
-      "reason_code": "knip/devDependencies",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Remove the unused code or mark it as intentional public surface.",
-          "fix": "remove-unused-code"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "cleanup:unused-dev-dependency:firebase-tools",
             "kind": "unused_dev_dependency",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -1052,6 +899,51 @@
       ]
     },
     {
+      "id": "knip:files:vitest.sharing.config.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "vitest.sharing.config.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:vitest.sharing.config.ts:0:0",
+            "kind": "unused_file",
+            "file": "vitest.sharing.config.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:files:scripts/prepare-weather-artwork.mjs:0:0",
       "rule_id": "knip/files",
       "kind": "unused_file",
@@ -1097,6 +989,51 @@
       ]
     },
     {
+      "id": "knip:files:scripts/quality-gate.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-gate.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/quality-gate.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/quality-gate.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
       "rule_id": "knip/files",
       "kind": "unused_file",
@@ -1136,6 +1073,51 @@
             "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
             "kind": "unused_file",
             "file": "scripts/weatherCharacterComposite.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:functions/scripts/migrate-child-sharing.cjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/scripts/migrate-child-sharing.cjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:functions/scripts/migrate-child-sharing.cjs:0:0",
+            "kind": "unused_file",
+            "file": "functions/scripts/migrate-child-sharing.cjs",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1271,6 +1253,741 @@
             "id": "knip:files:tests/fixtures/offline.ts:0:0",
             "kind": "unused_file",
             "file": "tests/fixtures/offline.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:unlisted:functions/src/sharing/service.ts:firebase-admin:9",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/service.ts",
+      "name": "firebase-admin",
+      "line": 9,
+      "column": 8,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-admin.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-admin"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:functions/src/sharing/service.ts:firebase-admin:9",
+            "kind": "unlisted_dependency",
+            "file": "functions/src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:unlisted:functions/src/sharing/service.ts:firebase-functions:10",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/service.ts",
+      "name": "firebase-functions",
+      "line": 10,
+      "column": 28,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-functions.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-functions"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:functions/src/sharing/service.ts:firebase-functions:10",
+            "kind": "unlisted_dependency",
+            "file": "functions/src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:unlisted:functions/src/sharing/index.ts:firebase-admin:1",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "firebase-admin",
+      "line": 1,
+      "column": 42,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-admin.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-admin"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:functions/src/sharing/index.ts:firebase-admin:1",
+            "kind": "unlisted_dependency",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:unlisted:functions/src/sharing/index.ts:firebase-functions:6",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "firebase-functions",
+      "line": 6,
+      "column": 8,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-functions.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-functions"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:functions/src/sharing/index.ts:firebase-functions:6",
+            "kind": "unlisted_dependency",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:prepareChildSharing:40",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "prepareChildSharing",
+      "line": 40,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: prepareChildSharing.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "prepareChildSharing"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:prepareChildSharing:40",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:listChildParents:54",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "listChildParents",
+      "line": 54,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: listChildParents.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "listChildParents"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:listChildParents:54",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:inviteParent:90",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "inviteParent",
+      "line": 90,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: inviteParent.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "inviteParent"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:inviteParent:90",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:resendParentInvitation:91",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "resendParentInvitation",
+      "line": 91,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: resendParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "resendParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:resendParentInvitation:91",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:acceptParentInvitation:92",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "acceptParentInvitation",
+      "line": 92,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: acceptParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "acceptParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:acceptParentInvitation:92",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:revokeParentInvitation:107",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "revokeParentInvitation",
+      "line": 107,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: revokeParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "revokeParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:revokeParentInvitation:107",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:removeParentAccess:108",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "removeParentAccess",
+      "line": 108,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: removeParentAccess.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "removeParentAccess"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:removeParentAccess:108",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:applyChildOperation:109",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "applyChildOperation",
+      "line": 109,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: applyChildOperation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "applyChildOperation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:applyChildOperation:109",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:deleteSharedChild:128",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "deleteSharedChild",
+      "line": 128,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: deleteSharedChild.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "deleteSharedChild"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:deleteSharedChild:128",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/sharing/index.ts:cleanupSharedChild:129",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/index.ts",
+      "name": "cleanupSharedChild",
+      "line": 129,
+      "column": 14,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: cleanupSharedChild.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "cleanupSharedChild"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/sharing/index.ts:cleanupSharedChild:129",
+            "kind": "unused_export",
+            "file": "functions/src/sharing/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:unlisted:tests/sharing/sharing.test.ts:firebase-admin:20",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/sharing/sharing.test.ts",
+      "name": "firebase-admin",
+      "line": 20,
+      "column": 8,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-admin.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-admin"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:tests/sharing/sharing.test.ts:firebase-admin:20",
+            "kind": "unlisted_dependency",
+            "file": "tests/sharing/sharing.test.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1424,7 +2141,546 @@
       ]
     },
     {
-      "id": "knip:exports:functions/src/index.ts:generateDailyTodos:174",
+      "id": "knip:exports:functions/src/index.ts:prepareChildSharing:19",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "prepareChildSharing",
+      "line": 19,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: prepareChildSharing.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "prepareChildSharing"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:prepareChildSharing:19",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:listChildParents:20",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "listChildParents",
+      "line": 20,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: listChildParents.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "listChildParents"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:listChildParents:20",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:inviteParent:21",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "inviteParent",
+      "line": 21,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: inviteParent.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "inviteParent"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:inviteParent:21",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:resendParentInvitation:22",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "resendParentInvitation",
+      "line": 22,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: resendParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "resendParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:resendParentInvitation:22",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:acceptParentInvitation:23",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "acceptParentInvitation",
+      "line": 23,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: acceptParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "acceptParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:acceptParentInvitation:23",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:revokeParentInvitation:24",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "revokeParentInvitation",
+      "line": 24,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: revokeParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "revokeParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:revokeParentInvitation:24",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:removeParentAccess:25",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "removeParentAccess",
+      "line": 25,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: removeParentAccess.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "removeParentAccess"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:removeParentAccess:25",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:applyChildOperation:26",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "applyChildOperation",
+      "line": 26,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: applyChildOperation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "applyChildOperation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:applyChildOperation:26",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:deleteSharedChild:27",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "deleteSharedChild",
+      "line": 27,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: deleteSharedChild.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "deleteSharedChild"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:deleteSharedChild:27",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:cleanupSharedChild:28",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "cleanupSharedChild",
+      "line": 28,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: cleanupSharedChild.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "cleanupSharedChild"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:cleanupSharedChild:28",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:deliverParentInvitation:29",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/index.ts",
+      "name": "deliverParentInvitation",
+      "line": 29,
+      "column": 3,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: deliverParentInvitation.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "deliverParentInvitation"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:functions/src/index.ts:deliverParentInvitation:29",
+            "kind": "unused_export",
+            "file": "functions/src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:functions/src/index.ts:generateDailyTodos:188",
       "rule_id": "knip/exports",
       "kind": "unused_export",
       "evidence_kind": "tool-rule",
@@ -1433,7 +2689,7 @@
       "scope": "file",
       "file": "functions/src/index.ts",
       "name": "generateDailyTodos",
-      "line": 174,
+      "line": 188,
       "column": 14,
       "score": 50,
       "risk": "medium",
@@ -1464,7 +2720,7 @@
           "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:exports:functions/src/index.ts:generateDailyTodos:174",
+            "id": "knip:exports:functions/src/index.ts:generateDailyTodos:188",
             "kind": "unused_export",
             "file": "functions/src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1473,7 +2729,7 @@
       ]
     },
     {
-      "id": "knip:exports:functions/src/index.ts:resetTodayTodos:268",
+      "id": "knip:exports:functions/src/index.ts:resetTodayTodos:295",
       "rule_id": "knip/exports",
       "kind": "unused_export",
       "evidence_kind": "tool-rule",
@@ -1482,7 +2738,7 @@
       "scope": "file",
       "file": "functions/src/index.ts",
       "name": "resetTodayTodos",
-      "line": 268,
+      "line": 295,
       "column": 14,
       "score": 50,
       "risk": "medium",
@@ -1513,7 +2769,7 @@
           "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:exports:functions/src/index.ts:resetTodayTodos:268",
+            "id": "knip:exports:functions/src/index.ts:resetTodayTodos:295",
             "kind": "unused_export",
             "file": "functions/src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1522,7 +2778,7 @@
       ]
     },
     {
-      "id": "knip:exports:functions/src/index.ts:getSchoolCalendar:280",
+      "id": "knip:exports:functions/src/index.ts:getSchoolCalendar:307",
       "rule_id": "knip/exports",
       "kind": "unused_export",
       "evidence_kind": "tool-rule",
@@ -1531,7 +2787,7 @@
       "scope": "file",
       "file": "functions/src/index.ts",
       "name": "getSchoolCalendar",
-      "line": 280,
+      "line": 307,
       "column": 14,
       "score": 50,
       "risk": "medium",
@@ -1562,7 +2818,7 @@
           "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:exports:functions/src/index.ts:getSchoolCalendar:280",
+            "id": "knip:exports:functions/src/index.ts:getSchoolCalendar:307",
             "kind": "unused_export",
             "file": "functions/src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1669,6 +2925,55 @@
       ]
     },
     {
+      "id": "knip:unlisted:functions/src/sharing/policy.ts:firebase-functions:1",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/policy.ts",
+      "name": "firebase-functions",
+      "line": 1,
+      "column": 28,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: firebase-functions.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "firebase-functions"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:functions/src/sharing/policy.ts:firebase-functions:1",
+            "kind": "unlisted_dependency",
+            "file": "functions/src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:exports:scripts/quality-summary.mjs:artifactNames:5",
       "rule_id": "knip/exports",
       "kind": "unused_export",
@@ -1710,6 +3015,55 @@
           "config_key": "suppressions",
           "value": {
             "id": "knip:exports:scripts/quality-summary.mjs:artifactNames:5",
+            "kind": "unused_export",
+            "file": "scripts/quality-summary.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-summary.mjs",
+      "name": "writeComparison",
+      "line": 42,
+      "column": 17,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: writeComparison.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "writeComparison"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
             "kind": "unused_export",
             "file": "scripts/quality-summary.mjs",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2055,6 +3409,55 @@
             "id": "knip:types:src/data/teeniepingKnowledge.ts:TeeniepingClueCategory:10",
             "kind": "unused_type",
             "file": "src/data/teeniepingKnowledge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:8",
+      "rule_id": "knip/types",
+      "kind": "unused_type",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "functions/src/sharing/protocol.ts",
+      "name": "SharedAction",
+      "line": 8,
+      "column": 13,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused type: SharedAction.",
+      "issue_type": "types",
+      "signals": [
+        {
+          "kind": "knip_types",
+          "value": "SharedAction"
+        }
+      ],
+      "reason_code": "knip/types",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:8",
+            "kind": "unused_type",
+            "file": "functions/src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

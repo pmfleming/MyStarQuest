@@ -3,7 +3,7 @@
   "task_id": "quality.type_health",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:37.377Z",
+    "measured_at": "2026-10-03T13:15:26.307Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:beebec4de3d2b1ccec6074e2a2bb237517dc4c2840e484b283b9e7ab2814e65b"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:5d127390b4a5ea8461527cc67334f3fa2ccf9b3ac31e14c6062d3385d7f2da83"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -109,13 +109,13 @@
     "stale_input": []
   },
   "summary": {
-    "records": 10,
-    "high_risk_records": 0,
+    "records": 41,
+    "high_risk_records": 2,
     "wide_types": 0,
     "compiler_diagnostics": 0,
-    "type_coverage_percent": 98.51,
-    "typed_symbols": 463,
-    "untyped_symbols": 7
+    "type_coverage_percent": 99.58,
+    "typed_symbols": 2153,
+    "untyped_symbols": 9
   },
   "compiler_options": {
     "strict": true,
@@ -149,14 +149,14 @@
   "diagnostics": [],
   "type_coverage": {
     "summary": {
-      "files": 3,
-      "analyzed_symbols": 470,
-      "typed_symbols": 463,
+      "files": 8,
+      "analyzed_symbols": 2162,
+      "typed_symbols": 2153,
       "explicit_any": 0,
-      "inferred_any": 2,
+      "inferred_any": 4,
       "error_types": 5,
-      "unknown": 20,
-      "type_coverage_percent": 98.51
+      "unknown": 78,
+      "type_coverage_percent": 99.58
     },
     "files": [
       {
@@ -180,26 +180,76 @@
         "type_coverage_percent": 100
       },
       {
+        "file": "src/sharing/defaultTests.ts",
+        "analyzed_symbols": 1,
+        "typed_symbols": 1,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/sharing/protocol.ts",
+        "analyzed_symbols": 67,
+        "typed_symbols": 67,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/sharing/policy.ts",
+        "analyzed_symbols": 302,
+        "typed_symbols": 302,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 44,
+        "type_coverage_percent": 100
+      },
+      {
+        "file": "src/sharing/service.ts",
+        "analyzed_symbols": 1060,
+        "typed_symbols": 1058,
+        "explicit_any": 0,
+        "inferred_any": 2,
+        "error_types": 0,
+        "unknown": 14,
+        "type_coverage_percent": 99.81
+      },
+      {
+        "file": "src/sharing/index.ts",
+        "analyzed_symbols": 257,
+        "typed_symbols": 257,
+        "explicit_any": 0,
+        "inferred_any": 0,
+        "error_types": 0,
+        "unknown": 0,
+        "type_coverage_percent": 100
+      },
+      {
         "file": "src/index.ts",
-        "analyzed_symbols": 287,
-        "typed_symbols": 285,
+        "analyzed_symbols": 292,
+        "typed_symbols": 290,
         "explicit_any": 0,
         "inferred_any": 2,
         "error_types": 0,
         "unknown": 20,
-        "type_coverage_percent": 99.3
+        "type_coverage_percent": 99.32
       }
     ]
   },
   "records": [
     {
-      "id": "type:src/index:CurrentDayType:20",
+      "id": "type:src/index:CurrentDayType:34",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "CurrentDayType",
       "kind": "type",
       "exported": false,
-      "line": 20,
+      "line": 34,
       "score": 10,
       "risk": "low",
       "signals": [],
@@ -207,7 +257,7 @@
       "typed_info": {
         "name": "CurrentDayType",
         "kind": "TypeAliasDeclaration",
-        "line": 20,
+        "line": 34,
         "type": "any",
         "exported": false
       },
@@ -234,7 +284,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:CurrentDayType:20",
+            "id": "type:src/index:CurrentDayType:34",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -243,13 +293,13 @@
       ]
     },
     {
-      "id": "type:src/index:ScheduledTaskData:22",
+      "id": "type:src/index:ScheduledTaskData:36",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "ScheduledTaskData",
       "kind": "type",
       "exported": false,
-      "line": 22,
+      "line": 36,
       "score": 21,
       "risk": "low",
       "signals": [],
@@ -257,7 +307,7 @@
       "typed_info": {
         "name": "ScheduledTaskData",
         "kind": "TypeAliasDeclaration",
-        "line": 22,
+        "line": 36,
         "type": "any",
         "exported": false
       },
@@ -284,7 +334,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:ScheduledTaskData:22",
+            "id": "type:src/index:ScheduledTaskData:36",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -293,13 +343,13 @@
       ]
     },
     {
-      "id": "type:src/index:ActivityType:91",
+      "id": "type:src/index:ActivityType:105",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "ActivityType",
       "kind": "type",
       "exported": false,
-      "line": 91,
+      "line": 105,
       "score": 53,
       "risk": "medium",
       "signals": [
@@ -312,7 +362,7 @@
       "typed_info": {
         "name": "ActivityType",
         "kind": "TypeAliasDeclaration",
-        "line": 91,
+        "line": 105,
         "type": "any",
         "exported": false
       },
@@ -339,7 +389,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/index:ActivityType:91",
+            "id": "type:src/index:ActivityType:105",
             "kind": "type",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -348,13 +398,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/index:events:290",
+      "id": "typed-symbol:src/index:events:317",
       "module_id": "src/index",
       "file": "src/index.ts",
       "name": "events",
       "kind": "VariableDeclaration",
       "exported": false,
-      "line": 290,
+      "line": 317,
       "score": 45,
       "risk": "medium",
       "source": "typescript-compiler-api",
@@ -384,8 +434,503 @@
           "description": "Keep this VariableDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/index:events:290",
+            "id": "typed-symbol:src/index:events:317",
             "kind": "VariableDeclaration",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:prepareChildSharing",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "prepareChildSharing",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:prepareChildSharing",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:listChildParents",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "listChildParents",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:listChildParents",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:inviteParent",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "inviteParent",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:inviteParent",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:resendParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "resendParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:resendParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:acceptParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "acceptParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:acceptParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:revokeParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "revokeParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:revokeParentInvitation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:removeParentAccess",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "removeParentAccess",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:removeParentAccess",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:applyChildOperation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "applyChildOperation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:applyChildOperation",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:deleteSharedChild",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "deleteSharedChild",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:deleteSharedChild",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:cleanupSharedChild",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "cleanupSharedChild",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:cleanupSharedChild",
+            "kind": "export",
+            "file": "src/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-export:src/index:deliverParentInvitation",
+      "module_id": "src/index",
+      "file": "src/index.ts",
+      "name": "deliverParentInvitation",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/index:deliverParentInvitation",
+            "kind": "export",
             "file": "src/index.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -677,6 +1222,932 @@
             "id": "type:src/schoolEventCatalog:EventRule:36",
             "kind": "type",
             "file": "src/schoolEventCatalog.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/policy:Validator:47",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "Validator",
+      "kind": "type",
+      "exported": false,
+      "line": 47,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "Validator",
+        "kind": "TypeAliasDeclaration",
+        "line": 47,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/policy:Validator:47",
+            "kind": "type",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:fail:4",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "fail",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 4,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(message: string) => never"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:fail:4",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:deny:7",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "deny",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 7,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(message?: string) => never"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:deny:7",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:record:10",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "record",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 10,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => Record<string, unknown>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:record:10",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:id:15",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "id",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 15,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:id:15",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:email:25",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "email",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 25,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(value: unknown) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:email:25",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:documentPatch:107",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "documentPatch",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 107,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(collection: string, input: unknown, childId: string, admin: boolean) => Record<string, unknown>"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:documentPatch:107",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:activityPatch:171",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "activityPatch",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 171,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(input: unknown, taskType: string, now: number, dateKey: string, occurredAt?: number) => { [k: string]: unknown; }"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:activityPatch:171",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:parseOperation:200",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "parseOperation",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 200,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(input: unknown) => SharedOperation"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:parseOperation:200",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/policy:awardFor:248",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "awardFor",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 248,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(task: Record<string, unknown>, patch: Record<string, unknown>) => number"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/policy:awardFor:248",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:ChildScope:2",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "ChildScope",
+      "kind": "type",
+      "exported": true,
+      "line": 2,
+      "score": 16,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ChildScope",
+        "kind": "TypeAliasDeclaration",
+        "line": 2,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 4,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:ChildScope:2",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedAction:8",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedAction",
+      "kind": "type",
+      "exported": true,
+      "line": 8,
+      "score": 74,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 12
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedAction",
+        "kind": "TypeAliasDeclaration",
+        "line": 8,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 2,
+        "union_members": 12,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedAction:8",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedOperation:38",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedOperation",
+      "kind": "type",
+      "exported": true,
+      "line": 38,
+      "score": 20,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedOperation",
+        "kind": "TypeAliasDeclaration",
+        "line": 38,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedOperation:38",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:SharedReceipt:45",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "SharedReceipt",
+      "kind": "type",
+      "exported": true,
+      "line": 45,
+      "score": 115,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "large_union",
+          "value": 9
+        },
+        {
+          "kind": "many_optional_fields",
+          "value": 6
+        }
+      ],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharedReceipt",
+        "kind": "TypeAliasDeclaration",
+        "line": 45,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 9,
+        "optional_count": 6,
+        "union_members": 9,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:SharedReceipt:45",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:ParentEntry:56",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "ParentEntry",
+      "kind": "type",
+      "exported": true,
+      "line": 56,
+      "score": 12,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "ParentEntry",
+        "kind": "TypeAliasDeclaration",
+        "line": 56,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 3,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:ParentEntry:56",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/protocol:InvitationEntry:57",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "InvitationEntry",
+      "kind": "type",
+      "exported": true,
+      "line": 57,
+      "score": 20,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "InvitationEntry",
+        "kind": "TypeAliasDeclaration",
+        "line": 57,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 5,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/protocol:InvitationEntry:57",
+            "kind": "type",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:65",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "sharedDateKey",
+      "kind": "FunctionDeclaration",
+      "exported": true,
+      "line": 65,
+      "score": 18,
+      "risk": "low",
+      "source": "typescript-compiler-api",
+      "signals": [],
+      "metrics": {
+        "inferred_type": "(time?: number, timeZone?: string) => string"
+      },
+      "rule_id": "typescript-compiler-api/FunctionDeclaration",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "FunctionDeclaration",
+      "reason_code": "typescript-compiler-api/FunctionDeclaration",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:65",
+            "kind": "FunctionDeclaration",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/service:DocumentData:30",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "DocumentData",
+      "kind": "type",
+      "exported": false,
+      "line": 30,
+      "score": 0,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "DocumentData",
+        "kind": "TypeAliasDeclaration",
+        "line": 30,
+        "type": "any",
+        "exported": false
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 0,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:DocumentData:30",
+            "kind": "type",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/service:Caller:34",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "Caller",
+      "kind": "type",
+      "exported": true,
+      "line": 34,
+      "score": 25,
+      "risk": "low",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "Caller",
+        "kind": "TypeAliasDeclaration",
+        "line": 34,
+        "type": "any",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 4,
+        "optional_count": 3,
+        "union_members": 0,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/type",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "type",
+      "reason_code": "structural-type-scan/type",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:Caller:34",
+            "kind": "type",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "type:src/sharing/service:SharingService:73",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "name": "SharingService",
+      "kind": "class",
+      "exported": true,
+      "line": 73,
+      "score": 42,
+      "risk": "medium",
+      "signals": [],
+      "source": "structural-type-scan",
+      "typed_info": {
+        "name": "SharingService",
+        "kind": "ClassDeclaration",
+        "line": 73,
+        "type": "typeof SharingService",
+        "exported": true
+      },
+      "metrics": {
+        "field_count": 0,
+        "optional_count": 4,
+        "union_members": 6,
+        "generic_params": 0
+      },
+      "rule_id": "structural-type-scan/class",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "class",
+      "reason_code": "structural-type-scan/class",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this class finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "type:src/sharing/service:SharingService:73",
+            "kind": "class",
+            "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

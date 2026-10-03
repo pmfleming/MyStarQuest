@@ -27,12 +27,13 @@ function localValue(value: unknown): unknown {
   return localDocument(recordData(value))
 }
 export function snapshotDocument(data: LocalDocument): DocumentData {
+  const { createdAt } = data
   return {
     ...data,
-    ...(data.createdAt instanceof Date || typeof data.createdAt === 'number'
+    ...(createdAt instanceof Date || typeof createdAt === 'number'
       ? {
           createdAt: {
-            toDate: () => new Date(data.createdAt as number | Date),
+            toDate: () => new Date(createdAt),
           },
         }
       : {}),

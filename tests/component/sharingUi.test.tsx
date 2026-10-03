@@ -1,3 +1,4 @@
+vi.mock('../../src/offline/runtime', () => ({ offlineRuntime: vi.fn() }))
 import TestsPage from '../../src/pages/TestsPage'
 import {
   fireEvent,

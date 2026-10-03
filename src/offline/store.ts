@@ -1,5 +1,7 @@
 import {
   emptyState,
+  mergeSharedProgress,
+  rebuildSharedProgress,
   enqueue,
   latestDocument,
   type Action,
@@ -12,7 +14,6 @@ import { snapshotStore } from '../lib/snapshotStore'
 import type { SyncReceipt } from './transport'
 import { importWebProgress } from './importWebProgress'
 import { parseChildScope } from '../sharing/scope'
-import { mergeSharedProgress, rebuildSharedProgress } from './sharedProgress'
 
 export class OfflineStore {
   private snapshot = snapshotStore<OfflineState | undefined>(undefined)

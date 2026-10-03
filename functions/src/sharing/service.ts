@@ -2,12 +2,14 @@ import { TEST_TEMPLATES } from './defaultTests'
 import { createHash, randomBytes, timingSafeEqual } from 'node:crypto'
 import {
   FieldValue,
+  Timestamp,
   type Firestore,
   type Transaction,
-  type DocumentData,
+  type DocumentSnapshot,
 } from 'firebase-admin/firestore'
 import { HttpsError } from 'firebase-functions/v2/https'
 import {
+  record,
   activityPatch,
   awardFor,
   completedFields,
@@ -25,24 +27,21 @@ import {
   type SharedReceipt,
 } from './protocol'
 
+type DocumentData = Record<string, unknown>
+const dataOf = (snapshot: DocumentSnapshot): DocumentData | undefined =>
+  snapshot.data()
+
 export type Caller = {
   uid: string
   email?: string
   emailVerified?: boolean
   provider?: string
 }
-export const hash = (value: string) =>
-  createHash('sha256').update(value).digest('hex')
-export const childPath = (owner: string, child: string) =>
+const hash = (value: string) => createHash('sha256').update(value).digest('hex')
+const childPath = (owner: string, child: string) =>
   `users/${id(owner)}/children/${id(child)}`
 export const accessKey = (owner: string, child: string) =>
   hash(`${owner}/${child}`)
-const millis = (value: unknown) =>
-  typeof value === 'number'
-    ? value
-    : value && typeof value === 'object' && 'toMillis' in value
-      ? (value as { toMillis: () => number }).toMillis()
-      : 0
 const secretMatches = (secret: string, expected: string) => {
   const actual = hash(secret)
   return (
@@ -54,14 +53,15 @@ const safeInvitation = (key: string, data: DocumentData, now: number) => ({
   id: key,
   email: data.normalizedEmail,
   state:
-    data.state === 'pending' && data.expiresAt <= now ? 'expired' : data.state,
+    data.state === 'pending' && Number(data.expiresAt) <= now
+      ? 'expired'
+      : data.state,
   deliveryState: data.deliveryState,
   expiresAt: data.expiresAt,
 })
 
 function wireValue(value: unknown): unknown {
-  if (value && typeof value === 'object' && 'toMillis' in value)
-    return millis(value)
+  if (value instanceof Timestamp) return value.toMillis()
   if (Array.isArray(value)) return value.map(wireValue)
   if (value && typeof value === 'object')
     return Object.fromEntries(
@@ -91,14 +91,14 @@ export class SharingService {
     if (adminOnly && !admin) deny('Only the admin parent can do this.')
     if (!admin) {
       const membership = await tx.get(ref.collection('parents').doc(caller.uid))
-      const data = membership.data()
+      const data = dataOf(membership)
       if (
         data?.status !== 'active' ||
         (version !== undefined && version !== data.membershipVersion)
       )
         deny()
     }
-    return { ref, child: child.data()!, admin }
+    return { ref, child: dataOf(child)!, admin }
   }
 
   async list(caller: Caller, ownerUid: string, childId: string) {
@@ -114,11 +114,11 @@ export class SharingService {
       return {
         parents: parents.docs.map((doc) => ({
           uid: doc.id,
-          email: doc.data().invitedEmail,
-          status: doc.data().status,
+          email: (dataOf(doc) ?? {}).invitedEmail,
+          status: (dataOf(doc) ?? {}).status,
         })),
         invitations: invitations.docs.map((doc) =>
-          safeInvitation(doc.id, doc.data(), this.now())
+          safeInvitation(doc.id, dataOf(doc) ?? {}, this.now())
         ),
       }
     })
@@ -143,8 +143,8 @@ export class SharingService {
       )
       const owner = await tx.get(root)
       if (
-        owner.data()?.sharingMigrationChild &&
-        owner.data()?.sharingMigrationChild !== childId
+        dataOf(owner)?.sharingMigrationChild &&
+        dataOf(owner)?.sharingMigrationChild !== childId
       )
         throw new HttpsError(
           'failed-precondition',
@@ -166,25 +166,18 @@ export class SharingService {
     })
     if (initial.sharedDataVersion === 1)
       return { ready: true, alreadyPrepared: true }
+    const childItems = (name: string) =>
+      this.db
+        .collection(`users/${ownerUid}/${name}`)
+        .where('childId', '==', childId)
+        .get()
     const [rewards, chores, tests, deviceStates, redemptions] =
       await Promise.all([
         this.db.collection(`users/${ownerUid}/rewards`).get(),
-        this.db
-          .collection(`users/${ownerUid}/chores`)
-          .where('childId', '==', childId)
-          .get(),
-        this.db
-          .collection(`users/${ownerUid}/tests`)
-          .where('childId', '==', childId)
-          .get(),
-        this.db
-          .collection(`users/${ownerUid}/deviceActivities`)
-          .where('childId', '==', childId)
-          .get(),
-        this.db
-          .collection(`users/${ownerUid}/redemptions`)
-          .where('childId', '==', childId)
-          .get(),
+        childItems('chores'),
+        childItems('tests'),
+        childItems('deviceActivities'),
+        childItems('redemptions'),
       ])
     const report = {
       ready: !dryRun,
@@ -194,7 +187,9 @@ export class SharingService {
       deviceStates: deviceStates.size,
     }
     if (dryRun) return report
-    const used = new Set(redemptions.docs.map((doc) => doc.data().rewardId))
+    const used = new Set(
+      redemptions.docs.map((doc) => (dataOf(doc) ?? {}).rewardId)
+    )
     const today = sharedDateKey(
       this.now(),
       String(initial.timeZone ?? 'Europe/London')
@@ -205,7 +200,7 @@ export class SharingService {
       ['tests', tests],
     ] as const) {
       for (const task of snapshot.docs) {
-        const data = task.data()
+        const data = dataOf(task) ?? {}
         const field = completedFields[String(data.taskType ?? 'standard')]
         const completeAt = data[field] ?? data.lastAttemptedAt
         if (
@@ -235,14 +230,14 @@ export class SharingService {
       }
     }
     for (const doc of deviceStates.docs) {
-      const data = doc.data()
+      const data = dataOf(doc) ?? {}
       if (
-        !['chores', 'tests'].includes(data.collection) ||
+        !['chores', 'tests'].includes(String(data.collection)) ||
         typeof data.taskId !== 'string' ||
         typeof data.dateKey !== 'string'
       )
         continue
-      const importedPatch = data.patch ?? {}
+      const importedPatch = record(data.patch ?? {})
       const terminal =
         data.complete === true ||
         Object.entries(importedPatch).some(
@@ -250,7 +245,11 @@ export class SharingService {
             (field.endsWith('CompletedAt') && typeof value === 'number') ||
             (field.endsWith('Outcome') && value === 'failure')
         )
-      const key = progressKey(data.collection, data.taskId, data.dateKey)
+      const key = progressKey(
+        String(data.collection),
+        data.taskId,
+        data.dateKey
+      )
       const previous = states.get(key)
       // Never re-award imported completion, and never replace it with an unfinished device.
       if (!previous?.complete || terminal)
@@ -268,13 +267,16 @@ export class SharingService {
         })
     }
     const writes: [string, DocumentData][] = rewards.docs
-      .filter((doc) => doc.data().isRepeating === true || !used.has(doc.id))
+      .filter(
+        (doc) => (dataOf(doc) ?? {}).isRepeating === true || !used.has(doc.id)
+      )
       .map((doc) => [
         `${ref.path}/rewards/${doc.id}`,
-        { ...doc.data(), childId, migratedFrom: doc.ref.path },
+        { ...(dataOf(doc) ?? {}), childId, migratedFrom: doc.ref.path },
       ])
     for (const [type, template] of Object.entries(TEST_TEMPLATES)) {
-      if (tests.docs.some((doc) => doc.data().taskType === type)) continue
+      if (tests.docs.some((doc) => (dataOf(doc) ?? {}).taskType === type))
+        continue
       const path = `users/${ownerUid}/tests/default-${type}-${childId}`
       if ((await this.db.doc(path).get()).exists)
         throw new HttpsError(
@@ -372,16 +374,16 @@ export class SharingService {
         tx.get(this.db.doc(`invitationRates/${caller.uid}`)),
       ])
       if (oldJob.exists) {
-        if (oldJob.data()?.invitationId !== inviteId)
+        if (dataOf(oldJob)?.invitationId !== inviteId)
           fail('This send request was already used.')
         return { invitationId: inviteId }
       }
-      if (parents.docs.some((doc) => doc.data().status === 'active'))
+      if (parents.docs.some((doc) => (dataOf(doc) ?? {}).status === 'active'))
         throw new HttpsError(
           'already-exists',
           'This parent already has access.'
         )
-      const old = oldInvite.data()
+      const old = dataOf(oldInvite)
       if (
         resendId &&
         (!old ||
@@ -390,17 +392,17 @@ export class SharingService {
           old.normalizedEmail !== recipient)
       )
         deny()
-      if (!resendId && old?.state === 'pending' && old.expiresAt > time)
+      if (!resendId && old?.state === 'pending' && Number(old.expiresAt) > time)
         throw new HttpsError(
           'already-exists',
           'An invitation is already pending. Use Resend instead.'
         )
-      if (old?.lastSentAt && time - old.lastSentAt < 60_000)
+      if (old?.lastSentAt && time - Number(old.lastSentAt) < 60_000)
         throw new HttpsError(
           'resource-exhausted',
           'Please wait a minute before resending.'
         )
-      const rateData = rate.data()
+      const rateData = dataOf(rate)
       const hour = Math.floor(time / 3_600_000)
       const count = rateData?.hour === hour ? Number(rateData.count) : 0
       if (count >= 20)
@@ -450,36 +452,36 @@ export class SharingService {
       const invitation = await tx.get(
         this.db.doc(`childInvitations/${id(inviteId)}`)
       )
-      const data = invitation.data()
+      const data = dataOf(invitation)
       if (
         !data ||
         data.normalizedEmail !== address ||
         !secretMatches(token, String(data.tokenHash))
       )
         deny('This invitation is not available for this Google account.')
-      const childRef = this.db.doc(childPath(data.ownerUid, data.childId))
+      const ownerUid = id(data.ownerUid),
+        childId = id(data.childId)
+      const accepted = { ownerUid, childId, themeId: 'princess' }
+      const childRef = this.db.doc(childPath(ownerUid, childId))
       const [child, membership] = await Promise.all([
         tx.get(childRef),
         tx.get(childRef.collection('parents').doc(caller.uid)),
       ])
-      if (!child.exists || child.data()?.sharedDataVersion !== 1)
+      if (!child.exists || dataOf(child)?.sharedDataVersion !== 1)
         deny('This child is no longer available.')
+      accepted.themeId = String(dataOf(child)?.themeId ?? 'princess')
       if (
         data.state === 'accepted' &&
         data.acceptedByUid === caller.uid &&
-        membership.data()?.status === 'active'
+        dataOf(membership)?.status === 'active'
       )
-        return {
-          ownerUid: data.ownerUid,
-          childId: data.childId,
-          themeId: child.data()?.themeId ?? 'princess',
-        }
-      if (data.state !== 'pending' || data.expiresAt <= this.now())
+        return accepted
+      if (data.state !== 'pending' || Number(data.expiresAt) <= this.now())
         throw new HttpsError(
           'failed-precondition',
           'This invitation has expired or was cancelled. Ask the admin for a new invitation.'
         )
-      const version = Number(membership.data()?.membershipVersion ?? 0) + 1
+      const version = Number(dataOf(membership)?.membershipVersion ?? 0) + 1
       tx.set(membership.ref, {
         role: 'secondary',
         status: 'active',
@@ -490,7 +492,7 @@ export class SharingService {
       })
       tx.set(
         this.db.doc(
-          `users/${caller.uid}/childAccess/${accessKey(data.ownerUid, data.childId)}`
+          `users/${caller.uid}/childAccess/${accessKey(ownerUid, childId)}`
         ),
         {
           ownerUid: data.ownerUid,
@@ -505,11 +507,7 @@ export class SharingService {
         acceptedByUid: caller.uid,
         acceptedAt: this.now(),
       })
-      return {
-        ownerUid: data.ownerUid,
-        childId: data.childId,
-        themeId: child.data()?.themeId ?? 'princess',
-      }
+      return accepted
     })
   }
 
@@ -526,11 +524,11 @@ export class SharingService {
           this.db.doc(`childInvitations/${id(target.inviteId)}`)
         )
         if (
-          invitation.data()?.ownerUid !== ownerUid ||
-          invitation.data()?.childId !== childId
+          dataOf(invitation)?.ownerUid !== ownerUid ||
+          dataOf(invitation)?.childId !== childId
         )
           deny()
-        if (invitation.data()?.state === 'accepted')
+        if (dataOf(invitation)?.state === 'accepted')
           fail('Remove the parent’s access instead.')
         tx.update(invitation.ref, { state: 'revoked', revokedAt: this.now() })
       } else {
@@ -542,7 +540,7 @@ export class SharingService {
           status: 'revoked',
           revokedAt: this.now(),
           membershipVersion:
-            Number(membership.data()?.membershipVersion ?? 0) + 1,
+            Number(dataOf(membership)?.membershipVersion ?? 0) + 1,
         })
         tx.delete(
           this.db.doc(
@@ -584,7 +582,7 @@ export class SharingService {
         .collection('operationReceipts')
         .doc(hash(`${caller.uid}/${scope.membershipVersion}/${operation.id}`))
       const receipt = await tx.get(receiptRef)
-      if (receipt.exists) return receipt.data()!.result as SharedReceipt
+      if (receipt.exists) return dataOf(receipt)!.result as SharedReceipt
       const root = `users/${ownerUid}`
       const collection =
         action.kind === 'redeem' ? 'rewards' : action.collection
@@ -596,7 +594,7 @@ export class SharingService {
             : `${root}/${collection}/${action.entityId}`
       if (collection === 'children' && action.entityId !== childId) deny()
       const entityRef = this.db.doc(path)
-      const entity =
+      const entity: DocumentData | undefined =
         collection === 'children' ? child : (await tx.get(entityRef)).data()
       if (
         entity &&
@@ -709,7 +707,9 @@ export class SharingService {
             fail('Invalid activity day. Refresh this child.')
           const key = progressKey(collection, action.entityId, action.dateKey)
           const progressRef = ref.collection('activityProgress').doc(key)
-          const prior = (await tx.get(progressRef)).data()
+          const prior: DocumentData | undefined = (
+            await tx.get(progressRef)
+          ).data()
           const consumptionRef = ref
             .collection('activityConsumptions')
             .doc(hash(`${collection}/${action.entityId}`))
@@ -720,7 +720,7 @@ export class SharingService {
           if (
             consumption?.exists &&
             !action.reset &&
-            consumption.data()?.dateKey !== action.dateKey
+            dataOf(consumption)?.dateKey !== action.dateKey
           )
             throw new HttpsError(
               'failed-precondition',
@@ -762,7 +762,7 @@ export class SharingService {
             ...clean,
           }
           if (action.reset) patch = {}
-          else if (alreadyComplete) patch = prior!.patch
+          else if (alreadyComplete) patch = record(prior?.patch ?? {})
           else if (action.complete) {
             delta = awardFor(entity, patch)
             patch[finishedField] = time
@@ -878,5 +878,3 @@ export class SharingService {
       await invitation.ref.update({ state: 'revoked', revokedAt: this.now() })
   }
 }
-
-export { millis }

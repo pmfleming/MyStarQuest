@@ -3,7 +3,7 @@
   "task_id": "map.architecture",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:34.947Z",
+    "measured_at": "2026-10-03T13:15:09.502Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:f399224982e9ebaf718d2db3bd3622e7ecaae77ee3e74bc63f71a5af2818fcfe",
-    "input_set_hash": "sha256:04b012bf433fd8233b1cd69f2e41e60977d7faaca4cddaf8740e001b1c0fd12d"
+    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
+    "input_set_hash": "sha256:d14e12da6936c4c62a184c7a08da58412f3638eaae761b17027f32f345826ca7"
   },
   "analysis_identity": {
-    "id": "sha256:7f4813f88245d9f5bfe70a595c6378aa5c2c4044fc42cdbd706916a8b31573f7",
+    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:c1ead9cbb255724aea9854a6a4b54ce213be9c318f6f8fae7b4cbe175f5afc3c",
+    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -117,12 +117,12 @@
     "partial": false
   },
   "summary": {
-    "nodes": 259,
-    "edges": 1310,
+    "nodes": 270,
+    "edges": 1399,
     "workspaces": 1,
     "cross_workspace_edges": 0,
     "entrypoint_nodes": 1,
-    "high_risk_nodes": 121,
+    "high_risk_nodes": 132,
     "unknown_metric_nodes": 0,
     "missing_inputs": 0,
     "stale_inputs": 0,
@@ -168,7 +168,7 @@
       "id": "src",
       "label": "src",
       "node_count": 4,
-      "risk_score": 124,
+      "risk_score": 132,
       "kind": "src",
       "rule_id": "ts-react-quality-lens/src",
       "evidence_kind": "heuristic",
@@ -224,7 +224,7 @@
       "id": "src/assets/rewards",
       "label": "src/assets/rewards",
       "node_count": 1,
-      "risk_score": 71,
+      "risk_score": 76,
       "kind": "src/assets/rewards",
       "rule_id": "ts-react-quality-lens/src/assets/rewards",
       "evidence_kind": "heuristic",
@@ -307,7 +307,7 @@
     {
       "id": "src/components",
       "label": "src/components",
-      "node_count": 32,
+      "node_count": 33,
       "risk_score": 306,
       "kind": "src/components",
       "rule_id": "ts-react-quality-lens/src/components",
@@ -363,8 +363,8 @@
     {
       "id": "src/components/ui",
       "label": "src/components/ui",
-      "node_count": 39,
-      "risk_score": 230,
+      "node_count": 40,
+      "risk_score": 231,
       "kind": "src/components/ui",
       "rule_id": "ts-react-quality-lens/src/components/ui",
       "evidence_kind": "heuristic",
@@ -531,7 +531,7 @@
     {
       "id": "src/hooks",
       "label": "src/hooks",
-      "node_count": 16,
+      "node_count": 17,
       "risk_score": 121,
       "kind": "src/hooks",
       "rule_id": "ts-react-quality-lens/src/hooks",
@@ -616,7 +616,7 @@
       "id": "src/offline",
       "label": "src/offline",
       "node_count": 12,
-      "risk_score": 147,
+      "risk_score": 214,
       "kind": "src/offline",
       "rule_id": "ts-react-quality-lens/src/offline",
       "evidence_kind": "heuristic",
@@ -644,7 +644,7 @@
       "id": "src/pages",
       "label": "src/pages",
       "node_count": 8,
-      "risk_score": 281,
+      "risk_score": 289,
       "kind": "src/pages",
       "rule_id": "ts-react-quality-lens/src/pages",
       "evidence_kind": "heuristic",
@@ -697,6 +697,34 @@
       ]
     },
     {
+      "id": "src/sharing",
+      "label": "src/sharing",
+      "node_count": 8,
+      "risk_score": 245,
+      "kind": "src/sharing",
+      "rule_id": "ts-react-quality-lens/src/sharing",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "src/sharing",
+      "reason_code": "ts-react-quality-lens/src/sharing",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this src/sharing finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing",
+            "kind": "src/sharing",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/tokens",
       "label": "src/tokens",
       "node_count": 1,
@@ -728,7 +756,7 @@
       "id": "src/ui",
       "label": "src/ui",
       "node_count": 24,
-      "risk_score": 144,
+      "risk_score": 151,
       "kind": "src/ui",
       "rule_id": "ts-react-quality-lens/src/ui",
       "evidence_kind": "heuristic",
@@ -838,7 +866,7 @@
       "tsconfigs": [
         "tsconfig.app.json"
       ],
-      "source_files": 259,
+      "source_files": 270,
       "project_loaded": true,
       "project_reason": null
     }
@@ -853,32 +881,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 124,
+      "risk_score": 132,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 124,
+        "maintainability": 132,
         "correctness": 40,
         "architecture": 0,
         "change": 56,
-        "render_performance": 19,
-        "performance": 19,
+        "render_performance": 20,
+        "performance": 20,
         "quality": 55,
-        "total": 52
+        "total": 53
       },
-      "maintainability_risk": 124,
+      "maintainability_risk": 132,
       "change_risk": 56,
-      "performance_risk": 19,
+      "performance_risk": 20,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 52,
+      "total_score": 53,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 14,
+        "imports": 16,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -947,26 +975,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 71,
+      "risk_score": 76,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
         "maintainability": 38,
         "correctness": 40,
         "architecture": 0,
-        "change": 71,
+        "change": 76,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 27
+        "total": 28
       },
       "maintainability_risk": 38,
-      "change_risk": 71,
+      "change_risk": 76,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 0,
-      "total_score": 27,
+      "total_score": 28,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -1095,14 +1123,14 @@
         "maintainability": 67,
         "correctness": 0,
         "architecture": 0,
-        "change": 10,
+        "change": 15,
         "render_performance": 72,
         "performance": 72,
         "quality": 0,
         "total": 21
       },
       "maintainability_risk": 67,
-      "change_risk": 10,
+      "change_risk": 15,
       "performance_risk": 72,
       "correctness_risk": 0,
       "architectural_risk": 0,
@@ -1511,32 +1539,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 165,
+      "risk_score": 227,
       "risk": "high",
-      "classification": "warning",
+      "classification": "bad",
       "category_scores": {
-        "maintainability": 165,
+        "maintainability": 227,
         "correctness": 0,
-        "architecture": 0,
-        "change": 33,
-        "render_performance": 126,
-        "performance": 126,
+        "architecture": 1,
+        "change": 40,
+        "render_performance": 163,
+        "performance": 163,
         "quality": 55,
-        "total": 57
+        "total": 74
       },
-      "maintainability_risk": 165,
-      "change_risk": 33,
-      "performance_risk": 126,
+      "maintainability_risk": 227,
+      "change_risk": 40,
+      "performance_risk": 163,
       "correctness_risk": 0,
-      "architectural_risk": 0,
+      "architectural_risk": 1,
       "quality_risk": 55,
-      "total_score": 57,
+      "total_score": 74,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 14,
+        "imports": 15,
         "exports": 1,
         "functions": 5,
         "components": 4,
@@ -1750,28 +1778,28 @@
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 44,
-        "correctness": 0,
+        "maintainability": 42,
+        "correctness": 40,
         "architecture": 0,
-        "change": 10,
+        "change": 28,
         "render_performance": 60,
         "performance": 60,
         "quality": 18,
-        "total": 19
+        "total": 29
       },
-      "maintainability_risk": 44,
-      "change_risk": 10,
+      "maintainability_risk": 42,
+      "change_risk": 28,
       "performance_risk": 60,
-      "correctness_risk": 0,
+      "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 19,
+      "total_score": 29,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 1,
+        "imports": 2,
         "exports": 1,
         "functions": 4,
         "components": 1,
@@ -1779,7 +1807,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": true,
+        "direct_import_association": false,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -2161,6 +2189,53 @@
       }
     },
     {
+      "id": "src/components/RewardImagePreview",
+      "label": "RewardImagePreview.tsx",
+      "file": "src/components/RewardImagePreview.tsx",
+      "type": "component",
+      "group": "src/components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 68,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 45,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 23,
+        "render_performance": 68,
+        "performance": 68,
+        "quality": 18,
+        "total": 29
+      },
+      "maintainability_risk": 45,
+      "change_risk": 23,
+      "performance_risk": 68,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 29,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 2,
+        "exports": 1,
+        "functions": 3,
+        "components": 1,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/components/SchoolCalendar",
       "label": "SchoolCalendar.tsx",
       "file": "src/components/SchoolCalendar.tsx",
@@ -2357,26 +2432,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 58,
+      "risk_score": 63,
       "risk": "medium",
       "classification": "warning",
       "category_scores": {
         "maintainability": 45,
         "correctness": 40,
         "architecture": 0,
-        "change": 58,
+        "change": 63,
         "render_performance": 24,
         "performance": 24,
         "quality": 55,
-        "total": 38
+        "total": 39
       },
       "maintainability_risk": 45,
-      "change_risk": 58,
+      "change_risk": 63,
       "performance_risk": 24,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 38,
+      "total_score": 39,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -2451,32 +2526,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 52,
+      "risk_score": 68,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 52,
+        "maintainability": 68,
         "correctness": 40,
         "architecture": 0,
-        "change": 23,
-        "render_performance": 16,
-        "performance": 16,
+        "change": 28,
+        "render_performance": 17,
+        "performance": 17,
         "quality": 18,
-        "total": 26
+        "total": 30
       },
-      "maintainability_risk": 52,
-      "change_risk": 23,
-      "performance_risk": 16,
+      "maintainability_risk": 68,
+      "change_risk": 28,
+      "performance_risk": 17,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 26,
+      "total_score": 30,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 1,
+        "imports": 3,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -2505,19 +2580,19 @@
         "maintainability": 71,
         "correctness": 40,
         "architecture": 0,
-        "change": 23,
+        "change": 28,
         "render_performance": 17,
         "performance": 17,
         "quality": 30,
-        "total": 31
+        "total": 32
       },
       "maintainability_risk": 71,
-      "change_risk": 23,
+      "change_risk": 28,
       "performance_risk": 17,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 30,
-      "total_score": 31,
+      "total_score": 32,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -2545,21 +2620,21 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 99,
+      "risk_score": 97,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 99,
+        "maintainability": 97,
         "correctness": 40,
         "architecture": 12,
-        "change": 28,
+        "change": 30,
         "render_performance": 60,
         "performance": 60,
         "quality": 56,
         "total": 48
       },
-      "maintainability_risk": 99,
-      "change_risk": 28,
+      "maintainability_risk": 97,
+      "change_risk": 30,
       "performance_risk": 60,
       "correctness_risk": 40,
       "architectural_risk": 12,
@@ -2691,21 +2766,21 @@
       "classification": "warning",
       "category_scores": {
         "maintainability": 135,
-        "correctness": 0,
+        "correctness": 40,
         "architecture": 12,
-        "change": 26,
+        "change": 49,
         "render_performance": 201,
         "performance": 201,
         "quality": 45,
-        "total": 58
+        "total": 69
       },
       "maintainability_risk": 135,
-      "change_risk": 26,
+      "change_risk": 49,
       "performance_risk": 201,
-      "correctness_risk": 0,
+      "correctness_risk": 40,
       "architectural_risk": 12,
       "quality_risk": 45,
-      "total_score": 58,
+      "total_score": 69,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -2719,7 +2794,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": true,
+        "direct_import_association": false,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -3391,26 +3466,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 88,
+      "risk_score": 95,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 49,
+        "maintainability": 62,
         "correctness": 40,
         "architecture": 0,
-        "change": 59,
-        "render_performance": 6,
-        "performance": 6,
-        "quality": 88,
-        "total": 43
+        "change": 64,
+        "render_performance": 7,
+        "performance": 7,
+        "quality": 95,
+        "total": 48
       },
-      "maintainability_risk": 49,
-      "change_risk": 59,
-      "performance_risk": 6,
+      "maintainability_risk": 62,
+      "change_risk": 64,
+      "performance_risk": 7,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 88,
-      "total_score": 43,
+      "quality_risk": 95,
+      "total_score": 48,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -3720,32 +3795,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 75,
+      "risk_score": 133,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 75,
+        "maintainability": 133,
         "correctness": 40,
         "architecture": 0,
-        "change": 72,
-        "render_performance": 34,
-        "performance": 34,
-        "quality": 65,
-        "total": 49
+        "change": 77,
+        "render_performance": 40,
+        "performance": 40,
+        "quality": 72,
+        "total": 62
       },
-      "maintainability_risk": 75,
-      "change_risk": 72,
-      "performance_risk": 34,
+      "maintainability_risk": 133,
+      "change_risk": 77,
+      "performance_risk": 40,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 65,
-      "total_score": 49,
+      "quality_risk": 72,
+      "total_score": 62,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 6,
+        "imports": 7,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -4056,19 +4131,19 @@
         "maintainability": 174,
         "correctness": 40,
         "architecture": 20,
-        "change": 88,
+        "change": 90,
         "render_performance": 32,
         "performance": 32,
         "quality": 55,
-        "total": 71
+        "total": 72
       },
       "maintainability_risk": 174,
-      "change_risk": 88,
+      "change_risk": 90,
       "performance_risk": 32,
       "correctness_risk": 40,
       "architectural_risk": 20,
       "quality_risk": 55,
-      "total_score": 71,
+      "total_score": 72,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -4378,11 +4453,11 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 230,
+      "risk_score": 231,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 230,
+        "maintainability": 231,
         "correctness": 0,
         "architecture": 9,
         "change": 82,
@@ -4391,7 +4466,7 @@
         "quality": 55,
         "total": 79
       },
-      "maintainability_risk": 230,
+      "maintainability_risk": 231,
       "change_risk": 82,
       "performance_risk": 112,
       "correctness_risk": 0,
@@ -4652,6 +4727,53 @@
       }
     },
     {
+      "id": "src/components/ui/keyboardActivation",
+      "label": "keyboardActivation.ts",
+      "file": "src/components/ui/keyboardActivation.ts",
+      "type": "module",
+      "group": "src/components/ui",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 26,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 19
+      },
+      "maintainability_risk": 26,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 19,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 1,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/components/ui/standardActionCardAnimations",
       "label": "standardActionCardAnimations.ts",
       "file": "src/components/ui/standardActionCardAnimations.ts",
@@ -4707,26 +4829,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 64,
-      "risk": "medium",
+      "risk_score": 71,
+      "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 20,
+        "maintainability": 21,
         "correctness": 40,
         "architecture": 0,
-        "change": 40,
+        "change": 50,
         "render_performance": 0,
         "performance": 0,
-        "quality": 64,
-        "total": 30
+        "quality": 71,
+        "total": 33
       },
-      "maintainability_risk": 20,
-      "change_risk": 40,
+      "maintainability_risk": 21,
+      "change_risk": 50,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 64,
-      "total_score": 30,
+      "quality_risk": 71,
+      "total_score": 33,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -5130,26 +5252,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 63,
+      "risk_score": 56,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 11,
-        "correctness": 40,
+        "maintainability": 12,
+        "correctness": 0,
         "architecture": 0,
-        "change": 63,
+        "change": 47,
         "render_performance": 0,
         "performance": 0,
-        "quality": 36,
-        "total": 27
+        "quality": 56,
+        "total": 21
       },
-      "maintainability_risk": 11,
-      "change_risk": 63,
+      "maintainability_risk": 12,
+      "change_risk": 47,
       "performance_risk": 0,
-      "correctness_risk": 40,
+      "correctness_risk": 0,
       "architectural_risk": 0,
-      "quality_risk": 36,
-      "total_score": 27,
+      "quality_risk": 56,
+      "total_score": 21,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -5163,7 +5285,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -5177,26 +5299,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 83,
+      "risk_score": 88,
       "risk": "high",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 58,
+        "maintainability": 66,
         "correctness": 0,
         "architecture": 0,
-        "change": 64,
-        "render_performance": 83,
-        "performance": 83,
+        "change": 84,
+        "render_performance": 88,
+        "performance": 88,
         "quality": 20,
-        "total": 33
+        "total": 39
       },
-      "maintainability_risk": 58,
-      "change_risk": 64,
-      "performance_risk": 83,
+      "maintainability_risk": 66,
+      "change_risk": 84,
+      "performance_risk": 88,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 20,
-      "total_score": 33,
+      "total_score": 39,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -5224,26 +5346,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 54,
+      "risk_score": 59,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
         "maintainability": 5,
         "correctness": 40,
         "architecture": 0,
-        "change": 54,
+        "change": 59,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 18
+        "total": 19
       },
       "maintainability_risk": 5,
-      "change_risk": 54,
+      "change_risk": 59,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 0,
-      "total_score": 18,
+      "total_score": 19,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -6352,11 +6474,11 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 117,
+      "risk_score": 118,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 117,
+        "maintainability": 118,
         "correctness": 0,
         "architecture": 0,
         "change": 46,
@@ -6365,7 +6487,7 @@
         "quality": 18,
         "total": 33
       },
-      "maintainability_risk": 117,
+      "maintainability_risk": 118,
       "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
@@ -6681,32 +6803,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 61,
+      "risk_score": 50,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 61,
+        "maintainability": 43,
         "correctness": 0,
         "architecture": 0,
-        "change": 38,
+        "change": 50,
         "render_performance": 0,
         "performance": 0,
         "quality": 30,
-        "total": 23
+        "total": 22
       },
-      "maintainability_risk": 61,
-      "change_risk": 38,
+      "maintainability_risk": 43,
+      "change_risk": 50,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 30,
-      "total_score": 23,
+      "total_score": 22,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 3,
+        "imports": 4,
         "exports": 4,
         "functions": 5,
         "components": 0,
@@ -6728,34 +6850,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 45,
-      "risk": "medium",
+      "risk_score": 70,
+      "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 41,
+        "maintainability": 70,
         "correctness": 0,
         "architecture": 0,
         "change": 30,
         "render_performance": 0,
         "performance": 0,
-        "quality": 45,
-        "total": 21
+        "quality": 0,
+        "total": 18
       },
-      "maintainability_risk": 41,
+      "maintainability_risk": 70,
       "change_risk": 30,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
-      "quality_risk": 45,
-      "total_score": 21,
+      "quality_risk": 0,
+      "total_score": 18,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 0,
-        "exports": 11,
-        "functions": 10,
+        "exports": 6,
+        "functions": 2,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -6822,34 +6944,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 161,
+      "risk_score": 174,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 161,
+        "maintainability": 174,
         "correctness": 0,
-        "architecture": 12,
+        "architecture": 13,
         "change": 38,
         "render_performance": 0,
         "performance": 0,
         "quality": 95,
-        "total": 56
+        "total": 58
       },
-      "maintainability_risk": 161,
+      "maintainability_risk": 174,
       "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 12,
+      "architectural_risk": 13,
       "quality_risk": 95,
-      "total_score": 56,
+      "total_score": 58,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 3,
-        "exports": 62,
-        "functions": 16,
+        "exports": 56,
+        "functions": 17,
         "components": 0,
         "types": 35,
         "entrypoint_roles": 0
@@ -6869,32 +6991,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 52,
+      "risk_score": 62,
       "risk": "medium",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 52,
+        "maintainability": 62,
         "correctness": 40,
         "architecture": 0,
-        "change": 51,
+        "change": 56,
         "render_performance": 0,
         "performance": 0,
         "quality": 43,
-        "total": 34
+        "total": 37
       },
-      "maintainability_risk": 52,
-      "change_risk": 51,
+      "maintainability_risk": 62,
+      "change_risk": 56,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 43,
-      "total_score": 34,
+      "total_score": 37,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 11,
+        "imports": 13,
         "exports": 1,
         "functions": 1,
         "components": 0,
@@ -6916,34 +7038,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 97,
+      "risk_score": 120,
       "risk": "high",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 97,
+        "maintainability": 120,
         "correctness": 0,
         "architecture": 0,
         "change": 56,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 31
+        "total": 35
       },
-      "maintainability_risk": 97,
+      "maintainability_risk": 120,
       "change_risk": 56,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 31,
+      "total_score": 35,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 10,
+        "imports": 13,
         "exports": 2,
-        "functions": 9,
+        "functions": 10,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -6963,26 +7085,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 103,
+      "risk_score": 106,
       "risk": "high",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 103,
+        "maintainability": 106,
         "correctness": 0,
         "architecture": 0,
-        "change": 45,
+        "change": 50,
         "render_performance": 0,
         "performance": 0,
-        "quality": 36,
-        "total": 33
+        "quality": 43,
+        "total": 36
       },
-      "maintainability_risk": 103,
-      "change_risk": 45,
+      "maintainability_risk": 106,
+      "change_risk": 50,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
-      "quality_risk": 36,
-      "total_score": 33,
+      "quality_risk": 43,
+      "total_score": 36,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -7010,32 +7132,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 121,
+      "risk_score": 120,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 121,
+        "maintainability": 120,
         "correctness": 0,
-        "architecture": 0,
+        "architecture": 96,
         "change": 62,
         "render_performance": 0,
         "performance": 0,
-        "quality": 18,
-        "total": 37
+        "quality": 45,
+        "total": 59
       },
-      "maintainability_risk": 121,
+      "maintainability_risk": 120,
       "change_risk": 62,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 0,
-      "quality_risk": 18,
-      "total_score": 37,
+      "architectural_risk": 96,
+      "quality_risk": 45,
+      "total_score": 59,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 16,
+        "imports": 15,
         "exports": 1,
         "functions": 6,
         "components": 0,
@@ -7057,34 +7179,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 63,
-      "risk": "medium",
-      "classification": "ok",
+      "risk_score": 87,
+      "risk": "high",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 63,
+        "maintainability": 87,
         "correctness": 0,
-        "architecture": 0,
+        "architecture": 36,
         "change": 38,
         "render_performance": 0,
         "performance": 0,
-        "quality": 19,
-        "total": 22
+        "quality": 45,
+        "total": 37
       },
-      "maintainability_risk": 63,
+      "maintainability_risk": 87,
       "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 0,
-      "quality_risk": 19,
-      "total_score": 22,
+      "architectural_risk": 36,
+      "quality_risk": 45,
+      "total_score": 37,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 8,
+        "imports": 14,
         "exports": 2,
-        "functions": 4,
+        "functions": 5,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -7104,26 +7226,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 150,
+      "risk_score": 173,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 150,
+        "maintainability": 173,
         "correctness": 0,
-        "architecture": 0,
+        "architecture": 100,
         "change": 46,
         "render_performance": 0,
         "performance": 0,
-        "quality": 18,
-        "total": 39
+        "quality": 45,
+        "total": 66
       },
-      "maintainability_risk": 150,
+      "maintainability_risk": 173,
       "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 0,
-      "quality_risk": 18,
-      "total_score": 39,
+      "architectural_risk": 100,
+      "quality_risk": 45,
+      "total_score": 66,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -7131,7 +7253,7 @@
       "evidence": {
         "imports": 17,
         "exports": 1,
-        "functions": 9,
+        "functions": 11,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -7155,30 +7277,30 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 55,
+        "maintainability": 66,
         "correctness": 40,
         "architecture": 0,
-        "change": 65,
+        "change": 70,
         "render_performance": 0,
         "performance": 0,
         "quality": 109,
-        "total": 49
+        "total": 52
       },
-      "maintainability_risk": 55,
-      "change_risk": 65,
+      "maintainability_risk": 66,
+      "change_risk": 70,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 109,
-      "total_score": 49,
+      "total_score": 52,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 6,
+        "imports": 7,
         "exports": 1,
-        "functions": 2,
+        "functions": 3,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -7198,32 +7320,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 48,
+      "risk_score": 55,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 48,
+        "maintainability": 55,
         "correctness": 40,
         "architecture": 0,
-        "change": 40,
+        "change": 45,
         "render_performance": 0,
         "performance": 0,
-        "quality": 18,
-        "total": 27
+        "quality": 32,
+        "total": 31
       },
-      "maintainability_risk": 48,
-      "change_risk": 40,
+      "maintainability_risk": 55,
+      "change_risk": 45,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 18,
-      "total_score": 27,
+      "quality_risk": 32,
+      "total_score": 31,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 8,
+        "imports": 9,
         "exports": 3,
         "functions": 3,
         "components": 0,
@@ -8459,6 +8581,53 @@
       }
     },
     {
+      "id": "src/hooks/useAsyncFeedback",
+      "label": "useAsyncFeedback.ts",
+      "file": "src/hooks/useAsyncFeedback.ts",
+      "type": "hook",
+      "group": "src/hooks",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 38,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 21
+      },
+      "maintainability_risk": 38,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 21,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 2,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/hooks/useCalendarSchedule",
       "label": "useCalendarSchedule.ts",
       "file": "src/hooks/useCalendarSchedule.ts",
@@ -8897,19 +9066,19 @@
         "maintainability": 32,
         "correctness": 0,
         "architecture": 0,
-        "change": 25,
+        "change": 30,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 10
+        "total": 11
       },
       "maintainability_risk": 32,
-      "change_risk": 25,
+      "change_risk": 30,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 0,
-      "total_score": 10,
+      "total_score": 11,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -8944,19 +9113,19 @@
         "maintainability": 121,
         "correctness": 0,
         "architecture": 0,
-        "change": 12,
+        "change": 17,
         "render_performance": 0,
         "performance": 0,
         "quality": 38,
-        "total": 31
+        "total": 32
       },
       "maintainability_risk": 121,
-      "change_risk": 12,
+      "change_risk": 17,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 38,
-      "total_score": 31,
+      "total_score": 32,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -9971,32 +10140,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 100,
+      "risk_score": 106,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 100,
+        "maintainability": 106,
         "correctness": 0,
         "architecture": 0,
         "change": 46,
         "render_performance": 0,
         "performance": 0,
         "quality": 12,
-        "total": 29
+        "total": 30
       },
-      "maintainability_risk": 100,
+      "maintainability_risk": 106,
       "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 12,
-      "total_score": 29,
+      "total_score": 30,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 5,
+        "imports": 6,
         "exports": 2,
         "functions": 3,
         "components": 0,
@@ -10544,14 +10713,14 @@
         "maintainability": 17,
         "correctness": 40,
         "architecture": 0,
-        "change": 33,
+        "change": 35,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
         "total": 25
       },
       "maintainability_risk": 17,
-      "change_risk": 33,
+      "change_risk": 35,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
@@ -10584,32 +10753,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 147,
+      "risk_score": 168,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 147,
+        "maintainability": 168,
         "correctness": 40,
         "architecture": 0,
-        "change": 53,
-        "render_performance": 106,
-        "performance": 106,
+        "change": 76,
+        "render_performance": 109,
+        "performance": 109,
         "quality": 20,
-        "total": 57
+        "total": 65
       },
-      "maintainability_risk": 147,
-      "change_risk": 53,
-      "performance_risk": 106,
+      "maintainability_risk": 168,
+      "change_risk": 76,
+      "performance_risk": 109,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 20,
-      "total_score": 57,
+      "total_score": 65,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 6,
+        "imports": 7,
         "exports": 1,
         "functions": 2,
         "components": 2,
@@ -10631,34 +10800,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 51,
-      "risk": "medium",
+      "risk_score": 106,
+      "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 51,
+        "maintainability": 106,
         "correctness": 0,
         "architecture": 0,
-        "change": 17,
+        "change": 22,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 16
+        "total": 27
       },
-      "maintainability_risk": 51,
-      "change_risk": 17,
+      "maintainability_risk": 106,
+      "change_risk": 22,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 16,
+      "total_score": 27,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 3,
+        "imports": 6,
         "exports": 4,
-        "functions": 5,
+        "functions": 8,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -10678,32 +10847,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 45,
+      "risk_score": 59,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 45,
+        "maintainability": 59,
         "correctness": 0,
         "architecture": 0,
-        "change": 10,
+        "change": 15,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 13
+        "total": 17
       },
-      "maintainability_risk": 45,
-      "change_risk": 10,
+      "maintainability_risk": 59,
+      "change_risk": 15,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 13,
+      "total_score": 17,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 6,
+        "imports": 8,
         "exports": 3,
         "functions": 4,
         "components": 0,
@@ -10772,34 +10941,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 129,
+      "risk_score": 214,
       "risk": "high",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 129,
+        "maintainability": 214,
         "correctness": 0,
         "architecture": 0,
-        "change": 20,
+        "change": 39,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 30
+        "total": 49
       },
-      "maintainability_risk": 129,
-      "change_risk": 20,
+      "maintainability_risk": 214,
+      "change_risk": 39,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 30,
+      "total_score": 49,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 1,
-        "exports": 19,
-        "functions": 13,
+        "imports": 2,
+        "exports": 21,
+        "functions": 16,
         "components": 0,
         "types": 6,
         "entrypoint_roles": 0
@@ -10913,34 +11082,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 89,
+      "risk_score": 116,
       "risk": "high",
-      "classification": "ok",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 68,
+        "maintainability": 116,
         "correctness": 0,
         "architecture": 0,
-        "change": 89,
+        "change": 94,
         "render_performance": 0,
         "performance": 0,
         "quality": 20,
-        "total": 32
+        "total": 42
       },
-      "maintainability_risk": 68,
-      "change_risk": 89,
+      "maintainability_risk": 116,
+      "change_risk": 94,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 20,
-      "total_score": 32,
+      "total_score": 42,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 11,
+        "imports": 14,
         "exports": 1,
-        "functions": 4,
+        "functions": 7,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -11011,28 +11180,28 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 45,
+        "maintainability": 71,
         "correctness": 0,
         "architecture": 12,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 48,
-        "total": 37
+        "total": 42
       },
-      "maintainability_risk": 45,
+      "maintainability_risk": 71,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 12,
       "quality_risk": 48,
-      "total_score": 37,
+      "total_score": 42,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 5,
+        "imports": 6,
         "exports": 1,
         "functions": 0,
         "components": 0,
@@ -11058,28 +11227,28 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 45,
+        "maintainability": 56,
         "correctness": 0,
         "architecture": 0,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 62,
-        "total": 38
+        "total": 40
       },
-      "maintainability_risk": 45,
+      "maintainability_risk": 56,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 62,
-      "total_score": 38,
+      "total_score": 40,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 4,
+        "imports": 5,
         "exports": 4,
         "functions": 1,
         "components": 0,
@@ -11101,26 +11270,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 77,
+      "risk_score": 80,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 77,
+        "maintainability": 80,
         "correctness": 0,
         "architecture": 0,
-        "change": 15,
+        "change": 20,
         "render_performance": 0,
         "performance": 0,
         "quality": 22,
-        "total": 21
+        "total": 22
       },
-      "maintainability_risk": 77,
-      "change_risk": 15,
+      "maintainability_risk": 80,
+      "change_risk": 20,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 22,
-      "total_score": 21,
+      "total_score": 22,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -11195,32 +11364,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 281,
+      "risk_score": 289,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 223,
+        "maintainability": 224,
         "correctness": 0,
-        "architecture": 5,
+        "architecture": 6,
         "change": 80,
-        "render_performance": 281,
-        "performance": 281,
+        "render_performance": 289,
+        "performance": 289,
         "quality": 55,
-        "total": 92
+        "total": 93
       },
-      "maintainability_risk": 223,
+      "maintainability_risk": 224,
       "change_risk": 80,
-      "performance_risk": 281,
+      "performance_risk": 289,
       "correctness_risk": 0,
-      "architectural_risk": 5,
+      "architectural_risk": 6,
       "quality_risk": 55,
-      "total_score": 92,
+      "total_score": 93,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 21,
+        "imports": 22,
         "exports": 1,
         "functions": 14,
         "components": 1,
@@ -11289,32 +11458,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 55,
-      "risk": "medium",
-      "classification": "ok",
+      "risk_score": 74,
+      "risk": "high",
+      "classification": "warning",
       "category_scores": {
-        "maintainability": 54,
+        "maintainability": 74,
         "correctness": 0,
         "architecture": 0,
         "change": 38,
-        "render_performance": 48,
-        "performance": 48,
+        "render_performance": 58,
+        "performance": 58,
         "quality": 55,
-        "total": 31
+        "total": 36
       },
-      "maintainability_risk": 54,
+      "maintainability_risk": 74,
       "change_risk": 38,
-      "performance_risk": 48,
+      "performance_risk": 58,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 31,
+      "total_score": 36,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 8,
+        "imports": 11,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -11336,26 +11505,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 67,
+      "risk_score": 68,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 67,
+        "maintainability": 68,
         "correctness": 0,
         "architecture": 0,
-        "change": 25,
-        "render_performance": 28,
-        "performance": 28,
+        "change": 32,
+        "render_performance": 29,
+        "performance": 29,
         "quality": 55,
-        "total": 29
+        "total": 31
       },
-      "maintainability_risk": 67,
-      "change_risk": 25,
-      "performance_risk": 28,
+      "maintainability_risk": 68,
+      "change_risk": 32,
+      "performance_risk": 29,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 29,
+      "total_score": 31,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -11383,32 +11552,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 154,
+      "risk_score": 186,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 154,
+        "maintainability": 186,
         "correctness": 0,
         "architecture": 0,
         "change": 38,
-        "render_performance": 113,
-        "performance": 113,
+        "render_performance": 165,
+        "performance": 165,
         "quality": 55,
-        "total": 55
+        "total": 66
       },
-      "maintainability_risk": 154,
+      "maintainability_risk": 186,
       "change_risk": 38,
-      "performance_risk": 113,
+      "performance_risk": 165,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 55,
+      "total_score": 66,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 15,
+        "imports": 16,
         "exports": 1,
         "functions": 2,
         "components": 1,
@@ -11430,32 +11599,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 117,
+      "risk_score": 189,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 90,
+        "maintainability": 178,
         "correctness": 0,
         "architecture": 0,
-        "change": 38,
-        "render_performance": 117,
-        "performance": 117,
+        "change": 50,
+        "render_performance": 189,
+        "performance": 189,
         "quality": 55,
-        "total": 44
+        "total": 69
       },
-      "maintainability_risk": 90,
-      "change_risk": 38,
-      "performance_risk": 117,
+      "maintainability_risk": 178,
+      "change_risk": 50,
+      "performance_risk": 189,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 44,
+      "total_score": 69,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 16,
+        "imports": 20,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -11531,14 +11700,14 @@
         "maintainability": 124,
         "correctness": 0,
         "architecture": 12,
-        "change": 43,
+        "change": 46,
         "render_performance": 90,
         "performance": 90,
         "quality": 55,
         "total": 51
       },
       "maintainability_risk": 124,
-      "change_risk": 43,
+      "change_risk": 46,
       "performance_risk": 90,
       "correctness_risk": 0,
       "architectural_risk": 12,
@@ -11575,28 +11744,28 @@
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 15,
+        "maintainability": 18,
         "correctness": 40,
         "architecture": 0,
-        "change": 28,
+        "change": 33,
         "render_performance": 2,
         "performance": 2,
         "quality": 55,
-        "total": 25
+        "total": 27
       },
-      "maintainability_risk": 15,
-      "change_risk": 28,
+      "maintainability_risk": 18,
+      "change_risk": 33,
       "performance_risk": 2,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 25,
+      "total_score": 27,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 3,
+        "imports": 4,
         "exports": 1,
         "functions": 1,
         "components": 1,
@@ -11845,6 +12014,382 @@
       }
     },
     {
+      "id": "src/sharing/ChildAccessContext",
+      "label": "ChildAccessContext.ts",
+      "file": "src/sharing/ChildAccessContext.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 86,
+      "risk": "high",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 86,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 41,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 45,
+        "total": 31
+      },
+      "maintainability_risk": 86,
+      "change_risk": 41,
+      "performance_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 45,
+      "total_score": 31,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 5,
+        "exports": 6,
+        "functions": 3,
+        "components": 0,
+        "types": 2,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/ChildAccessProvider",
+      "label": "ChildAccessProvider.tsx",
+      "file": "src/sharing/ChildAccessProvider.tsx",
+      "type": "component",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 161,
+      "risk": "high",
+      "classification": "warning",
+      "category_scores": {
+        "maintainability": 105,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 5,
+        "render_performance": 161,
+        "performance": 161,
+        "quality": 19,
+        "total": 38
+      },
+      "maintainability_risk": 105,
+      "change_risk": 5,
+      "performance_risk": 161,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 19,
+      "total_score": 38,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 11,
+        "exports": 1,
+        "functions": 6,
+        "components": 2,
+        "types": 1,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/InvitationLinks",
+      "label": "InvitationLinks.tsx",
+      "file": "src/sharing/InvitationLinks.tsx",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 25,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 23,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 19
+      },
+      "maintainability_risk": 25,
+      "change_risk": 23,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 19,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 5,
+        "exports": 1,
+        "functions": 2,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/InvitationPage",
+      "label": "InvitationPage.tsx",
+      "file": "src/sharing/InvitationPage.tsx",
+      "type": "component",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 147,
+      "risk": "high",
+      "classification": "warning",
+      "category_scores": {
+        "maintainability": 147,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 5,
+        "render_performance": 100,
+        "performance": 100,
+        "quality": 18,
+        "total": 40
+      },
+      "maintainability_risk": 147,
+      "change_risk": 5,
+      "performance_risk": 100,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 40,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 6,
+        "exports": 1,
+        "functions": 1,
+        "components": 1,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/ParentAccessPanel",
+      "label": "ParentAccessPanel.tsx",
+      "file": "src/sharing/ParentAccessPanel.tsx",
+      "type": "component",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 245,
+      "risk": "high",
+      "classification": "bad",
+      "category_scores": {
+        "maintainability": 245,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 23,
+        "render_performance": 184,
+        "performance": 184,
+        "quality": 18,
+        "total": 76
+      },
+      "maintainability_risk": 245,
+      "change_risk": 23,
+      "performance_risk": 184,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 76,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 9,
+        "exports": 1,
+        "functions": 3,
+        "components": 1,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/api",
+      "label": "api.ts",
+      "file": "src/sharing/api.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 69,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 69,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 35,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 29
+      },
+      "maintainability_risk": 69,
+      "change_risk": 35,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 29,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 3,
+        "exports": 3,
+        "functions": 2,
+        "components": 0,
+        "types": 1,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/invitationPath",
+      "label": "invitationPath.ts",
+      "file": "src/sharing/invitationPath.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 70,
+      "risk": "high",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 70,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 23,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 20,
+        "total": 21
+      },
+      "maintainability_risk": 70,
+      "change_risk": 23,
+      "performance_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 20,
+      "total_score": 21,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 0,
+        "exports": 1,
+        "functions": 1,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/sharing/scope",
+      "label": "scope.ts",
+      "file": "src/sharing/scope.ts",
+      "type": "module",
+      "group": "src/sharing",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 86,
+      "risk": "high",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 86,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 29,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 24
+      },
+      "maintainability_risk": 86,
+      "change_risk": 29,
+      "performance_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 24,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 3,
+        "exports": 3,
+        "functions": 2,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/tokens/index",
       "label": "index.ts",
       "file": "src/tokens/index.ts",
@@ -11994,26 +12539,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 99,
+      "risk_score": 102,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 99,
-        "correctness": 0,
+        "maintainability": 102,
+        "correctness": 40,
         "architecture": 0,
-        "change": 46,
+        "change": 64,
         "render_performance": 0,
         "performance": 0,
         "quality": 98,
-        "total": 44
+        "total": 55
       },
-      "maintainability_risk": 99,
-      "change_risk": 46,
+      "maintainability_risk": 102,
+      "change_risk": 64,
       "performance_risk": 0,
-      "correctness_risk": 0,
+      "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 98,
-      "total_score": 44,
+      "total_score": 55,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12027,7 +12572,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": true,
+        "direct_import_association": false,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -12370,26 +12915,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 30,
-      "risk": "low",
+      "risk_score": 35,
+      "risk": "medium",
       "classification": "ok",
       "category_scores": {
         "maintainability": 23,
         "correctness": 0,
         "architecture": 0,
-        "change": 30,
+        "change": 35,
         "render_performance": 0,
         "performance": 0,
         "quality": 15,
-        "total": 12
+        "total": 13
       },
       "maintainability_risk": 23,
-      "change_risk": 30,
+      "change_risk": 35,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 15,
-      "total_score": 12,
+      "total_score": 13,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12605,7 +13150,7 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 144,
+      "risk_score": 151,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
@@ -12615,16 +13160,16 @@
         "change": 56,
         "render_performance": 0,
         "performance": 0,
-        "quality": 144,
-        "total": 46
+        "quality": 151,
+        "total": 47
       },
       "maintainability_risk": 13,
       "change_risk": 56,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 144,
-      "total_score": 46,
+      "quality_risk": 151,
+      "total_score": 47,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12652,11 +13197,11 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 86,
+      "risk_score": 89,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 86,
+        "maintainability": 89,
         "correctness": 0,
         "architecture": 0,
         "change": 54,
@@ -12665,7 +13210,7 @@
         "quality": 18,
         "total": 29
       },
-      "maintainability_risk": 86,
+      "maintainability_risk": 89,
       "change_risk": 54,
       "performance_risk": 0,
       "correctness_risk": 0,
@@ -12894,19 +13439,19 @@
         "maintainability": 55,
         "correctness": 40,
         "architecture": 0,
-        "change": 33,
+        "change": 38,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 23
+        "total": 24
       },
       "maintainability_risk": 55,
-      "change_risk": 33,
+      "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 0,
-      "total_score": 23,
+      "total_score": 24,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -13033,7 +13578,18 @@
       "line": 1
     },
     {
-      "id": "import:src/App:src/components/SchoolCalendarSync:2",
+      "id": "import:src/App:src/sharing/InvitationLinks:2",
+      "from": "src/App",
+      "to": "src/sharing/InvitationLinks",
+      "type": "static_import",
+      "source": "import InvitationLinks from './sharing/InvitationLinks'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/App:src/components/SchoolCalendarSync:3",
       "from": "src/App",
       "to": "src/components/SchoolCalendarSync",
       "type": "static_import",
@@ -13041,10 +13597,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 2
+      "line": 3
     },
     {
-      "id": "import:src/App:react-router-dom:3",
+      "id": "import:src/App:react-router-dom:4",
       "from": "src/App",
       "to": "react-router-dom",
       "type": "static_import",
@@ -13052,10 +13608,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/App:src/auth/AuthProvider:4",
+      "id": "import:src/App:src/auth/AuthProvider:5",
       "from": "src/App",
       "to": "src/auth/AuthProvider",
       "type": "static_import",
@@ -13063,10 +13619,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/App:src/contexts/ThemeProvider:5",
+      "id": "import:src/App:src/contexts/ThemeProvider:6",
       "from": "src/App",
       "to": "src/contexts/ThemeProvider",
       "type": "static_import",
@@ -13074,10 +13630,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/App:src/contexts/ActiveChildProvider:6",
+      "id": "import:src/App:src/contexts/ActiveChildProvider:7",
       "from": "src/App",
       "to": "src/contexts/ActiveChildProvider",
       "type": "static_import",
@@ -13085,10 +13641,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 7
     },
     {
-      "id": "import:src/App:src/contexts/SelectedDateProvider:7",
+      "id": "import:src/App:src/contexts/SelectedDateProvider:8",
       "from": "src/App",
       "to": "src/contexts/SelectedDateProvider",
       "type": "static_import",
@@ -13096,10 +13652,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 8
     },
     {
-      "id": "import:src/App:src/routes/ProtectedRoute:8",
+      "id": "import:src/App:src/routes/ProtectedRoute:9",
       "from": "src/App",
       "to": "src/routes/ProtectedRoute",
       "type": "static_import",
@@ -13107,10 +13663,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/App:src/routes/AnimatedTabLayout:9",
+      "id": "import:src/App:src/routes/AnimatedTabLayout:10",
       "from": "src/App",
       "to": "src/routes/AnimatedTabLayout",
       "type": "static_import",
@@ -13118,10 +13674,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/App:src/lib/tabNavigation:10",
+      "id": "import:src/App:src/lib/tabNavigation:11",
       "from": "src/App",
       "to": "src/lib/tabNavigation",
       "type": "static_import",
@@ -13129,10 +13685,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/App:src/components/AppErrorBoundary:11",
+      "id": "import:src/App:src/components/AppErrorBoundary:12",
       "from": "src/App",
       "to": "src/components/AppErrorBoundary",
       "type": "static_import",
@@ -13140,10 +13696,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/App:src/pages/LoginPage:12",
+      "id": "import:src/App:src/pages/LoginPage:13",
       "from": "src/App",
       "to": "src/pages/LoginPage",
       "type": "static_import",
@@ -13151,10 +13707,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 13
     },
     {
-      "id": "import:src/App:src/routes/routeModules:13",
+      "id": "import:src/App:src/routes/routeModules:14",
       "from": "src/App",
       "to": "src/routes/routeModules",
       "type": "static_import",
@@ -13162,10 +13718,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 14
     },
     {
-      "id": "import:src/App:src/routes/RoutePreloader:14",
+      "id": "import:src/App:src/routes/RoutePreloader:15",
       "from": "src/App",
       "to": "src/routes/RoutePreloader",
       "type": "static_import",
@@ -13173,7 +13729,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 15
+    },
+    {
+      "id": "import:src/App:src/sharing/InvitationPage:17",
+      "from": "src/App",
+      "to": "src/sharing/InvitationPage",
+      "type": "dynamic_import",
+      "source": "import('./sharing/InvitationPage')",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 17
     },
     {
       "id": "import:src/assets/chores/assets:src/ui/themeAssets:1",
@@ -13638,11 +14205,11 @@
       "line": 32
     },
     {
-      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/maths.svg:33",
+      "id": "import:src/assets/themes/princess/assets:src/assets/themes/princess/maths-modern.png:33",
       "from": "src/assets/themes/princess/assets",
-      "to": "src/assets/themes/princess/maths.svg",
+      "to": "src/assets/themes/princess/maths-modern.png",
       "type": "static_import",
-      "source": "export { default as princessMathsIcon } from './maths.svg'",
+      "source": "export { default as princessMathsIcon } from './maths-modern.png'",
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
@@ -14331,7 +14898,18 @@
       "line": 1
     },
     {
-      "id": "import:src/components/AppMenu:react:1",
+      "id": "import:src/components/AppMenu:src/sharing/ChildAccessContext:1",
+      "from": "src/components/AppMenu",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/AppMenu:react:2",
       "from": "src/components/AppMenu",
       "to": "react",
       "type": "static_import",
@@ -14339,10 +14917,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 1
+      "line": 2
     },
     {
-      "id": "import:src/components/AppMenu:src/contexts/ActivityTabContext:9",
+      "id": "import:src/components/AppMenu:src/contexts/ActivityTabContext:10",
       "from": "src/components/AppMenu",
       "to": "src/contexts/ActivityTabContext",
       "type": "static_import",
@@ -14350,10 +14928,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/components/AppMenu:react-dom:10",
+      "id": "import:src/components/AppMenu:react-dom:11",
       "from": "src/components/AppMenu",
       "to": "react-dom",
       "type": "static_import",
@@ -14361,10 +14939,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/components/AppMenu:react-router-dom:11",
+      "id": "import:src/components/AppMenu:react-router-dom:12",
       "from": "src/components/AppMenu",
       "to": "react-router-dom",
       "type": "static_import",
@@ -14372,10 +14950,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/components/AppMenu:src/auth/AuthContext:12",
+      "id": "import:src/components/AppMenu:src/auth/AuthContext:13",
       "from": "src/components/AppMenu",
       "to": "src/auth/AuthContext",
       "type": "static_import",
@@ -14383,10 +14961,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 13
     },
     {
-      "id": "import:src/components/AppMenu:src/contexts/ActiveChildContext:13",
+      "id": "import:src/components/AppMenu:src/contexts/ActiveChildContext:14",
       "from": "src/components/AppMenu",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -14394,10 +14972,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 14
     },
     {
-      "id": "import:src/components/AppMenu:src/contexts/ThemeContext:14",
+      "id": "import:src/components/AppMenu:src/contexts/ThemeContext:15",
       "from": "src/components/AppMenu",
       "to": "src/contexts/ThemeContext",
       "type": "type_only_import",
@@ -14405,10 +14983,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 15
     },
     {
-      "id": "import:src/components/AppMenu:src/data/useChores:15",
+      "id": "import:src/components/AppMenu:src/data/useChores:16",
       "from": "src/components/AppMenu",
       "to": "src/data/useChores",
       "type": "static_import",
@@ -14416,10 +14994,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 16
     },
     {
-      "id": "import:src/components/AppMenu:src/data/types:16",
+      "id": "import:src/components/AppMenu:src/data/types:17",
       "from": "src/components/AppMenu",
       "to": "src/data/types",
       "type": "static_import",
@@ -14427,10 +15005,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 17
     },
     {
-      "id": "import:src/components/AppMenu:src/hooks/useAsyncAction:17",
+      "id": "import:src/components/AppMenu:src/hooks/useAsyncAction:18",
       "from": "src/components/AppMenu",
       "to": "src/hooks/useAsyncAction",
       "type": "static_import",
@@ -14438,10 +15016,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 17
+      "line": 18
     },
     {
-      "id": "import:src/components/AppMenu:src/ui/themeAssets:18",
+      "id": "import:src/components/AppMenu:src/ui/themeAssets:19",
       "from": "src/components/AppMenu",
       "to": "src/ui/themeAssets",
       "type": "static_import",
@@ -14449,10 +15027,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 18
+      "line": 19
     },
     {
-      "id": "import:src/components/AppMenu:src/ui/themeActionAssets:19",
+      "id": "import:src/components/AppMenu:src/ui/themeActionAssets:20",
       "from": "src/components/AppMenu",
       "to": "src/ui/themeActionAssets",
       "type": "static_import",
@@ -14460,10 +15038,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 19
+      "line": 20
     },
     {
-      "id": "import:src/components/AppMenu:src/components/ui/AsyncButton:20",
+      "id": "import:src/components/AppMenu:src/components/ui/AsyncButton:21",
       "from": "src/components/AppMenu",
       "to": "src/components/ui/AsyncButton",
       "type": "static_import",
@@ -14471,10 +15049,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 20
+      "line": 21
     },
     {
-      "id": "import:src/components/AppMenu:src/components/AppMenu.css:21",
+      "id": "import:src/components/AppMenu:src/components/AppMenu.css:22",
       "from": "src/components/AppMenu",
       "to": "src/components/AppMenu.css",
       "type": "static_import",
@@ -14482,7 +15060,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 21
+      "line": 22
     },
     {
       "id": "import:src/components/ArithmeticTester:src/components/ui/MathActivityPlayArea:1",
@@ -14815,7 +15393,18 @@
       "line": 11
     },
     {
-      "id": "import:src/components/ExpandableAgendaItem:react:1",
+      "id": "import:src/components/ExpandableAgendaItem:src/components/ui/keyboardActivation:1",
+      "from": "src/components/ExpandableAgendaItem",
+      "to": "src/components/ui/keyboardActivation",
+      "type": "static_import",
+      "source": "import { keyboardActivation } from './ui/keyboardActivation'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/ExpandableAgendaItem:react:2",
       "from": "src/components/ExpandableAgendaItem",
       "to": "react",
       "type": "static_import",
@@ -14823,7 +15412,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 1
+      "line": 2
     },
     {
       "id": "import:src/components/FractionFood:react:1",
@@ -15475,6 +16064,28 @@
       "line": 5
     },
     {
+      "id": "import:src/components/RewardImagePreview:react:1",
+      "from": "src/components/RewardImagePreview",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useEffect, useRef } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/RewardImagePreview:src/components/ui/ImageWithOverlay:2",
+      "from": "src/components/RewardImagePreview",
+      "to": "src/components/ui/ImageWithOverlay",
+      "type": "static_import",
+      "source": "import ImageWithOverlay from './ui/ImageWithOverlay'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
       "id": "import:src/components/SchoolCalendar:src/ui/themeAssets:1",
       "from": "src/components/SchoolCalendar",
       "to": "src/ui/themeAssets",
@@ -16058,6 +16669,28 @@
       "line": 1
     },
     {
+      "id": "import:src/components/TimeExplorerCalendarIcon:src/assets/themes/princess/calendar-character.png:2",
+      "from": "src/components/TimeExplorerCalendarIcon",
+      "to": "src/assets/themes/princess/calendar-character.png",
+      "type": "static_import",
+      "source": "import princessCalendarIcon from '../assets/themes/princess/calendar-character.png'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/components/TimeExplorerCalendarIcon:src/ui/themeOptions:3",
+      "from": "src/components/TimeExplorerCalendarIcon",
+      "to": "src/ui/themeOptions",
+      "type": "type_only_import",
+      "source": "import type { ThemeId } from '../ui/themeOptions'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
       "id": "import:src/components/TimeExplorerClockIcon:src/features/dayNightExplorer/Clock:1",
       "from": "src/components/TimeExplorerClockIcon",
       "to": "src/features/dayNightExplorer/Clock",
@@ -16128,7 +16761,7 @@
       "from": "src/components/TimeExplorerControls",
       "to": "src/ui/themeAssets",
       "type": "static_import",
-      "source": "import { getThemeAsset } from '../ui/themeAssets'",
+      "source": "import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -17367,7 +18000,18 @@
       "line": 3
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:react:1",
+      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/keyboardActivation:1",
+      "from": "src/components/ui/ImageStarFrame",
+      "to": "src/components/ui/keyboardActivation",
+      "type": "static_import",
+      "source": "import { keyboardActivation } from './keyboardActivation'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/ui/ImageStarFrame:react:2",
       "from": "src/components/ui/ImageStarFrame",
       "to": "react",
       "type": "static_import",
@@ -17375,10 +18019,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 1
+      "line": 2
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:src/contexts/ThemeContext:2",
+      "id": "import:src/components/ui/ImageStarFrame:src/contexts/ThemeContext:3",
       "from": "src/components/ui/ImageStarFrame",
       "to": "src/contexts/ThemeContext",
       "type": "type_only_import",
@@ -17386,10 +18030,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 2
+      "line": 3
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:src/tokens/index:3",
+      "id": "import:src/components/ui/ImageStarFrame:src/tokens/index:4",
       "from": "src/components/ui/ImageStarFrame",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -17397,10 +18041,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/StarDisplay:4",
+      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/StarDisplay:5",
       "from": "src/components/ui/ImageStarFrame",
       "to": "src/components/ui/StarDisplay",
       "type": "static_import",
@@ -17408,10 +18052,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/ImageLoadingContext:5",
+      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/ImageLoadingContext:6",
       "from": "src/components/ui/ImageStarFrame",
       "to": "src/components/ui/ImageLoadingContext",
       "type": "static_import",
@@ -17419,10 +18063,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/ImageWithOverlay:6",
+      "id": "import:src/components/ui/ImageStarFrame:src/components/ui/ImageWithOverlay:7",
       "from": "src/components/ui/ImageStarFrame",
       "to": "src/components/ui/ImageWithOverlay",
       "type": "static_import",
@@ -17430,7 +18074,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 7
     },
     {
       "id": "import:src/components/ui/ImageWithOverlay:react:1",
@@ -18366,6 +19010,17 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 4
+    },
+    {
+      "id": "import:src/components/ui/keyboardActivation:react:1",
+      "from": "src/components/ui/keyboardActivation",
+      "to": "react",
+      "type": "type_only_import",
+      "source": "import type { KeyboardEvent } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
     },
     {
       "id": "import:src/components/ui/standardActionCardAnimations:react:1",
@@ -20799,7 +21454,18 @@
       "line": 2
     },
     {
-      "id": "import:src/data/taskDocuments:firebase/firestore:1",
+      "id": "import:src/data/taskDocuments:functions/src/sharing/defaultTests:1",
+      "from": "src/data/taskDocuments",
+      "to": "functions/src/sharing/defaultTests",
+      "type": "static_import",
+      "source": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/data/taskDocuments:firebase/firestore:2",
       "from": "src/data/taskDocuments",
       "to": "firebase/firestore",
       "type": "static_import",
@@ -20807,21 +21473,21 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 1
-    },
-    {
-      "id": "import:src/data/taskDocuments:src/data/types:2",
-      "from": "src/data/taskDocuments",
-      "to": "src/data/types",
-      "type": "static_import",
-      "source": "import { DEFAULT_ALPHABET_PROBLEMS, DEFAULT_ALPHABET_STARS, DEFAULT_ANIMALS_PROBLEMS, DEFAULT_ANIMALS_STARS, DEFAULT_DINNER_BITES, DEFAULT_DINNER_DURATION_SECONDS, DEFAULT_DINNER_S",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
       "line": 2
     },
     {
-      "id": "import:src/data/taskDocuments:src/data/taskLimits:27",
+      "id": "import:src/data/taskDocuments:src/data/types:3",
+      "from": "src/data/taskDocuments",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { DEFAULT_DINNER_BITES, DEFAULT_DINNER_DURATION_SECONDS, DEFAULT_DINNER_STARS, DEFAULT_WATER_TOILET_STARS, TEST_TYPES, type ChoreType, type ChoreRecord, type TestRecord, typ",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/data/taskDocuments:src/data/taskLimits:14",
       "from": "src/data/taskDocuments",
       "to": "src/data/taskLimits",
       "type": "static_import",
@@ -20829,7 +21495,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 27
+      "line": 14
     },
     {
       "id": "import:src/data/teeniepingKnowledge:src/data/teeniepingProfiles.json:1",
@@ -20868,8 +21534,8 @@
       "id": "import:src/data/types:src/ui/themeOptions:4",
       "from": "src/data/types",
       "to": "src/ui/themeOptions",
-      "type": "type_only_import",
-      "source": "import type { ThemeId } from '../ui/themeOptions'",
+      "type": "static_import",
+      "source": "import { isThemeId, type ThemeId } from '../ui/themeOptions'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -21008,6 +21674,28 @@
       "line": 15
     },
     {
+      "id": "import:src/data/useChildTaskCollection:src/sharing/ChildAccessContext:16",
+      "from": "src/data/useChildTaskCollection",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
+      "id": "import:src/data/useChildTaskCollection:src/sharing/scope:17",
+      "from": "src/data/useChildTaskCollection",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 17
+    },
+    {
       "id": "import:src/data/useChildren:react:3",
       "from": "src/data/useChildren",
       "to": "react",
@@ -21045,7 +21733,7 @@
       "from": "src/data/useChildren",
       "to": "src/ui/themeOptions",
       "type": "static_import",
-      "source": "import { THEME_ID_LOOKUP, isThemeId, type ThemeId } from '../ui/themeOptions'",
+      "source": "import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -21056,7 +21744,7 @@
       "from": "src/data/useChildren",
       "to": "src/data/types",
       "type": "static_import",
-      "source": "import { childSnapshotDataSchema, type ChildProfile, type ChildUpdatableFields, } from './types'",
+      "source": "import { parseChildProfile, type ChildProfile, type ChildUpdatableFields, } from './types'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -21116,6 +21804,39 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 31
+    },
+    {
+      "id": "import:src/data/useChildren:src/sharing/ChildAccessContext:32",
+      "from": "src/data/useChildren",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { storageKeyForChild, useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 32
+    },
+    {
+      "id": "import:src/data/useChildren:src/sharing/api:33",
+      "from": "src/data/useChildren",
+      "to": "src/sharing/api",
+      "type": "static_import",
+      "source": "import { sharingCall } from '../sharing/api'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 33
+    },
+    {
+      "id": "import:src/data/useChildren:src/sharing/scope:34",
+      "from": "src/data/useChildren",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 34
     },
     {
       "id": "import:src/data/useChoreActivityActions:react:1",
@@ -21217,18 +21938,7 @@
       "line": 5
     },
     {
-      "id": "import:src/data/useChores:src/offline/platform:6",
-      "from": "src/data/useChores",
-      "to": "src/offline/platform",
-      "type": "static_import",
-      "source": "import { isOfflineEnabled } from '../offline/platform'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 6
-    },
-    {
-      "id": "import:src/data/useChores:src/offline/actions:7",
+      "id": "import:src/data/useChores:src/offline/actions:6",
       "from": "src/data/useChores",
       "to": "src/offline/actions",
       "type": "static_import",
@@ -21236,10 +21946,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 6
     },
     {
-      "id": "import:src/data/useChores:src/offline/firebaseTransport:8",
+      "id": "import:src/data/useChores:src/offline/firebaseTransport:7",
       "from": "src/data/useChores",
       "to": "src/offline/firebaseTransport",
       "type": "static_import",
@@ -21247,10 +21957,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 7
     },
     {
-      "id": "import:src/data/useChores:src/lib/choreParser:9",
+      "id": "import:src/data/useChores:src/lib/choreParser:8",
       "from": "src/data/useChores",
       "to": "src/lib/choreParser",
       "type": "static_import",
@@ -21258,10 +21968,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 8
     },
     {
-      "id": "import:src/data/useChores:src/data/taskDocuments:10",
+      "id": "import:src/data/useChores:src/data/taskDocuments:9",
       "from": "src/data/useChores",
       "to": "src/data/taskDocuments",
       "type": "static_import",
@@ -21269,10 +21979,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 9
     },
     {
-      "id": "import:src/data/useChores:src/lib/today:11",
+      "id": "import:src/data/useChores:src/lib/today:10",
       "from": "src/data/useChores",
       "to": "src/lib/today",
       "type": "static_import",
@@ -21280,10 +21990,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 10
     },
     {
-      "id": "import:src/data/useChores:src/lib/optimisticState:12",
+      "id": "import:src/data/useChores:src/lib/optimisticState:11",
       "from": "src/data/useChores",
       "to": "src/lib/optimisticState",
       "type": "static_import",
@@ -21291,10 +22001,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 11
     },
     {
-      "id": "import:src/data/useChores:src/data/dailyTaskState:13",
+      "id": "import:src/data/useChores:src/data/dailyTaskState:12",
       "from": "src/data/useChores",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
@@ -21302,10 +22012,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 12
     },
     {
-      "id": "import:src/data/useChores:src/data/useChoreActivityActions:14",
+      "id": "import:src/data/useChores:src/data/useChoreActivityActions:13",
       "from": "src/data/useChores",
       "to": "src/data/useChoreActivityActions",
       "type": "static_import",
@@ -21313,10 +22023,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 13
     },
     {
-      "id": "import:src/data/useChores:src/data/types:15",
+      "id": "import:src/data/useChores:src/data/types:14",
       "from": "src/data/useChores",
       "to": "src/data/types",
       "type": "type_only_import",
@@ -21324,10 +22034,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 14
     },
     {
-      "id": "import:src/data/useChores:src/data/taskLimits:21",
+      "id": "import:src/data/useChores:src/data/taskLimits:20",
       "from": "src/data/useChores",
       "to": "src/data/taskLimits",
       "type": "static_import",
@@ -21335,10 +22045,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 21
+      "line": 20
     },
     {
-      "id": "import:src/data/useChores:src/data/useChildTaskCollection:22",
+      "id": "import:src/data/useChores:src/data/useChildTaskCollection:21",
       "from": "src/data/useChores",
       "to": "src/data/useChildTaskCollection",
       "type": "static_import",
@@ -21346,10 +22056,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 22
+      "line": 21
     },
     {
-      "id": "import:src/data/useChores:src/data/useUserDocumentUpdates:23",
+      "id": "import:src/data/useChores:src/data/useUserDocumentUpdates:22",
       "from": "src/data/useChores",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
@@ -21357,10 +22067,65 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 23
+      "line": 22
     },
     {
-      "id": "import:src/data/useRewards:react:3",
+      "id": "import:src/data/useRewards:firebase/firestore:1",
+      "from": "src/data/useRewards",
+      "to": "firebase/firestore",
+      "type": "static_import",
+      "source": "import { doc, updateDoc } from 'firebase/firestore'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/data/useRewards:src/firebaseDb:2",
+      "from": "src/data/useRewards",
+      "to": "src/firebaseDb",
+      "type": "static_import",
+      "source": "import { db } from '../firebaseDb'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/data/useRewards:src/offline/actions:3",
+      "from": "src/data/useRewards",
+      "to": "src/offline/actions",
+      "type": "static_import",
+      "source": "import { saveDocument } from '../offline/actions'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/data/useRewards:src/offline/platform:4",
+      "from": "src/data/useRewards",
+      "to": "src/offline/platform",
+      "type": "static_import",
+      "source": "import { isOfflineEnabled } from '../offline/platform'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/data/useRewards:src/sharing/scope:5",
+      "from": "src/data/useRewards",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/data/useRewards:react:8",
       "from": "src/data/useRewards",
       "to": "react",
       "type": "static_import",
@@ -21368,10 +22133,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 3
+      "line": 8
     },
     {
-      "id": "import:src/data/useRewards:src/data/useChildren:4",
+      "id": "import:src/data/useRewards:src/data/useChildren:9",
       "from": "src/data/useRewards",
       "to": "src/data/useChildren",
       "type": "static_import",
@@ -21379,10 +22144,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 9
     },
     {
-      "id": "import:src/data/useRewards:src/auth/AuthContext:5",
+      "id": "import:src/data/useRewards:src/auth/AuthContext:10",
       "from": "src/data/useRewards",
       "to": "src/auth/AuthContext",
       "type": "static_import",
@@ -21390,10 +22155,21 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 10
     },
     {
-      "id": "import:src/data/useRewards:src/contexts/ActiveChildContext:6",
+      "id": "import:src/data/useRewards:src/sharing/ChildAccessContext:11",
+      "from": "src/data/useRewards",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/data/useRewards:src/contexts/ActiveChildContext:12",
       "from": "src/data/useRewards",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -21401,10 +22177,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 12
     },
     {
-      "id": "import:src/data/useRewards:src/lib/starActions:7",
+      "id": "import:src/data/useRewards:src/lib/starActions:13",
       "from": "src/data/useRewards",
       "to": "src/lib/starActions",
       "type": "static_import",
@@ -21412,10 +22188,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 13
     },
     {
-      "id": "import:src/data/useRewards:src/data/types:8",
+      "id": "import:src/data/useRewards:src/data/types:14",
       "from": "src/data/useRewards",
       "to": "src/data/types",
       "type": "static_import",
@@ -21423,10 +22199,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 14
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserCollection:9",
+      "id": "import:src/data/useRewards:src/data/useUserCollection:15",
       "from": "src/data/useRewards",
       "to": "src/data/useUserCollection",
       "type": "static_import",
@@ -21434,10 +22210,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 15
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:10",
+      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:16",
       "from": "src/data/useRewards",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
@@ -21445,10 +22221,21 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 16
     },
     {
-      "id": "import:src/data/useTests:firebase/firestore:3",
+      "id": "import:src/data/useTests:src/sharing/scope:1",
+      "from": "src/data/useTests",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/data/useTests:firebase/firestore:4",
       "from": "src/data/useTests",
       "to": "firebase/firestore",
       "type": "static_import",
@@ -21456,10 +22243,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/data/useTests:react:4",
+      "id": "import:src/data/useTests:react:5",
       "from": "src/data/useTests",
       "to": "react",
       "type": "static_import",
@@ -21467,25 +22254,14 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/data/useTests:src/firebaseDb:5",
+      "id": "import:src/data/useTests:src/firebaseDb:6",
       "from": "src/data/useTests",
       "to": "src/firebaseDb",
       "type": "static_import",
       "source": "import { db } from '../firebaseDb'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 5
-    },
-    {
-      "id": "import:src/data/useTests:src/offline/platform:6",
-      "from": "src/data/useTests",
-      "to": "src/offline/platform",
-      "type": "static_import",
-      "source": "import { isOfflineEnabled } from '../offline/platform'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -21617,14 +22393,14 @@
       "from": "src/data/useTests",
       "to": "src/data/types",
       "type": "type_only_import",
-      "source": "import { type TaskEphemeralState, type TaskOutcome, type TaskUpdatableFields, type TestRecord, type TestWithEphemeral, } from './types'",
+      "source": "import { type TaskEphemeralState, type TaskOutcome, type TaskUpdatableFields, type TestRecord, type TestType, type TestWithEphemeral, } from './types'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 27
     },
     {
-      "id": "import:src/data/useTests:src/data/useChildTaskCollection:34",
+      "id": "import:src/data/useTests:src/data/useChildTaskCollection:35",
       "from": "src/data/useTests",
       "to": "src/data/useChildTaskCollection",
       "type": "static_import",
@@ -21632,7 +22408,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 34
+      "line": 35
     },
     {
       "id": "import:src/data/useUserCollection:react:1",
@@ -21699,6 +22475,17 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 14
+    },
+    {
+      "id": "import:src/data/useUserCollection:src/sharing/scope:15",
+      "from": "src/data/useUserCollection",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 15
     },
     {
       "id": "import:src/data/useUserDocumentUpdates:react:1",
@@ -21787,6 +22574,17 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 15
+    },
+    {
+      "id": "import:src/data/useUserDocumentUpdates:src/sharing/scope:16",
+      "from": "src/data/useUserDocumentUpdates",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 16
     },
     {
       "id": "import:src/features/dayNightExplorer/Clock:src/features/dayNightExplorer/useExplorerClock:1",
@@ -22801,6 +23599,17 @@
       "line": 1
     },
     {
+      "id": "import:src/hooks/useAsyncFeedback:react:1",
+      "from": "src/hooks/useAsyncFeedback",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useRef, useState } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
       "id": "import:src/hooks/useCalendarSchedule:react:1",
       "from": "src/hooks/useCalendarSchedule",
       "to": "react",
@@ -23494,18 +24303,18 @@
       "line": 9
     },
     {
-      "id": "import:src/lib/starActions:src/offline/actions:43",
+      "id": "import:src/lib/starActions:src/sharing/scope:10",
       "from": "src/lib/starActions",
-      "to": "src/offline/actions",
-      "type": "dynamic_import",
-      "source": "import('../offline/actions')",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 43
+      "line": 10
     },
     {
-      "id": "import:src/lib/starActions:src/offline/actions:141",
+      "id": "import:src/lib/starActions:src/offline/actions:44",
       "from": "src/lib/starActions",
       "to": "src/offline/actions",
       "type": "dynamic_import",
@@ -23513,7 +24322,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 141
+      "line": 44
+    },
+    {
+      "id": "import:src/lib/starActions:src/offline/actions:142",
+      "from": "src/lib/starActions",
+      "to": "src/offline/actions",
+      "type": "dynamic_import",
+      "source": "import('../offline/actions')",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 142
     },
     {
       "id": "import:src/lib/tabNavigation:src/ui/themeAssets:1",
@@ -23802,18 +24622,29 @@
       "line": 1
     },
     {
-      "id": "import:src/offline/OfflineBoundary:src/auth/AuthContext:2",
+      "id": "import:src/offline/OfflineBoundary:src/sharing/ChildAccessContext:2",
       "from": "src/offline/OfflineBoundary",
-      "to": "src/auth/AuthContext",
+      "to": "src/sharing/ChildAccessContext",
       "type": "static_import",
-      "source": "import { useAuth } from '../auth/AuthContext'",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 2
     },
     {
-      "id": "import:src/offline/OfflineBoundary:src/offline/runtime:3",
+      "id": "import:src/offline/OfflineBoundary:src/sharing/scope:3",
+      "from": "src/offline/OfflineBoundary",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/offline/OfflineBoundary:src/offline/runtime:4",
       "from": "src/offline/OfflineBoundary",
       "to": "src/offline/runtime",
       "type": "static_import",
@@ -23821,10 +24652,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/offline/OfflineBoundary:src/offline/platform:4",
+      "id": "import:src/offline/OfflineBoundary:src/offline/platform:5",
       "from": "src/offline/OfflineBoundary",
       "to": "src/offline/platform",
       "type": "static_import",
@@ -23832,10 +24663,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/offline/OfflineBoundary:src/lib/startupPerformance:5",
+      "id": "import:src/offline/OfflineBoundary:src/lib/startupPerformance:6",
       "from": "src/offline/OfflineBoundary",
       "to": "src/lib/startupPerformance",
       "type": "static_import",
@@ -23843,10 +24674,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/offline/OfflineBoundary:src/hooks/useConnectivity:6",
+      "id": "import:src/offline/OfflineBoundary:src/hooks/useConnectivity:7",
       "from": "src/offline/OfflineBoundary",
       "to": "src/hooks/useConnectivity",
       "type": "static_import",
@@ -23854,7 +24685,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 7
     },
     {
       "id": "import:src/offline/actions:src/offline/runtime:1",
@@ -23888,6 +24719,39 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 10
+    },
+    {
+      "id": "import:src/offline/actions:src/sharing/scope:11",
+      "from": "src/offline/actions",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/offline/actions:src/offline/platform:12",
+      "from": "src/offline/actions",
+      "to": "src/offline/platform",
+      "type": "static_import",
+      "source": "import { isOfflineEnabled } from './platform'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/offline/actions:src/sharing/api:13",
+      "from": "src/offline/actions",
+      "to": "src/sharing/api",
+      "type": "static_import",
+      "source": "import { sendChildOperation } from '../sharing/api'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 13
     },
     {
       "id": "import:src/offline/firebaseTransport:firebase/firestore:1",
@@ -23956,6 +24820,28 @@
       "line": 11
     },
     {
+      "id": "import:src/offline/firebaseTransport:src/sharing/scope:12",
+      "from": "src/offline/firebaseTransport",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/offline/firebaseTransport:src/sharing/api:13",
+      "from": "src/offline/firebaseTransport",
+      "to": "src/sharing/api",
+      "type": "static_import",
+      "source": "import { sendChildOperation } from '../sharing/api'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
       "id": "import:src/offline/importWebProgress:src/lib/today:1",
       "from": "src/offline/importWebProgress",
       "to": "src/lib/today",
@@ -24000,6 +24886,17 @@
       "line": 1
     },
     {
+      "id": "import:src/offline/model:functions/src/sharing/protocol:2",
+      "from": "src/offline/model",
+      "to": "functions/src/sharing/protocol",
+      "type": "static_import",
+      "source": "import { progressKey } from '../../functions/src/sharing/protocol'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
       "id": "import:src/offline/persistence:src/offline/model:1",
       "from": "src/offline/persistence",
       "to": "src/offline/model",
@@ -24026,14 +24923,14 @@
       "from": "src/offline/runtime",
       "to": "firebase/firestore",
       "type": "static_import",
-      "source": "import { collection, onSnapshot } from 'firebase/firestore'",
+      "source": "import { collection, doc, onSnapshot, query, where, type Query, type FirestoreError, } from 'firebase/firestore'",
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
       "line": 1
     },
     {
-      "id": "import:src/offline/runtime:@capacitor/core:2",
+      "id": "import:src/offline/runtime:@capacitor/core:10",
       "from": "src/offline/runtime",
       "to": "@capacitor/core",
       "type": "static_import",
@@ -24041,10 +24938,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 2
+      "line": 10
     },
     {
-      "id": "import:src/offline/runtime:src/firebaseDb:3",
+      "id": "import:src/offline/runtime:src/firebaseDb:11",
       "from": "src/offline/runtime",
       "to": "src/firebaseDb",
       "type": "static_import",
@@ -24052,10 +24949,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 11
     },
     {
-      "id": "import:src/offline/runtime:src/lib/today:4",
+      "id": "import:src/offline/runtime:src/lib/today:12",
       "from": "src/offline/runtime",
       "to": "src/lib/today",
       "type": "static_import",
@@ -24063,21 +24960,21 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 12
     },
     {
-      "id": "import:src/offline/runtime:src/offline/model:5",
+      "id": "import:src/offline/runtime:src/offline/model:13",
       "from": "src/offline/runtime",
       "to": "src/offline/model",
       "type": "static_import",
-      "source": "import { collections, type CollectionName } from './model'",
+      "source": "import { collections, type CollectionName, type LocalDocument } from './model'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 13
     },
     {
-      "id": "import:src/offline/runtime:src/offline/persistence:6",
+      "id": "import:src/offline/runtime:src/offline/persistence:14",
       "from": "src/offline/runtime",
       "to": "src/offline/persistence",
       "type": "static_import",
@@ -24085,10 +24982,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 14
     },
     {
-      "id": "import:src/offline/runtime:src/offline/store:7",
+      "id": "import:src/offline/runtime:src/offline/store:15",
       "from": "src/offline/runtime",
       "to": "src/offline/store",
       "type": "static_import",
@@ -24096,10 +24993,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 15
     },
     {
-      "id": "import:src/offline/runtime:src/offline/sync:8",
+      "id": "import:src/offline/runtime:src/offline/sync:16",
       "from": "src/offline/runtime",
       "to": "src/offline/sync",
       "type": "static_import",
@@ -24107,10 +25004,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 16
     },
     {
-      "id": "import:src/offline/runtime:src/offline/firebaseTransport:9",
+      "id": "import:src/offline/runtime:src/offline/firebaseTransport:17",
       "from": "src/offline/runtime",
       "to": "src/offline/firebaseTransport",
       "type": "static_import",
@@ -24118,10 +25015,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 17
     },
     {
-      "id": "import:src/offline/runtime:src/offline/selectors:14",
+      "id": "import:src/offline/runtime:src/offline/selectors:22",
       "from": "src/offline/runtime",
       "to": "src/offline/selectors",
       "type": "static_import",
@@ -24129,10 +25026,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 22
     },
     {
-      "id": "import:src/offline/runtime:src/lib/snapshotStore:15",
+      "id": "import:src/offline/runtime:src/lib/snapshotStore:23",
       "from": "src/offline/runtime",
       "to": "src/lib/snapshotStore",
       "type": "static_import",
@@ -24140,7 +25037,40 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 23
+    },
+    {
+      "id": "import:src/offline/runtime:src/sharing/scope:24",
+      "from": "src/offline/runtime",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 24
+    },
+    {
+      "id": "import:src/offline/runtime:src/offline/persistence:25",
+      "from": "src/offline/runtime",
+      "to": "src/offline/persistence",
+      "type": "type_only_import",
+      "source": "import type { OfflinePersistence } from './persistence'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 25
+    },
+    {
+      "id": "import:src/offline/runtime:src/offline/model:26",
+      "from": "src/offline/runtime",
+      "to": "src/offline/model",
+      "type": "static_import",
+      "source": "import { emptyState } from './model'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 26
     },
     {
       "id": "import:src/offline/selectors:src/offline/model:1",
@@ -24158,14 +25088,14 @@
       "from": "src/offline/store",
       "to": "src/offline/model",
       "type": "static_import",
-      "source": "import { emptyState, enqueue, latestDocument, type Action, type CollectionName, type LocalDocument, type OfflineState, } from './model'",
+      "source": "import { emptyState, mergeSharedProgress, rebuildSharedProgress, enqueue, latestDocument, type Action, type CollectionName, type LocalDocument, type OfflineState, } from './model'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 1
     },
     {
-      "id": "import:src/offline/store:src/offline/persistence:10",
+      "id": "import:src/offline/store:src/offline/persistence:12",
       "from": "src/offline/store",
       "to": "src/offline/persistence",
       "type": "type_only_import",
@@ -24173,10 +25103,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 12
     },
     {
-      "id": "import:src/offline/store:src/lib/snapshotStore:11",
+      "id": "import:src/offline/store:src/lib/snapshotStore:13",
       "from": "src/offline/store",
       "to": "src/lib/snapshotStore",
       "type": "static_import",
@@ -24184,10 +25114,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 13
     },
     {
-      "id": "import:src/offline/store:src/offline/transport:12",
+      "id": "import:src/offline/store:src/offline/transport:14",
       "from": "src/offline/store",
       "to": "src/offline/transport",
       "type": "type_only_import",
@@ -24195,10 +25125,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 14
     },
     {
-      "id": "import:src/offline/store:src/offline/importWebProgress:13",
+      "id": "import:src/offline/store:src/offline/importWebProgress:15",
       "from": "src/offline/store",
       "to": "src/offline/importWebProgress",
       "type": "static_import",
@@ -24206,7 +25136,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 15
+    },
+    {
+      "id": "import:src/offline/store:src/sharing/scope:16",
+      "from": "src/offline/store",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 16
     },
     {
       "id": "import:src/offline/sync:src/offline/model:1",
@@ -24251,6 +25192,17 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 4
+    },
+    {
+      "id": "import:src/offline/sync:src/sharing/scope:5",
+      "from": "src/offline/sync",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { parseChildScope } from '../sharing/scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
     },
     {
       "id": "import:src/offline/transport:zod:1",
@@ -24451,7 +25403,18 @@
       "line": 23
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/themeAssets:1",
+      "id": "import:src/pages/DashboardPage:src/sharing/ChildAccessContext:1",
+      "from": "src/pages/DashboardPage",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/pages/DashboardPage:src/ui/themeAssets:2",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/themeAssets",
       "type": "static_import",
@@ -24459,10 +25422,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 1
+      "line": 2
     },
     {
-      "id": "import:src/pages/DashboardPage:react:2",
+      "id": "import:src/pages/DashboardPage:react:3",
       "from": "src/pages/DashboardPage",
       "to": "react",
       "type": "static_import",
@@ -24470,10 +25433,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 2
+      "line": 3
     },
     {
-      "id": "import:src/pages/DashboardPage:src/contexts/ActivityTabContext:3",
+      "id": "import:src/pages/DashboardPage:src/contexts/ActivityTabContext:4",
       "from": "src/pages/DashboardPage",
       "to": "src/contexts/ActivityTabContext",
       "type": "static_import",
@@ -24481,10 +25444,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/pages/DashboardPage:src/contexts/ActiveChildContext:4",
+      "id": "import:src/pages/DashboardPage:src/contexts/ActiveChildContext:5",
       "from": "src/pages/DashboardPage",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -24492,10 +25455,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/pages/DashboardPage:src/contexts/ThemeContext:5",
+      "id": "import:src/pages/DashboardPage:src/contexts/ThemeContext:6",
       "from": "src/pages/DashboardPage",
       "to": "src/contexts/ThemeContext",
       "type": "static_import",
@@ -24503,10 +25466,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/TabContent:6",
+      "id": "import:src/pages/DashboardPage:src/components/TabContent:7",
       "from": "src/pages/DashboardPage",
       "to": "src/components/TabContent",
       "type": "static_import",
@@ -24514,10 +25477,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 7
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/StandardActionList:7",
+      "id": "import:src/pages/DashboardPage:src/components/ui/StandardActionList:8",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/StandardActionList",
       "type": "static_import",
@@ -24525,10 +25488,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 8
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/StarInfoBox:8",
+      "id": "import:src/pages/DashboardPage:src/components/ui/StarInfoBox:9",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/StarInfoBox",
       "type": "static_import",
@@ -24536,10 +25499,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptors:9",
+      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptors:10",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/unifiedChoreDescriptors",
       "type": "static_import",
@@ -24547,10 +25510,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreState:13",
+      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreState:14",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/unifiedChoreState",
       "type": "static_import",
@@ -24558,10 +25521,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 14
     },
     {
-      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptorTypes:14",
+      "id": "import:src/pages/DashboardPage:src/ui/unifiedChoreDescriptorTypes:15",
       "from": "src/pages/DashboardPage",
       "to": "src/ui/unifiedChoreDescriptorTypes",
       "type": "type_only_import",
@@ -24569,10 +25532,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 15
     },
     {
-      "id": "import:src/pages/DashboardPage:src/tokens/index:15",
+      "id": "import:src/pages/DashboardPage:src/tokens/index:16",
       "from": "src/pages/DashboardPage",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -24580,10 +25543,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 16
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/useChildren:16",
+      "id": "import:src/pages/DashboardPage:src/data/useChildren:17",
       "from": "src/pages/DashboardPage",
       "to": "src/data/useChildren",
       "type": "static_import",
@@ -24591,10 +25554,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 17
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/useChores:17",
+      "id": "import:src/pages/DashboardPage:src/data/useChores:18",
       "from": "src/pages/DashboardPage",
       "to": "src/data/useChores",
       "type": "static_import",
@@ -24602,10 +25565,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 17
+      "line": 18
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/types:18",
+      "id": "import:src/pages/DashboardPage:src/data/types:19",
       "from": "src/pages/DashboardPage",
       "to": "src/data/types",
       "type": "static_import",
@@ -24613,10 +25576,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 18
+      "line": 19
     },
     {
-      "id": "import:src/pages/DashboardPage:src/data/taskDocuments:25",
+      "id": "import:src/pages/DashboardPage:src/data/taskDocuments:26",
       "from": "src/pages/DashboardPage",
       "to": "src/data/taskDocuments",
       "type": "type_only_import",
@@ -24624,10 +25587,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 25
+      "line": 26
     },
     {
-      "id": "import:src/pages/DashboardPage:src/hooks/useTaskActivityState:26",
+      "id": "import:src/pages/DashboardPage:src/hooks/useTaskActivityState:27",
       "from": "src/pages/DashboardPage",
       "to": "src/hooks/useTaskActivityState",
       "type": "static_import",
@@ -24635,10 +25598,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 26
+      "line": 27
     },
     {
-      "id": "import:src/pages/DashboardPage:src/hooks/useTestCheckTriggers:27",
+      "id": "import:src/pages/DashboardPage:src/hooks/useTestCheckTriggers:28",
       "from": "src/pages/DashboardPage",
       "to": "src/hooks/useTestCheckTriggers",
       "type": "static_import",
@@ -24646,10 +25609,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 27
+      "line": 28
     },
     {
-      "id": "import:src/pages/DashboardPage:src/pages/ChoreCreationFlow:28",
+      "id": "import:src/pages/DashboardPage:src/pages/ChoreCreationFlow:29",
       "from": "src/pages/DashboardPage",
       "to": "src/pages/ChoreCreationFlow",
       "type": "static_import",
@@ -24657,10 +25620,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 28
+      "line": 29
     },
     {
-      "id": "import:src/pages/DashboardPage:src/components/ui/InlineNotice:29",
+      "id": "import:src/pages/DashboardPage:src/components/ui/InlineNotice:30",
       "from": "src/pages/DashboardPage",
       "to": "src/components/ui/InlineNotice",
       "type": "static_import",
@@ -24668,10 +25631,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 29
+      "line": 30
     },
     {
-      "id": "import:src/pages/DashboardPage:src/hooks/useTaskCelebration:30",
+      "id": "import:src/pages/DashboardPage:src/hooks/useTaskCelebration:31",
       "from": "src/pages/DashboardPage",
       "to": "src/hooks/useTaskCelebration",
       "type": "static_import",
@@ -24679,7 +25642,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 30
+      "line": 31
     },
     {
       "id": "import:src/pages/LoginPage:react:1",
@@ -24781,7 +25744,40 @@
       "line": 9
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/ui/themeOptions:1",
+      "id": "import:src/pages/ManageChildrenPage:react-router-dom:1",
+      "from": "src/pages/ManageChildrenPage",
+      "to": "react-router-dom",
+      "type": "static_import",
+      "source": "import { Navigate } from 'react-router-dom'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/pages/ManageChildrenPage:src/sharing/ChildAccessContext:2",
+      "from": "src/pages/ManageChildrenPage",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/pages/ManageChildrenPage:src/sharing/ParentAccessPanel:3",
+      "from": "src/pages/ManageChildrenPage",
+      "to": "src/sharing/ParentAccessPanel",
+      "type": "static_import",
+      "source": "import ParentAccessPanel from '../sharing/ParentAccessPanel'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/pages/ManageChildrenPage:src/ui/themeOptions:4",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/ui/themeOptions",
       "type": "static_import",
@@ -24789,10 +25785,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 1
+      "line": 4
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/contexts/ActiveChildContext:2",
+      "id": "import:src/pages/ManageChildrenPage:src/contexts/ActiveChildContext:5",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -24800,10 +25796,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 2
+      "line": 5
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/contexts/ThemeContext:3",
+      "id": "import:src/pages/ManageChildrenPage:src/contexts/ThemeContext:6",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/contexts/ThemeContext",
       "type": "static_import",
@@ -24811,10 +25807,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 6
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/components/PageShell:4",
+      "id": "import:src/pages/ManageChildrenPage:src/components/PageShell:7",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/components/PageShell",
       "type": "static_import",
@@ -24822,10 +25818,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 7
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/components/ui/StandardActionList:5",
+      "id": "import:src/pages/ManageChildrenPage:src/components/ui/StandardActionList:8",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/components/ui/StandardActionList",
       "type": "static_import",
@@ -24833,10 +25829,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 8
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/tokens/index:6",
+      "id": "import:src/pages/ManageChildrenPage:src/tokens/index:9",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -24844,10 +25840,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 9
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/ui/definitionRowDescriptors:7",
+      "id": "import:src/pages/ManageChildrenPage:src/ui/definitionRowDescriptors:10",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/ui/definitionRowDescriptors",
       "type": "static_import",
@@ -24855,10 +25851,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 10
     },
     {
-      "id": "import:src/pages/ManageChildrenPage:src/data/useChildren:8",
+      "id": "import:src/pages/ManageChildrenPage:src/data/useChildren:11",
       "from": "src/pages/ManageChildrenPage",
       "to": "src/data/useChildren",
       "type": "static_import",
@@ -24866,7 +25862,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 11
     },
     {
       "id": "import:src/pages/RewardCreationFlow:src/ui/themeAssets:1",
@@ -24994,7 +25990,7 @@
       "from": "src/pages/RewardsPage",
       "to": "react",
       "type": "static_import",
-      "source": "import { useState } from 'react'",
+      "source": "import { useCallback, useState } from 'react'",
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
@@ -25012,7 +26008,18 @@
       "line": 2
     },
     {
-      "id": "import:src/pages/RewardsPage:src/assets/rewards/assets:3",
+      "id": "import:src/pages/RewardsPage:src/components/RewardImagePreview:3",
+      "from": "src/pages/RewardsPage",
+      "to": "src/components/RewardImagePreview",
+      "type": "static_import",
+      "source": "import RewardImagePreview from '../components/RewardImagePreview'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/pages/RewardsPage:src/assets/rewards/assets:4",
       "from": "src/pages/RewardsPage",
       "to": "src/assets/rewards/assets",
       "type": "static_import",
@@ -25020,10 +26027,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 4
     },
     {
-      "id": "import:src/pages/RewardsPage:src/hooks/useRewardCelebration:4",
+      "id": "import:src/pages/RewardsPage:src/hooks/useRewardCelebration:5",
       "from": "src/pages/RewardsPage",
       "to": "src/hooks/useRewardCelebration",
       "type": "static_import",
@@ -25031,10 +26038,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 5
     },
     {
-      "id": "import:src/pages/RewardsPage:src/contexts/ActiveChildContext:5",
+      "id": "import:src/pages/RewardsPage:src/contexts/ActiveChildContext:6",
       "from": "src/pages/RewardsPage",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -25042,10 +26049,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 6
     },
     {
-      "id": "import:src/pages/RewardsPage:src/contexts/ThemeContext:6",
+      "id": "import:src/pages/RewardsPage:src/contexts/ThemeContext:7",
       "from": "src/pages/RewardsPage",
       "to": "src/contexts/ThemeContext",
       "type": "static_import",
@@ -25053,10 +26060,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 7
     },
     {
-      "id": "import:src/pages/RewardsPage:src/components/TabContent:7",
+      "id": "import:src/pages/RewardsPage:src/components/TabContent:8",
       "from": "src/pages/RewardsPage",
       "to": "src/components/TabContent",
       "type": "static_import",
@@ -25064,10 +26071,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 8
     },
     {
-      "id": "import:src/pages/RewardsPage:src/components/ui/StandardActionList:8",
+      "id": "import:src/pages/RewardsPage:src/components/ui/StandardActionList:9",
       "from": "src/pages/RewardsPage",
       "to": "src/components/ui/StandardActionList",
       "type": "static_import",
@@ -25075,10 +26082,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 9
     },
     {
-      "id": "import:src/pages/RewardsPage:src/tokens/index:9",
+      "id": "import:src/pages/RewardsPage:src/tokens/index:10",
       "from": "src/pages/RewardsPage",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -25086,10 +26093,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 10
     },
     {
-      "id": "import:src/pages/RewardsPage:src/ui/definitionRowDescriptors:10",
+      "id": "import:src/pages/RewardsPage:src/ui/definitionRowDescriptors:11",
       "from": "src/pages/RewardsPage",
       "to": "src/ui/definitionRowDescriptors",
       "type": "static_import",
@@ -25097,10 +26104,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 11
     },
     {
-      "id": "import:src/pages/RewardsPage:src/data/useRewards:11",
+      "id": "import:src/pages/RewardsPage:src/data/useRewards:12",
       "from": "src/pages/RewardsPage",
       "to": "src/data/useRewards",
       "type": "static_import",
@@ -25108,10 +26115,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 12
     },
     {
-      "id": "import:src/pages/RewardsPage:src/pages/RewardCreationFlow:12",
+      "id": "import:src/pages/RewardsPage:src/pages/RewardCreationFlow:13",
       "from": "src/pages/RewardsPage",
       "to": "src/pages/RewardCreationFlow",
       "type": "static_import",
@@ -25119,10 +26126,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 13
     },
     {
-      "id": "import:src/pages/RewardsPage:src/components/ui/InlineNotice:13",
+      "id": "import:src/pages/RewardsPage:src/components/ui/InlineNotice:14",
       "from": "src/pages/RewardsPage",
       "to": "src/components/ui/InlineNotice",
       "type": "static_import",
@@ -25130,10 +26137,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 14
     },
     {
-      "id": "import:src/pages/RewardsPage:src/data/types:14",
+      "id": "import:src/pages/RewardsPage:src/data/types:15",
       "from": "src/pages/RewardsPage",
       "to": "src/data/types",
       "type": "type_only_import",
@@ -25141,10 +26148,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 15
     },
     {
-      "id": "import:src/pages/RewardsPage:src/data/useRewards:15",
+      "id": "import:src/pages/RewardsPage:src/data/useRewards:16",
       "from": "src/pages/RewardsPage",
       "to": "src/data/useRewards",
       "type": "type_only_import",
@@ -25152,21 +26159,65 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 16
     },
     {
-      "id": "import:src/pages/TestsPage:react:1",
+      "id": "import:src/pages/TestsPage:src/hooks/useAsyncFeedback:1",
       "from": "src/pages/TestsPage",
-      "to": "react",
+      "to": "src/hooks/useAsyncFeedback",
       "type": "static_import",
-      "source": "import { useEffect, useMemo } from 'react'",
+      "source": "import { useAsyncFeedback } from '../hooks/useAsyncFeedback'",
       "from_workspace": "mystarquest",
-      "to_workspace": null,
+      "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 1
     },
     {
-      "id": "import:src/pages/TestsPage:src/contexts/ActiveChildContext:2",
+      "id": "import:src/pages/TestsPage:functions/src/sharing/defaultTests:2",
+      "from": "src/pages/TestsPage",
+      "to": "functions/src/sharing/defaultTests",
+      "type": "static_import",
+      "source": "import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/pages/TestsPage:src/data/types:3",
+      "from": "src/pages/TestsPage",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { TEST_TYPES, type TestType } from '../data/types'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/pages/TestsPage:src/sharing/ChildAccessContext:4",
+      "from": "src/pages/TestsPage",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/pages/TestsPage:react:5",
+      "from": "src/pages/TestsPage",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useEffect, useMemo, useState } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/pages/TestsPage:src/contexts/ActiveChildContext:6",
       "from": "src/pages/TestsPage",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -25174,10 +26225,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 2
+      "line": 6
     },
     {
-      "id": "import:src/pages/TestsPage:src/contexts/ThemeContext:3",
+      "id": "import:src/pages/TestsPage:src/contexts/ThemeContext:7",
       "from": "src/pages/TestsPage",
       "to": "src/contexts/ThemeContext",
       "type": "static_import",
@@ -25185,10 +26236,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 3
+      "line": 7
     },
     {
-      "id": "import:src/pages/TestsPage:src/components/TabContent:4",
+      "id": "import:src/pages/TestsPage:src/components/TabContent:8",
       "from": "src/pages/TestsPage",
       "to": "src/components/TabContent",
       "type": "static_import",
@@ -25196,10 +26247,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 8
     },
     {
-      "id": "import:src/pages/TestsPage:src/components/ui/StandardActionList:5",
+      "id": "import:src/pages/TestsPage:src/components/ui/StandardActionList:9",
       "from": "src/pages/TestsPage",
       "to": "src/components/ui/StandardActionList",
       "type": "static_import",
@@ -25207,10 +26258,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 9
     },
     {
-      "id": "import:src/pages/TestsPage:src/components/ui/ResourceLoadingIcon:6",
+      "id": "import:src/pages/TestsPage:src/components/ui/ResourceLoadingIcon:10",
       "from": "src/pages/TestsPage",
       "to": "src/components/ui/ResourceLoadingIcon",
       "type": "static_import",
@@ -25218,10 +26269,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 10
     },
     {
-      "id": "import:src/pages/TestsPage:src/lib/tabNavigation:7",
+      "id": "import:src/pages/TestsPage:src/lib/tabNavigation:11",
       "from": "src/pages/TestsPage",
       "to": "src/lib/tabNavigation",
       "type": "static_import",
@@ -25229,10 +26280,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 7
+      "line": 11
     },
     {
-      "id": "import:src/pages/TestsPage:src/ui/unifiedChoreDescriptors:8",
+      "id": "import:src/pages/TestsPage:src/ui/unifiedChoreDescriptors:12",
       "from": "src/pages/TestsPage",
       "to": "src/ui/unifiedChoreDescriptors",
       "type": "static_import",
@@ -25240,10 +26291,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 8
+      "line": 12
     },
     {
-      "id": "import:src/pages/TestsPage:src/tokens/index:9",
+      "id": "import:src/pages/TestsPage:src/tokens/index:13",
       "from": "src/pages/TestsPage",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -25251,10 +26302,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 13
     },
     {
-      "id": "import:src/pages/TestsPage:src/data/useTests:10",
+      "id": "import:src/pages/TestsPage:src/data/useTests:14",
       "from": "src/pages/TestsPage",
       "to": "src/data/useTests",
       "type": "static_import",
@@ -25262,10 +26313,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 14
     },
     {
-      "id": "import:src/pages/TestsPage:src/data/useChildren:11",
+      "id": "import:src/pages/TestsPage:src/data/useChildren:15",
       "from": "src/pages/TestsPage",
       "to": "src/data/useChildren",
       "type": "static_import",
@@ -25273,10 +26324,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 15
     },
     {
-      "id": "import:src/pages/TestsPage:src/hooks/useTaskActivityState:12",
+      "id": "import:src/pages/TestsPage:src/hooks/useTaskActivityState:16",
       "from": "src/pages/TestsPage",
       "to": "src/hooks/useTaskActivityState",
       "type": "static_import",
@@ -25284,10 +26335,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 16
     },
     {
-      "id": "import:src/pages/TestsPage:src/hooks/useTestCheckTriggers:13",
+      "id": "import:src/pages/TestsPage:src/hooks/useTestCheckTriggers:17",
       "from": "src/pages/TestsPage",
       "to": "src/hooks/useTestCheckTriggers",
       "type": "static_import",
@@ -25295,10 +26346,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 17
     },
     {
-      "id": "import:src/pages/TestsPage:src/ui/testActivityBindings:14",
+      "id": "import:src/pages/TestsPage:src/ui/testActivityBindings:18",
       "from": "src/pages/TestsPage",
       "to": "src/ui/testActivityBindings",
       "type": "static_import",
@@ -25306,10 +26357,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 18
     },
     {
-      "id": "import:src/pages/TestsPage:src/data/dailyTaskState:15",
+      "id": "import:src/pages/TestsPage:src/data/dailyTaskState:19",
       "from": "src/pages/TestsPage",
       "to": "src/data/dailyTaskState",
       "type": "static_import",
@@ -25317,10 +26368,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 19
     },
     {
-      "id": "import:src/pages/TestsPage:src/hooks/useTaskCelebration:16",
+      "id": "import:src/pages/TestsPage:src/hooks/useTaskCelebration:20",
       "from": "src/pages/TestsPage",
       "to": "src/hooks/useTaskCelebration",
       "type": "static_import",
@@ -25328,7 +26379,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 20
     },
     {
       "id": "import:src/pages/TimeExplorerPage:react:1",
@@ -25683,6 +26734,17 @@
       "line": 3
     },
     {
+      "id": "import:src/routes/ProtectedDataRoute:src/sharing/ChildAccessProvider:4",
+      "from": "src/routes/ProtectedDataRoute",
+      "to": "src/sharing/ChildAccessProvider",
+      "type": "static_import",
+      "source": "import ChildAccessProvider from '../sharing/ChildAccessProvider'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
       "id": "import:src/routes/ProtectedRoute:react-router-dom:1",
       "from": "src/routes/ProtectedRoute",
       "to": "react-router-dom",
@@ -25868,6 +26930,468 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 7
+    },
+    {
+      "id": "import:src/sharing/ChildAccessContext:react:1",
+      "from": "src/sharing/ChildAccessContext",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { createContext, useContext } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/ChildAccessContext:src/auth/AuthContext:2",
+      "from": "src/sharing/ChildAccessContext",
+      "to": "src/auth/AuthContext",
+      "type": "static_import",
+      "source": "import { useAuth } from '../auth/AuthContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/ChildAccessContext:src/contexts/ActiveChildContext:3",
+      "from": "src/sharing/ChildAccessContext",
+      "to": "src/contexts/ActiveChildContext",
+      "type": "static_import",
+      "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/sharing/ChildAccessContext:src/sharing/scope:4",
+      "from": "src/sharing/ChildAccessContext",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { childStorageKey } from './scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/sharing/ChildAccessContext:src/data/types:5",
+      "from": "src/sharing/ChildAccessContext",
+      "to": "src/data/types",
+      "type": "type_only_import",
+      "source": "import type { ChildProfile } from '../data/types'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/data/useUserCollection:1",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/data/useUserCollection",
+      "type": "static_import",
+      "source": "import { useUserCollection } from '../data/useUserCollection'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:react:2",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useCallback, useEffect, useMemo, useState, type ReactNode, } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:firebase/firestore:9",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "firebase/firestore",
+      "type": "static_import",
+      "source": "import { collection, doc, onSnapshot } from 'firebase/firestore'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 9
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/firebaseDb:10",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/firebaseDb",
+      "type": "static_import",
+      "source": "import { db } from '../firebaseDb'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 10
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/auth/AuthContext:11",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/auth/AuthContext",
+      "type": "static_import",
+      "source": "import { useAuth } from '../auth/AuthContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/contexts/ActiveChildContext:12",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/contexts/ActiveChildContext",
+      "type": "static_import",
+      "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/data/types:13",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/data/types",
+      "type": "static_import",
+      "source": "import { parseChildProfile } from '../data/types'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/offline/runtime:14",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/offline/runtime",
+      "type": "static_import",
+      "source": "import { offlineRuntime } from '../offline/runtime'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 14
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/offline/platform:15",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/offline/platform",
+      "type": "static_import",
+      "source": "import { isOfflineEnabled } from '../offline/platform'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 15
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/sharing/scope:16",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/sharing/scope",
+      "type": "static_import",
+      "source": "import { childStorageKey } from './scope'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
+      "id": "import:src/sharing/ChildAccessProvider:src/sharing/ChildAccessContext:17",
+      "from": "src/sharing/ChildAccessProvider",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { ChildAccessContext, type AccessibleChild } from './ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 17
+    },
+    {
+      "id": "import:src/sharing/InvitationLinks:react:1",
+      "from": "src/sharing/InvitationLinks",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useEffect } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/InvitationLinks:@capacitor/core:2",
+      "from": "src/sharing/InvitationLinks",
+      "to": "@capacitor/core",
+      "type": "static_import",
+      "source": "import { Capacitor } from '@capacitor/core'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/InvitationLinks:react-router-dom:3",
+      "from": "src/sharing/InvitationLinks",
+      "to": "react-router-dom",
+      "type": "static_import",
+      "source": "import { useNavigate } from 'react-router-dom'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/sharing/InvitationLinks:src/sharing/invitationPath:5",
+      "from": "src/sharing/InvitationLinks",
+      "to": "src/sharing/invitationPath",
+      "type": "static_import",
+      "source": "import { invitationPath } from './invitationPath'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/sharing/InvitationLinks:@capacitor/app:16",
+      "from": "src/sharing/InvitationLinks",
+      "to": "@capacitor/app",
+      "type": "dynamic_import",
+      "source": "import('@capacitor/app')",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:src/hooks/useAsyncFeedback:1",
+      "from": "src/sharing/InvitationPage",
+      "to": "src/hooks/useAsyncFeedback",
+      "type": "static_import",
+      "source": "import { useAsyncFeedback } from '../hooks/useAsyncFeedback'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:react-router-dom:2",
+      "from": "src/sharing/InvitationPage",
+      "to": "react-router-dom",
+      "type": "static_import",
+      "source": "import { useLocation, useNavigate, useParams } from 'react-router-dom'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:src/auth/AuthContext:3",
+      "from": "src/sharing/InvitationPage",
+      "to": "src/auth/AuthContext",
+      "type": "static_import",
+      "source": "import { useAuth } from '../auth/AuthContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:src/contexts/ActiveChildContext:4",
+      "from": "src/sharing/InvitationPage",
+      "to": "src/contexts/ActiveChildContext",
+      "type": "static_import",
+      "source": "import { useActiveChild } from '../contexts/ActiveChildContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:src/ui/themeOptions:5",
+      "from": "src/sharing/InvitationPage",
+      "to": "src/ui/themeOptions",
+      "type": "static_import",
+      "source": "import { isThemeId } from '../ui/themeOptions'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/sharing/InvitationPage:src/sharing/api:6",
+      "from": "src/sharing/InvitationPage",
+      "to": "src/sharing/api",
+      "type": "static_import",
+      "source": "import { sharingCall } from './api'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 6
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/hooks/useAsyncFeedback:1",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/hooks/useAsyncFeedback",
+      "type": "static_import",
+      "source": "import { useAsyncFeedback } from '../hooks/useAsyncFeedback'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:react:2",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useEffect, useState } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/data/types:3",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/data/types",
+      "type": "type_only_import",
+      "source": "import type { ChildProfile } from '../data/types'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/sharing/ChildAccessContext:4",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { storageKeyForChild, useDataScope } from './ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/sharing/api:5",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/sharing/api",
+      "type": "static_import",
+      "source": "import { sharingCall, type ParentsResult } from './api'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/offline/runtime:6",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/offline/runtime",
+      "type": "static_import",
+      "source": "import { offlineRuntime } from '../offline/runtime'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 6
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/offline/platform:7",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/offline/platform",
+      "type": "static_import",
+      "source": "import { isOfflineEnabled } from '../offline/platform'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 7
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/contexts/ThemeContext:8",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/contexts/ThemeContext",
+      "type": "static_import",
+      "source": "import { useTheme } from '../contexts/ThemeContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 8
+    },
+    {
+      "id": "import:src/sharing/ParentAccessPanel:src/ui/schoolEventAssets:9",
+      "from": "src/sharing/ParentAccessPanel",
+      "to": "src/ui/schoolEventAssets",
+      "type": "static_import",
+      "source": "import { getSchoolEventImage } from '../ui/schoolEventAssets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 9
+    },
+    {
+      "id": "import:src/sharing/api:functions/src/sharing/protocol:1",
+      "from": "src/sharing/api",
+      "to": "functions/src/sharing/protocol",
+      "type": "type_only_import",
+      "source": "import type { ChildScope, InvitationEntry, ParentEntry, SharedOperation, SharedReceipt, } from '../../functions/src/sharing/protocol'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/api:firebase/functions:14",
+      "from": "src/sharing/api",
+      "to": "firebase/functions",
+      "type": "dynamic_import",
+      "source": "import('firebase/functions')",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 14
+    },
+    {
+      "id": "import:src/sharing/api:src/firebase:15",
+      "from": "src/sharing/api",
+      "to": "src/firebase",
+      "type": "dynamic_import",
+      "source": "import('../firebase')",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 15
+    },
+    {
+      "id": "import:src/sharing/scope:zod:1",
+      "from": "src/sharing/scope",
+      "to": "zod",
+      "type": "static_import",
+      "source": "import { z } from 'zod'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/sharing/scope:functions/src/sharing/protocol:2",
+      "from": "src/sharing/scope",
+      "to": "functions/src/sharing/protocol",
+      "type": "type_only_import",
+      "source": "import type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/sharing/scope:functions/src/sharing/protocol:3",
+      "from": "src/sharing/scope",
+      "to": "functions/src/sharing/protocol",
+      "type": "type_only_import",
+      "source": "export type { ChildScope } from '../../functions/src/sharing/protocol'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
     },
     {
       "id": "import:src/tokens/index:react:1",

@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:42.554Z",
+    "measured_at": "2026-10-03T13:15:31.388Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:38dada581b633195fb174edca0ae28f9e63eee3dcbe476edb20d4eaa665cb33c"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:41cd466ed338602c82476932c71f415dc052d327be1f090747b69a48fdfb20b4"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -113,8 +113,8 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 2,
-    "external_edges": 6,
+    "internal_edges": 9,
+    "external_edges": 14,
     "cycles": 0,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 0,
@@ -137,10 +137,10 @@
         "warn": 0,
         "info": 0,
         "ignore": 0,
-        "totalCruised": 13,
-        "totalDependenciesCruised": 12,
+        "totalCruised": 20,
+        "totalDependenciesCruised": 26,
         "optionsUsed": {
-          "baseDir": "C:\\Code\\MyStarQuest\\functions",
+          "baseDir": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
           "combinedDependencies": false,
           "detectJSDocImports": false,
           "detectProcessBuiltinModuleCalls": false,
@@ -183,6 +183,36 @@
         "file": "src/schoolEventCatalog.ts",
         "layer": "core",
         "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/sharing/defaultTests",
+        "file": "src/sharing/defaultTests.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/sharing/index",
+        "file": "src/sharing/index.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/sharing/policy",
+        "file": "src/sharing/policy.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/sharing/protocol",
+        "file": "src/sharing/protocol.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
+      },
+      {
+        "id": "src/sharing/service",
+        "file": "src/sharing/service.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest-functions"
       }
     ],
     "workspaces": [
@@ -196,7 +226,7 @@
         "tsconfigs": [
           "tsconfig.json"
         ],
-        "source_files": 3,
+        "source_files": 8,
         "project_loaded": true,
         "project_reason": null
       }
@@ -209,6 +239,14 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/index",
+        "to": "src/sharing/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 18,
         "source": "dependency-cruiser"
       },
       {
@@ -245,10 +283,10 @@
       },
       {
         "from": "src/index",
-        "to": "node_modules/node-ical/node-ical",
-        "kind": "relative",
+        "to": "node-ical",
+        "kind": "external",
         "import_kind": "static",
-        "line": null,
+        "line": 12,
         "source": "dependency-cruiser"
       },
       {
@@ -257,6 +295,110 @@
         "kind": "relative",
         "import_kind": "static",
         "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "src/sharing/policy",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "src/sharing/service",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 12,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "firebase-admin/firestore",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "firebase-functions/params",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "firebase-functions/v2/firestore",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 7,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/index",
+        "to": "firebase-functions/v2/https",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/policy",
+        "to": "firebase-functions/v2/https",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "src/sharing/defaultTests",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "src/sharing/policy",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "src/sharing/protocol",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 23,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "crypto",
+        "kind": "external",
+        "import_kind": "static",
+        "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "firebase-admin/firestore",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/sharing/service",
+        "to": "firebase-functions/v2/https",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 10,
         "source": "dependency-cruiser"
       }
     ]

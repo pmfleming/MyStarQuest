@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T07:42:42.783Z",
+    "measured_at": "2026-10-03T13:15:31.575Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:4bcab8946a00e040ab228502e6ce1a5ffead3c3241a21410ec26e9c393fda157",
-    "input_set_hash": "sha256:7468faa2f0549a40d15968c0d35097dcc276d3c3162f61b7255bed304657ed5c"
+    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
+    "input_set_hash": "sha256:b10f946a09279c42c8309919e98694ef5ec337c713c4c1e268ce72ad31eecec4"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -133,20 +133,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 25,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:../tests/unit/currentExplorerCity.test.ts",
-      "name": "currentExplorerCity.test.ts",
-      "path": "../tests/unit/currentExplorerCity.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 1,
+      "assertions": 14,
       "skipped": 0,
       "todo": 0
     },
@@ -245,7 +232,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 11,
+      "assertions": 13,
       "skipped": 0,
       "todo": 0
     },
@@ -318,6 +305,48 @@
       "todo": 0
     },
     {
+      "id": "test:../tests/unit/sharedOffline.test.ts",
+      "name": "sharedOffline.test.ts",
+      "path": "../tests/unit/sharedOffline.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [
+        "src/sharing/protocol.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/sharing/protocol.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 15,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/sharingPolicy.test.ts",
+      "name": "sharingPolicy.test.ts",
+      "path": "../tests/unit/sharingPolicy.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [
+        "src/sharing/policy.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/sharing/policy.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 12,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:../tests/unit/starActions.test.ts",
       "name": "starActions.test.ts",
       "path": "../tests/unit/starActions.test.ts",
@@ -326,7 +355,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 18,
+      "assertions": 17,
       "skipped": 0,
       "todo": 0
     },
@@ -340,19 +369,6 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "assertions": 3,
-      "skipped": 0,
-      "todo": 0
-    },
-    {
-      "id": "test:../tests/unit/timeExplorerStorage.test.ts",
-      "name": "timeExplorerStorage.test.ts",
-      "path": "../tests/unit/timeExplorerStorage.test.ts",
-      "framework": "vitest",
-      "locality": "external",
-      "source_mapping": [],
-      "source_associations": [],
-      "coverage_status": "not_collected",
-      "assertions": 2,
       "skipped": 0,
       "todo": 0
     },
