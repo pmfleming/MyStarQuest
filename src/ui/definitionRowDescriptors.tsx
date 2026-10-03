@@ -61,9 +61,14 @@ type RewardDefinitionDescriptorDeps = {
   activeChildStars: number
   isRedeeming: boolean
   handleGiveReward: (reward: RewardRecord) => void | Promise<void>
+  onExpandImage?: (reward: RewardRecord) => void
 }
 
-const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
+const renderRewardAvailableSummary = (
+  reward: RewardRecord,
+  theme: Theme,
+  onExpandImage?: () => void
+) => {
   const image = getRewardImage(reward.imageKey, theme.id)
 
   return (
@@ -82,6 +87,7 @@ const renderRewardAvailableSummary = (reward: RewardRecord, theme: Theme) => {
         overlayImage={getRewardOverlayImage(reward.title, reward.imageKey)}
         imageAlt={`${reward.title} reward`}
         starCount={reward.costStars}
+        onExpandImage={onExpandImage}
       />
     </div>
   )
@@ -194,7 +200,12 @@ export const createRewardDefinitionListRowDescriptor = (
       {reward.title}
     </h2>
   ),
-  renderItem: (reward) => renderRewardAvailableSummary(reward, deps.theme),
+  renderItem: (reward) =>
+    renderRewardAvailableSummary(
+      reward,
+      deps.theme,
+      deps.onExpandImage ? () => deps.onExpandImage?.(reward) : undefined
+    ),
   getPrimaryAction: (reward) => {
     const hasEnoughStars = deps.activeChildStars >= reward.costStars
 

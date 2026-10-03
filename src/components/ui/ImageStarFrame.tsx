@@ -13,6 +13,7 @@ type ImageStarFrameProps = {
   starCount: number
   loading?: 'eager' | 'lazy'
   fetchPriority?: 'high' | 'low' | 'auto'
+  onExpandImage?: () => void
 }
 
 const ImageStarFrame = ({
@@ -23,6 +24,7 @@ const ImageStarFrame = ({
   starCount,
   loading,
   fetchPriority,
+  onExpandImage,
 }: ImageStarFrameProps) => {
   const defaultLoading = useContext(ImageLoadingContext)
   return (
@@ -53,7 +55,35 @@ const ImageStarFrame = ({
           }}
         >
           <div
+            role={onExpandImage ? 'button' : undefined}
+            tabIndex={onExpandImage ? 0 : undefined}
+            aria-label={onExpandImage ? `Enlarge ${imageAlt}` : undefined}
+            aria-description={
+              onExpandImage
+                ? 'Double-click, Enter, or Space to enlarge. Double-click again, click away, or press Escape to close.'
+                : undefined
+            }
+            onDoubleClick={
+              onExpandImage
+                ? (event) => {
+                    event.currentTarget.focus()
+                    onExpandImage()
+                  }
+                : undefined
+            }
+            onKeyDown={
+              onExpandImage
+                ? (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault()
+                      onExpandImage()
+                    }
+                  }
+                : undefined
+            }
             style={{
+              cursor: onExpandImage ? 'zoom-in' : undefined,
+              touchAction: onExpandImage ? 'manipulation' : undefined,
               width: '100%',
               aspectRatio: '1',
               display: 'flex',

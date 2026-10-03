@@ -5,7 +5,7 @@ import TimeExplorerClockIcon, {
   type HeaderClock,
 } from './TimeExplorerClockIcon'
 import teenieGlobeIcon from '../assets/themes/teenie/globe-character.png'
-import { getThemeAsset } from '../ui/themeAssets'
+import { getThemeAsset, hasIllustratedTheme } from '../ui/themeAssets'
 import type { ExplorerPanel } from '../features/dayNightExplorer/timeExplorerStorage'
 import TimeExplorerCalendarIcon from './TimeExplorerCalendarIcon'
 import type { ExplorerCityOption } from '../features/dayNightExplorer/dayNightExplorerOptions'
@@ -51,16 +51,13 @@ export default function TimeExplorerControls({
       return (
         <TimeExplorerClockIcon
           clock={clock}
-          illustrated={theme.id === 'teenie'}
+          illustrated={hasIllustratedTheme(theme.id)}
         />
       )
     }
     if (kind === 'calendar') {
       return (
-        <TimeExplorerCalendarIcon
-          dateLabel={dateLabel}
-          illustrated={theme.id === 'teenie'}
-        />
+        <TimeExplorerCalendarIcon dateLabel={dateLabel} themeId={theme.id} />
       )
     }
     if (kind === 'globe') {

@@ -8,6 +8,7 @@ type CardShellProps = {
   body?: ReactNode
   status?: ReactNode
   footer?: ReactNode
+  overlay?: ReactNode
   variant?: 'default' | 'highlighted' | 'editing' | 'add'
   className?: string
   style?: CSSProperties
@@ -20,13 +21,19 @@ const hasContent = (content: ReactNode) =>
 const CardRegion = ({
   name,
   children,
+  hidden = false,
 }: {
   name: 'header' | 'body' | 'status' | 'footer'
   children: ReactNode
+  hidden?: boolean
 }) => (
   <div
     data-card-region={name}
+    aria-hidden={hidden || undefined}
+    inert={hidden}
     style={{
+      visibility: hidden ? 'hidden' : undefined,
+      opacity: hidden ? 0 : undefined,
       minWidth: 0,
       ...(name === 'body'
         ? {}
@@ -55,6 +62,7 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
     body,
     status,
     footer,
+    overlay,
     variant = 'default',
     className = '',
     style,
@@ -104,10 +112,27 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
       data-card-variant={variant}
       aria-busy={ariaBusy || undefined}
     >
-      {hasContent(header) && <CardRegion name="header">{header}</CardRegion>}
-      {hasContent(body) && <CardRegion name="body">{body}</CardRegion>}
-      {hasContent(status) && <CardRegion name="status">{status}</CardRegion>}
-      {hasContent(footer) && <CardRegion name="footer">{footer}</CardRegion>}
+      {hasContent(header) && (
+        <CardRegion name="header" hidden={hasContent(overlay)}>
+          {header}
+        </CardRegion>
+      )}
+      {hasContent(body) && (
+        <CardRegion name="body" hidden={hasContent(overlay)}>
+          {body}
+        </CardRegion>
+      )}
+      {hasContent(status) && (
+        <CardRegion name="status" hidden={hasContent(overlay)}>
+          {status}
+        </CardRegion>
+      )}
+      {hasContent(footer) && (
+        <CardRegion name="footer" hidden={hasContent(overlay)}>
+          {footer}
+        </CardRegion>
+      )}
+      {overlay}
     </article>
   )
 })

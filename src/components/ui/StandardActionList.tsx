@@ -85,6 +85,7 @@ const ActionCard = <T,>({
   isItemHighlighted,
   renderHeader,
   renderItem,
+  renderSurfaceOverlay,
   getPrimaryAction,
   onEdit,
   onDelete,
@@ -236,6 +237,7 @@ const ActionCard = <T,>({
         )
       }
       footer={footer}
+      overlay={renderSurfaceOverlay?.(item)}
       ariaBusy={pendingAction !== null}
     />
   )

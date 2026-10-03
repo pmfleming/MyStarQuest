@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import RewardCelebration from '../components/RewardCelebration'
+import RewardImagePreview from '../components/RewardImagePreview'
 import { getRewardImage, getRewardOverlayImage } from '../assets/rewards/assets'
 import { useRewardCelebration } from '../hooks/useRewardCelebration'
 import { useActiveChild } from '../contexts/ActiveChildContext'
@@ -19,6 +20,11 @@ const RewardsPage = () => {
   const { theme } = useTheme()
   const [showAddReward, setShowAddReward] = useState(false)
   const [isCreatingReward, setIsCreatingReward] = useState(false)
+  const [imagePreview, setImagePreview] = useState<{
+    rewardId: string
+    childId: string | null
+  } | null>(null)
+  const closeImagePreview = useCallback(() => setImagePreview(null), [])
   const [createRewardError, setCreateRewardError] = useState<string | null>(
     null
   )
@@ -61,6 +67,8 @@ const RewardsPage = () => {
     activeChildStars,
     isRedeeming: isRedeeming || celebration?.childId === activeChildId,
     handleGiveReward,
+    onExpandImage: (reward) =>
+      setImagePreview({ rewardId: reward.id, childId: activeChildId }),
   })
   const visibleRewards: RewardRecord[] = [...rewards]
   if (
@@ -97,6 +105,22 @@ const RewardsPage = () => {
           getKey={(reward) => reward.id}
           getItemLabel={(reward) => reward.title}
           {...rewardListDescriptor}
+          renderSurfaceOverlay={(reward) => {
+            const image = getRewardImage(reward.imageKey, theme.id)
+            return image &&
+              imagePreview?.rewardId === reward.id &&
+              imagePreview.childId === activeChildId ? (
+              <RewardImagePreview
+                image={image}
+                overlayImage={getRewardOverlayImage(
+                  reward.title,
+                  reward.imageKey
+                )}
+                title={reward.title}
+                onClose={closeImagePreview}
+              />
+            ) : null
+          }}
           renderItem={(reward) => {
             const celebrating = activeCelebration?.rewardId === reward.id
             return (

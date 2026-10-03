@@ -20,6 +20,7 @@ export type ResolvedListUtilityAction<T> = ResolvedListAction<T> & {
 export type ListRowDescriptor<T> = {
   renderHeader?: (item: T) => ReactNode
   renderItem: (item: T) => ReactNode
+  renderSurfaceOverlay?: (item: T) => ReactNode
   getPrimaryAction: (item: T) => ResolvedListAction<T>
   // Omit the getter for default deletion; return undefined to hide this row's utility.
   getUtilityAction?: (item: T) => ResolvedListUtilityAction<T> | undefined

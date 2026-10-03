@@ -1,4 +1,10 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { themes } from '../../src/contexts/ThemeContext'
@@ -10,7 +16,15 @@ const rewardData = vi.hoisted(() => ({
   childId: null as string | null,
   stars: 2,
   themeId: 'princess' as 'princess' | 'teenie',
-  rewards: [{ id: 'reward', title: 'Play', costStars: 3, isRepeating: true }],
+  rewards: [
+    {
+      id: 'reward',
+      title: 'Play',
+      costStars: 3,
+      isRepeating: true,
+      imageKey: '',
+    },
+  ],
 }))
 vi.mock('../../src/contexts/ActiveChildContext', () => ({
   useActiveChild: () => ({ activeChildId: rewardData.childId }),
@@ -37,7 +51,13 @@ beforeEach(() => {
   rewardData.stars = 2
   deleteReward.mockReset().mockResolvedValue(undefined)
   rewardData.rewards = [
-    { id: 'reward', title: 'Play', costStars: 3, isRepeating: true },
+    {
+      id: 'reward',
+      title: 'Play',
+      costStars: 3,
+      isRepeating: true,
+      imageKey: '',
+    },
   ]
   giveReward
     .mockReset()
@@ -46,6 +66,76 @@ beforeEach(() => {
 afterEach(() => {
   vi.restoreAllMocks()
   vi.useRealTimers()
+})
+
+it('enlarges the reward and its overlay across the card, hides controls, and restores on double-click or click-away', () => {
+  rewardData.rewards[0].imageKey = 'legoPokemon'
+  rewardData.rewards[0].title = 'Charmander'
+  rewardData.childId = 'child'
+  rewardData.stars = 5
+  render(<RewardsPage />)
+  const image = screen.getByRole('img', { name: 'Charmander reward' })
+  const card = image.closest('article')!
+  const buy = screen.getByRole('button', { name: 'Buy Charmander' })
+  fireEvent.click(image)
+  expect(
+    screen.queryByRole('img', { name: 'Charmander reward enlarged' })
+  ).not.toBeInTheDocument()
+  fireEvent.doubleClick(image)
+  const preview = screen.getByRole('button', {
+    name: 'Close enlarged Charmander reward',
+  })
+  expect(preview).toHaveFocus()
+  expect(
+    within(preview).getByRole('img', { name: 'Charmander reward enlarged' })
+  ).toBeVisible()
+  expect(preview.querySelectorAll('img')).toHaveLength(2)
+  expect(buy).not.toBeVisible()
+  expect(image).not.toBeVisible()
+  expect(
+    within(card).queryByRole('button', { name: 'Delete Charmander' })
+  ).not.toBeInTheDocument()
+  expect(card.querySelector('[data-card-region="body"]')).toHaveAttribute(
+    'inert'
+  )
+  expect(card.querySelector('[data-card-region="body"]')).not.toBeVisible()
+  fireEvent.click(preview, { detail: 1 })
+  expect(preview).toBeVisible()
+  fireEvent.doubleClick(preview)
+  expect(buy).toBeVisible()
+  expect(
+    screen.getByRole('button', { name: 'Enlarge Charmander reward' })
+  ).toHaveFocus()
+  fireEvent.doubleClick(image)
+  fireEvent.pointerDown(document.body)
+  expect(
+    screen.queryByRole('img', { name: 'Charmander reward enlarged' })
+  ).not.toBeInTheDocument()
+  expect(buy).toBeVisible()
+  expect(giveReward).not.toHaveBeenCalled()
+  expect(deleteReward).not.toHaveBeenCalled()
+})
+
+it('supports keyboard preview and Escape, and closes when the active child changes', () => {
+  rewardData.rewards[0].imageKey = 'legoPokemon'
+  const { rerender } = render(<RewardsPage />)
+  const trigger = screen.getByRole('button', { name: 'Enlarge Play reward' })
+  trigger.focus()
+  fireEvent.keyDown(trigger, { key: 'Enter' })
+  expect(
+    screen.getByRole('img', { name: 'Play reward enlarged' })
+  ).toBeVisible()
+  fireEvent.keyDown(document, { key: 'Escape' })
+  expect(trigger).toHaveFocus()
+  expect(
+    screen.queryByRole('img', { name: 'Play reward enlarged' })
+  ).not.toBeInTheDocument()
+  fireEvent.keyDown(trigger, { key: ' ' })
+  rewardData.childId = 'another-child'
+  rerender(<RewardsPage />)
+  expect(
+    screen.queryByRole('img', { name: 'Play reward enlarged' })
+  ).not.toBeInTheDocument()
 })
 
 it('requires a child and sufficient stars, blocks duplicate purchases and permits retry', async () => {
