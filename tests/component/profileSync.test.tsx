@@ -93,5 +93,5 @@ it('reconciles a cached theme with remote profile changes and rolls back a rejec
   )
   expect(
     JSON.parse(localStorage.getItem('mystarquest:active-child:sync-parent')!)
-  ).toEqual({ id: 'child', themeId: 'teenie' })
+  ).toEqual({ id: 'child', themeId: 'teenie', ownerUid: 'sync-parent' })
 })

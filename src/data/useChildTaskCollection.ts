@@ -13,6 +13,8 @@ import { useUserCollection } from './useUserCollection'
 import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
 import { activityKey } from '../offline/model'
+import { useDataScope } from '../sharing/ChildAccessContext'
+import { parseChildScope } from '../sharing/scope'
 
 type ChildTaskCollectionItem = Pick<TaskRecord, 'id' | 'createdAt' | 'title'>
 
@@ -28,9 +30,10 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
   getPersistedState,
 }: UseChildTaskCollectionArgs<T>) => {
   const { user } = useAuth()
-  const userId = user?.uid
+  const { storageKey: userId, canAdmin, timeZone } = useDataScope()
+  const queued = isOfflineEnabled() || !!parseChildScope(userId)
   const { activeChildId } = useActiveChild()
-  const todayInfo = useTodayInfo()
+  const todayInfo = useTodayInfo(timeZone)
   const [ephemeral, setEphemeral] = useState<
     Record<string, TaskEphemeralState>
   >({})
@@ -42,8 +45,8 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
   const onItems = useCallback(
     (items: T[]) => {
       // Keep optimistic changes until their fields arrive in a subscription snapshot.
-      const dateKey = getTodayDescriptor().dateKey
-      if (isOfflineEnabled() && userId) {
+      const dateKey = getTodayDescriptor(new Date(), timeZone).dateKey
+      if (queued && userId) {
         const state = offlineRuntime(userId).store.getSnapshot()
         const next = Object.fromEntries(
           items.map((item) => [
@@ -69,11 +72,11 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
         : items
       setEphemeral((previous) => reconcileTaskEphemeral(previous, persisted))
     },
-    [collectionName, getPersistedState, userId]
+    [collectionName, getPersistedState, userId, queued, timeZone]
   )
 
   const items = useUserCollection({
-    userId: activeChildId ? user?.uid : undefined,
+    userId: activeChildId ? userId : undefined,
     collectionName,
     whereEqualToField: 'childId',
     whereEqualToValue: activeChildId ?? undefined,
@@ -83,5 +86,15 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
     onClear,
     onItems,
   })
-  return { items, user, activeChildId, todayInfo, ephemeral, setEphemeral }
+  return {
+    items,
+    user,
+    storageKey: userId,
+    queued,
+    canAdmin,
+    activeChildId,
+    todayInfo,
+    ephemeral,
+    setEphemeral,
+  }
 }

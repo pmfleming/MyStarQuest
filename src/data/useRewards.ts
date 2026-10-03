@@ -1,8 +1,14 @@
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../firebaseDb'
+import { saveDocument } from '../offline/actions'
+import { isOfflineEnabled } from '../offline/platform'
+import { parseChildScope } from '../sharing/scope'
 // ── Real-time rewards subscription + all reward mutations ──
 
 import { useCallback } from 'react'
 import { useChildren } from './useChildren'
 import { useAuth } from '../auth/AuthContext'
+import { useDataScope } from '../sharing/ChildAccessContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { redeemReward } from '../lib/starActions'
 import { rewardSnapshotDataSchema, type RewardRecord } from './types'
@@ -21,6 +27,7 @@ export type RewardDocumentSettings = {
 
 export function useRewards() {
   const { user } = useAuth()
+  const { storageKey } = useDataScope()
   const { activeChildId } = useActiveChild()
   const { children } = useChildren()
   const activeChildStars =
@@ -48,7 +55,7 @@ export function useRewards() {
   }, [])
 
   const rewards = useUserCollection({
-    userId: user?.uid,
+    userId: storageKey,
     collectionName: 'rewards',
     orderByField: 'createdAt',
     errorMessage: 'Failed to subscribe to rewards',
@@ -65,7 +72,7 @@ export function useRewards() {
     }
   ) => {
     if (!user) return
-    return createUserDocument(user.uid, 'rewards', {
+    return createUserDocument(storageKey!, 'rewards', {
       title: settings.title,
       costStars: Math.max(0, settings.costStars),
       isRepeating: settings.isRepeating,
@@ -80,7 +87,7 @@ export function useRewards() {
     }
 
     return redeemReward({
-      userId: user.uid,
+      userId: storageKey!,
       childId: activeChildId,
       reward,
     })
@@ -89,10 +96,18 @@ export function useRewards() {
   // ── Delete ──
   const deleteReward = async (id: string) => {
     if (!user) return
-    await deleteUserDocument(user.uid, 'rewards', id)
+    await deleteUserDocument(storageKey!, 'rewards', id)
   }
 
+  const updateReward = async (id: string, settings: RewardDocumentSettings) => {
+    if (!storageKey) return
+    const data = { ...settings, imageKey: settings.imageKey ?? '' }
+    if (isOfflineEnabled() || parseChildScope(storageKey))
+      await saveDocument(storageKey, 'rewards', id, 'patch', data)
+    else await updateDoc(doc(db, 'users', storageKey, 'rewards', id), data)
+  }
   return {
+    updateReward,
     rewards,
     activeChildStars: user && activeChildId ? activeChildStars : 0,
     createStandardReward,

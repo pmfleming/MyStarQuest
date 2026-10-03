@@ -3,6 +3,10 @@ import type { ReactNode } from 'react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ManageChildrenPage from '../../src/pages/ManageChildrenPage'
 
+vi.mock('../../src/sharing/ChildAccessContext', () => ({
+  useDataScope: () => ({ canAdmin: true }),
+}))
+
 const state = vi.hoisted(() => ({
   themeId: 'princess' as 'princess' | 'teenie',
   deleteChild: vi.fn(),

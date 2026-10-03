@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { isOfflineEnabled } from '../offline/platform'
+import { parseChildScope } from '../sharing/scope'
 
 type TaskCollection = 'chores' | 'tests'
 
@@ -39,7 +40,7 @@ export const completeTaskAndAwardStars = async (options: {
   initialTaskData?: Record<string, unknown>
   deleteOnComplete?: boolean
 }) => {
-  if (isOfflineEnabled()) {
+  if (isOfflineEnabled() || parseChildScope(options.userId)) {
     const { offlineCompletion } = await import('../offline/actions')
     return offlineCompletion(options)
   }
@@ -137,7 +138,7 @@ export const redeemReward = async ({
   childId,
   reward,
 }: RedeemOptions) => {
-  if (isOfflineEnabled()) {
+  if (isOfflineEnabled() || parseChildScope(userId)) {
     const { offlineRedemption } = await import('../offline/actions')
     return offlineRedemption(userId, childId, reward)
   }

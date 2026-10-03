@@ -15,6 +15,20 @@ import { buildSchoolCalendar, fetchSchoolCalendarText } from './schoolCalendar'
 initializeApp()
 const db = getFirestore()
 
+export {
+  prepareChildSharing,
+  listChildParents,
+  inviteParent,
+  resendParentInvitation,
+  acceptParentInvitation,
+  revokeParentInvitation,
+  removeParentAccess,
+  applyChildOperation,
+  deleteSharedChild,
+  cleanupSharedChild,
+  deliverParentInvitation,
+} from './sharing'
+
 // ── Day-type & Timezone helpers ──
 
 type CurrentDayType = 'schoolday' | 'nonschoolday'
@@ -189,6 +203,12 @@ export const generateDailyTodos = onSchedule(
         .get()
 
       for (const childDoc of childrenSnapshot.docs) {
+        // Shared progress is day-scoped and must never be reset by legacy jobs.
+        if (
+          childDoc.data().sharedDataVersion ||
+          childDoc.data().sharingMigration
+        )
+          continue
         const childId = childDoc.id
 
         const created = await resetChildChores(uid, childId, dayType, true)
@@ -253,6 +273,13 @@ const assertCallableChild = async (uid: string | undefined, data: unknown) => {
   const childDoc = await db.doc(`users/${uid}/children/${childId}`).get()
   if (!childDoc.exists) {
     throw new HttpsError('not-found', 'Child not found.')
+  }
+
+  if (childDoc.data()?.sharedDataVersion || childDoc.data()?.sharingMigration) {
+    throw new HttpsError(
+      'failed-precondition',
+      'Use the current app to reset shared progress.'
+    )
   }
 
   return { uid, childId }

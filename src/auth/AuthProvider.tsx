@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [])
 
   const logout = useCallback(async () => {
+    if (Capacitor.isNativePlatform()) await FirebaseAuthentication.signOut()
     await signOut(auth)
   }, [])
 

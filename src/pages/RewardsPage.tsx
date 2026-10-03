@@ -18,6 +18,8 @@ import type { RewardDocumentSettings } from '../data/useRewards'
 const RewardsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const [editingId, setEditingId] = useState<string>()
+  const [savingEdit, setSavingEdit] = useState(false)
   const [showAddReward, setShowAddReward] = useState(false)
   const [isCreatingReward, setIsCreatingReward] = useState(false)
   const [imagePreview, setImagePreview] = useState<{
@@ -35,6 +37,7 @@ const RewardsPage = () => {
     createStandardReward,
     giveReward,
     deleteReward,
+    updateReward,
   } = useRewards()
 
   const {
@@ -165,7 +168,36 @@ const RewardsPage = () => {
               retainedReward?.reward.id === reward.id,
             onClick: (reward) => deleteReward(reward.id),
           })}
-          hideEdit
+          hideEdit={(reward) =>
+            isRedeeming || activeCelebration?.rewardId === reward.id
+          }
+          editingId={editingId}
+          onEdit={(reward) => setEditingId(reward.id)}
+          renderInlineEdit={(reward) => (
+            <RewardCreationFlow
+              key={reward.id}
+              theme={theme}
+              initialReward={reward}
+              isSaving={savingEdit}
+              onCancel={() => setEditingId(undefined)}
+              onSave={async (settings) => {
+                setSavingEdit(true)
+                setCreateRewardError(null)
+                try {
+                  await updateReward(reward.id, settings)
+                  setEditingId(undefined)
+                } catch (reason) {
+                  setCreateRewardError(
+                    reason instanceof Error
+                      ? reason.message
+                      : 'Could not save reward.'
+                  )
+                } finally {
+                  setSavingEdit(false)
+                }
+              }}
+            />
+          )}
           onDelete={(reward) => deleteReward(reward.id)}
           addLabel="New Reward"
           onAdd={() => setShowAddReward(true)}

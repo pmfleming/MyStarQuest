@@ -3,7 +3,6 @@
 import { useMemo } from 'react'
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseDb'
-import { isOfflineEnabled } from '../offline/platform'
 import { saveActivityPatch, saveDocument } from '../offline/actions'
 import { snapshotDocument } from '../offline/firebaseTransport'
 import { parseChoreSnapshot } from '../lib/choreParser'
@@ -26,6 +25,8 @@ export function useChores() {
   const {
     items: rawChores,
     user,
+    storageKey,
+    queued,
     activeChildId,
     todayInfo,
     ephemeral,
@@ -58,12 +59,12 @@ export function useChores() {
     taskId: string,
     patch: Partial<TaskEphemeralState>
   ): Promise<void> => {
-    if (isOfflineEnabled() && user && activeChildId) {
+    if (queued && user && activeChildId) {
       const reset = Object.entries(patch).some(
         ([key, value]) => key.endsWith('CompletedAt') && value === null
       )
       return saveActivityPatch(
-        user.uid,
+        storageKey!,
         'chores',
         taskId,
         activeChildId,
@@ -85,13 +86,14 @@ export function useChores() {
       return Promise.resolve()
     }
 
-    return updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch).catch(
-      (err) => {
-        clearResolvedPatch()
-        console.error('Failed to update chore state', err)
-        throw err
-      }
-    )
+    return updateDoc(
+      doc(db, 'users', storageKey!, 'chores', taskId),
+      patch
+    ).catch((err) => {
+      clearResolvedPatch()
+      console.error('Failed to update chore state', err)
+      throw err
+    })
   }
 
   // ── Generic Mutations ──
@@ -108,18 +110,18 @@ export function useChores() {
     }
 
     validateTaskFields(patch)
-    if (isOfflineEnabled() && user) {
+    if (queued && user) {
       const settings = Object.fromEntries(
         Object.entries(patch).filter(([key]) => !key.startsWith('manage'))
       )
-      await saveDocument(user.uid, 'chores', taskId, 'patch', settings)
+      await saveDocument(storageKey!, 'chores', taskId, 'patch', settings)
       if (activeChildId) {
         const progress = Object.fromEntries(
           Object.entries(patch).filter(([key]) => key.startsWith('manage'))
         )
         if (Object.keys(progress).length)
           await saveActivityPatch(
-            user.uid,
+            storageKey!,
             'chores',
             taskId,
             activeChildId,
@@ -129,7 +131,7 @@ export function useChores() {
       return
     }
     if (!user) return
-    await updateDoc(doc(db, 'users', user.uid, 'chores', taskId), patch)
+    await updateDoc(doc(db, 'users', storageKey!, 'chores', taskId), patch)
   }
 
   const createChoreForToday = async (
@@ -138,14 +140,14 @@ export function useChores() {
   ): Promise<ChoreRecord | undefined> => {
     if (!user || !activeChildId) return
     const document = buildChoreDocument(activeChildId, choreType, settings)
-    if (isOfflineEnabled()) {
+    if (queued) {
       const id = crypto.randomUUID()
       const data = { ...document, createdAt: new Date() }
-      await saveDocument(user.uid, 'chores', id, 'put', data)
+      await saveDocument(storageKey!, 'chores', id, 'put', data)
       return parseChoreSnapshot(id, snapshotDocument(data)) ?? undefined
     }
     const docRef = await addDoc(
-      collection(db, 'users', user.uid, 'chores'),
+      collection(db, 'users', storageKey!, 'chores'),
       document
     )
     return parseChoreSnapshot(docRef.id, document) ?? undefined
@@ -153,7 +155,7 @@ export function useChores() {
 
   const deleteTask = async (taskId: string) => {
     if (!user) return
-    await deleteUserDocument(user.uid, 'chores', taskId)
+    await deleteUserDocument(storageKey!, 'chores', taskId)
 
     setEphemeral((prev) => {
       const next = { ...prev }
@@ -164,6 +166,7 @@ export function useChores() {
 
   const activityActions = useChoreActivityActions({
     user,
+    storageKey,
     activeChildId,
     dateKey: todayInfo.dateKey,
     updateEphemeral,

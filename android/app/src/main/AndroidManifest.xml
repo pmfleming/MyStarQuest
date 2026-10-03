@@ -27,6 +27,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="mystarquest-1b6f8.web.app" android:pathPrefix="/invite/" />
+                <data android:scheme="https" android:host="mystarquest-1b6f8.firebaseapp.com" android:pathPrefix="/invite/" />
+            </intent-filter>
         </activity>
 
         <provider

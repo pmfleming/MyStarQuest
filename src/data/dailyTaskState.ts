@@ -28,18 +28,20 @@ type ChildTaskItem = DraftableItem & {
   childId: string
 }
 
-export const useTodayInfo = () => {
-  const [todayInfo, setTodayInfo] = useState(() => getTodayDescriptor())
+export const useTodayInfo = (timeZone = 'Europe/London') => {
+  const [todayInfo, setTodayInfo] = useState(() =>
+    getTodayDescriptor(new Date(), timeZone)
+  )
 
   useEffect(() => {
     const interval = setInterval(() => {
-      const current = getTodayDescriptor()
+      const current = getTodayDescriptor(new Date(), timeZone)
       if (current.dateKey !== todayInfo.dateKey) {
         setTodayInfo(current)
       }
     }, 60000)
     return () => clearInterval(interval)
-  }, [todayInfo.dateKey])
+  }, [todayInfo.dateKey, timeZone])
 
   return todayInfo
 }

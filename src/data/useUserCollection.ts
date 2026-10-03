@@ -12,6 +12,7 @@ import { db } from '../firebaseDb'
 import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
 import type { CollectionName } from '../offline/model'
+import { parseChildScope } from '../sharing/scope'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
@@ -40,17 +41,29 @@ export const useUserCollection = <T>({
   onItems,
   onClear,
 }: UseUserCollectionArgs<T>) => {
-  const [items, setItems] = useState<T[]>([])
+  const resultKey = JSON.stringify([
+    userId,
+    collectionName,
+    whereEqualToField,
+    whereEqualToValue,
+  ])
+  const [result, setResult] = useState<{ key: string; items: T[] }>({
+    key: resultKey,
+    items: [],
+  })
 
   useEffect(() => {
+    const setItems = (items: T[]) => setResult({ key: resultKey, items })
     if (!userId) {
       onClear?.()
       return
     }
 
-    if (isOfflineEnabled()) {
+    if (isOfflineEnabled() || parseChildScope(userId)) {
       const runtime = offlineRuntime(userId)
+      let disposed = false
       const publish = () => {
+        if (disposed) return
         const mapped = runtime
           .documents(collectionName)
           .flatMap(({ id, data }) => {
@@ -72,6 +85,7 @@ export const useUserCollection = <T>({
       const interval = setInterval(publish, 30_000)
       document.addEventListener('visibilitychange', publish)
       return () => {
+        disposed = true
         unsubscribe()
         clearInterval(interval)
         document.removeEventListener('visibilitychange', publish)
@@ -121,9 +135,10 @@ export const useUserCollection = <T>({
     orderByField,
     orderDirection,
     userId,
+    resultKey,
     whereEqualToField,
     whereEqualToValue,
   ])
 
-  return userId ? items : []
+  return userId && result.key === resultKey ? result.items : []
 }

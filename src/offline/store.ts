@@ -11,6 +11,8 @@ import type { OfflinePersistence } from './persistence'
 import { snapshotStore } from '../lib/snapshotStore'
 import type { SyncReceipt } from './transport'
 import { importWebProgress } from './importWebProgress'
+import { parseChildScope } from '../sharing/scope'
+import { mergeSharedProgress, rebuildSharedProgress } from './sharedProgress'
 
 export class OfflineStore {
   private snapshot = snapshotStore<OfflineState | undefined>(undefined)
@@ -52,13 +54,17 @@ export class OfflineStore {
       if (this.persistence.update) {
         const { state, result } = await this.persistence.update(
           this.userId,
-          change
+          (state) => {
+            if (parseChildScope(this.userId)) state.shared = true
+            return change(state)
+          }
         )
         this.snapshot.publish(state)
         this.onCommit?.()
         return result
       }
       const draft = structuredClone(this.getSnapshot()!)
+      if (parseChildScope(this.userId)) draft.shared = true
       const result = change(draft)
       await this.persistence.write(this.userId, draft)
       this.snapshot.publish(draft)
@@ -82,10 +88,21 @@ export class OfflineStore {
     return operation
   }
 
-  acknowledge(id: string, { collection, entityId, document }: SyncReceipt) {
+  acknowledge(
+    id: string,
+    {
+      collection,
+      entityId,
+      document,
+      progress,
+      progressKey,
+      removed,
+    }: SyncReceipt
+  ) {
     return this.mutate((state) => {
       // Another tab may have acknowledged this operation and applied later work.
       if (!state.pending.some((operation) => operation.id === id)) return
+      if (state.revoked) return
       const documents = state.documents[collection]
       if (document)
         documents[entityId] = latestDocument(
@@ -95,6 +112,40 @@ export class OfflineStore {
         )
       else delete documents[entityId]
       state.pending = state.pending.filter((operation) => operation.id !== id)
+      if (progress && progressKey)
+        mergeSharedProgress(state, {
+          ...state.sharedProgress,
+          [progressKey]: progress,
+        })
+      if (removed) delete state.documents[removed.collection][removed.entityId]
+      rebuildSharedProgress(state)
+    })
+  }
+
+  mergeProgress(documents: Record<string, LocalDocument>) {
+    return this.mutate((state) => {
+      if (!state.revoked) mergeSharedProgress(state, documents)
+    })
+  }
+  reject(id: string, message: string) {
+    return this.mutate((state) => {
+      state.pending = state.pending.filter((operation) => operation.id !== id)
+      state.rejected = [...(state.rejected ?? []), { id, message }].slice(-20)
+      rebuildSharedProgress(state)
+    })
+  }
+  revoke() {
+    return this.mutate((state) => {
+      state.rejected = state.pending.map((operation) => ({
+        id: operation.id,
+        message: 'Access was removed; this change was not sent.',
+      }))
+      state.pending = []
+      state.documents = { children: {}, chores: {}, tests: {}, rewards: {} }
+      state.activities = {}
+      state.sharedProgress = {}
+      state.consumed = {}
+      state.revoked = true
     })
   }
 
@@ -104,6 +155,34 @@ export class OfflineStore {
     preserveWebProgress = false
   ) {
     return this.mutate((state) => {
+      if (state.revoked) return
+      if (collection === 'children' && !state.shared) {
+        const migrated = new Set(
+          Object.entries(documents)
+            .filter(([, child]) => child.sharedDataVersion === 1)
+            .map(([id]) => id)
+        )
+        state.pending = state.pending.filter((operation) => {
+          const action = operation.action
+          const childId =
+            action.kind !== 'document'
+              ? action.childId
+              : action.collection === 'children'
+                ? action.entityId
+                : (action.data.childId ??
+                  state.documents[action.collection][action.entityId]?.childId)
+          if (!migrated.has(String(childId))) return true
+          state.rejected = [
+            ...(state.rejected ?? []),
+            {
+              id: operation.id,
+              message:
+                'This child now uses shared progress. An older pending change was not sent; reopen the child.',
+            },
+          ].slice(-20)
+          return false
+        })
+      }
       if (preserveWebProgress) importWebProgress(state, collection, documents)
       state.documents[collection] = Object.fromEntries(
         Object.entries(documents).map(([id, document]) => [

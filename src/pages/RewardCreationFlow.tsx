@@ -19,6 +19,7 @@ type RewardDraft = {
 
 type RewardCreationFlowProps = {
   theme: Theme
+  initialReward?: RewardDocumentSettings
   isSaving: boolean
   onSave: (settings: RewardDocumentSettings) => void | Promise<void>
   onCancel: () => void
@@ -33,11 +34,16 @@ const defaultDraft: RewardDraft = {
 
 const RewardCreationFlow = ({
   theme,
+  initialReward,
   isSaving,
   onSave,
   onCancel,
 }: RewardCreationFlowProps) => {
-  const [draft, setDraft] = useState<RewardDraft>(defaultDraft)
+  const [draft, setDraft] = useState<RewardDraft>(() =>
+    initialReward
+      ? { ...initialReward, imageKey: initialReward.imageKey ?? '' }
+      : defaultDraft
+  )
 
   const updateDraft = (patch: Partial<RewardDraft>) => {
     setDraft((current) => ({ ...current, ...patch }))

@@ -1,9 +1,9 @@
+import { parseChildScope } from '../sharing/scope'
 // Tests subscription + mutations.
 
 import { doc, runTransaction, updateDoc } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo } from 'react'
 import { db } from '../firebaseDb'
-import { isOfflineEnabled } from '../offline/platform'
 import { saveActivityPatch, saveDocument } from '../offline/actions'
 import { offlineRuntime } from '../offline/runtime'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
@@ -29,6 +29,7 @@ import {
   type TaskOutcome,
   type TaskUpdatableFields,
   type TestRecord,
+  type TestType,
   type TestWithEphemeral,
 } from './types'
 import { useChildTaskCollection } from './useChildTaskCollection'
@@ -55,6 +56,9 @@ export function useTests() {
   const {
     items: rawTests,
     user,
+    storageKey,
+    queued,
+    canAdmin,
     activeChildId,
     todayInfo,
     ephemeral,
@@ -65,23 +69,24 @@ export function useTests() {
     getPersistedState: getPersistedAttemptState,
   })
 
+  const canManageTests = Boolean(parseChildScope(storageKey))
   const defaultTests = useMemo<TestRecord[]>(() => {
-    if (!activeChildId) return []
+    if (!activeChildId || canManageTests) return []
     return buildDefaultTests(activeChildId)
-  }, [activeChildId])
+  }, [activeChildId, canManageTests])
 
   const persistTestField = useCallback(
     async (testId: string, field: TaskUpdatableFields) => {
       if (!user) return
       const defaultTest = defaultTests.find((test) => test.id === testId)
-      if (isOfflineEnabled()) {
-        const runtime = offlineRuntime(user.uid)
+      if (queued) {
+        const runtime = offlineRuntime(storageKey!)
         if (
           defaultTest &&
           !runtime.documents('tests').some((test) => test.id === testId)
         ) {
           await saveDocument(
-            user.uid,
+            storageKey!,
             'tests',
             testId,
             'put',
@@ -90,17 +95,17 @@ export function useTests() {
         }
         if ('lastAttemptedAt' in field && activeChildId) {
           await saveActivityPatch(
-            user.uid,
+            storageKey!,
             'tests',
             testId,
             activeChildId,
             field,
             field.lastAttemptedAt === null
           )
-        } else await saveDocument(user.uid, 'tests', testId, 'patch', field)
+        } else await saveDocument(storageKey!, 'tests', testId, 'patch', field)
         return
       }
-      const testRef = doc(db, 'users', user.uid, 'tests', testId)
+      const testRef = doc(db, 'users', storageKey!, 'tests', testId)
       if (defaultTest) {
         await runTransaction(db, async (transaction) => {
           const snapshot = await transaction.get(testRef)
@@ -118,7 +123,7 @@ export function useTests() {
 
       await updateDoc(testRef, field)
     },
-    [activeChildId, defaultTests, user]
+    [activeChildId, defaultTests, user, storageKey, queued]
   )
   const {
     overrides: optimisticFields,
@@ -126,10 +131,10 @@ export function useTests() {
     reconcile: reconcileTestFields,
   } = useCoalescedDocumentUpdates<TaskUpdatableFields>({
     persist: persistTestField,
-    delayMs: isOfflineEnabled() ? 0 : undefined,
+    delayMs: queued ? 0 : undefined,
     onError: (_testId, _field, error) => {
       console.error('Failed to update test', error)
-      if (isOfflineEnabled() && user) offlineRuntime(user.uid).report(error)
+      if (queued && user) offlineRuntime(storageKey!).report(error)
     },
   })
 
@@ -154,13 +159,21 @@ export function useTests() {
       optimisticFields
     )
     const consumed =
-      isOfflineEnabled() && user
-        ? offlineRuntime(user.uid).store.getSnapshot()?.consumed
+      queued && user
+        ? offlineRuntime(storageKey!).store.getSnapshot()?.consumed
         : undefined
     return consumed
       ? merged.filter((test) => !consumed[`tests/${test.id}`])
       : merged
-  }, [activeChildId, defaultTests, optimisticFields, rawTests, user])
+  }, [
+    activeChildId,
+    defaultTests,
+    optimisticFields,
+    rawTests,
+    user,
+    storageKey,
+    queued,
+  ])
 
   const tests = useMemo(
     () =>
@@ -182,14 +195,14 @@ export function useTests() {
     testId: string,
     patch: Partial<TaskEphemeralState>
   ) => {
-    if (isOfflineEnabled() && user && activeChildId) {
+    if (queued && user && activeChildId) {
       void saveActivityPatch(
-        user.uid,
+        storageKey!,
         'tests',
         testId,
         activeChildId,
         patch
-      ).catch(offlineRuntime(user.uid).report)
+      ).catch(offlineRuntime(storageKey!).report)
     }
     setEphemeral((prev) => ({
       ...prev,
@@ -209,7 +222,7 @@ export function useTests() {
   ) => {
     // Native completion/reset publishes only after the activity and star change
     // are committed together; never save an intermediate 'done' state.
-    if (isOfflineEnabled()) return persist()
+    if (queued) return persist()
     const previousPatch = ephemeral[testId]
     updateEphemeral(testId, patch)
     try {
@@ -232,7 +245,7 @@ export function useTests() {
       manageTestOutcomePatch(item.taskType, attemptedAt, outcome),
       () =>
         persistTestField(item.id, {
-          ...(isOfflineEnabled()
+          ...(queued
             ? manageTestOutcomePatch(item.taskType, attemptedAt, outcome)
             : {}),
           lastAttemptedAt: attemptedAt,
@@ -252,14 +265,14 @@ export function useTests() {
       const defaultTest = defaultTests.find((test) => test.id === item.id)
       const result = await persistEphemeral(item.id, patch, () =>
         completeTaskAndAwardStars({
-          userId: user.uid,
+          userId: storageKey!,
           childId: activeChildId,
           taskId: item.id,
           taskCollection: 'tests',
           dateKey: todayInfo.dateKey,
           delta: item.starValue,
           updates: {
-            ...(isOfflineEnabled() ? patch : {}),
+            ...(queued ? patch : {}),
             lastAttemptedAt: now,
             lastAttemptDateKey: todayInfo.dateKey,
             lastAttemptOutcome: 'success',
@@ -282,12 +295,34 @@ export function useTests() {
   const failTest = (item: TestWithEphemeral) =>
     persistTestAttempt(item, Date.now(), 'failure')
 
-  const resetTest = (item: TestWithEphemeral) =>
-    persistTestAttempt(item, null, null)
+  const resetTest = (item: TestWithEphemeral) => {
+    if (!canAdmin)
+      return Promise.reject(
+        new Error('Only the admin can reset saved progress.')
+      )
+    return persistTestAttempt(item, null, null)
+  }
 
   useEphemeralExpiry(Boolean(user), rawTests, setEphemeral, getTestLastActive)
 
+  const createTest = async (type: TestType) => {
+    if (!storageKey || !activeChildId || !canManageTests) return
+    await saveDocument(
+      storageKey,
+      'tests',
+      crypto.randomUUID(),
+      'put',
+      buildTestDocument(activeChildId, type)
+    )
+  }
+  const deleteTest = async (id: string) => {
+    if (!storageKey || !canManageTests) return
+    await saveDocument(storageKey, 'tests', id, 'delete')
+  }
   return {
+    canManageTests,
+    createTest,
+    deleteTest,
     tests,
     todayInfo,
     availableTests: activeChildTests,

@@ -29,9 +29,22 @@ import {
   useUserDocumentUpdates,
 } from './useUserDocumentUpdates'
 import { useRequiredContext } from '../hooks/useRequiredContext'
+import { storageKeyForChild, useDataScope } from '../sharing/ChildAccessContext'
+import { sharingCall } from '../sharing/api'
+import { parseChildScope } from '../sharing/scope'
 
 const useChildrenState = () => {
   const { user } = useAuth()
+  const { storageKey, access, canAdmin } = useDataScope()
+  const resolveChildUserId = useCallback(
+    (id: string) => {
+      const child = access?.choices.find(
+        (child) => child.id === id && child.ownerUid === user?.uid
+      )
+      return child && user ? storageKeyForChild(user.uid, child) : user?.uid
+    },
+    [access?.choices, user]
+  )
   const { activeChildId, activeThemeId, setActiveChild, clearActiveChild } =
     useActiveChild()
   const [nameDrafts, setNameDrafts] = useState<Record<string, string>>({})
@@ -85,10 +98,11 @@ const useChildrenState = () => {
     userId: user?.uid,
     collectionName: 'children',
     errorMessage: 'Failed to update child profile',
+    resolveUserId: resolveChildUserId,
   })
 
   const rawChildren = useUserCollection({
-    userId: user?.uid,
+    userId: storageKey,
     collectionName: 'children',
     orderByField: 'createdAt',
     errorMessage: 'Failed to subscribe to children',
@@ -98,13 +112,22 @@ const useChildrenState = () => {
   })
 
   const children = useOptimisticItems(
-    rawChildren,
+    access && canAdmin
+      ? access.choices
+          .filter((child) => child.ownerUid === user?.uid)
+          .map(
+            (child) => rawChildren.find((raw) => raw.id === child.id) ?? child
+          )
+      : rawChildren,
     optimisticFields,
     reconcileChildFields
   )
 
   // ── Generic field update ──
-  const updateChildField = queueChildField
+  const updateChildField: typeof queueChildField = (id, patch) => {
+    if (!canAdmin) throw new Error('Only the admin can change child settings.')
+    return queueChildField(id, patch)
+  }
 
   // ── Name draft helpers ──
   const setNameDraft = (childId: string, value: string) =>
@@ -129,7 +152,7 @@ const useChildrenState = () => {
 
   // ── Create ──
   const createChild = async () => {
-    if (!user) return
+    if (!user || !canAdmin) return
     return createUserDocument(user.uid, 'children', {
       displayName: '',
       avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
@@ -141,9 +164,15 @@ const useChildrenState = () => {
 
   // ── Delete ──
   const deleteChild = async (id: string) => {
-    if (!user) return
+    if (!user || !canAdmin) return
     cancelChildFieldUpdate(id)
-    await deleteUserDocument(user.uid, 'children', id)
+    const scope = parseChildScope(resolveChildUserId(id))
+    if (scope)
+      await sharingCall('deleteSharedChild', {
+        ownerUid: scope.ownerUid,
+        childId: id,
+      })
+    else await deleteUserDocument(user.uid, 'children', id)
     if (id === activeChildId) clearActiveChild()
   }
 
@@ -151,12 +180,17 @@ const useChildrenState = () => {
   const selectChild = (childId: string) => {
     const child = children.find((c) => c.id === childId)
     if (child) {
-      setActiveChild({ id: child.id, themeId: child.themeId || 'princess' })
+      setActiveChild({
+        id: child.id,
+        themeId: child.themeId || 'princess',
+        ...(access ? { ownerUid: user?.uid } : {}),
+      })
     }
   }
 
   // Follow the subscribed profile, including theme edits from another device.
   useEffect(() => {
+    if (access) return // The access provider selects across owner namespaces.
     const selectedChild =
       children.find((child) => child.id === activeChildId) ?? children[0]
     if (!selectedChild) return
@@ -164,7 +198,7 @@ const useChildrenState = () => {
     if (selectedChild.id !== activeChildId || themeId !== activeThemeId) {
       setActiveChild({ id: selectedChild.id, themeId })
     }
-  }, [children, activeChildId, activeThemeId, setActiveChild])
+  }, [children, activeChildId, activeThemeId, setActiveChild, access])
 
   return {
     children,

@@ -59,7 +59,7 @@ const request = (data: unknown, signedIn = true) =>
 
 beforeEach(() => {
   vi.useFakeTimers().setSystemTime(new Date('2026-09-14T12:00:00Z'))
-  database.child.mockResolvedValue({ exists: true })
+  database.child.mockResolvedValue({ exists: true, data: () => ({}) })
   database.commit.mockResolvedValue(undefined)
   database.get.mockResolvedValue({
     docs: [

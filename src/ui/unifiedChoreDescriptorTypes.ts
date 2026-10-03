@@ -32,5 +32,6 @@ export type UnifiedChoreDeps = {
   biteCooldowns?: Readonly<Record<string, number>>
   activeMealIcon?: string
   testFailureModeEnabled?: boolean
+  canReset?: boolean
   hideDeleteUtility?: boolean
 }

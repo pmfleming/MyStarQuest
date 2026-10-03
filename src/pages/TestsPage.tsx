@@ -1,4 +1,7 @@
-import { useEffect, useMemo } from 'react'
+import { TEST_TEMPLATES } from '../../functions/src/sharing/defaultTests'
+import { TEST_TYPES, type TestType } from '../data/types'
+import { useDataScope } from '../sharing/ChildAccessContext'
+import { useEffect, useMemo, useState } from 'react'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
@@ -18,10 +21,14 @@ import { useTaskCelebration } from '../hooks/useTaskCelebration'
 const TestsPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const { canAdmin } = useDataScope()
   const { children } = useChildren()
 
   const {
     tests,
+    canManageTests,
+    createTest,
+    deleteTest,
     todayInfo,
     updateTestField,
     updateEphemeral,
@@ -30,6 +37,10 @@ const TestsPage = () => {
     resetTest,
   } = useTests()
 
+  const [adding, setAdding] = useState(false)
+  const [newType, setNewType] = useState<TestType>('math')
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
   const activityScope = `${activeChildId}:${todayInfo.dateKey}`
   const activity = useTaskActivityState(activityScope)
   const activeChild = children.find((child) => child.id === activeChildId)
@@ -49,6 +60,7 @@ const TestsPage = () => {
 
   const descriptor = celebration.decorate(
     createUnifiedChoreDescriptor({
+      canReset: canAdmin,
       theme,
       onUpdateTaskField: updateTestField,
       onUpdateEphemeral: updateEphemeral,
@@ -62,7 +74,8 @@ const TestsPage = () => {
         failTest,
         resetTest,
       }),
-      hideDeleteUtility: true,
+      hideDeleteUtility: !canManageTests,
+      onDeleteTask: deleteTest,
       testFailureModeEnabled,
     }),
     theme
@@ -102,17 +115,72 @@ const TestsPage = () => {
             {...descriptor}
             getStarCount={() => undefined}
             hideEdit
-            onDelete={() => undefined}
+            onDelete={(test) => deleteTest(test.id)}
             addLabel="Add Test"
-            onAdd={() => undefined}
-            hideAdd
+            onAdd={() => setAdding(true)}
+            hideAdd={!canManageTests}
+            addDisabled={saving}
+            inlineNewRow={
+              adding ? (
+                <form
+                  className="flex flex-col gap-3"
+                  onSubmit={(event) => {
+                    event.preventDefault()
+                    setSaving(true)
+                    setError('')
+                    void createTest(newType)
+                      .then(() => setAdding(false))
+                      .catch((reason) =>
+                        setError(
+                          reason instanceof Error
+                            ? reason.message
+                            : 'Could not add test.'
+                        )
+                      )
+                      .finally(() => setSaving(false))
+                  }}
+                >
+                  <label>
+                    Test type
+                    <select
+                      className="ml-3 rounded-lg border bg-white p-2 text-black"
+                      value={newType}
+                      onChange={(event) =>
+                        setNewType(event.target.value as TestType)
+                      }
+                    >
+                      {TEST_TYPES.map((type) => (
+                        <option key={type} value={type}>
+                          {TEST_TEMPLATES[type].title}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <button disabled={saving} className="font-bold underline">
+                    Save test
+                  </button>
+                  <button
+                    type="button"
+                    disabled={saving}
+                    onClick={() => setAdding(false)}
+                  >
+                    Cancel
+                  </button>
+                  {error && <p role="alert">{error}</p>}
+                </form>
+              ) : undefined
+            }
             emptyState={
               <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                <ResourceLoadingIcon
-                  src={getTabIcon('tests', theme.id)}
-                  loading
-                  label="Loading tests"
-                />
+                {canManageTests ? (
+                  <p>No tests yet. Add a test to get started.</p>
+                ) : (
+                  <ResourceLoadingIcon
+                    src={getTabIcon('tests', theme.id)}
+                    loading
+                    label="Loading tests"
+                  />
+                )}
               </div>
             }
           />

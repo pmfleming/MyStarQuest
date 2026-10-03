@@ -2,6 +2,7 @@ import type { PendingAction } from './model'
 import { OfflineStore } from './store'
 import { SyncConflict, type SyncReceipt } from './transport'
 import { snapshotStore } from '../lib/snapshotStore'
+import { parseChildScope } from '../sharing/scope'
 
 export const SYNC_TIMEOUT_MS = 20_000
 
@@ -86,9 +87,37 @@ export class OfflineSync {
         this.publish({ state: 'syncing', message: null })
         // A timeout cannot cancel a Firestore commit. Retain the same durable
         // operation ID on retry; its server receipt prevents duplicate effects.
-        const receipt = await boundedSend(() =>
-          this.send(this.store.userId, operation)
-        )
+        let receipt: SyncReceipt
+        try {
+          receipt = await boundedSend(() =>
+            this.send(this.store.userId, operation)
+          )
+        } catch (error) {
+          const code =
+            error && typeof error === 'object' && 'code' in error
+              ? String(error.code)
+              : ''
+          if (
+            parseChildScope(this.store.userId) &&
+            /failed-precondition|not-found|already-exists|invalid-argument/.test(
+              code
+            )
+          ) {
+            await this.store.reject(
+              operation.id,
+              error instanceof Error
+                ? error.message
+                : 'This change was not applied.'
+            )
+            continue
+          }
+          if (
+            parseChildScope(this.store.userId) &&
+            /permission-denied/.test(code)
+          )
+            await this.store.revoke()
+          throw error
+        }
         // A lost local acknowledgement is safe: the queue keeps the same ID.
         await this.store.acknowledge(operation.id, receipt)
         this.retryMs = 1000

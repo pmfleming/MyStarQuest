@@ -13,13 +13,14 @@ import { saveDocument } from '../offline/actions'
 import { offlineRuntime } from '../offline/runtime'
 import type { CollectionName, LocalDocument } from '../offline/model'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
+import { parseChildScope } from '../sharing/scope'
 
 export async function deleteUserDocument(
   userId: string,
   collectionName: CollectionName,
   id: string
 ) {
-  if (isOfflineEnabled())
+  if (isOfflineEnabled() || parseChildScope(userId))
     await saveDocument(userId, collectionName, id, 'delete')
   else await deleteDoc(doc(db, 'users', userId, collectionName, id))
 }
@@ -29,7 +30,7 @@ export async function createUserDocument(
   collectionName: CollectionName,
   data: LocalDocument
 ) {
-  if (isOfflineEnabled())
+  if (isOfflineEnabled() || parseChildScope(userId))
     return saveDocument(
       userId,
       collectionName,
@@ -47,27 +48,30 @@ type UserDocumentUpdateOptions = {
   userId?: string
   collectionName: CollectionName
   errorMessage: string
+  resolveUserId?: (id: string) => string | undefined
 }
 
 export const useUserDocumentUpdates = <Patch extends object>({
   userId,
   collectionName,
   errorMessage,
+  resolveUserId,
 }: UserDocumentUpdateOptions) => {
   const persistUpdate = useCallback(
     async (id: string, patch: Patch) => {
-      if (!userId) return
-      if (isOfflineEnabled())
+      const target = resolveUserId ? resolveUserId(id) : userId
+      if (!target) return
+      if (isOfflineEnabled() || parseChildScope(target))
         return saveDocument(
-          userId,
+          target,
           collectionName,
           id,
           'patch',
           Object.fromEntries(Object.entries(patch))
         )
-      await updateDoc(doc(db, 'users', userId, collectionName, id), patch)
+      await updateDoc(doc(db, 'users', target, collectionName, id), patch)
     },
-    [collectionName, userId]
+    [collectionName, userId, resolveUserId]
   )
 
   const coalescedUpdates = useCoalescedDocumentUpdates<Patch>({

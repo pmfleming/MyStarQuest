@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import InvitationLinks from './sharing/InvitationLinks'
 import SchoolCalendarSync from './components/SchoolCalendarSync'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './auth/AuthProvider'
@@ -13,6 +14,7 @@ import LoginPage from './pages/LoginPage'
 import { routeModules } from './routes/routeModules'
 import RoutePreloader from './routes/RoutePreloader'
 
+const InvitationPage = lazy(() => import('./sharing/InvitationPage'))
 const DashboardPage = lazy(routeModules.chores)
 const TestsPage = lazy(routeModules.tests)
 const RewardsPage = lazy(routeModules.rewards)
@@ -30,6 +32,7 @@ const App = () => {
             <ActiveChildProvider>
               <BrowserRouter>
                 <RoutePreloader />
+                <InvitationLinks />
                 <Suspense
                   fallback={
                     <div
@@ -41,6 +44,10 @@ const App = () => {
                   }
                 >
                   <Routes>
+                    <Route
+                      path="/invite/:inviteId"
+                      element={<InvitationPage />}
+                    />
                     <Route path="/login" element={<LoginPage />} />
                     <Route element={<ProtectedRoute />}>
                       <Route element={<ProtectedDataRoute />}>

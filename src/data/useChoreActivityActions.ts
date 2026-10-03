@@ -20,6 +20,7 @@ import { manageTestOutcomePatch, resetManageChorePatch } from './dailyTaskState'
 
 type UseChoreActivityActionsArgs = {
   user: { uid: string } | null
+  storageKey?: string
   activeChildId: string | null
   dateKey: string
   updateEphemeral: (
@@ -32,6 +33,7 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 export const useChoreActivityActions = ({
   user,
+  storageKey,
   activeChildId,
   dateKey,
   updateEphemeral,
@@ -56,7 +58,7 @@ export const useChoreActivityActions = ({
       return { appliedDelta: 0, starsBefore: undefined }
     }
     const result = await completeTaskAndAwardStars({
-      userId: user.uid,
+      userId: storageKey ?? user.uid,
       childId: activeChildId,
       taskId: item.id,
       taskCollection: 'chores',

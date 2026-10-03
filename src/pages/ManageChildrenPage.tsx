@@ -1,3 +1,6 @@
+import { Navigate } from 'react-router-dom'
+import { useDataScope } from '../sharing/ChildAccessContext'
+import ParentAccessPanel from '../sharing/ParentAccessPanel'
 import { themeOptions } from '../ui/themeOptions'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -10,6 +13,7 @@ import { useChildren } from '../data/useChildren'
 const ManageChildrenPage = () => {
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const { canAdmin } = useDataScope()
 
   const {
     children,
@@ -50,6 +54,7 @@ const ManageChildrenPage = () => {
     selectChild,
   })
 
+  if (!canAdmin) return <Navigate to="/tabs/chores" replace />
   return (
     <PageShell theme={theme} activeTabId="chores" title="Children">
       <div
@@ -65,6 +70,12 @@ const ManageChildrenPage = () => {
           getKey={(child) => child.id}
           getItemLabel={(child) => child.displayName}
           {...childListDescriptor}
+          renderItem={(child) => (
+            <>
+              {childListDescriptor.renderItem?.(child)}
+              <ParentAccessPanel child={child} />
+            </>
+          )}
           hideEdit
           onDelete={(child) => deleteChild(child.id)}
           addLabel="Add Child"

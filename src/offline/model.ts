@@ -1,4 +1,6 @@
 import { z } from 'zod'
+import { progressKey } from '../../functions/src/sharing/protocol'
+import { projectedSharedProgress } from './sharedProgress'
 
 export const collectionSchema = z.enum([
   'children',
@@ -34,6 +36,8 @@ const actionSchema = z.discriminatedUnion('kind', [
     complete: z.boolean(),
     reset: z.boolean(),
     consume: z.boolean(),
+    generation: z.number().int().nonnegative().optional(),
+    revision: z.number().int().nonnegative().optional(),
   }),
   z.object({
     kind: z.literal('redeem'),
@@ -61,6 +65,12 @@ export const offlineStateSchema = z.object({
   activities: z.record(z.string(), activitySchema),
   consumed: z.record(z.string(), z.boolean()),
   importedWebCollections: z.array(collectionSchema).optional(),
+  shared: z.boolean().optional(),
+  sharedProgress: z.record(z.string(), documentSchema).optional(),
+  revoked: z.boolean().optional(),
+  rejected: z
+    .array(z.object({ id: z.string(), message: z.string() }))
+    .optional(),
 })
 export type Action = z.infer<typeof actionSchema>
 export type OfflineState = z.infer<typeof offlineStateSchema>
@@ -165,6 +175,18 @@ export function enqueue(
   action: Action,
   now = Date.now()
 ): PendingAction | null {
+  if (state.revoked) throw new Error('Access to this child has ended.')
+  if (state.shared && action.kind === 'activity') {
+    const previous =
+      projectedSharedProgress(state)[
+        progressKey(action.collection, action.entityId, action.dateKey)
+      ]
+    action = {
+      ...action,
+      generation: Number(previous?.generation ?? 0),
+      revision: Number(previous?.revision ?? 0),
+    }
+  }
   if (
     action.kind !== 'document' &&
     !projectDocuments(state, 'children')[action.childId]

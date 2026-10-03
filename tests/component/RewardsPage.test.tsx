@@ -10,6 +10,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { themes } from '../../src/contexts/ThemeContext'
 import RewardsPage from '../../src/pages/RewardsPage'
 
+const updateReward = vi.hoisted(() => vi.fn())
 const giveReward = vi.hoisted(() => vi.fn())
 const deleteReward = vi.hoisted(() => vi.fn())
 const rewardData = vi.hoisted(() => ({
@@ -43,12 +44,18 @@ vi.mock('../../src/data/useRewards', () => ({
     giveReward,
     createStandardReward: vi.fn(),
     deleteReward,
+    updateReward,
   }),
 }))
 beforeEach(() => {
+  Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+    configurable: true,
+    value: vi.fn(),
+  })
   rewardData.themeId = 'princess'
   rewardData.childId = null
   rewardData.stars = 2
+  updateReward.mockReset().mockResolvedValue(undefined)
   deleteReward.mockReset().mockResolvedValue(undefined)
   rewardData.rewards = [
     {
@@ -167,4 +174,23 @@ it('requires a child and sufficient stars, blocks duplicate purchases and permit
   await waitFor(() =>
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   )
+})
+
+it('edits an existing reward without redeeming it', async () => {
+  rewardData.childId = 'child'
+  render(<RewardsPage />)
+  fireEvent.click(screen.getByRole('button', { name: 'Edit Play' }))
+  const name = screen.getByRole('textbox', { name: 'Reward name' })
+  expect(name).toHaveValue('Play')
+  fireEvent.change(name, { target: { value: 'Picnic' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Save reward' }))
+  await waitFor(() =>
+    expect(updateReward).toHaveBeenCalledWith('reward', {
+      title: 'Picnic',
+      costStars: 3,
+      isRepeating: true,
+      imageKey: '',
+    })
+  )
+  expect(giveReward).not.toHaveBeenCalled()
 })

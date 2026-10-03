@@ -1,3 +1,4 @@
+import { useDataScope } from '../sharing/ChildAccessContext'
 import { getThemeAsset } from '../ui/themeAssets'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { ResetChoresContext } from '../contexts/ActivityTabContext'
@@ -59,6 +60,7 @@ const DashboardPage = () => {
   const resetChoresRef = useContext(ResetChoresContext)
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
+  const { canAdmin } = useDataScope()
   const { children } = useChildren()
 
   const {
@@ -224,6 +226,7 @@ const DashboardPage = () => {
   }
 
   const unifiedChoreDeps: UnifiedChoreDeps = {
+    canReset: canAdmin,
     theme,
     onUpdateEphemeral: updateEphemeral,
     onDeleteTask: handleDeleteChore,

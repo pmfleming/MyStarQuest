@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
-import { useAuth } from '../auth/AuthContext'
+import { useDataScope } from '../sharing/ChildAccessContext'
+import { parseChildScope } from '../sharing/scope'
 import { offlineRuntime } from './runtime'
 import { isOfflineEnabled } from './platform'
 import { markStartup } from '../lib/startupPerformance'
@@ -42,10 +43,23 @@ function AccountOfflineBoundary({
         )}
       </div>
     )
+  if (state.revoked)
+    return (
+      <div role="alert" className="p-6">
+        Access to this child has ended. Choose another child after refreshing.
+        <button
+          className="ml-3 underline"
+          onClick={() => window.location.reload()}
+        >
+          Refresh
+        </button>
+      </div>
+    )
   const pending = state.pending.length
   const message =
     error ??
     status.message ??
+    state.rejected?.at(-1)?.message ??
     (pending
       ? `${pending} ${pending === 1 ? 'change' : 'changes'} saved on this device${status.state === 'syncing' ? ' · syncing' : ' · waiting to sync'}`
       : !online
@@ -77,9 +91,10 @@ function AccountOfflineBoundary({
 }
 
 export default function OfflineBoundary({ children }: { children: ReactNode }) {
-  const { user } = useAuth()
-  return isOfflineEnabled() && user ? (
-    <AccountOfflineBoundary key={user.uid} userId={user.uid}>
+  const { storageKey, access } = useDataScope()
+  if (access?.loading) return <p role="status">Opening your children…</p>
+  return storageKey && (isOfflineEnabled() || parseChildScope(storageKey)) ? (
+    <AccountOfflineBoundary key={storageKey} userId={storageKey}>
       {children}
     </AccountOfflineBoundary>
   ) : (

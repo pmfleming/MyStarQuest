@@ -12,9 +12,14 @@ const STORAGE_PREFIX = 'mystarquest:active-child'
 const activeChildSchema = z.object({
   id: z.string().nullable().catch(null),
   themeId: z.string().nullable().catch(null),
+  ownerUid: z.string().nullable().catch(null),
 })
 type ActiveChildState = z.infer<typeof activeChildSchema>
-const EMPTY_SELECTION: ActiveChildState = { id: null, themeId: null }
+const EMPTY_SELECTION: ActiveChildState = {
+  id: null,
+  themeId: null,
+  ownerUid: null,
+}
 
 const isBrowser = typeof window !== 'undefined'
 
@@ -92,10 +97,29 @@ const ActiveChildStateProvider = ({
   )
 
   const setActiveChild = useCallback(
-    (next: { id: string; themeId: string }) => {
-      persist({ id: next.id, themeId: next.themeId })
+    (next: { id: string; themeId: string; ownerUid?: string }) => {
+      setState((previous) => {
+        const ownerUid = next.ownerUid ?? userId ?? null
+        if (
+          previous.id === next.id &&
+          previous.themeId === next.themeId &&
+          previous.ownerUid === ownerUid
+        )
+          return previous
+        const value = { id: next.id, themeId: next.themeId, ownerUid }
+        if (userId && isBrowser)
+          try {
+            window.localStorage.setItem(
+              `${STORAGE_PREFIX}:${userId}`,
+              JSON.stringify(value)
+            )
+          } catch {
+            /* Selection still works without local storage. */
+          }
+        return value
+      })
     },
-    [persist]
+    [userId]
   )
 
   const clearActiveChild = useCallback(() => {
@@ -106,10 +130,11 @@ const ActiveChildStateProvider = ({
     () => ({
       activeChildId: state.id,
       activeThemeId: state.themeId,
+      activeOwnerUid: state.ownerUid,
       setActiveChild,
       clearActiveChild,
     }),
-    [state.id, state.themeId, setActiveChild, clearActiveChild]
+    [state.id, state.themeId, state.ownerUid, setActiveChild, clearActiveChild]
   )
 
   return (

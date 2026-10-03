@@ -17,6 +17,17 @@ public class SchoolCalendarOfflineTest {
     private final Context context = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     @Test
+    public void invitationLinksResolveToMainActivity() {
+        android.content.Intent link = new android.content.Intent(android.content.Intent.ACTION_VIEW,
+                android.net.Uri.parse("https://mystarquest-1b6f8.web.app/invite/" + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + "#" + "ttttttttttttttttttttttttttttttttttttttttttt"));
+        link.addCategory(android.content.Intent.CATEGORY_BROWSABLE);
+        link.setPackage(context.getPackageName());
+        android.content.pm.ResolveInfo resolved = context.getPackageManager().resolveActivity(link, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY);
+        assertNotNull(resolved);
+        assertEquals("com.mystarquest.app.MainActivity", resolved.activityInfo.name);
+    }
+
+    @Test
     public void packagedCalendarSurvivesMissingAndCorruptSavedData() throws Exception {
         String before = SchoolCalendarRepository.preferences(context).getString("snapshot", null);
         try {

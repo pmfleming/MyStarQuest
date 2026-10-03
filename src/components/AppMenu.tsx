@@ -1,3 +1,4 @@
+import { useDataScope } from '../sharing/ChildAccessContext'
 import {
   useContext,
   useEffect,
@@ -19,12 +20,10 @@ import { getThemeAsset } from '../ui/themeAssets'
 import { getThemeActionIcon } from '../ui/themeActionAssets'
 import { AsyncButton } from './ui/AsyncButton'
 import './AppMenu.css'
-
 type AppMenuProps = {
   theme: Theme
   onResetToday?: () => Promise<void>
 }
-
 type ResetButtonProps = {
   disabled: boolean
   busy: boolean
@@ -32,7 +31,6 @@ type ResetButtonProps = {
   icon: string | undefined
   runReset: (action: () => Promise<void>) => Promise<void>
 }
-
 // Only subscribe to chores on other tabs while the menu is open.
 const OtherTabResetButton = (props: ResetButtonProps) => {
   const resetChores = useContext(ResetChoresContext)
@@ -54,7 +52,6 @@ const OtherTabResetButton = (props: ResetButtonProps) => {
     />
   )
 }
-
 const ResetButton = ({
   disabled,
   busy,
@@ -78,7 +75,6 @@ const ResetButton = ({
     {busy ? 'Resetting today…' : 'Reset today'}
   </AsyncButton>
 )
-
 const MenuSheet = ({
   theme,
   onResetToday,
@@ -88,18 +84,17 @@ const MenuSheet = ({
   const dialogRef = useRef<HTMLDialogElement>(null)
   const { activeChildId } = useActiveChild()
   const { logout } = useAuth()
+  const { canAdmin, access } = useDataScope()
   const navigate = useNavigate()
   const { pendingAction, actionError, runAction } = useAsyncAction<
     'reset' | 'signout'
   >()
-
   useEffect(() => {
     const dialog = dialogRef.current
     if (!dialog) return
     dialog.showModal()
     return () => dialog.close()
   }, [])
-
   const dismiss = () => {
     if (!pendingAction) onDismiss()
   }
@@ -127,7 +122,6 @@ const MenuSheet = ({
       if (await runAction('Reset today', 'reset', action)) onDismiss()
     },
   }
-
   return createPortal(
     <dialog
       ref={dialogRef}
@@ -199,31 +193,54 @@ const MenuSheet = ({
         </AsyncButton>
       </div>
       <div className="flex flex-col gap-3">
-        <AsyncButton
-          disabled={pendingAction !== null}
-          style={actionStyle}
-          onClick={() => {
-            onDismiss()
-            return navigate('/settings/manage-children')
-          }}
-        >
-          {getThemeAsset(theme.id, 'childrenIcon') ? (
-            <img
-              src={getThemeAsset(theme.id, 'childrenIcon')}
-              alt=""
-              width={36}
-              height={36}
-            />
-          ) : (
-            <span aria-hidden="true">👥</span>
-          )}
-          Children
-        </AsyncButton>
-        {onResetToday ? (
-          <ResetButton {...resetProps} onReset={onResetToday} />
-        ) : (
-          <OtherTabResetButton {...resetProps} />
+        {access && access.choices.length > 1 && (
+          <fieldset>
+            <legend className="mb-2 font-bold">Choose child</legend>
+            {access.choices.map((child) => (
+              <button
+                key={`${child.ownerUid}/${child.id}`}
+                style={actionStyle}
+                aria-pressed={access.selected === child}
+                onClick={() => {
+                  access.select(child)
+                  onDismiss()
+                  void navigate('/tabs/chores')
+                }}
+              >
+                {child.displayName}
+                {child.ownerUid !== access.actorUid ? ' · Shared' : ''}
+              </button>
+            ))}
+          </fieldset>
         )}
+        {canAdmin && (
+          <AsyncButton
+            disabled={pendingAction !== null}
+            style={actionStyle}
+            onClick={() => {
+              onDismiss()
+              return navigate('/settings/manage-children')
+            }}
+          >
+            {getThemeAsset(theme.id, 'childrenIcon') ? (
+              <img
+                src={getThemeAsset(theme.id, 'childrenIcon')}
+                alt=""
+                width={36}
+                height={36}
+              />
+            ) : (
+              <span aria-hidden="true">👥</span>
+            )}
+            Children
+          </AsyncButton>
+        )}
+        {canAdmin &&
+          (onResetToday ? (
+            <ResetButton {...resetProps} onReset={onResetToday} />
+          ) : (
+            <OtherTabResetButton {...resetProps} />
+          ))}
         <AsyncButton
           aria-label="Sign out"
           disabled={pendingAction !== null}
@@ -250,7 +267,6 @@ const MenuSheet = ({
     document.body
   )
 }
-
 const AppMenu = (props: AppMenuProps) => {
   const [open, setOpen] = useState(false)
   const triggerRef = useRef<HTMLButtonElement>(null)
@@ -294,5 +310,4 @@ const AppMenu = (props: AppMenuProps) => {
     </>
   )
 }
-
 export default AppMenu

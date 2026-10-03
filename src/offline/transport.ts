@@ -21,6 +21,17 @@ const receiptSchema = z.object({
   collection: collectionSchema,
   entityId: z.string(),
   document: documentSchema.nullable(),
+  progress: documentSchema.optional(),
+  progressKey: z.string().optional(),
+  removed: z
+    .object({
+      collection: z.enum(['chores', 'tests', 'rewards']),
+      entityId: z.string(),
+    })
+    .optional(),
+  appliedDelta: z.number().optional(),
+  starsBefore: z.number().optional(),
+  title: z.string().optional(),
 })
 export type SyncReceipt = z.infer<typeof receiptSchema>
 export class SyncConflict extends Error {}

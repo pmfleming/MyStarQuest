@@ -49,6 +49,13 @@ export function createUnifiedChoreDescriptor(
     getPrimaryAction: (item) => {
       const stage = state.getStage(item)
       const type = item.taskType
+      if (deps.canReset === false && stage === 'completed')
+        return {
+          label: 'Completed',
+          hideButton: true,
+          disabled: true,
+          onClick: () => {},
+        }
 
       if (type === 'standard') {
         const isItemCompleted = state.isCompleted(item)
@@ -105,6 +112,8 @@ export function createUnifiedChoreDescriptor(
     },
     getUtilityAction: (item) => {
       const stage = state.getStage(item)
+      if (deps.canReset === false && shouldUseResetUtility(stage))
+        return undefined
       if (deps.hideDeleteUtility && !shouldUseResetUtility(stage)) {
         return undefined
       }

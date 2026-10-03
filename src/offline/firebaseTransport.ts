@@ -9,6 +9,8 @@ import { auth } from '../firebase'
 import { applyOperation } from './transport'
 import type { SendOperation } from './sync'
 import { recordData, type LocalDocument } from './model'
+import { parseChildScope } from '../sharing/scope'
+import { sendChildOperation } from '../sharing/api'
 
 // Convert SDK timestamp instances to cloneable Dates before saving IndexedDB.
 export function localDocument(data: DocumentData): LocalDocument {
@@ -27,13 +29,27 @@ function localValue(value: unknown): unknown {
 export function snapshotDocument(data: LocalDocument): DocumentData {
   return {
     ...data,
-    ...(data.createdAt instanceof Date
-      ? { createdAt: { toDate: () => data.createdAt } }
+    ...(data.createdAt instanceof Date || typeof data.createdAt === 'number'
+      ? {
+          createdAt: {
+            toDate: () => new Date(data.createdAt as number | Date),
+          },
+        }
       : {}),
   }
 }
 
 export const sendToFirebase: SendOperation = (userId, operation) => {
+  const scope = parseChildScope(userId)
+  if (scope) {
+    if (auth.currentUser?.uid !== scope.actorUid)
+      return Promise.reject(
+        Object.assign(new Error('Sign in to sync this child.'), {
+          code: 'unauthenticated',
+        })
+      )
+    return sendChildOperation(scope, operation)
+  }
   if (auth.currentUser?.uid !== userId)
     return Promise.reject(
       Object.assign(new Error('Sign in to sync this account.'), {

@@ -8,6 +8,55 @@ import {
   type LocalDocument,
 } from './model'
 import { getTodayDescriptor } from '../lib/today'
+import { parseChildScope } from '../sharing/scope'
+import { isOfflineEnabled } from './platform'
+import { sendChildOperation } from '../sharing/api'
+
+async function finishOnline(userId: string) {
+  const scope = parseChildScope(userId)
+  if (!scope || isOfflineEnabled()) return
+  if (navigator.onLine === false)
+    throw new Error(
+      'Connect to save changes. Offline storage is unavailable in this browser.'
+    )
+  const store = offlineRuntime(userId).store
+  for (const operation of [...(store.getSnapshot()?.pending ?? [])]) {
+    try {
+      await store.acknowledge(
+        operation.id,
+        await sendChildOperation(scope, operation)
+      )
+    } catch (error) {
+      await store.reject(
+        operation.id,
+        error instanceof Error ? error.message : 'Change was not saved.'
+      )
+      throw error
+    }
+  }
+}
+function requireOnlineStorage(userId: string) {
+  if (
+    parseChildScope(userId) &&
+    !isOfflineEnabled() &&
+    navigator.onLine === false
+  )
+    throw new Error(
+      'Connect to save changes. Offline storage is unavailable in this browser.'
+    )
+}
+function activityDay(userId: string) {
+  const scope = parseChildScope(userId)
+  const child = scope
+    ? offlineRuntime(userId).store.getSnapshot()?.documents.children[
+        scope.childId
+      ]
+    : undefined
+  return getTodayDescriptor(
+    new Date(),
+    String(child?.timeZone ?? 'Europe/London')
+  ).dateKey
+}
 
 function documentData(data: LocalDocument, create: boolean) {
   const clean = Object.fromEntries(
@@ -26,6 +75,7 @@ export async function saveDocument(
   mode: 'put' | 'patch' | 'delete',
   data: LocalDocument = {}
 ) {
+  requireOnlineStorage(userId)
   await offlineRuntime(userId).store.queue({
     kind: 'document',
     collection,
@@ -33,9 +83,10 @@ export async function saveDocument(
     mode,
     data: documentData(data, mode === 'put'),
   })
+  await finishOnline(userId)
 }
 
-export function saveActivityPatch(
+export async function saveActivityPatch(
   userId: string,
   collection: 'chores' | 'tests',
   entityId: string,
@@ -43,21 +94,27 @@ export function saveActivityPatch(
   patch: LocalDocument,
   reset = false
 ) {
-  return offlineRuntime(userId).store.queue({
+  requireOnlineStorage(userId)
+  const scope = parseChildScope(userId)
+  if (reset && scope && scope.actorUid !== scope.ownerUid)
+    throw new Error('Only the admin can reset saved progress.')
+  const result = await offlineRuntime(userId).store.queue({
     kind: 'activity',
     collection,
     entityId,
     childId,
-    dateKey: getTodayDescriptor().dateKey,
+    dateKey: activityDay(userId),
     patch,
     delta: 0,
     complete: false,
     reset,
     consume: false,
   })
+  await finishOnline(userId)
+  return result
 }
 
-export function offlineCompletion(options: {
+export async function offlineCompletion(options: {
   userId: string
   childId: string
   taskId: string
@@ -68,7 +125,8 @@ export function offlineCompletion(options: {
   initialTaskData?: LocalDocument
   deleteOnComplete?: boolean
 }) {
-  return offlineRuntime(options.userId).store.mutate((state) => {
+  requireOnlineStorage(options.userId)
+  const result = await offlineRuntime(options.userId).store.mutate((state) => {
     const starsBefore = starBalance(
       projectDocuments(state, 'children')[options.childId] ?? {}
     )
@@ -92,7 +150,7 @@ export function offlineCompletion(options: {
       collection: options.taskCollection,
       entityId: options.taskId,
       childId: options.childId,
-      dateKey: getTodayDescriptor().dateKey,
+      dateKey: activityDay(options.userId),
       patch: options.updates,
       delta: options.delta,
       complete: true,
@@ -105,21 +163,26 @@ export function offlineCompletion(options: {
       starsBefore,
     }
   })
+  await finishOnline(options.userId)
+  return result
 }
 
-export function offlineRedemption(
+export async function offlineRedemption(
   userId: string,
   childId: string,
   reward: { id: string; title: string; costStars: number }
 ) {
+  requireOnlineStorage(userId)
   // Reading the balance and consuming a reward shares the serialized commit.
-  return offlineRuntime(userId).store.mutate((state) => {
+  const result = await offlineRuntime(userId).store.mutate((state) => {
     const child = projectDocuments(state, 'children')[childId]
     const definition = projectDocuments(state, 'rewards')[reward.id]
     if (!child || !definition)
       throw new Error('Load this child and reward online first.')
     const cost = Number(definition.costStars ?? reward.costStars)
     const starsBefore = starBalance(child)
+    if (state.shared && starsBefore < cost)
+      throw new Error('Not enough stars for this reward.')
     const title = String(definition.title ?? reward.title)
     enqueue(state, {
       kind: 'redeem',
@@ -131,4 +194,6 @@ export function offlineRedemption(
     })
     return { title, starsBefore, starsAfter: clampStars(starsBefore - cost) }
   })
+  await finishOnline(userId)
+  return result
 }

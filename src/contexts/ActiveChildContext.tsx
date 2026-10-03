@@ -4,7 +4,12 @@ import { useRequiredContext } from '../hooks/useRequiredContext'
 export interface ActiveChildContextValue {
   activeChildId: string | null
   activeThemeId: string | null
-  setActiveChild: (next: { id: string; themeId: string }) => void
+  activeOwnerUid?: string | null
+  setActiveChild: (next: {
+    id: string
+    themeId: string
+    ownerUid?: string
+  }) => void
   clearActiveChild: () => void
 }
 
