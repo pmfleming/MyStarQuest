@@ -224,12 +224,11 @@ export function projectDocuments(
   return documents
 }
 
-export function enqueue(
-  state: OfflineState,
-  action: Action,
-  now = Date.now()
-): PendingAction | null {
-  if (state.revoked) throw new Error('Access to this child has ended.')
+// Resolve all input and snapshot data before changing the local projection.
+function prepareAction(state: OfflineState, action: Action): Action {
+  if (action.kind === 'document') return action
+  if (!projectDocuments(state, 'children')[action.childId])
+    throw new Error('Child is not saved on this device yet.')
   if (state.shared && action.kind === 'activity') {
     const previous =
       projectedSharedProgress(state)[
@@ -241,11 +240,32 @@ export function enqueue(
       revision: Number(previous?.revision ?? 0),
     }
   }
-  if (
-    action.kind !== 'document' &&
-    !projectDocuments(state, 'children')[action.childId]
-  )
-    throw new Error('Child is not saved on this device yet.')
+  const definition = projectDocuments(
+    state,
+    action.kind === 'redeem' ? 'rewards' : action.collection
+  )[action.entityId]
+  return {
+    ...action,
+    historySnapshot: {
+      ...(action.kind === 'redeem'
+        ? { rewardTitle: action.title }
+        : {
+            taskTitle: String(definition?.title ?? ''),
+            taskType: String(definition?.taskType ?? ''),
+            outcome: action.patch.lastAttemptOutcome ?? 'success',
+          }),
+      imageKey: String(definition?.imageKey ?? ''),
+    },
+  }
+}
+
+export function enqueue(
+  state: OfflineState,
+  action: Action,
+  now = Date.now()
+): PendingAction | null {
+  if (state.revoked) throw new Error('Access to this child has ended.')
+  action = prepareAction(state, action)
   actionSchema.parse(action)
   if (action.kind === 'activity') {
     const key = activityKey(action.collection, action.entityId, action.dateKey)
@@ -260,25 +280,6 @@ export function enqueue(
     if (state.consumed[key])
       throw new Error('This reward was already used on this device.')
     state.consumed[key] = true
-  }
-  if (action.kind !== 'document') {
-    const definition = projectDocuments(
-      state,
-      action.kind === 'redeem' ? 'rewards' : action.collection
-    )[action.entityId]
-    action = {
-      ...action,
-      historySnapshot: {
-        ...(action.kind === 'redeem'
-          ? { rewardTitle: action.title }
-          : {
-              taskTitle: String(definition?.title ?? ''),
-              taskType: String(definition?.taskType ?? ''),
-              outcome: action.patch.lastAttemptOutcome ?? 'success',
-            }),
-        imageKey: String(definition?.imageKey ?? ''),
-      },
-    }
   }
   const operation = {
     id: crypto.randomUUID(),

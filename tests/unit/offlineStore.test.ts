@@ -178,3 +178,14 @@ it('uses authoritative shared receipts without duplicating or inventing completi
     Object.keys(historyDocuments(store.getSnapshot()!, 'starEvents'))
   ).toHaveLength(1)
 })
+
+it('leaves projections and sequence unchanged when preparation or validation fails', () => {
+  const state = seeded()
+  const before = structuredClone(state)
+  expect(() => enqueue(state, { ...completion(), childId: 'missing' })).toThrow(
+    'Child is not saved'
+  )
+  expect(state).toEqual(before)
+  expect(() => enqueue(state, { ...completion(), delta: NaN })).toThrow()
+  expect(state).toEqual(before)
+})
