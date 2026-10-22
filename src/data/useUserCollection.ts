@@ -11,12 +11,12 @@ import {
 import { db } from '../firebaseDb'
 import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
-import type { CollectionName } from '../offline/model'
+import type { ReadCollection } from '../offline/model'
 import { parseChildScope } from '../sharing/scope'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
-  collectionName: CollectionName
+  collectionName: ReadCollection
   orderByField?: string
   orderDirection?: OrderByDirection
   whereEqualToField?: string
@@ -26,6 +26,7 @@ type UseUserCollectionArgs<T> = {
   normalizeItems?: (items: T[]) => T[]
   onItems?: (items: T[]) => void
   onClear?: () => void
+  onError?: (error: unknown) => void
 }
 
 export const useUserCollection = <T>({
@@ -40,6 +41,7 @@ export const useUserCollection = <T>({
   normalizeItems,
   onItems,
   onClear,
+  onError,
 }: UseUserCollectionArgs<T>) => {
   const resultKey = JSON.stringify([
     userId,
@@ -54,6 +56,17 @@ export const useUserCollection = <T>({
 
   useEffect(() => {
     const setItems = (items: T[]) => setResult({ key: resultKey, items })
+    const publishDocuments = (
+      documents: { id: string; data: DocumentData }[]
+    ) => {
+      const mapped = documents.flatMap(({ id, data }) => {
+        const item = mapDocument(id, data)
+        return item ? [item] : []
+      })
+      const nextItems = normalizeItems ? normalizeItems(mapped) : mapped
+      setItems(nextItems)
+      onItems?.(nextItems)
+    }
     if (!userId) {
       onClear?.()
       return
@@ -64,29 +77,35 @@ export const useUserCollection = <T>({
       let disposed = false
       const publish = () => {
         if (disposed) return
-        const mapped = runtime
-          .documents(collectionName)
-          .flatMap(({ id, data }) => {
-            if (
-              whereEqualToField &&
-              data[whereEqualToField] !== whereEqualToValue
+        publishDocuments(
+          runtime
+            .documents(collectionName)
+            .filter(
+              ({ data }) =>
+                !whereEqualToField ||
+                data[whereEqualToField] === whereEqualToValue
             )
-              return []
-            const item = mapDocument(id, data)
-            return item ? [item] : []
-          })
-        const nextItems = normalizeItems ? normalizeItems(mapped) : mapped
-        setItems(nextItems)
-        onItems?.(nextItems)
+        )
       }
+      const unsubscribeErrors = runtime.subscribeErrors(() => {
+        const error = runtime.getError()
+        if (error) onError?.(error)
+      })
       const unsubscribe = runtime.store.subscribe(publish)
-      void runtime.store.open().then(publish).catch(runtime.report)
+      void runtime.store
+        .open()
+        .then(publish)
+        .catch((error) => {
+          runtime.report(error)
+          onError?.(error)
+        })
       // Refresh day-scoped progress while open, and immediately after resuming.
       const interval = setInterval(publish, 30_000)
       document.addEventListener('visibilitychange', publish)
       return () => {
         disposed = true
         unsubscribe()
+        unsubscribeErrors()
         clearInterval(interval)
         document.removeEventListener('visibilitychange', publish)
       }
@@ -108,18 +127,12 @@ export const useUserCollection = <T>({
     return onSnapshot(
       source,
       (snapshot) => {
-        const mappedItems = snapshot.docs.flatMap((docSnapshot) => {
-          const item = mapDocument(docSnapshot.id, docSnapshot.data())
-          return item ? [item] : []
-        })
-        const nextItems = normalizeItems
-          ? normalizeItems(mappedItems)
-          : mappedItems
-
-        setItems(nextItems)
-        onItems?.(nextItems)
+        publishDocuments(
+          snapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+        )
       },
       (error) => {
+        onError?.(error)
         console.error(errorMessage, error)
         setItems([])
         onClear?.()
@@ -131,6 +144,7 @@ export const useUserCollection = <T>({
     mapDocument,
     normalizeItems,
     onClear,
+    onError,
     onItems,
     orderByField,
     orderDirection,

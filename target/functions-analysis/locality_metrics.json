@@ -3,7 +3,7 @@
   "task_id": "quality.locality_dynamic",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:31.907Z",
+    "measured_at": "2026-10-22T20:36:42.053Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:9ed7ea4df79f33a1a894fb9f80bddee7f5e8cf884e70f0ccd6e00cb09d8388e6"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:60a5ce60ca42af8d1bce4787435ba233f3056b57b7ce92461292a611f212083b"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -387,7 +387,7 @@
       "id": "locality:src/sharing/index",
       "module_id": "src/sharing/index",
       "file": "src/sharing/index.ts",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/index.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -396,29 +396,29 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 2
+        },
         {
           "file": "src/index.ts",
           "commits": 1
         },
         {
           "file": "src/sharing/defaultTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/policy.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/protocol.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/service.ts",
           "commits": 1
         }
       ],
@@ -428,7 +428,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -459,7 +459,7 @@
       "id": "locality:src/sharing/policy",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/policy.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -468,11 +468,23 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 2
+        },
         {
           "file": "src/index.ts",
           "commits": 1
@@ -480,24 +492,12 @@
         {
           "file": "src/sharing/defaultTests.ts",
           "commits": 1
-        },
-        {
-          "file": "src/sharing/index.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/protocol.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/service.ts",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -528,7 +528,7 @@
       "id": "locality:src/sharing/protocol",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/protocol.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -537,11 +537,23 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/service.ts",
+          "commits": 2
+        },
         {
           "file": "src/index.ts",
           "commits": 1
@@ -549,24 +561,12 @@
         {
           "file": "src/sharing/defaultTests.ts",
           "commits": 1
-        },
-        {
-          "file": "src/sharing/index.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/policy.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/service.ts",
-          "commits": 1
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -597,7 +597,7 @@
       "id": "locality:src/sharing/service",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/service.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -606,29 +606,29 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/sharing/index.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/policy.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/protocol.ts",
+          "commits": 2
+        },
         {
           "file": "src/index.ts",
           "commits": 1
         },
         {
           "file": "src/sharing/defaultTests.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/index.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/policy.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/sharing/protocol.ts",
           "commits": 1
         }
       ],
@@ -638,7 +638,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",

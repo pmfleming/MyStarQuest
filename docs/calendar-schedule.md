@@ -49,3 +49,41 @@ The built-in image generator produced seven new illustrations. Exact prompts, re
 ## Verification
 
 37 focused tests passed across the schedule/storage, school calendar data, rendered calendar, clock timer, and Time Explorer weather suites. Changed TypeScript files pass ESLint and the production build succeeds. Browser review checked all four lesson images in both themes at 390px phone width and the calendar at 1280px desktop width, with no horizontal overflow or page errors. The full Time Explorer page also scrolls through bedtime and updates the clock picture when the selected date changes. Review screenshots are in the ignored `output/calendar-review/` directory.
+
+## Completed activities and rewards (22 October 2026)
+
+The calendar now shows the active child's history alongside the selected day's plans. Day cells mark completed chores, completed tests, and granted rewards with the existing theme artwork. The history controls switch between all activity for a day, completed chores and tests (together or separately) for a day/week/month, and rewards for a day/month/year. Weeks run Monday through Sunday. Period arrows and the calendar day cells share the selected date. Filtered views hide scheduled agenda items, group history by day, and show artwork with numeric completion/grant counts and signed star totals. History has no visible prose or multiword labels: dates are numeric, period controls use calendar pictograms, and activity rows show the clock, artwork and stars. Full names and descriptions remain in accessible labels.
+
+History reads immutable `starEvents` and `redemptions`, scoped to the active child. New records retain the title and artwork key so deleting or renaming a definition does not rewrite past entries. Task records retain their completion date key; reward days and displayed times use the child's timezone and the original offline occurrence time when available. Older records fall back to their current definition or a generic label; details that were never recorded cannot be recovered.
+
+The offline store caches history separately from editable definitions, includes queued completions and rewards with a waiting-to-sync label, and reconciles authoritative receipts and snapshots by operation ID. Shared-parent receipts contain the server's title and award values. Revoking access clears cached history. Preparing a legacy child for sharing also copies its existing audit records. Shared calendars also read the child-scoped legacy audit records, so children who were already shared retain their earlier history. Migrated and legacy entries use matching IDs to avoid duplicate counts. The shared-history changes require deploying the updated Cloud Functions and Firestore rules with the client.
+
+Checks cover timezone boundaries, Monday-first weeks spanning years, leap dates, zero-star completions, deleted definitions, child switching, offline acknowledgement/restart, and shared-parent deduplication. The browser fixture in `tests/fixtures/calendar-history.html` exercises both themes at 320px phone width using `tests/e2e/calendar-history.spec.ts`.
+
+## Shared calendar controls and weekday meanings (22 October 2026)
+
+One read-only date display and one previous/next pair above the calendar grid now show and navigate the selected date. The calendar grid itself is the only day picker. The single period selector chooses the arrow step and history range: day/week/month for activity and completions, day/month/year for rewards. Switching back from rewards remembers the activity period. Calendar cells and the read-only date display use the same selected date; month/year steps clamp to valid dates. The repeated month heading and separate history navigation/range heading have been removed. Scheduled details still belong to the selected day.
+
+Weekday headers retain short, single-word labels beneath artwork. The Teenie theme reuses seven existing character portraits, with small meaning badges. The Princess theme uses the same seven pastel SVG symbols at full size. No new characters are invented and no character portraits are altered.
+
+The English weekday origins follow the [Viking Ship Museum's weekday guide](https://www.vikingeskibsmuseet.dk/en/professions/education/viking-age-people/the-names-of-the-weekdays). These character pairings are visual mnemonics, not canonical deity identities:
+
+| Day       | Origin / symbol         | Existing Teenieping                                                | Visual connection                                                                            |
+| --------- | ----------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| Monday    | Moon                    | [Twinkleping](https://catchteenieping.fandom.com/wiki/Twinkleping) | Crescent-moon hat and magic                                                                  |
+| Tuesday   | Tyr / courage shield    | [Gogoping](https://catchteenieping.fandom.com/wiki/Gogoping)       | Courage                                                                                      |
+| Wednesday | Odin / knowledge book   | [Dadaping](https://catchteenieping.fandom.com/wiki/Dadaping)       | Reading, teaching and knowledge; a wisdom association, not a claim that Dadaping is a father |
+| Thursday  | Thor / lightning hammer | [Giggleping](https://catchteenieping.fandom.com/wiki/Giggleping)   | Canonical hammer fires lightning                                                             |
+| Friday    | Frigg / heart           | [Heartsping](https://catchteenieping.fandom.com/wiki/Heartsping)   | Love                                                                                         |
+| Saturday  | Saturn / ringed planet  | [Hulaping](https://catchteenieping.fandom.com/wiki/Hulaping)       | Ringed hair buns and hula hoop                                                               |
+| Sunday    | Sun                     | [Happying](https://catchteenieping.fandom.com/wiki/Happying)       | Sun-shaped hair and sunshine                                                                 |
+
+Character details were checked against the existing local profile catalog and fan-wiki results on 22 October 2026. The seven small vector symbols are authored in `src/assets/calendar/`; portraits remain in `src/assets/teenie/`. Accessible descriptions retain weekday names, origins and character associations without adding explanatory prose to the visible calendar.
+
+Period controls now use four matching SVG calendar pictograms (`period-day/week/month/year.svg`): one day, a seven-day row, a month grid, and twelve month tiles. Numerals reinforce the pictures; Day/Week/Month/Year remain accessible names only. Both themes use the existing segmented image-control selection treatment.
+
+### Integrated weekday lettering
+
+Weekday abbreviations now live inside the artwork itself. Seven new transparent Teenieping portraits show the character holding a plaque marked Mon, Tue, Wed, Thu, Fri, Sat or Sun, with the meaning ornament integrated into the illustration. Princess icons use the existing native vector symbols above a matching labelled plaque. CalendarWeekdays renders one image per day, without separate captions or overlaid badges; full weekday descriptions remain accessible.
+
+Final assets live in `src/assets/calendar/weekdays/`. The built-in image generator produced the Teenie artwork; exact prompts and reference identities are recorded in `docs/assets/calendar-weekday-artwork.json`. PNG masters are retained in `output/calendar-weekdays/raw/`. WebP encoding preserves the original dimensions and every alpha value; no background removal or lettering overlays were used. Princess SVGs were edited directly as native vector artwork.

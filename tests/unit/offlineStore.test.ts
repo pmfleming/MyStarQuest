@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   enqueue,
+  historyDocuments,
   emptyState,
   projectDocuments,
   type Action,
@@ -75,4 +76,105 @@ describe('durable offline store', () => {
     })
     expect(store.getSnapshot()?.documents.rewards.toy.title).toBe('New')
   })
+})
+
+it('keeps completion and reward snapshots through deletion, acknowledgement and restart', async () => {
+  const disk = new MemoryPersistence()
+  const store = new OfflineStore('parent', disk)
+  await store.mergeCollection('children', { child: { totalStars: 5 } })
+  await store.mergeCollection('chores', {
+    tidy: { title: 'Tidy room', imageKey: 'tidyingUp' },
+  })
+  await store.mergeCollection('rewards', {
+    toy: { title: 'Toy', imageKey: 'yoshiEgg' },
+  })
+  const done = await store.queue(completion())
+  const gift = await store.queue({
+    kind: 'redeem',
+    entityId: 'toy',
+    childId: 'child',
+    title: 'Toy',
+    cost: 2,
+    consume: true,
+  })
+  await store.mergeCollection('chores', {})
+  await store.mergeCollection('rewards', {})
+  expect(
+    historyDocuments(store.getSnapshot()!, 'starEvents')[done!.id]
+  ).toMatchObject({
+    taskTitle: 'Tidy room',
+    imageKey: 'tidyingUp',
+    pending: true,
+  })
+  await store.acknowledge(done!.id, {
+    collection: 'children',
+    entityId: 'child',
+    document: { totalStars: 8 },
+    appliedDelta: 3,
+  })
+  await store.acknowledge(gift!.id, {
+    collection: 'children',
+    entityId: 'child',
+    document: { totalStars: 6 },
+  })
+  const reopened = new OfflineStore('parent', disk)
+  await reopened.open()
+  expect(
+    Object.values(historyDocuments(reopened.getSnapshot()!, 'starEvents'))
+  ).toEqual([expect.objectContaining({ taskTitle: 'Tidy room', delta: 3 })])
+  expect(
+    Object.values(historyDocuments(reopened.getSnapshot()!, 'redemptions'))
+  ).toEqual([
+    expect.objectContaining({
+      rewardTitle: 'Toy',
+      imageKey: 'yoshiEgg',
+      costStars: 2,
+    }),
+  ])
+  await reopened.mergeHistory('starEvents', {
+    [done!.id]: { taskTitle: 'Tidy room', delta: 3 },
+  })
+  expect(
+    Object.keys(historyDocuments(reopened.getSnapshot()!, 'starEvents'))
+  ).toHaveLength(1)
+  await reopened.revoke()
+  expect(historyDocuments(reopened.getSnapshot()!, 'starEvents')).toEqual({})
+})
+
+it('uses authoritative shared receipts without duplicating or inventing completion events', async () => {
+  const store = new OfflineStore('parent', new MemoryPersistence())
+  await store.mutate((state) => {
+    state.shared = true
+    state.documents.children.child = { totalStars: 5 }
+  })
+  const done = await store.queue(completion())
+  await store.acknowledge(done!.id, {
+    collection: 'children',
+    entityId: 'child',
+    document: { totalStars: 8 },
+    history: {
+      collection: 'starEvents',
+      id: done!.id,
+      data: { childId: 'child', taskTitle: 'Server title', delta: 3 },
+    },
+  })
+  await store.mergeHistory('starEvents', {
+    [done!.id]: { childId: 'child', taskTitle: 'Server title', delta: 3 },
+  })
+  expect(
+    Object.keys(historyDocuments(store.getSnapshot()!, 'starEvents'))
+  ).toHaveLength(1)
+  await store.mutate((state) => {
+    state.activities = {}
+  })
+  const duplicate = await store.queue(completion())
+  await store.acknowledge(duplicate!.id, {
+    collection: 'children',
+    entityId: 'child',
+    document: { totalStars: 8 },
+    appliedDelta: 0,
+  })
+  expect(
+    Object.keys(historyDocuments(store.getSnapshot()!, 'starEvents'))
+  ).toHaveLength(1)
 })

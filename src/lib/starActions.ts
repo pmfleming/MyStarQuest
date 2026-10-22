@@ -104,6 +104,14 @@ export const completeTaskAndAwardStars = async (options: {
       childId,
       taskId,
       taskCollection,
+      taskTitle: String((taskSnapshot.data() ?? initialTaskData)?.title ?? ''),
+      taskType: String(
+        (taskSnapshot.data() ?? initialTaskData)?.taskType ?? ''
+      ),
+      imageKey: String(
+        (taskSnapshot.data() ?? initialTaskData)?.imageKey ?? ''
+      ),
+      outcome: updates.lastAttemptOutcome ?? 'success',
       dateKey,
       delta: clampedDelta,
       createdAt: serverTimestamp(),
@@ -180,6 +188,7 @@ export const redeemReward = async ({
       childId,
       rewardId: reward.id,
       rewardTitle: storedTitle,
+      imageKey: String(rewardData.imageKey ?? ''),
       costStars: storedCost,
       createdAt: serverTimestamp(),
     })

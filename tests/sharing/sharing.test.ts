@@ -269,7 +269,17 @@ describe('canonical operations', () => {
     expect(result.reduce((n, r) => n + (r.appliedDelta ?? 0), 0)).toBe(3)
     await service.apply(parent, scope, one)
     expect((await childRef.get()).data()?.totalStars).toBe(13)
-    expect((await childRef.collection('starEvents').get()).size).toBe(1)
+    const history = await childRef.collection('starEvents').get()
+    expect(history.size).toBe(1)
+    expect(history.docs[0].data()).toMatchObject({
+      taskCollection: 'chores',
+      taskTitle: 'Tidy',
+      taskType: 'standard',
+      outcome: 'success',
+    })
+    expect(result.filter((receipt) => receipt.history)).toHaveLength(1)
+    const recorded = result.find((receipt) => receipt.history)!.history!
+    expect(recorded.data).toEqual(history.docs[0].data())
   })
   it('serializes competing rewards and rejects an insufficient balance', async () => {
     await accept()
@@ -429,6 +439,28 @@ describe('security rules', () => {
     await accept()
     const client = env.authenticatedContext('parent').firestore()
     await assertSucceeds(getDoc(doc(client, 'users/owner/children/child')))
+    for (const name of ['starEvents', 'redemptions']) {
+      await db
+        .doc(`users/owner/${name}/old`)
+        .set({ childId: 'child', createdAt: now })
+      await db
+        .doc(`users/owner/${name}/private`)
+        .set({ childId: 'sibling', createdAt: now })
+      await assertSucceeds(
+        getDocs(
+          query(
+            collection(client, `users/owner/${name}`),
+            where('childId', '==', 'child')
+          )
+        )
+      )
+      await assertFails(getDocs(collection(client, `users/owner/${name}`)))
+      await assertFails(getDoc(doc(client, `users/owner/${name}/private`)))
+      await assertFails(
+        setDoc(doc(client, `users/owner/${name}/forged`), { childId: 'child' })
+      )
+    }
+
     await assertSucceeds(
       getDocs(
         query(
@@ -463,6 +495,8 @@ describe('security rules', () => {
       await assertFails(setDoc(doc(client, path), { totalStars: 999 }))
     await service.revoke(admin, 'owner', 'child', { parentUid: 'parent' })
     await assertFails(getDoc(doc(client, 'users/owner/children/child')))
+    await assertFails(getDoc(doc(client, 'users/owner/starEvents/old')))
+    await assertFails(getDoc(doc(client, 'users/owner/redemptions/old')))
   })
   it('preserves legacy owner creation and disallows forging migration markers', async () => {
     const client = env.authenticatedContext('owner').firestore()
@@ -495,11 +529,38 @@ describe('migration', () => {
       .doc('users/owner/rewards/legacy')
       .set({ title: 'Legacy reward', costStars: 4, isRepeating: true })
     await db.doc('users/owner/chores/chore').update({ manageCompletedAt: now })
+    await db.doc('users/owner/starEvents/old-completion').set({
+      childId: 'child',
+      taskId: 'chore',
+      taskCollection: 'chores',
+      dateKey: sharedDateKey(now),
+      delta: 3,
+    })
+    await db.doc('users/owner/redemptions/old-reward').set({
+      childId: 'child',
+      rewardId: 'old-gift',
+      rewardTitle: 'Old gift',
+      costStars: 2,
+      createdAt: now,
+    })
     const report = await service.prepare(admin, 'owner', 'child', true)
     expect(report.ready).toBe(false)
     expect((await childRef.get()).data()?.sharedDataVersion).toBeUndefined()
     await service.prepare(admin, 'owner', 'child')
     expect((await childRef.get()).data()?.totalStars).toBe(25)
+    expect(
+      (
+        await childRef
+          .collection('starEvents')
+          .doc('legacy-old-completion')
+          .get()
+      ).data()?.delta
+    ).toBe(3)
+    expect(
+      (
+        await childRef.collection('redemptions').doc('legacy-old-reward').get()
+      ).data()?.rewardTitle
+    ).toBe('Old gift')
     expect(
       (await childRef.collection('rewards').doc('legacy').get()).exists
     ).toBe(true)

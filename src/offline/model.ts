@@ -37,6 +37,7 @@ const actionSchema = z.discriminatedUnion('kind', [
     consume: z.boolean(),
     generation: z.number().int().nonnegative().optional(),
     revision: z.number().int().nonnegative().optional(),
+    historySnapshot: documentSchema.optional(),
   }),
   z.object({
     kind: z.literal('redeem'),
@@ -44,6 +45,7 @@ const actionSchema = z.discriminatedUnion('kind', [
     childId: entityId,
     title: z.string(),
     cost: z.number().finite().nonnegative(),
+    historySnapshot: documentSchema.optional(),
     consume: z.boolean(),
   }),
 ])
@@ -64,6 +66,12 @@ export const offlineStateSchema = z.object({
   activities: z.record(z.string(), activitySchema),
   consumed: z.record(z.string(), z.boolean()),
   importedWebCollections: z.array(collectionSchema).optional(),
+  history: z
+    .object({
+      starEvents: z.record(z.string(), documentSchema),
+      redemptions: z.record(z.string(), documentSchema),
+    })
+    .optional(),
   shared: z.boolean().optional(),
   sharedProgress: z.record(z.string(), documentSchema).optional(),
   revoked: z.boolean().optional(),
@@ -74,6 +82,53 @@ export const offlineStateSchema = z.object({
 export type Action = z.infer<typeof actionSchema>
 export type OfflineState = z.infer<typeof offlineStateSchema>
 export type PendingAction = OfflineState['pending'][number]
+export type HistoryCollection = 'starEvents' | 'redemptions'
+export type ReadCollection = CollectionName | HistoryCollection
+export function operationHistory(
+  operation: PendingAction
+): { collection: HistoryCollection; data: LocalDocument } | null {
+  const { action } = operation
+  if (
+    action.kind === 'document' ||
+    (action.kind === 'activity' && !action.complete)
+  )
+    return null
+  return {
+    collection: action.kind === 'redeem' ? 'redemptions' : 'starEvents',
+    data: {
+      ...action.historySnapshot,
+      childId: action.childId,
+      occurredAt: operation.occurredAt,
+      createdAt: operation.occurredAt,
+      ...(action.kind === 'redeem'
+        ? {
+            rewardId: action.entityId,
+            rewardTitle: action.title,
+            costStars: action.cost,
+          }
+        : {
+            taskId: action.entityId,
+            taskCollection: action.collection,
+            dateKey: action.dateKey,
+            delta: action.delta,
+          }),
+    },
+  }
+}
+export function historyDocuments(
+  state: OfflineState,
+  collection: HistoryCollection
+) {
+  if (state.revoked) return {}
+  const documents = { ...state.history?.[collection] }
+  for (const operation of state.pending) {
+    const event = operationHistory(operation)
+    if (event?.collection === collection && !documents[operation.id])
+      documents[operation.id] = { ...event.data, pending: true }
+  }
+  return documents
+}
+
 type ActivityAction = Extract<Action, { kind: 'activity' }>
 export const emptyState = (): OfflineState => ({
   version: 1,
@@ -206,6 +261,25 @@ export function enqueue(
       throw new Error('This reward was already used on this device.')
     state.consumed[key] = true
   }
+  if (action.kind !== 'document') {
+    const definition = projectDocuments(
+      state,
+      action.kind === 'redeem' ? 'rewards' : action.collection
+    )[action.entityId]
+    action = {
+      ...action,
+      historySnapshot: {
+        ...(action.kind === 'redeem'
+          ? { rewardTitle: action.title }
+          : {
+              taskTitle: String(definition?.title ?? ''),
+              taskType: String(definition?.taskType ?? ''),
+              outcome: action.patch.lastAttemptOutcome ?? 'success',
+            }),
+        imageKey: String(definition?.imageKey ?? ''),
+      },
+    }
+  }
   const operation = {
     id: crypto.randomUUID(),
     deviceId: state.deviceId,
@@ -224,25 +298,27 @@ function projectedSharedProgress(state: OfflineState) {
     if (action.kind !== 'activity') continue
     const key = progressKey(action.collection, action.entityId, action.dateKey)
     const previous = progress[key]
+    const generation = Number(previous?.generation ?? 0)
+    const revision = Number(previous?.revision ?? 0)
     if (reflectedByChild(state.documents.children[action.childId], operation))
       continue
-    if (action.generation !== Number(previous?.generation ?? 0)) continue
-    if (Number(action.revision ?? 0) < Number(previous?.revision ?? 0)) continue
+    if (action.generation !== generation) continue
+    if (Number(action.revision ?? 0) < revision) continue
     progress[key] = {
       ...previous,
       collection: action.collection,
       entityId: action.entityId,
       dateKey: action.dateKey,
-      generation: Number(previous?.generation ?? 0) + (action.reset ? 1 : 0),
-      revision: Number(previous?.revision ?? 0) + 1,
-      patch: action.reset
-        ? {}
-        : { ...recordData(previous?.patch), ...action.patch },
-      complete:
-        !action.reset && (action.complete || previous?.complete === true),
-      consumed:
-        !action.reset &&
-        (previous?.consumed === true || (action.consume && action.complete)),
+      generation: generation + Number(action.reset),
+      revision: revision + 1,
+      ...(action.reset
+        ? { patch: {}, complete: false, consumed: false }
+        : {
+            ...mergeActivity(previous, action),
+            consumed:
+              previous?.consumed === true ||
+              (action.consume && action.complete),
+          }),
     }
   }
   return progress

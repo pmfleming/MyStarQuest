@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:26.050Z",
+    "measured_at": "2026-10-22T20:36:34.284Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:22fff3b6f1e6c19b6df336d3945539596a7451fd5b152ada6af8c8ced7a26138"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:28872bf69ab88761597a1f42b727efd46ee812734f5db104423c6dd0165cd3e8"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -130,13 +130,13 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-10-03T13:15:25.719Z",
+        "detectionDate": "2026-10-22T20:36:33.901Z",
         "formats": {
           "typescript": {
             "sources": {
               "src/sharing/service.ts": {
-                "lines": 880,
-                "tokens": 8829,
+                "lines": 914,
+                "tokens": 9157,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -147,8 +147,8 @@
                 "newClones": 0
               },
               "src/sharing/protocol.ts": {
-                "lines": 74,
-                "tokens": 607,
+                "lines": 79,
+                "tokens": 645,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -159,8 +159,8 @@
                 "newClones": 0
               },
               "src/sharing/policy.ts": {
-                "lines": 261,
-                "tokens": 2583,
+                "lines": 253,
+                "tokens": 2565,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -232,8 +232,8 @@
               }
             },
             "total": {
-              "lines": 2038,
-              "tokens": 19288,
+              "lines": 2069,
+              "tokens": 19636,
               "sources": 8,
               "clones": 0,
               "duplicatedLines": 0,
@@ -246,8 +246,8 @@
           }
         },
         "total": {
-          "lines": 2038,
-          "tokens": 19288,
+          "lines": 2069,
+          "tokens": 19636,
           "sources": 8,
           "clones": 0,
           "duplicatedLines": 0,

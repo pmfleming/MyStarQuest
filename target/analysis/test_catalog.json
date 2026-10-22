@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "quality review 2026-10-22; whole-project API audit",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:14:20.987Z",
+    "measured_at": "2026-10-22T20:35:36.656Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:5f4d43ab7087cfcf9374894fcb3782a9095318679cf1ad9aacd20d67991746cd"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:45e7d13d3005cb2d3b381677af67822b05fb51ebb83ed54afef8e226a26120ad"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -113,9 +113,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 62,
+    "tests": 70,
     "colocated_tests": 0,
-    "external_tests": 62,
+    "external_tests": 70,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -216,6 +216,75 @@
         },
         {
           "file": "src/auth/sessionPreloadHint.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/CalendarActivityHistory.test.tsx",
+      "name": "CalendarActivityHistory.test.tsx",
+      "path": "tests/component/CalendarActivityHistory.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/CalendarActivityHistory.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/lib/calendarHistory.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/CalendarActivityHistory.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarHistory.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarHistory.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/ChoreCreationFlow.test.tsx",
+      "name": "ChoreCreationFlow.test.tsx",
+      "path": "tests/component/ChoreCreationFlow.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/pages/ChoreCreationFlow.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/assets/chores/assets.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/pages/ChoreCreationFlow.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/assets/chores/assets.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -373,6 +442,38 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/PositionalNotation.test.tsx",
+      "name": "PositionalNotation.test.tsx",
+      "path": "tests/component/PositionalNotation.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/PositionalNotation.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/lib/positionalNotationProblems.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/PositionalNotation.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/positionalNotationProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/RewardCreationFlow.test.tsx",
       "name": "RewardCreationFlow.test.tsx",
       "path": "tests/component/RewardCreationFlow.test.tsx",
@@ -435,7 +536,8 @@
         "src/lib/calendarSchedule.ts",
         "src/lib/schoolCalendarStore.ts",
         "src/ui/schoolEventAssets.ts",
-        "src/ui/themeAssets.ts"
+        "src/ui/themeAssets.ts",
+        "src/lib/calendarHistory.ts"
       ],
       "source_associations": [
         {
@@ -465,6 +567,11 @@
         },
         {
           "file": "src/ui/themeAssets.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarHistory.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1124,6 +1231,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/useCalendarHistory.test.tsx",
+      "name": "useCalendarHistory.test.tsx",
+      "path": "tests/component/useCalendarHistory.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/hooks/useCalendarHistory.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/hooks/useCalendarHistory.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/useCoalescedDocumentUpdates.test.tsx",
       "name": "useCoalescedDocumentUpdates.test.tsx",
       "path": "tests/component/useCoalescedDocumentUpdates.test.tsx",
@@ -1174,7 +1301,9 @@
         "src/data/types.ts",
         "src/data/dailyTaskState.ts",
         "src/lib/today.ts",
-        "src/lib/starActions.ts"
+        "src/lib/starActions.ts",
+        "src/data/useUserDocumentUpdates.ts",
+        "src/sharing/scope.ts"
       ],
       "source_associations": [
         {
@@ -1206,8 +1335,30 @@
           "file": "src/lib/starActions.ts",
           "kind": "direct-import",
           "confidence": "high"
+        },
+        {
+          "file": "src/data/useUserDocumentUpdates.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/sharing/scope.ts",
+          "kind": "direct-import",
+          "confidence": "high"
         }
       ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/calendar-history.spec.ts",
+      "name": "calendar-history.spec.ts",
+      "path": "tests/e2e/calendar-history.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1242,6 +1393,56 @@
         {
           "file": "src/offline/model.ts",
           "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/fixtures/calendar-history.tsx",
+      "name": "calendar-history.tsx",
+      "path": "tests/fixtures/calendar-history.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/CalendarWeekdays.tsx",
+        "src/components/CalendarActivityHistory.tsx",
+        "src/contexts/SelectedDateContext.tsx",
+        "src/contexts/ThemeContext.tsx",
+        "src/lib/calendarHistory.ts",
+        "src/lib/today.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/CalendarWeekdays.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/CalendarActivityHistory.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/SelectedDateContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/calendarHistory.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/today.ts",
+          "kind": "direct-import",
           "confidence": "high"
         }
       ],
@@ -1388,6 +1589,26 @@
       "framework": "vitest",
       "source_mapping": [],
       "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/calendarHistory.test.ts",
+      "name": "calendarHistory.test.ts",
+      "path": "tests/unit/calendarHistory.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/calendarHistory.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/calendarHistory.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1552,6 +1773,26 @@
         },
         {
           "file": "src/lib/today.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/positionalNotationProblems.test.ts",
+      "name": "positionalNotationProblems.test.ts",
+      "path": "tests/unit/lib/positionalNotationProblems.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/positionalNotationProblems.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/positionalNotationProblems.ts",
           "kind": "direct-import",
           "confidence": "high"
         }

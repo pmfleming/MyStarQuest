@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:31.575Z",
+    "measured_at": "2026-10-22T20:36:41.553Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:b10f946a09279c42c8309919e98694ef5ec337c713c4c1e268ce72ad31eecec4"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:7525423ff245ec46593a440d4917d27764254767c38264c6e8f9ee910fec45b3"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -110,9 +110,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 18,
+    "tests": 19,
     "colocated_tests": 0,
-    "external_tests": 18,
+    "external_tests": 19,
     "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -124,6 +124,19 @@
   },
   "records": [],
   "tests": [
+    {
+      "id": "test:../tests/unit/calendarHistory.test.ts",
+      "name": "calendarHistory.test.ts",
+      "path": "../tests/unit/calendarHistory.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 19,
+      "skipped": 0,
+      "todo": 0
+    },
     {
       "id": "test:../tests/unit/calendarSchedule.test.ts",
       "name": "calendarSchedule.test.ts",
@@ -219,7 +232,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 7,
+      "assertions": 16,
       "skipped": 0,
       "todo": 0
     },
@@ -342,7 +355,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 12,
+      "assertions": 17,
       "skipped": 0,
       "todo": 0
     },

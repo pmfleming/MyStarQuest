@@ -3,7 +3,7 @@
   "task_id": "quality.cleanup",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:36.572Z",
+    "measured_at": "2026-10-22T20:36:48.221Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:fd6bd5d8bae5ecef74e1ec4b75aace8be08d7b1f757cade8cd8a56c9ec496d8e"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:98f2a7a2561ce8b4df71915f2766eb87405e9eeae8ad8e560a155b4ba2318be2"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -124,7 +124,7 @@
     "type_only_production_dependencies": 0,
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
-    "entrypoint_files": 2,
+    "entrypoint_files": 3,
     "knip_findings": 9,
     "tool_confirmed": 3,
     "tool_disagreed": 2,
@@ -237,7 +237,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:ParentEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 56,
+      "line": 61,
       "name": "ParentEntry",
       "score": 45,
       "risk": "medium",
@@ -252,7 +252,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:56",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:61",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -286,7 +286,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:InvitationEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 57,
+      "line": 62,
       "name": "InvitationEntry",
       "score": 45,
       "risk": "medium",
@@ -301,7 +301,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:57",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:62",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",

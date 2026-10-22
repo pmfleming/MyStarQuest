@@ -63,6 +63,8 @@ const taskType: Validator = (value) =>
   Object.hasOwn(completedFields, String(value))
 const problemCount = between(1, 9)
 const starCount = between(0, 999)
+const sequenceNumber = between(1, Number.MAX_SAFE_INTEGER)
+const progressVersion = between(0, Number.MAX_SAFE_INTEGER)
 const taskRules: Record<string, Validator> = {
   title: text,
   category: text,
@@ -122,11 +124,11 @@ export function documentPatch(
       (collection === 'chores' || collection === 'tests')
     ) {
       if (value !== childId) deny()
-    } else {
-      if (!Object.hasOwn(rules, key))
-        fail(`This field cannot be edited: ${key}`)
-      if (!rules[key](value)) fail(`Invalid ${key}.`)
+      clean[key] = value
+      continue
     }
+    if (!Object.hasOwn(rules, key)) fail(`This field cannot be edited: ${key}`)
+    if (!rules[key](value)) fail(`Invalid ${key}.`)
     clean[key] = value
   }
   return clean
@@ -139,6 +141,9 @@ const activityRules: Record<string, Validator> = {
     ['full', 'twothirds', 'onethird', 'empty'].includes(String(value)),
   manageToiletStatus: oneOf('notpeepee', 'didpeepee'),
 }
+const outcome = oneOf(null, 'success', 'failure')
+const activityNumber: Validator = (value) =>
+  finiteNumber(value) && Number(value) >= 0 && Number(value) <= 86400
 const extraActivityFields: Record<string, string[]> = {
   eating: [
     'manageDinnerRemainingSeconds',
@@ -160,13 +165,13 @@ function activityValue(
     return key === 'manageDinnerTimerStartedAt' ? occurredAt : now
   }
   if (key === 'lastAttemptDateKey') return value ? dateKey : ''
-  if (key.endsWith('Outcome')) {
-    if (!oneOf(null, 'success', 'failure')(value)) fail('Invalid outcome.')
-  } else if (activityRules[key]) {
-    if (!activityRules[key](value)) fail(`Invalid activity state: ${key}`)
-  } else if (!finiteNumber(value) || Number(value) < 0 || Number(value) > 86400)
-    fail('Invalid activity value.')
-  return value
+  const rule = key.endsWith('Outcome')
+    ? outcome
+    : (activityRules[key] ?? activityNumber)
+  if (rule(value)) return value
+  if (rule === outcome) fail('Invalid outcome.')
+  if (rule === activityNumber) fail('Invalid activity value.')
+  fail(`Invalid activity state: ${key}`)
 }
 export function activityPatch(
   input: unknown,
@@ -201,11 +206,7 @@ export function parseOperation(input: unknown): SharedOperation {
   const op = record(input)
   id(op.id)
   id(op.deviceId)
-  if (
-    !Number.isSafeInteger(op.sequence) ||
-    Number(op.sequence) < 1 ||
-    !Number.isFinite(op.occurredAt)
-  )
+  if (!sequenceNumber(op.sequence) || !Number.isFinite(op.occurredAt))
     fail('Invalid operation sequence.')
   const action = record(op.action)
   id(action.entityId)
@@ -225,18 +226,9 @@ export function parseOperation(input: unknown): SharedOperation {
       !/^\d{4}-\d{2}-\d{2}$/.test(String(action.dateKey))
     )
       fail('Invalid activity.')
-    if (
-      ![action.complete, action.reset, action.consume].every(
-        (v) => typeof v === 'boolean'
-      )
-    )
+    if (![action.complete, action.reset, action.consume].every(boolean))
       fail('Invalid activity flags.')
-    if (
-      !Number.isSafeInteger(action.generation) ||
-      Number(action.generation) < 0 ||
-      !Number.isSafeInteger(action.revision) ||
-      Number(action.revision) < 0
-    )
+    if (![action.generation, action.revision].every(progressVersion))
       fail('Refresh this activity before saving.')
     record(action.patch)
   } else if (action.kind === 'redeem') id(action.childId)

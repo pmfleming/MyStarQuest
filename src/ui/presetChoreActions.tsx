@@ -16,101 +16,57 @@ import type {
 
 type PresetChoreType = Exclude<ChoreModeType, 'standard'>
 
-type SharedPrimaryActionBase = {
+type SharedPrimaryActionBase<T> = {
   stage: ChoreStage
   icon: ReactNode
   disabled?: boolean
+  onStart: ResolvedListAction<T>['onClick']
+  onReset: ResolvedListAction<T>['onClick']
 }
 
-type DinnerPrimaryActionConfig<T> = SharedPrimaryActionBase & {
+type DinnerPrimaryActionConfig<T> = SharedPrimaryActionBase<T> & {
   isTimerRunning: boolean
-  onStart: (item: T) => void | Promise<void>
   onBite: (item: T) => void | Promise<void>
-  onReset: (item: T) => void | Promise<void>
 }
 
-type TestPrimaryActionConfig<T> = SharedPrimaryActionBase & {
+type TestPrimaryActionConfig<T> = SharedPrimaryActionBase<T> & {
   choreType: Exclude<PresetChoreType, 'eating'>
-  onStart: (item: T) => void | Promise<void>
   onCheck: (item: T) => void | Promise<void>
-  onReset: (item: T) => void | Promise<void>
 }
 
-type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase & {
-  choreType: Exclude<
-    PresetChoreType,
-    | 'eating'
-    | 'math'
-    | 'large-numbers'
-    | 'fractions'
-    | 'positional-notation'
-    | 'alphabet'
-    | 'spelling'
-    | 'animals'
-  >
-  onStart: (item: T) => void | Promise<void>
+type ActivityPrimaryActionConfig<T> = SharedPrimaryActionBase<T> & {
+  choreType: 'watertoiletcheck'
   onFinish: (item: T) => void | Promise<void>
-  onReset: (item: T) => void | Promise<void>
 }
 
 type PresetUtilityActionConfig<T> = {
   stage: ChoreStage
   resetAriaLabel: string
   deleteAriaLabel: string
-  onReset: (item: T) => void | Promise<void>
+  onReset: ResolvedListAction<T>['onClick']
   onDelete: (item: T) => void | Promise<void>
 }
 
-type StagedPrimaryActionConfig<T> = SharedPrimaryActionBase & {
+type StagedPrimaryActionConfig<T> = SharedPrimaryActionBase<T> & {
   label: string
   hideButton: boolean
-  onSetup: (item: T) => void | Promise<void>
   onActivity: (item: T) => void | Promise<void>
-  onFinal: (item: T) => void | Promise<void>
 }
 
 const createStagedPrimaryAction = <T,>({
   stage,
-  label,
-  icon,
-  disabled,
-  hideButton,
-  onSetup,
+  onStart,
   onActivity,
-  onFinal,
+  onReset,
+  ...action
 }: StagedPrimaryActionConfig<T>): ResolvedListAction<T> => ({
-  label,
-  icon,
-  disabled,
-  hideButton,
+  ...action,
   variant: 'primary',
-
-  onClick: (item) => {
-    if (isFinalChoreStage(stage)) return onFinal(item)
-    return stage === 'activity' ? onActivity(item) : onSetup(item)
-  },
-})
-
-const createDeleteUtilityAction = <T,>(
-  ariaLabel: string,
-  onClick: (item: T) => void | Promise<void>
-): ResolvedListUtilityAction<T> => ({
-  label: 'Delete',
-  ariaLabel,
-  exits: true,
-  variant: 'danger',
-  onClick,
-})
-
-const createResetUtilityAction = <T,>(
-  ariaLabel: string,
-  onClick: (item: T) => void | Promise<void>
-): ResolvedListUtilityAction<T> => ({
-  label: 'Reset',
-  ariaLabel,
-  exits: false,
-  variant: 'neutral',
-  onClick,
+  onClick: isFinalChoreStage(stage)
+    ? onReset
+    : stage === 'activity'
+      ? onActivity
+      : onStart,
 })
 
 export const createPresetUtilityAction = <T,>({
@@ -121,47 +77,43 @@ export const createPresetUtilityAction = <T,>({
   onDelete,
 }: PresetUtilityActionConfig<T>): ResolvedListUtilityAction<T> =>
   shouldUseResetUtility(stage)
-    ? createResetUtilityAction(resetAriaLabel, onReset)
-    : createDeleteUtilityAction(deleteAriaLabel, onDelete)
+    ? {
+        label: 'Reset',
+        ariaLabel: resetAriaLabel,
+        exits: false,
+        variant: 'neutral',
+        onClick: onReset,
+      }
+    : {
+        label: 'Delete',
+        ariaLabel: deleteAriaLabel,
+        exits: true,
+        variant: 'danger',
+        onClick: onDelete,
+      }
 
 export const createPresetDinnerPrimaryAction = <T,>({
-  stage,
   isTimerRunning,
-  icon,
-  disabled,
-  onStart,
   onBite,
-  onReset,
+  ...config
 }: DinnerPrimaryActionConfig<T>): ResolvedListAction<T> =>
   createStagedPrimaryAction({
-    stage,
-    label: getDinnerPrimaryActionLabel(stage, isTimerRunning),
-    icon,
-    disabled,
-    hideButton: isFinalChoreStage(stage),
-    onSetup: onStart,
-    onActivity: isTimerRunning ? onBite : onStart,
-    onFinal: onReset,
+    ...config,
+    label: getDinnerPrimaryActionLabel(config.stage, isTimerRunning),
+    hideButton: isFinalChoreStage(config.stage),
+    onActivity: isTimerRunning ? onBite : config.onStart,
   })
 
 export const createPresetTestPrimaryAction = <T,>({
   choreType,
-  stage,
-  icon,
-  disabled,
-  onStart,
   onCheck,
-  onReset,
+  ...config
 }: TestPrimaryActionConfig<T>): ResolvedListAction<T> =>
   createStagedPrimaryAction({
-    stage,
-    label: getTestPrimaryActionLabel(stage),
-    icon,
-    disabled,
-    hideButton: shouldHidePresetPrimaryButton(choreType, stage),
-    onSetup: onStart,
+    ...config,
+    label: getTestPrimaryActionLabel(config.stage),
+    hideButton: shouldHidePresetPrimaryButton(choreType, config.stage),
     onActivity: onCheck,
-    onFinal: onReset,
   })
 
 export const createPresetActivityPrimaryAction = <T,>({

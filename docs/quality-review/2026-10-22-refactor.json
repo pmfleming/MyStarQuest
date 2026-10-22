@@ -1,0 +1,332 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "233239b623b67df9c772d7ac3602740fb9de3f12",
+    "verified_main": "2026-10-22"
+  },
+  "methodology": "Fresh working-tree baseline includes prior changes. Latest Lens built from clean verified upstream main. Unchanged configs, thresholds, exclusions and suppressions. Baseline measures cover all source; original baseline audit used origin/main. Whole-project baseline policy counts recomputed from saved artifacts using collectFindings, final audit uses API base empty and gate all. Complexity and effort sum callables; locality and leverage sum static risk scores, lower is better; not official global grades. Physical source includes tests, CSS, scripts and Java, excludes generated reports and artwork.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 34419,
+        "cognitive_complexity": 1804,
+        "cyclomatic_complexity": 2446,
+        "halstead_effort": 11478733,
+        "clone_groups": 0,
+        "locality_risk": 12735,
+        "leverage_risk": 604,
+        "lint_blockers": 5
+      },
+      "after": {
+        "source_lines": 34298,
+        "cognitive_complexity": 1783,
+        "cyclomatic_complexity": 2446,
+        "halstead_effort": 11385510,
+        "clone_groups": 0,
+        "locality_risk": 12717,
+        "leverage_risk": 336,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -121,
+        "cognitive_complexity": -21,
+        "cyclomatic_complexity": 0,
+        "halstead_effort": -93223,
+        "clone_groups": 0,
+        "locality_risk": -18,
+        "leverage_risk": -268,
+        "lint_blockers": -5
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 2781,
+        "active_findings": 59,
+        "introduced_findings": 2781,
+        "inherited_findings": 0,
+        "high_risk_findings": 347,
+        "blocking_findings": 0,
+        "warning_findings": 59,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "baseline_whole_project_findings": {
+        "verdict": "fail",
+        "complete": true,
+        "blocking_findings": 5,
+        "warning_findings": 60
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 2085,
+        "cognitive_complexity": 162,
+        "cyclomatic_complexity": 174,
+        "halstead_effort": 233149,
+        "clone_groups": 0,
+        "locality_risk": 173,
+        "leverage_risk": 120,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 2077,
+        "cognitive_complexity": 150,
+        "cyclomatic_complexity": 171,
+        "halstead_effort": 219827,
+        "clone_groups": 0,
+        "locality_risk": 173,
+        "leverage_risk": 120,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -8,
+        "cognitive_complexity": -12,
+        "cyclomatic_complexity": -3,
+        "halstead_effort": -13322,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": "",
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 137,
+        "active_findings": 0,
+        "introduced_findings": 137,
+        "inherited_findings": 0,
+        "high_risk_findings": 13,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "baseline_whole_project_findings": {
+        "verdict": "pass",
+        "complete": true,
+        "blocking_findings": 0,
+        "warning_findings": 0
+      }
+    }
+  },
+  "totals": {
+    "before": {
+      "source_lines": 36504,
+      "cognitive_complexity": 1966,
+      "cyclomatic_complexity": 2620,
+      "halstead_effort": 11711882,
+      "clone_groups": 0,
+      "locality_risk": 12908,
+      "leverage_risk": 724,
+      "lint_blockers": 5
+    },
+    "after": {
+      "source_lines": 36375,
+      "cognitive_complexity": 1933,
+      "cyclomatic_complexity": 2617,
+      "halstead_effort": 11605337,
+      "clone_groups": 0,
+      "locality_risk": 12890,
+      "leverage_risk": 456,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -129,
+      "cognitive_complexity": -33,
+      "cyclomatic_complexity": -3,
+      "halstead_effort": -106545,
+      "clone_groups": 0,
+      "locality_risk": -18,
+      "leverage_risk": -268,
+      "lint_blockers": -5
+    }
+  },
+  "physical_lines": {
+    "before": 47790,
+    "after": 47787,
+    "delta": -3
+  },
+  "changed_files": [
+    {
+      "file": "functions/src/sharing/policy.ts",
+      "before_lines": 261,
+      "after_lines": 253,
+      "delta": -8,
+      "before_sha256": "3d4254f39da098298464de5c798c443303c63adc02d175d09c22ec2ddad19214",
+      "after_sha256": "76b8de6c1d8405b4ed2eb73f3c3197fd7491d96ccd68707320ad16ec07c7cbc2"
+    },
+    {
+      "file": "src/components/CalendarActivityHistory.tsx",
+      "before_lines": 299,
+      "after_lines": 313,
+      "delta": 14,
+      "before_sha256": "516989ced0fabc0e32832b020343b33c91e5b2b3182f4bfef6fac6287114d191",
+      "after_sha256": "b50f54a359b8ad9e271c5fda3f7d9086646dc0bd8c7806b19b910c84f96bd6e2"
+    },
+    {
+      "file": "src/components/ui/PositionalNotationPlayArea.tsx",
+      "before_lines": 528,
+      "after_lines": 527,
+      "delta": -1,
+      "before_sha256": "da5d1bfe64934e108383f72d1ac3060d22d8f4233455c227c57b0da1f94c5b7a",
+      "after_sha256": "fe20ebc6ece14275f049f9d695970c259e36aa0e24bd71796772d591004f462a"
+    },
+    {
+      "file": "src/data/types.ts",
+      "before_lines": 460,
+      "after_lines": 412,
+      "delta": -48,
+      "before_sha256": "8ffe5dd967cdfcd5a57b307b4475c0f0d46a928dd342503e4b8145ff2fe5ea31",
+      "after_sha256": "8d1910bf44fe6b5403ef1d8a7db422b2661b1624624c086f3520aa472a75b2f1"
+    },
+    {
+      "file": "src/data/useChildTaskCollection.ts",
+      "before_lines": 100,
+      "after_lines": 101,
+      "delta": 1,
+      "before_sha256": "6d99feedbf2ad5884379d4e50e7e22730ab1e234eff82a04712e97a5315eb9f1",
+      "after_sha256": "7c369a868259a8fee7875a565b7da330eecff6a795df01def7a0f0f24347d482"
+    },
+    {
+      "file": "src/data/useChores.ts",
+      "before_lines": 185,
+      "after_lines": 185,
+      "delta": 0,
+      "before_sha256": "ba24605715885569a2fdec36d27aaf6f573221ef767720602df9c9370e2c2a95",
+      "after_sha256": "fa9e835c533aa80f994cef1cb891a278444c39146aa57b6a4ed6099eef71e43d"
+    },
+    {
+      "file": "src/data/useRewards.ts",
+      "before_lines": 117,
+      "after_lines": 114,
+      "delta": -3,
+      "before_sha256": "e835a9cde5d1addf48e485e0fa40553089f5ca33e12c4b6b652a808575172c37",
+      "after_sha256": "ec19b948d12389d89d6751265bbff366c90fc0b462a1c4f5bb0f2def43449cca"
+    },
+    {
+      "file": "src/data/useTests.ts",
+      "before_lines": 335,
+      "after_lines": 321,
+      "delta": -14,
+      "before_sha256": "5aa2a516cdbe73b6c8ad80277190c29ba1a120e03e2178aa9b1826f4ae8511d9",
+      "after_sha256": "0f20334c2ebfd92202b89f24123602785710c79a42033e2dc5b8310b4e7e2c1c"
+    },
+    {
+      "file": "src/data/useUserCollection.ts",
+      "before_lines": 159,
+      "after_lines": 158,
+      "delta": -1,
+      "before_sha256": "02e3006fbada56f0901ca20026cc47eeb4612311866baf28ab2aecd9ecdc8bcb",
+      "after_sha256": "e0f8509eed3b805e3d9da556d1699a1c8ca03808f41101abdc1dc666d520238d"
+    },
+    {
+      "file": "src/data/useUserDocumentUpdates.ts",
+      "before_lines": 90,
+      "after_lines": 99,
+      "delta": 9,
+      "before_sha256": "7d93dee4426d257760ae8f9d7ed8b1c24221e36c730a0cf8148d6ba574361cc6",
+      "after_sha256": "de15d533a6a7f4f30ecb24701c4c4f104ae1f14e5b7596b4112ab56afc144c4f"
+    },
+    {
+      "file": "src/lib/calendarHistory.ts",
+      "before_lines": 171,
+      "after_lines": 168,
+      "delta": -3,
+      "before_sha256": "86a5650b72d87cf9ca3b23af2da8c0cffdaabe65c217bb5b4f07ddaab921bf5c",
+      "after_sha256": "95a1fc8da30e494c44f976e633f26849a64f57ba0338f236cf66b680bd1a3d70"
+    },
+    {
+      "file": "src/lib/positionalNotationProblems.ts",
+      "before_lines": 100,
+      "after_lines": 100,
+      "delta": 0,
+      "before_sha256": "acff3f94c99e6c44edb97cbfae202174fe795d7a1aa59398eab77ee4453cb7b5",
+      "after_sha256": "2d4e090ed99ccbc47430c54ef6c24c6130f216046860ee96b41dee19b65814f1"
+    },
+    {
+      "file": "src/offline/model.ts",
+      "before_lines": 361,
+      "after_lines": 363,
+      "delta": 2,
+      "before_sha256": "6f728771a2944edd9367ef75a24b2c5a295aec20a8f424eb314f37cc94976069",
+      "after_sha256": "cf23c638412468366d1826f758a40fa7fd843db89d4371ac9ccc50731e96afa2"
+    },
+    {
+      "file": "src/offline/runtime.ts",
+      "before_lines": 285,
+      "after_lines": 258,
+      "delta": -27,
+      "before_sha256": "5608bf7fcc1cc76daca1b856fae5102c5dd13445bbd8ff724505c7636d7a9e25",
+      "after_sha256": "773684e79cc4cf815f7ddf8dace043714ee5afdcc1fb362a082c743afa4ce86f"
+    },
+    {
+      "file": "src/offline/store.ts",
+      "before_lines": 226,
+      "after_lines": 228,
+      "delta": 2,
+      "before_sha256": "39d8d11d52f1be3324da4aaa5bcdeffff368b38638f17051ac938b86c20bd5b7",
+      "after_sha256": "538655e6a2a3453f5d436df14901f935278e828780130addc9e53f01b2fcb99b"
+    },
+    {
+      "file": "src/ui/calendarHistoryAssets.ts",
+      "before_lines": 29,
+      "after_lines": 25,
+      "delta": -4,
+      "before_sha256": "6cfd49228ca007f750a95d576e386ff6ccb4c1a70efb379eefab70126919f94e",
+      "after_sha256": "fdf99cd7e0d1d47a644727eba4bd018ccfd765407fabcc6a8550e53f94f51137"
+    },
+    {
+      "file": "src/ui/presetChoreActions.tsx",
+      "before_lines": 173,
+      "after_lines": 125,
+      "delta": -48,
+      "before_sha256": "d2b8277561440548f441c41705ac6f936cc4cf57ba718d953080f37ec6dc2394",
+      "after_sha256": "566e872db87032d19b87acc6930899386fd56c46255bcc6f11faec20f6fca450"
+    },
+    {
+      "file": "tests/component/useTestsReset.test.tsx",
+      "before_lines": 140,
+      "after_lines": 205,
+      "delta": 65,
+      "before_sha256": "5e18df372a0e3f8c6e1a6ef98ab2d1f690dc5e596ac9b5bff01338ab795d884a",
+      "after_sha256": "41fe7c6acd2a7c0df5038947909fcc4eb5edbe580387f9ab427108ca32fdddae"
+    },
+    {
+      "file": "tests/unit/calendarHistory.test.ts",
+      "before_lines": 237,
+      "after_lines": 252,
+      "delta": 15,
+      "before_sha256": "318db8fb4f10a84eb9cd869f9b33bc7bc9bb03a87f122bbb4057d3db36032e92",
+      "after_sha256": "80ecc50a324dc29139b5debb7d8576eec0bcd727a7ebdcfe5096021c577e0364"
+    },
+    {
+      "file": "tests/unit/sharingPolicy.test.ts",
+      "before_lines": 122,
+      "after_lines": 168,
+      "delta": 46,
+      "before_sha256": "e5ee8a9666940877c51b99e0127a2b1479763ca6b9b165e3084f6e9bc612b090",
+      "after_sha256": "6327f1deb1be94fb419f9e837f76a06afb9198c9fd87ebc23e667751ad3025ce"
+    }
+  ],
+  "test_execution": {
+    "status": "passed",
+    "command": "npm run test"
+  },
+  "artifact_directory": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-22"
+}

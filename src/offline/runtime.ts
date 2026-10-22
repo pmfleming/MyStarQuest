@@ -10,7 +10,12 @@ import {
 import { Capacitor } from '@capacitor/core'
 import { db } from '../firebaseDb'
 import { getTodayDescriptor } from '../lib/today'
-import { collections, type CollectionName, type LocalDocument } from './model'
+import {
+  collections,
+  historyDocuments,
+  type ReadCollection,
+  type LocalDocument,
+} from './model'
 import { IndexedDbPersistence } from './persistence'
 import { OfflineStore } from './store'
 import { OfflineSync } from './sync'
@@ -27,28 +32,6 @@ import { emptyState } from './model'
 
 const persistence = new IndexedDbPersistence()
 const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
-
-// Query caches can be incomplete; keep the durable snapshot until a server result.
-function subscribeToCollection(
-  source: Query,
-  merge: (documents: Record<string, LocalDocument>) => Promise<unknown>,
-  report: (error: unknown) => void,
-  denied: (error: FirestoreError) => void
-) {
-  return onSnapshot(
-    source,
-    { includeMetadataChanges: true },
-    (snapshot) => {
-      if (snapshot.metadata.fromCache) return
-      void merge(
-        Object.fromEntries(
-          snapshot.docs.map((doc) => [doc.id, localDocument(doc.data())])
-        )
-      ).catch(report)
-    },
-    denied
-  )
-}
 
 function createRuntime(userId: string) {
   let connections = 0
@@ -81,21 +64,23 @@ function createRuntime(userId: string) {
     getError: errors.getSnapshot,
     subscribeErrors: errors.subscribe,
     revoke: () => store.revoke(),
-    documents: (name: CollectionName) => {
+    documents: (name: ReadCollection) => {
       const state = store.getSnapshot()
       return state
         ? Object.entries(
-            deviceDocuments(
-              state,
-              name,
-              getTodayDescriptor(
-                new Date(),
-                String(
-                  state.documents.children[scope?.childId ?? '']?.timeZone ??
-                    'Europe/London'
+            name === 'starEvents' || name === 'redemptions'
+              ? historyDocuments(state, name)
+              : deviceDocuments(
+                  state,
+                  name,
+                  getTodayDescriptor(
+                    new Date(),
+                    String(
+                      state.documents.children[scope?.childId ?? '']
+                        ?.timeZone ?? 'Europe/London'
+                    )
+                  ).dateKey
                 )
-              ).dateKey
-            )
           ).map(([id, data]) => ({ id, data: snapshotDocument(data) }))
         : []
     },
@@ -151,6 +136,34 @@ function createRuntime(userId: string) {
                 )
               )
           }
+          // Query caches can be incomplete; retain durable data until a server result.
+          const watch = (
+            source: Query,
+            merge: (
+              documents: Record<string, LocalDocument>
+            ) => Promise<unknown>,
+            keyForDocument: (id: string, data: LocalDocument) => string = (
+              id
+            ) => id
+          ) =>
+            cleanup.push(
+              onSnapshot(
+                source,
+                { includeMetadataChanges: true },
+                (snapshot) => {
+                  if (snapshot.metadata.fromCache) return
+                  void merge(
+                    Object.fromEntries(
+                      snapshot.docs.map((doc) => {
+                        const data = localDocument(doc.data())
+                        return [keyForDocument(doc.id, data), data]
+                      })
+                    )
+                  ).catch(report)
+                },
+                denied
+              )
+            )
           if (scope) {
             cleanup.push(
               onSnapshot(
@@ -170,13 +183,29 @@ function createRuntime(userId: string) {
                 denied
               )
             )
-            cleanup.push(
-              subscribeToCollection(
-                collection(db, `${childPath}/activityProgress`),
-                (documents) => store.mergeProgress(documents),
-                report,
-                denied
+            watch(
+              collection(db, `${childPath}/activityProgress`),
+              (documents) => store.mergeProgress(documents)
+            )
+          }
+          for (const name of ['starEvents', 'redemptions'] as const) {
+            // Prefixes match migrated audit IDs, deduplicating the legacy and shared sources.
+            if (scope)
+              watch(
+                query(
+                  collection(db, `users/${scope.ownerUid}/${name}`),
+                  where('childId', '==', scope.childId)
+                ),
+                (documents) => store.mergeHistory(name, documents),
+                (id) => `legacy-${id}`
               )
+            watch(
+              collection(
+                db,
+                scope ? `${childPath}/${name}` : `users/${userId}/${name}`
+              ),
+              (documents) => store.mergeHistory(name, documents),
+              (id, data) => String(data.operationId ?? id)
             )
           }
           for (const name of collections) {
@@ -185,20 +214,16 @@ function createRuntime(userId: string) {
               scope && name === 'rewards'
                 ? collection(db, `${childPath}/rewards`)
                 : collection(db, 'users', scope?.ownerUid ?? userId, name)
-            cleanup.push(
-              subscribeToCollection(
-                scope && name !== 'rewards'
-                  ? query(source, where('childId', '==', scope.childId))
-                  : source,
-                (documents) =>
-                  store.mergeCollection(
-                    name,
-                    documents,
-                    !scope && Capacitor.getPlatform() === 'web'
-                  ),
-                report,
-                denied
-              )
+            watch(
+              scope && name !== 'rewards'
+                ? query(source, where('childId', '==', scope.childId))
+                : source,
+              (documents) =>
+                store.mergeCollection(
+                  name,
+                  documents,
+                  !scope && Capacitor.getPlatform() === 'web'
+                )
             )
           }
           const wake = () => {

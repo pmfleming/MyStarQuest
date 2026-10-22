@@ -1,5 +1,7 @@
 import {
   emptyState,
+  operationHistory,
+  type HistoryCollection,
   mergeSharedProgress,
   rebuildSharedProgress,
   enqueue,
@@ -64,7 +66,9 @@ export class OfflineStore {
         this.onCommit?.()
         return result
       }
-      const draft = structuredClone(this.getSnapshot()!)
+      const current = this.getSnapshot()
+      if (!current) throw new Error('Offline store did not open.')
+      const draft = structuredClone(current)
       if (parseChildScope(this.userId)) draft.shared = true
       const result = change(draft)
       await this.persistence.write(this.userId, draft)
@@ -98,11 +102,14 @@ export class OfflineStore {
       progress,
       progressKey,
       removed,
+      appliedDelta,
+      history,
     }: SyncReceipt
   ) {
     return this.mutate((state) => {
       // Another tab may have acknowledged this operation and applied later work.
-      if (!state.pending.some((operation) => operation.id === id)) return
+      const operation = state.pending.find((operation) => operation.id === id)
+      if (!operation) return
       if (state.revoked) return
       const documents = state.documents[collection]
       if (document)
@@ -112,6 +119,20 @@ export class OfflineStore {
           document
         )
       else delete documents[entityId]
+      const event = operationHistory(operation)
+      if (history) {
+        state.history ??= { starEvents: {}, redemptions: {} }
+        state.history[history.collection][history.id] = history.data
+      } else if (event && !state.shared) {
+        state.history ??= { starEvents: {}, redemptions: {} }
+        // The authoritative snapshot replaces this local receipt by operation ID.
+        state.history[event.collection][id] ??= {
+          ...event.data,
+          ...(event.collection === 'starEvents' && appliedDelta !== undefined
+            ? { delta: appliedDelta }
+            : {}),
+        }
+      }
       state.pending = state.pending.filter((operation) => operation.id !== id)
       if (progress && progressKey)
         mergeSharedProgress(state, {
@@ -123,6 +144,16 @@ export class OfflineStore {
     })
   }
 
+  mergeHistory(
+    collection: HistoryCollection,
+    documents: Record<string, LocalDocument>
+  ) {
+    return this.mutate((state) => {
+      if (state.revoked) return
+      state.history ??= { starEvents: {}, redemptions: {} }
+      state.history[collection] = { ...state.history[collection], ...documents }
+    })
+  }
   mergeProgress(documents: Record<string, LocalDocument>) {
     return this.mutate((state) => {
       if (!state.revoked) mergeSharedProgress(state, documents)
@@ -145,6 +176,7 @@ export class OfflineStore {
       state.documents = { children: {}, chores: {}, tests: {}, rewards: {} }
       state.activities = {}
       state.sharedProgress = {}
+      state.history = { starEvents: {}, redemptions: {} }
       state.consumed = {}
       state.revoked = true
     })

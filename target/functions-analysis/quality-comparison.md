@@ -1,16 +1,14 @@
-# Quality comparison: functions
+# Working-tree refactor comparison — 22 October 2026
 
-Fresh working-tree baseline; latest Lens 0.3.0 (233239b).
+Same latest Lens revision and unchanged measurement scopes. Baseline includes pre-existing work. Scores are static estimates; locality and leverage are summed risk scores, lower is better.
 
 | Metric | Before | After | Change |
 | --- | ---: | ---: | ---: |
-| source_lines | 2099 | 2046 | -53 |
-| cognitive_complexity | 253 | 162 | -91 |
-| cyclomatic_complexity | 198 | 174 | -24 |
-| halstead_effort | 217812 | 233149 | 15337 |
-| clone_groups | 2 | 0 | -2 |
-| locality_risk | 171 | 153 | -18 |
-| leverage_risk | 156 | 108 | -48 |
-| lint_blockers | 33 | 0 | -33 |
-
-Fresh pre-refactor working-tree baseline includes pending Parents UI edits. Same tool revision and unchanged configs. Complexity/effort sum named callable signals; source lines sum file signals; locality/leverage sum module risk scores. Lower is better. Physical counts include TS/TSX/JS/CSS/scripts/tests/Android Java. Source/report snapshots are under output/quality-sharing-review.
+| source_lines | 2085 | 2077 | -8 |
+| cognitive_complexity | 162 | 150 | -12 |
+| cyclomatic_complexity | 174 | 171 | -3 |
+| halstead_effort | 233149 | 219827 | -13322 |
+| clone_groups | 0 | 0 | +0 |
+| locality_risk | 173 | 173 | +0 |
+| leverage_risk | 120 | 120 | +0 |
+| lint_blockers | 0 | 0 | +0 |

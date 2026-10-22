@@ -51,12 +51,12 @@ service cloud.firestore {
       }
       match /rewards/{rewardId} { allow read: if owner(uid); allow write: if owner(uid) && unlocked(uid); }
       match /starEvents/{eventId} {
-        allow read: if owner(uid);
+        allow read: if owner(uid) || member(uid, resource.data.childId);
         allow create: if legacy(uid, request.resource.data.childId);
         allow update, delete: if false;
       }
       match /redemptions/{eventId} {
-        allow read: if owner(uid);
+        allow read: if owner(uid) || member(uid, resource.data.childId);
         allow create: if legacy(uid, request.resource.data.childId);
         allow update, delete: if false;
       }

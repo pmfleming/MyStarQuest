@@ -59,12 +59,12 @@ export function useChores() {
     taskId: string,
     patch: Partial<TaskEphemeralState>
   ): Promise<void> => {
-    if (queued && user && activeChildId) {
+    if (queued && storageKey && activeChildId) {
       const reset = Object.entries(patch).some(
         ([key, value]) => key.endsWith('CompletedAt') && value === null
       )
       return saveActivityPatch(
-        storageKey!,
+        storageKey,
         'chores',
         taskId,
         activeChildId,
@@ -81,13 +81,13 @@ export function useChores() {
       setEphemeral((prev) => settleOptimisticPatch(prev, taskId, patch))
     }
 
-    if (!user) {
+    if (!storageKey) {
       clearResolvedPatch()
       return Promise.resolve()
     }
 
     return updateDoc(
-      doc(db, 'users', storageKey!, 'chores', taskId),
+      doc(db, 'users', storageKey, 'chores', taskId),
       patch
     ).catch((err) => {
       clearResolvedPatch()
@@ -110,18 +110,18 @@ export function useChores() {
     }
 
     validateTaskFields(patch)
-    if (queued && user) {
+    if (queued && storageKey) {
       const settings = Object.fromEntries(
         Object.entries(patch).filter(([key]) => !key.startsWith('manage'))
       )
-      await saveDocument(storageKey!, 'chores', taskId, 'patch', settings)
+      await saveDocument(storageKey, 'chores', taskId, 'patch', settings)
       if (activeChildId) {
         const progress = Object.fromEntries(
           Object.entries(patch).filter(([key]) => key.startsWith('manage'))
         )
         if (Object.keys(progress).length)
           await saveActivityPatch(
-            storageKey!,
+            storageKey,
             'chores',
             taskId,
             activeChildId,
@@ -130,32 +130,32 @@ export function useChores() {
       }
       return
     }
-    if (!user) return
-    await updateDoc(doc(db, 'users', storageKey!, 'chores', taskId), patch)
+    if (!storageKey) return
+    await updateDoc(doc(db, 'users', storageKey, 'chores', taskId), patch)
   }
 
   const createChoreForToday = async (
     choreType: ChoreType,
     settings: ChoreDocumentSettings
   ): Promise<ChoreRecord | undefined> => {
-    if (!user || !activeChildId) return
+    if (!storageKey || !activeChildId) return
     const document = buildChoreDocument(activeChildId, choreType, settings)
     if (queued) {
       const id = crypto.randomUUID()
       const data = { ...document, createdAt: new Date() }
-      await saveDocument(storageKey!, 'chores', id, 'put', data)
+      await saveDocument(storageKey, 'chores', id, 'put', data)
       return parseChoreSnapshot(id, snapshotDocument(data)) ?? undefined
     }
     const docRef = await addDoc(
-      collection(db, 'users', storageKey!, 'chores'),
+      collection(db, 'users', storageKey, 'chores'),
       document
     )
     return parseChoreSnapshot(docRef.id, document) ?? undefined
   }
 
   const deleteTask = async (taskId: string) => {
-    if (!user) return
-    await deleteUserDocument(storageKey!, 'chores', taskId)
+    if (!storageKey) return
+    await deleteUserDocument(storageKey, 'chores', taskId)
 
     setEphemeral((prev) => {
       const next = { ...prev }

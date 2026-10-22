@@ -7,6 +7,8 @@ const choreArtworks: ChoreArtwork[] = [
   { id: '', label: 'No image' },
   { id: 'tidyingUp', label: 'Tidying up', role: 'tidyingUp' },
   { id: 'writing', label: 'Writing', role: 'writing' },
+  { id: 'practicePiano', label: 'Practice piano', role: 'practicePiano' },
+  { id: 'practiceJudo', label: 'Practice judo', role: 'practiceJudo' },
   { id: 'bravePrincess', label: 'Brave princess', role: 'brave' },
   {
     id: 'gettingDressedQuickly',

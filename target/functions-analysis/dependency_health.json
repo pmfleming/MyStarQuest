@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:31.388Z",
+    "measured_at": "2026-10-22T20:36:41.261Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:41cd466ed338602c82476932c71f415dc052d327be1f090747b69a48fdfb20b4"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:d88e2f4c9f2e9cd463044b4e3d56c7658748c385b6a401d164aee253854465cb"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -140,7 +140,7 @@
         "totalCruised": 20,
         "totalDependenciesCruised": 26,
         "optionsUsed": {
-          "baseDir": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+          "baseDir": "C:\\Code\\MyStarQuest\\functions",
           "combinedDependencies": false,
           "detectJSDocImports": false,
           "detectProcessBuiltinModuleCalls": false,
@@ -283,10 +283,10 @@
       },
       {
         "from": "src/index",
-        "to": "node-ical",
-        "kind": "external",
+        "to": "node_modules/node-ical/node-ical",
+        "kind": "relative",
         "import_kind": "static",
-        "line": 12,
+        "line": null,
         "source": "dependency-cruiser"
       },
       {

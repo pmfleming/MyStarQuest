@@ -15,6 +15,8 @@ import gettingDressed from '../assets/themes/princess/getting-dressed-quickly.pn
 import dinnerOverview from '../assets/themes/princess/dinner-overview.webp'
 import waterToiletOverview from '../assets/themes/princess/water-toilet-check-overview.webp'
 import mathsCounter from '../assets/themes/princess/maths-counter.svg'
+import practicePiano from '../assets/themes/princess/practice-piano.png'
+import practiceJudo from '../assets/themes/princess/practice-judo.png'
 import nowIcon from '../assets/themes/princess/now-character.png'
 
 const princessAssets = {
@@ -64,6 +66,8 @@ const princessAssets = {
   nonSchoolDayWinterImage: princess.princessNonSchoolDayWinterImage,
   tidyingUp,
   writing,
+  practicePiano,
+  practiceJudo,
   brave,
   gettingDressed,
   dinnerOverview,
@@ -138,6 +142,8 @@ const teenieRoles = {
   nonSchoolDayWinterImage: 'non-school-winter.webp',
   tidyingUp: 'tidying-up.webp',
   writing: 'writing.webp',
+  practicePiano: 'practice-piano.png',
+  practiceJudo: 'practice-judo.png',
   brave: 'brave.webp',
   gettingDressed: 'getting-dressed.webp',
   dinnerOverview: 'dinner-overview.webp',

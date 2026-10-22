@@ -3,7 +3,7 @@
   "task_id": "quality.locality_leverage",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:32.109Z",
+    "measured_at": "2026-10-22T20:36:42.332Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:8b4ba5460a9e79c637c1c58c4d887aa0ddf89eff3885e942fb8b3b24828d8c0e"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:fb3970282e7529fc261b485dbc198caeeda94f6b1d7c6497b9ac3f69527bb983"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -405,20 +405,20 @@
       "id": "leverage:src/sharing/service",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
-      "score": 60,
-      "risk": "medium",
+      "score": 72,
+      "risk": "high",
       "evidence_kind": "heuristic",
-      "message": "src/sharing/service.ts: 1 consuming modules, 3 public names, 5 module escape hatches.",
+      "message": "src/sharing/service.ts: 1 consuming modules, 3 public names, 6 module escape hatches.",
       "leverage_score": 16,
       "inbound_reach": 1,
       "public_surface": 3,
-      "weak_surface": 5,
+      "weak_surface": 6,
       "dead_export_surface": 0,
       "classification": "local_dependency",
       "signals": [
         {
           "kind": "module_escape_hatches",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "leverage",
@@ -431,6 +431,12 @@
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
       "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
         {
           "type": "add-to-config",
           "auto_fixable": true,

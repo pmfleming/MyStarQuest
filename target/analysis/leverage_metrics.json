@@ -3,7 +3,7 @@
   "task_id": "quality.locality_leverage",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:14:56.807Z",
+    "measured_at": "2026-10-22T20:37:01.293Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:8ecaef7fff937b11b816b99dc16817fb35cfd7f982cafd3a820e5611d4aa7c07"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:c0cc99a2b94c8dd2f56810f4fa2b62d5cf80fd766cc6818d6a3c7ef638d33bf1"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -113,8 +113,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 270,
-    "shared_hubs": 73
+    "records": 275,
+    "shared_hubs": 76
   },
   "records": [
     {
@@ -163,9 +163,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/assets/chores/assets.ts: 4 consuming modules, 2 public names, 0 module escape hatches.",
-      "leverage_score": 44,
-      "inbound_reach": 4,
+      "message": "src/assets/chores/assets.ts: 5 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 54,
+      "inbound_reach": 5,
       "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -173,7 +173,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "leverage",
@@ -207,14 +207,19 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/assets/rewards/assets.ts: 3 consuming modules, 3 public names, 0 module escape hatches.",
-      "leverage_score": 36,
-      "inbound_reach": 3,
+      "message": "src/assets/rewards/assets.ts: 4 consuming modules, 3 public names, 0 module escape hatches.",
+      "leverage_score": 46,
+      "inbound_reach": 4,
       "public_surface": 3,
       "weak_surface": 0,
       "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -446,9 +451,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/components/AgendaTime.tsx: 1 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 12,
-      "inbound_reach": 1,
+      "message": "src/components/AgendaTime.tsx: 2 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 22,
+      "inbound_reach": 2,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -752,6 +757,94 @@
       ]
     },
     {
+      "id": "leverage:src/components/CalendarActivityHistory",
+      "module_id": "src/components/CalendarActivityHistory",
+      "file": "src/components/CalendarActivityHistory.tsx",
+      "score": 36,
+      "risk": "medium",
+      "evidence_kind": "heuristic",
+      "message": "src/components/CalendarActivityHistory.tsx: 1 consuming modules, 1 public names, 3 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 3,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 3
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/CalendarActivityHistory",
+            "kind": "leverage",
+            "file": "src/components/CalendarActivityHistory.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/components/CalendarWeekdays",
+      "module_id": "src/components/CalendarWeekdays",
+      "file": "src/components/CalendarWeekdays.tsx",
+      "score": 12,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/components/CalendarWeekdays.tsx: 1 consuming modules, 1 public names, 1 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 1,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/components/CalendarWeekdays",
+            "kind": "leverage",
+            "file": "src/components/CalendarWeekdays.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "leverage:src/components/ChoreOutcomeView",
       "module_id": "src/components/ChoreOutcomeView",
       "file": "src/components/ChoreOutcomeView.tsx",
@@ -880,9 +973,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/components/ExpandableAgendaItem.tsx: 1 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 12,
-      "inbound_reach": 1,
+      "message": "src/components/ExpandableAgendaItem.tsx: 2 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 22,
+      "inbound_reach": 2,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -2882,20 +2975,20 @@
       "id": "leverage:src/components/ui/PositionalNotationPlayArea",
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
-      "score": 12,
+      "score": 24,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/components/ui/PositionalNotationPlayArea.tsx: 1 consuming modules, 3 public names, 1 module escape hatches.",
-      "leverage_score": 16,
+      "message": "src/components/ui/PositionalNotationPlayArea.tsx: 1 consuming modules, 1 public names, 2 module escape hatches.",
+      "leverage_score": 12,
       "inbound_reach": 1,
-      "public_surface": 3,
-      "weak_surface": 1,
+      "public_surface": 1,
+      "weak_surface": 2,
       "dead_export_surface": 0,
       "classification": "local_dependency",
       "signals": [
         {
           "kind": "module_escape_hatches",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "leverage",
@@ -3007,9 +3100,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/components/ui/ResourceLoadingIcon.tsx: 5 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 52,
-      "inbound_reach": 5,
+      "message": "src/components/ui/ResourceLoadingIcon.tsx: 6 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 62,
+      "inbound_reach": 6,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -3017,7 +3110,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "leverage",
@@ -3090,9 +3183,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/components/ui/SegmentedChoiceControl.tsx: 5 consuming modules, 2 public names, 0 module escape hatches.",
-      "leverage_score": 54,
-      "inbound_reach": 5,
+      "message": "src/components/ui/SegmentedChoiceControl.tsx: 6 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 64,
+      "inbound_reach": 6,
       "public_surface": 2,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -3100,7 +3193,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "leverage",
@@ -3998,9 +4091,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/contexts/SelectedDateContext.tsx: 5 consuming modules, 4 public names, 0 module escape hatches.",
-      "leverage_score": 58,
-      "inbound_reach": 5,
+      "message": "src/contexts/SelectedDateContext.tsx: 6 consuming modules, 4 public names, 0 module escape hatches.",
+      "leverage_score": 68,
+      "inbound_reach": 6,
       "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -4008,7 +4101,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "leverage",
@@ -4081,9 +4174,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/contexts/ThemeContext.tsx: 64 consuming modules, 6 public names, 0 module escape hatches.",
+      "message": "src/contexts/ThemeContext.tsx: 67 consuming modules, 6 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 64,
+      "inbound_reach": 67,
       "public_surface": 6,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -4091,7 +4184,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 64
+          "value": 67
         }
       ],
       "kind": "leverage",
@@ -5518,22 +5611,17 @@
       "id": "leverage:src/data/useChores",
       "module_id": "src/data/useChores",
       "file": "src/data/useChores.ts",
-      "score": 96,
-      "risk": "high",
+      "score": 0,
+      "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useChores.ts: 2 consuming modules, 1 public names, 8 module escape hatches.",
+      "message": "src/data/useChores.ts: 2 consuming modules, 1 public names, 0 module escape hatches.",
       "leverage_score": 22,
       "inbound_reach": 2,
       "public_surface": 1,
-      "weak_surface": 8,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "module_escape_hatches",
-          "value": 8
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -5544,12 +5632,6 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -5568,22 +5650,17 @@
       "id": "leverage:src/data/useRewards",
       "module_id": "src/data/useRewards",
       "file": "src/data/useRewards.ts",
-      "score": 36,
-      "risk": "medium",
+      "score": 0,
+      "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useRewards.ts: 2 consuming modules, 2 public names, 3 module escape hatches.",
+      "message": "src/data/useRewards.ts: 2 consuming modules, 2 public names, 0 module escape hatches.",
       "leverage_score": 24,
       "inbound_reach": 2,
       "public_surface": 2,
-      "weak_surface": 3,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "module_escape_hatches",
-          "value": 3
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -5612,22 +5689,17 @@
       "id": "leverage:src/data/useTests",
       "module_id": "src/data/useTests",
       "file": "src/data/useTests.ts",
-      "score": 100,
-      "risk": "high",
+      "score": 0,
+      "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useTests.ts: 2 consuming modules, 1 public names, 10 module escape hatches.",
+      "message": "src/data/useTests.ts: 2 consuming modules, 1 public names, 0 module escape hatches.",
       "leverage_score": 22,
       "inbound_reach": 2,
       "public_surface": 1,
-      "weak_surface": 10,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "module_escape_hatches",
-          "value": 10
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -5638,12 +5710,6 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -5665,9 +5731,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useUserCollection.ts: 4 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 42,
-      "inbound_reach": 4,
+      "message": "src/data/useUserCollection.ts: 5 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 52,
+      "inbound_reach": 5,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -5675,7 +5741,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "leverage",
@@ -5709,14 +5775,19 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useUserDocumentUpdates.ts: 3 consuming modules, 3 public names, 0 module escape hatches.",
-      "leverage_score": 36,
-      "inbound_reach": 3,
-      "public_surface": 3,
+      "message": "src/data/useUserDocumentUpdates.ts: 4 consuming modules, 4 public names, 0 module escape hatches.",
+      "leverage_score": 48,
+      "inbound_reach": 4,
+      "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
-      "classification": "local_dependency",
-      "signals": [],
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -6626,9 +6697,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/firebaseDb.ts: 9 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 92,
-      "inbound_reach": 9,
+      "message": "src/firebaseDb.ts: 8 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 82,
+      "inbound_reach": 8,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -6636,7 +6707,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 9
+          "value": 8
         }
       ],
       "kind": "leverage",
@@ -6824,6 +6895,45 @@
             "id": "leverage:src/hooks/useAsyncFeedback",
             "kind": "leverage",
             "file": "src/hooks/useAsyncFeedback.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/hooks/useCalendarHistory",
+      "module_id": "src/hooks/useCalendarHistory",
+      "file": "src/hooks/useCalendarHistory.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/hooks/useCalendarHistory.ts: 1 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/hooks/useCalendarHistory",
+            "kind": "leverage",
+            "file": "src/hooks/useCalendarHistory.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7425,6 +7535,50 @@
       ]
     },
     {
+      "id": "leverage:src/lib/calendarHistory",
+      "module_id": "src/lib/calendarHistory",
+      "file": "src/lib/calendarHistory.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/lib/calendarHistory.ts: 4 consuming modules, 9 public names, 0 module escape hatches.",
+      "leverage_score": 58,
+      "inbound_reach": 4,
+      "public_surface": 9,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "shared_hub",
+      "signals": [
+        {
+          "kind": "broad_inbound_reach",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/lib/calendarHistory",
+            "kind": "leverage",
+            "file": "src/lib/calendarHistory.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "leverage:src/lib/calendarSchedule",
       "module_id": "src/lib/calendarSchedule",
       "file": "src/lib/calendarSchedule.ts",
@@ -7764,17 +7918,22 @@
       "id": "leverage:src/lib/positionalNotationProblems",
       "module_id": "src/lib/positionalNotationProblems",
       "file": "src/lib/positionalNotationProblems.ts",
-      "score": 0,
+      "score": 12,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/lib/positionalNotationProblems.ts: 1 consuming modules, 4 public names, 0 module escape hatches.",
-      "leverage_score": 18,
-      "inbound_reach": 1,
-      "public_surface": 4,
-      "weak_surface": 0,
+      "message": "src/lib/positionalNotationProblems.ts: 2 consuming modules, 9 public names, 1 module escape hatches.",
+      "leverage_score": 38,
+      "inbound_reach": 2,
+      "public_surface": 9,
+      "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -8304,9 +8463,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/lib/today.ts: 14 consuming modules, 9 public names, 0 module escape hatches.",
+      "message": "src/lib/today.ts: 16 consuming modules, 9 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 14,
+      "inbound_reach": 16,
       "public_surface": 9,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -8314,7 +8473,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 14
+          "value": 16
         }
       ],
       "kind": "leverage",
@@ -8732,9 +8891,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/offline/actions.ts: 5 consuming modules, 4 public names, 0 module escape hatches.",
-      "leverage_score": 58,
-      "inbound_reach": 5,
+      "message": "src/offline/actions.ts: 4 consuming modules, 4 public names, 0 module escape hatches.",
+      "leverage_score": 48,
+      "inbound_reach": 4,
       "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -8742,7 +8901,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 5
+          "value": 4
         }
       ],
       "kind": "leverage",
@@ -8854,17 +9013,17 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/offline/model.ts: 12 consuming modules, 21 public names, 0 module escape hatches.",
+      "message": "src/offline/model.ts: 13 consuming modules, 25 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 12,
-      "public_surface": 21,
+      "inbound_reach": 13,
+      "public_surface": 25,
       "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 12
+          "value": 13
         }
       ],
       "kind": "leverage",
@@ -8937,9 +9096,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/offline/platform.ts: 9 consuming modules, 1 public names, 0 module escape hatches.",
-      "leverage_score": 92,
-      "inbound_reach": 9,
+      "message": "src/offline/platform.ts: 8 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 82,
+      "inbound_reach": 8,
       "public_surface": 1,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -8947,7 +9106,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 9
+          "value": 8
         }
       ],
       "kind": "leverage",
@@ -8978,20 +9137,24 @@
       "id": "leverage:src/offline/runtime",
       "module_id": "src/offline/runtime",
       "file": "src/offline/runtime.ts",
-      "score": 0,
+      "score": 32,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/offline/runtime.ts: 8 consuming modules, 1 public names, 0 module escape hatches.",
+      "message": "src/offline/runtime.ts: 8 consuming modules, 1 public names, 1 module escape hatches.",
       "leverage_score": 82,
       "inbound_reach": 8,
       "public_surface": 1,
-      "weak_surface": 0,
+      "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "shared_hub",
       "signals": [
         {
           "kind": "broad_inbound_reach",
           "value": 8
+        },
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
         }
       ],
       "kind": "leverage",
@@ -9061,22 +9224,17 @@
       "id": "leverage:src/offline/store",
       "module_id": "src/offline/store",
       "file": "src/offline/store.ts",
-      "score": 12,
+      "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/offline/store.ts: 2 consuming modules, 1 public names, 1 module escape hatches.",
+      "message": "src/offline/store.ts: 2 consuming modules, 1 public names, 0 module escape hatches.",
       "leverage_score": 22,
       "inbound_reach": 2,
       "public_surface": 1,
-      "weak_surface": 1,
+      "weak_surface": 0,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [
-        {
-          "kind": "module_escape_hatches",
-          "value": 1
-        }
-      ],
+      "signals": [],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -9776,9 +9934,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/sharing/ChildAccessContext.ts: 10 consuming modules, 6 public names, 0 module escape hatches.",
+      "message": "src/sharing/ChildAccessContext.ts: 11 consuming modules, 6 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 10,
+      "inbound_reach": 11,
       "public_surface": 6,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -9786,7 +9944,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 10
+          "value": 11
         }
       ],
       "kind": "leverage",
@@ -10059,9 +10217,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/sharing/scope.ts: 15 consuming modules, 3 public names, 0 module escape hatches.",
+      "message": "src/sharing/scope.ts: 14 consuming modules, 3 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 15,
+      "inbound_reach": 14,
       "public_surface": 3,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -10069,7 +10227,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 15
+          "value": 14
         }
       ],
       "kind": "leverage",
@@ -10103,9 +10261,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/tokens/index.ts: 52 consuming modules, 4 public names, 0 module escape hatches.",
+      "message": "src/tokens/index.ts: 53 consuming modules, 4 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 52,
+      "inbound_reach": 53,
       "public_surface": 4,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -10113,7 +10271,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 52
+          "value": 53
         }
       ],
       "kind": "leverage",
@@ -10135,6 +10293,45 @@
             "id": "leverage:src/tokens/index",
             "kind": "leverage",
             "file": "src/tokens/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "leverage:src/ui/calendarHistoryAssets",
+      "module_id": "src/ui/calendarHistoryAssets",
+      "file": "src/ui/calendarHistoryAssets.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/ui/calendarHistoryAssets.ts: 2 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 24,
+      "inbound_reach": 2,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/ui/calendarHistoryAssets",
+            "kind": "leverage",
+            "file": "src/ui/calendarHistoryAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -10669,9 +10866,9 @@
       "score": 0,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/ui/themeAssets.ts: 35 consuming modules, 7 public names, 0 module escape hatches.",
+      "message": "src/ui/themeAssets.ts: 37 consuming modules, 7 public names, 0 module escape hatches.",
       "leverage_score": 100,
-      "inbound_reach": 35,
+      "inbound_reach": 37,
       "public_surface": 7,
       "weak_surface": 0,
       "dead_export_surface": 0,
@@ -10679,7 +10876,7 @@
       "signals": [
         {
           "kind": "broad_inbound_reach",
-          "value": 35
+          "value": 37
         }
       ],
       "kind": "leverage",

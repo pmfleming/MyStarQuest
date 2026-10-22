@@ -4,6 +4,15 @@ import SchoolCalendar from '../../src/components/SchoolCalendar'
 import { themes } from '../../src/contexts/ThemeContext'
 import type { SchoolCalendarData } from '../../src/lib/schoolCalendarData'
 
+vi.mock('../../src/hooks/useCalendarHistory', () => ({
+  useCalendarHistory: () => ({
+    entries: [],
+    childId: 'child',
+    loading: false,
+    error: false,
+  }),
+}))
+
 const state = vi.hoisted(() => ({
   selectedDateKey: '2026-09-27',
   events: {} as SchoolCalendarData,

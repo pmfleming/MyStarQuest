@@ -15,6 +15,23 @@ import type { CollectionName, LocalDocument } from '../offline/model'
 import { useCoalescedDocumentUpdates } from '../hooks/useCoalescedDocumentUpdates'
 import { parseChildScope } from '../sharing/scope'
 
+export async function updateUserDocument(
+  userId: string,
+  collectionName: CollectionName,
+  id: string,
+  patch: object
+) {
+  if (isOfflineEnabled() || parseChildScope(userId))
+    await saveDocument(
+      userId,
+      collectionName,
+      id,
+      'patch',
+      Object.fromEntries(Object.entries(patch))
+    )
+  else await updateDoc(doc(db, 'users', userId, collectionName, id), patch)
+}
+
 export async function deleteUserDocument(
   userId: string,
   collectionName: CollectionName,
@@ -61,15 +78,7 @@ export const useUserDocumentUpdates = <Patch extends object>({
     async (id: string, patch: Patch) => {
       const target = resolveUserId ? resolveUserId(id) : userId
       if (!target) return
-      if (isOfflineEnabled() || parseChildScope(target))
-        return saveDocument(
-          target,
-          collectionName,
-          id,
-          'patch',
-          Object.fromEntries(Object.entries(patch))
-        )
-      await updateDoc(doc(db, 'users', target, collectionName, id), patch)
+      await updateUserDocument(target, collectionName, id, patch)
     },
     [collectionName, userId, resolveUserId]
   )

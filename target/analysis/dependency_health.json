@@ -3,7 +3,7 @@
   "task_id": "quality.dependency_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:14:55.183Z",
+    "measured_at": "2026-10-22T20:36:59.317Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:994faa235a7a5f231f60cdf80914ff96640f9635fbec2da55c03cf1e59019688"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:d514e9951527f00fe4f1e812bd8b32fbfe4f5f8c61b9e428b6373194f70b1ed7"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -116,14 +116,14 @@
     "stale_input": []
   },
   "summary": {
-    "internal_edges": 1206,
-    "external_edges": 193,
+    "internal_edges": 1255,
+    "external_edges": 194,
     "cycles": 0,
     "heuristic_cycles": 0,
     "dependency_cruiser_cycles": 0,
-    "deep_relative_imports": 165,
+    "deep_relative_imports": 166,
     "barrel_modules": 1,
-    "layer_violations": 37,
+    "layer_violations": 39,
     "unsupported_patterns": 0,
     "workspaces": 1,
     "cross_workspace_edges": 0,
@@ -2811,6 +2811,46 @@
           "config_key": "suppressions",
           "value": {
             "id": "deep-import:src/components/ui/PositionalNotationPlayArea:5",
+            "kind": "deep_relative_import",
+            "file": "src/components/ui/PositionalNotationPlayArea",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/components/ui/PositionalNotationPlayArea:9",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/components/ui/PositionalNotationPlayArea",
+      "line": 9,
+      "specifier": "../../lib/positionalNotationProblems",
+      "evidence": "import { PLACE_VALUE_FACTORS, POSITIONAL_NOTATION_PLACES, type PlaceValueKind, type PlaceValues, type PositionalNotationDifficulty, } from '../../lib/positionalNotationProblems'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { PLACE_VALUE_FACTORS, POSITIONAL_NOTATION_PLACES, type PlaceValueKind, type PlaceValues, type PositionalNotationDifficulty, } from '../../lib/positionalNotationProblems'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/components/ui/PositionalNotationPlayArea:9",
             "kind": "deep_relative_import",
             "file": "src/components/ui/PositionalNotationPlayArea",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7374,12 +7414,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:10:src/auth/AuthContext",
+      "id": "layer:src/data/useRewards:5:src/auth/AuthContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 10,
+      "line": 5,
       "target": "src/auth/AuthContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -7408,7 +7448,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:10:src/auth/AuthContext",
+            "id": "layer:src/data/useRewards:5:src/auth/AuthContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7417,12 +7457,12 @@
       ]
     },
     {
-      "id": "layer:src/data/useRewards:12:src/contexts/ActiveChildContext",
+      "id": "layer:src/data/useRewards:7:src/contexts/ActiveChildContext",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/data/useRewards",
-      "line": 12,
+      "line": 7,
       "target": "src/contexts/ActiveChildContext",
       "from_layer": "hook",
       "to_layer": "ui",
@@ -7451,7 +7491,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/data/useRewards:12:src/contexts/ActiveChildContext",
+            "id": "layer:src/data/useRewards:7:src/contexts/ActiveChildContext",
             "kind": "layer_violation",
             "file": "src/data/useRewards",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7718,12 +7758,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/runtime:23:src/lib/snapshotStore",
+      "id": "layer:src/offline/runtime:28:src/lib/snapshotStore",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/runtime",
-      "line": 23,
+      "line": 28,
       "target": "src/lib/snapshotStore",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7752,7 +7792,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/runtime:23:src/lib/snapshotStore",
+            "id": "layer:src/offline/runtime:28:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/runtime",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7761,12 +7801,12 @@
       ]
     },
     {
-      "id": "layer:src/offline/store:13:src/lib/snapshotStore",
+      "id": "layer:src/offline/store:15:src/lib/snapshotStore",
       "kind": "layer_violation",
       "severity": "high",
       "score": 75,
       "file": "src/offline/store",
-      "line": 13,
+      "line": 15,
       "target": "src/lib/snapshotStore",
       "from_layer": "core",
       "to_layer": "lib",
@@ -7795,7 +7835,7 @@
           "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "layer:src/offline/store:13:src/lib/snapshotStore",
+            "id": "layer:src/offline/store:15:src/lib/snapshotStore",
             "kind": "layer_violation",
             "file": "src/offline/store",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7970,6 +8010,92 @@
             "id": "layer:src/tokens/index:2:src/contexts/ThemeContext",
             "kind": "layer_violation",
             "file": "src/tokens/index",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/ui/calendarHistoryAssets:1:src/lib/calendarHistory",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/ui/calendarHistoryAssets",
+      "line": 1,
+      "target": "src/lib/calendarHistory",
+      "from_layer": "core",
+      "to_layer": "lib",
+      "specifier": "../lib/calendarHistory",
+      "evidence": "core imports upward into lib: ../lib/calendarHistory",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into lib: ../lib/calendarHistory",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/ui/calendarHistoryAssets:1:src/lib/calendarHistory",
+            "kind": "layer_violation",
+            "file": "src/ui/calendarHistoryAssets",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "layer:src/ui/calendarHistoryAssets:7:src/contexts/ThemeContext",
+      "kind": "layer_violation",
+      "severity": "high",
+      "score": 75,
+      "file": "src/ui/calendarHistoryAssets",
+      "line": 7,
+      "target": "src/contexts/ThemeContext",
+      "from_layer": "core",
+      "to_layer": "ui",
+      "specifier": "../contexts/ThemeContext",
+      "evidence": "core imports upward into ui: ../contexts/ThemeContext",
+      "rule_id": "ts-react-quality-lens/layer_violation",
+      "evidence_kind": "heuristic",
+      "disposition": "warn",
+      "finding_confidence": "medium",
+      "message": "core imports upward into ui: ../contexts/ThemeContext",
+      "reason_code": "ts-react-quality-lens/layer_violation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this layer_violation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "layer:src/ui/calendarHistoryAssets:7:src/contexts/ThemeContext",
+            "kind": "layer_violation",
+            "file": "src/ui/calendarHistoryAssets",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -8458,6 +8584,18 @@
       {
         "id": "src/components/ArithmeticTester",
         "file": "src/components/ArithmeticTester.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/CalendarActivityHistory",
+        "file": "src/components/CalendarActivityHistory.tsx",
+        "layer": "ui",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/components/CalendarWeekdays",
+        "file": "src/components/CalendarWeekdays.tsx",
         "layer": "ui",
         "workspace_id": "mystarquest"
       },
@@ -9356,6 +9494,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/hooks/useCalendarHistory",
+        "file": "src/hooks/useCalendarHistory.ts",
+        "layer": "hook",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/hooks/useCalendarSchedule",
         "file": "src/hooks/useCalendarSchedule.ts",
         "layer": "hook",
@@ -9442,6 +9586,12 @@
       {
         "id": "src/lib/afterFirstPaint",
         "file": "src/lib/afterFirstPaint.ts",
+        "layer": "lib",
+        "workspace_id": "mystarquest"
+      },
+      {
+        "id": "src/lib/calendarHistory",
+        "file": "src/lib/calendarHistory.ts",
         "layer": "lib",
         "workspace_id": "mystarquest"
       },
@@ -9842,6 +9992,12 @@
         "workspace_id": "mystarquest"
       },
       {
+        "id": "src/ui/calendarHistoryAssets",
+        "file": "src/ui/calendarHistoryAssets.ts",
+        "layer": "core",
+        "workspace_id": "mystarquest"
+      },
+      {
         "id": "src/ui/choreModeDefinitions",
         "file": "src/ui/choreModeDefinitions.ts",
         "layer": "core",
@@ -9997,7 +10153,7 @@
         "tsconfigs": [
           "tsconfig.app.json"
         ],
-        "source_files": 270,
+        "source_files": 275,
         "project_loaded": true,
         "project_reason": null
       }
@@ -11495,6 +11651,336 @@
         "line": 15
       },
       {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/contexts/SelectedDateContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/lib/calendarHistory",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/ui/calendarHistoryAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/assets/chores/assets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/assets/rewards/assets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/assets/global/star.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/ui/SegmentedChoiceControl",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 17
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/ui/ResourceLoadingIcon",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 18
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/ExpandableAgendaItem",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/AgendaTime",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 20
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 21
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/DayAgenda.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 22
+      },
+      {
+        "from": "src/components/CalendarActivityHistory",
+        "to": "src/components/CalendarActivityHistory.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 23
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/mon-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/tue-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/wed-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/thu-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/fri-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 6
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/sat-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/sun-princess.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/mon-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/tue-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/wed-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 11
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/thu-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 12
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/fri-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 13
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/sat-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 14
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/assets/calendar/weekdays/sun-teenie.webp",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 15
+      },
+      {
+        "from": "src/components/CalendarWeekdays",
+        "to": "src/components/CalendarWeekdays.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 16
+      },
+      {
         "from": "src/components/ChoreOutcomeView",
         "to": "src/contexts/ThemeContext",
         "kind": "relative",
@@ -12182,7 +12668,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 13
       },
       {
         "from": "src/components/PositionalNotation",
@@ -12192,7 +12678,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 14
       },
       {
         "from": "src/components/PositionalNotation",
@@ -12202,7 +12688,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 17
       },
       {
         "from": "src/components/PositionalNotation",
@@ -12296,7 +12782,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/ui/themeAssets",
+        "to": "src/components/CalendarActivityHistory",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12306,7 +12792,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/ui/seasonAssets",
+        "to": "src/ui/calendarHistoryAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12316,17 +12802,17 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "react",
-        "kind": "external",
+        "to": "src/hooks/useCalendarHistory",
+        "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
-        "to_workspace": null,
+        "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 3
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/contexts/ThemeContext",
+        "to": "src/lib/calendarHistory",
         "kind": "relative",
         "import_kind": "type",
         "from_workspace": "mystarquest",
@@ -12336,7 +12822,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/contexts/SelectedDateContext",
+        "to": "src/ui/themeAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12346,7 +12832,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/lib/today",
+        "to": "src/ui/seasonAssets",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12356,47 +12842,47 @@
       },
       {
         "from": "src/components/SchoolCalendar",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/contexts/SelectedDateContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 10
+      },
+      {
+        "from": "src/components/SchoolCalendar",
         "to": "src/hooks/useSchoolCalendar",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 12
-      },
-      {
-        "from": "src/components/SchoolCalendar",
-        "to": "src/hooks/useCalendarSchedule",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 13
-      },
-      {
-        "from": "src/components/SchoolCalendar",
-        "to": "src/lib/calendarSchedule",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 14
-      },
-      {
-        "from": "src/components/SchoolCalendar",
-        "to": "src/components/DayAgenda",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 15
-      },
-      {
-        "from": "src/components/SchoolCalendar",
-        "to": "src/components/SchoolEvents",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12406,7 +12892,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/components/TheatreEvents",
+        "to": "src/hooks/useCalendarSchedule",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12416,7 +12902,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/lib/theatreEvents",
+        "to": "src/lib/calendarSchedule",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12426,7 +12912,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/ui/theatreEventAssets",
+        "to": "src/components/DayAgenda",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12436,7 +12922,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/lib/schoolCalendarData",
+        "to": "src/components/SchoolEvents",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12446,7 +12932,7 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/ui/schoolEventAssets",
+        "to": "src/components/TheatreEvents",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
@@ -12456,13 +12942,63 @@
       },
       {
         "from": "src/components/SchoolCalendar",
-        "to": "src/tokens/index",
+        "to": "src/lib/theatreEvents",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 22
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/ui/theatreEventAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 23
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/lib/schoolCalendarData",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 24
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/ui/schoolEventAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 25
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/tokens/index",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 26
+      },
+      {
+        "from": "src/components/SchoolCalendar",
+        "to": "src/components/CalendarWeekdays",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 28
       },
       {
         "from": "src/components/SchoolCalendarSync",
@@ -14363,6 +14899,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 8
+      },
+      {
+        "from": "src/components/ui/PositionalNotationPlayArea",
+        "to": "src/lib/positionalNotationProblems",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 9
       },
       {
         "from": "src/components/ui/PrimaryActionImageContext",
@@ -17736,63 +18282,13 @@
       },
       {
         "from": "src/data/useRewards",
-        "to": "firebase/firestore",
-        "kind": "external",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": null,
-        "workspace_dependency": false,
-        "line": 1
-      },
-      {
-        "from": "src/data/useRewards",
-        "to": "src/firebaseDb",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 2
-      },
-      {
-        "from": "src/data/useRewards",
-        "to": "src/offline/actions",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 3
-      },
-      {
-        "from": "src/data/useRewards",
-        "to": "src/offline/platform",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 4
-      },
-      {
-        "from": "src/data/useRewards",
-        "to": "src/sharing/scope",
-        "kind": "relative",
-        "import_kind": "static",
-        "from_workspace": "mystarquest",
-        "to_workspace": "mystarquest",
-        "workspace_dependency": false,
-        "line": 5
-      },
-      {
-        "from": "src/data/useRewards",
         "to": "react",
         "kind": "external",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
-        "line": 8
+        "line": 3
       },
       {
         "from": "src/data/useRewards",
@@ -17802,7 +18298,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 9
+        "line": 4
       },
       {
         "from": "src/data/useRewards",
@@ -17812,7 +18308,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 10
+        "line": 5
       },
       {
         "from": "src/data/useRewards",
@@ -17822,7 +18318,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 11
+        "line": 6
       },
       {
         "from": "src/data/useRewards",
@@ -17832,7 +18328,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 7
       },
       {
         "from": "src/data/useRewards",
@@ -17842,7 +18338,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 8
       },
       {
         "from": "src/data/useRewards",
@@ -17852,7 +18348,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 9
       },
       {
         "from": "src/data/useRewards",
@@ -17862,7 +18358,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 10
       },
       {
         "from": "src/data/useRewards",
@@ -17872,7 +18368,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 11
       },
       {
         "from": "src/data/useTests",
@@ -18043,6 +18539,16 @@
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
         "line": 35
+      },
+      {
+        "from": "src/data/useTests",
+        "to": "src/data/useUserDocumentUpdates",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 36
       },
       {
         "from": "src/data/useUserCollection",
@@ -19135,6 +19641,56 @@
         "line": 1
       },
       {
+        "from": "src/hooks/useCalendarHistory",
+        "to": "react",
+        "kind": "external",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/hooks/useCalendarHistory",
+        "to": "src/sharing/ChildAccessContext",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/hooks/useCalendarHistory",
+        "to": "src/data/useUserCollection",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/hooks/useCalendarHistory",
+        "to": "src/lib/calendarHistory",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/hooks/useCalendarHistory",
+        "to": "src/offline/model",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
         "from": "src/hooks/useCalendarSchedule",
         "to": "react",
         "kind": "external",
@@ -19515,6 +20071,16 @@
         "line": 16
       },
       {
+        "from": "src/lib/calendarHistory",
+        "to": "src/lib/today",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
         "from": "src/lib/calendarSchedule",
         "to": "zod",
         "kind": "external",
@@ -19792,7 +20358,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 142
+        "line": 150
       },
       {
         "from": "src/lib/tabNavigation",
@@ -20382,7 +20948,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 19
       },
       {
         "from": "src/offline/runtime",
@@ -20392,7 +20958,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 20
       },
       {
         "from": "src/offline/runtime",
@@ -20402,7 +20968,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 21
       },
       {
         "from": "src/offline/runtime",
@@ -20412,7 +20978,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 17
+        "line": 22
       },
       {
         "from": "src/offline/runtime",
@@ -20422,7 +20988,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 22
+        "line": 27
       },
       {
         "from": "src/offline/runtime",
@@ -20432,7 +20998,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 23
+        "line": 28
       },
       {
         "from": "src/offline/runtime",
@@ -20442,7 +21008,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 24
+        "line": 29
       },
       {
         "from": "src/offline/runtime",
@@ -20452,7 +21018,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 25
+        "line": 30
       },
       {
         "from": "src/offline/runtime",
@@ -20462,7 +21028,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 26
+        "line": 31
       },
       {
         "from": "src/offline/selectors",
@@ -20492,7 +21058,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 12
+        "line": 14
       },
       {
         "from": "src/offline/store",
@@ -20502,7 +21068,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 13
+        "line": 15
       },
       {
         "from": "src/offline/store",
@@ -20512,7 +21078,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 14
+        "line": 16
       },
       {
         "from": "src/offline/store",
@@ -20522,7 +21088,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 15
+        "line": 17
       },
       {
         "from": "src/offline/store",
@@ -20532,7 +21098,7 @@
         "from_workspace": "mystarquest",
         "to_workspace": "mystarquest",
         "workspace_dependency": false,
-        "line": 16
+        "line": 18
       },
       {
         "from": "src/offline/sync",
@@ -22595,6 +23161,76 @@
         "line": 2
       },
       {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/lib/calendarHistory",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 1
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/assets/calendar/period-day.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 2
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/assets/calendar/period-week.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 3
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/assets/calendar/period-month.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 4
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/assets/calendar/period-year.svg",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 5
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/contexts/ThemeContext",
+        "kind": "relative",
+        "import_kind": "type",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 7
+      },
+      {
+        "from": "src/ui/calendarHistoryAssets",
+        "to": "src/ui/themeAssets",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": "mystarquest",
+        "workspace_dependency": false,
+        "line": 8
+      },
+      {
         "from": "src/ui/choreModeDefinitions",
         "to": "src/data/types",
         "kind": "relative",
@@ -23386,13 +24022,33 @@
       },
       {
         "from": "src/ui/themeAssets",
-        "to": "src/assets/themes/princess/now-character.png",
+        "to": "src/assets/themes/princess/practice-piano.png",
         "kind": "relative",
         "import_kind": "static",
         "from_workspace": "mystarquest",
         "to_workspace": null,
         "workspace_dependency": false,
         "line": 18
+      },
+      {
+        "from": "src/ui/themeAssets",
+        "to": "src/assets/themes/princess/practice-judo.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 19
+      },
+      {
+        "from": "src/ui/themeAssets",
+        "to": "src/assets/themes/princess/now-character.png",
+        "kind": "relative",
+        "import_kind": "static",
+        "from_workspace": "mystarquest",
+        "to_workspace": null,
+        "workspace_dependency": false,
+        "line": 20
       },
       {
         "from": "src/ui/themeOptions",

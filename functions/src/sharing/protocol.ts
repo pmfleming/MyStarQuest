@@ -49,6 +49,11 @@ export type SharedReceipt = {
   progress?: Record<string, unknown>
   progressKey?: string
   removed?: { collection: 'chores' | 'tests' | 'rewards'; entityId: string }
+  history?: {
+    collection: 'starEvents' | 'redemptions'
+    id: string
+    data: Record<string, unknown>
+  }
   appliedDelta?: number
   starsBefore?: number
   title?: string

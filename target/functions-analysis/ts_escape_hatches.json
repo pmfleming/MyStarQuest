@@ -3,7 +3,7 @@
   "task_id": "quality.escape_hatches",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions",
+    "root": "C:\\Code\\MyStarQuest\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:26.178Z",
+    "measured_at": "2026-10-22T20:36:34.437Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:080e382b257882f9496f29c4889982621d65cf6eac991b26b2d368f0cf36ca64",
-    "input_set_hash": "sha256:ec6166962001b43b5651dcabbdc352da46b366574845a581f18c161f0db283bf"
+    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
+    "input_set_hash": "sha256:229fa6527536fd828b51c1fb781f077a7aa842c2c95bddc463c46fdf58377251"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -109,10 +109,10 @@
     "stale_input": []
   },
   "summary": {
-    "records": 9,
+    "records": 10,
     "files_with_escape_hatches": 4,
     "by_kind": {
-      "type_assertion": 7,
+      "type_assertion": 8,
       "non_null_assertion": 2
     }
   },
@@ -217,12 +217,12 @@
       ]
     },
     {
-      "id": "escape:src/sharing/policy:type_assertion:245:7587",
+      "id": "escape:src/sharing/policy:type_assertion:237:7603",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 245,
+      "line": 237,
       "evidence": "op as SharedOperation",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -241,7 +241,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/policy:type_assertion:245:7587",
+            "id": "escape:src/sharing/policy:type_assertion:237:7603",
             "kind": "type_assertion",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -283,12 +283,12 @@
       ]
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:198:5935",
+      "id": "escape:src/sharing/service:type_assertion:199:5981",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 198,
+      "line": 199,
       "evidence": "[ ['chores', chores], ['tests', tests], ] as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -307,7 +307,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:198:5935",
+            "id": "escape:src/sharing/service:type_assertion:199:5981",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -316,12 +316,45 @@
       ]
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:585:18874",
+      "id": "escape:src/sharing/service:type_assertion:278:8664",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 585,
+      "line": 278,
+      "evidence": "[ ['starEvents', starEvents], ['redemptions', redemptions], ] as const",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "[ ['starEvents', starEvents], ['redemptions', redemptions], ] as const",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/service:type_assertion:278:8664",
+            "kind": "type_assertion",
+            "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/sharing/service:type_assertion:596:19208",
+      "module_id": "src/sharing/service",
+      "file": "src/sharing/service.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 596,
       "evidence": "dataOf(receipt)!.result as SharedReceipt",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -340,7 +373,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:585:18874",
+            "id": "escape:src/sharing/service:type_assertion:596:19208",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -349,12 +382,12 @@
       ]
     },
     {
-      "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+      "id": "escape:src/sharing/service:non_null_assertion:596:19208",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 585,
+      "line": 596,
       "evidence": "dataOf(receipt)!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
@@ -373,7 +406,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:non_null_assertion:585:18874",
+            "id": "escape:src/sharing/service:non_null_assertion:596:19208",
             "kind": "non_null_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -382,12 +415,12 @@
       ]
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:837:28355",
+      "id": "escape:src/sharing/service:type_assertion:871:29522",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 837,
+      "line": 871,
       "evidence": "wireValue(result) as SharedReceipt",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -406,7 +439,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:837:28355",
+            "id": "escape:src/sharing/service:type_assertion:871:29522",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."

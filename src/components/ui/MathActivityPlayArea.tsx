@@ -4,7 +4,7 @@ import { ActivityPlayArea } from './ActivityControls'
 
 type Props = Pick<
   ComponentProps<typeof ActivityPlayArea>,
-  'theme' | 'results' | 'children'
+  'theme' | 'results' | 'children' | 'resultBarStyle'
 > & {
   animationPrefix: string
   isCorrect: boolean

@@ -154,6 +154,7 @@ const ActivityResultBar = ({
             style={{
               width: statusIconSize,
               height: statusIconSize,
+              maxHeight: '100%',
               marginLeft: index === 0 ? 0 : -overlap,
               objectFit: 'contain',
               animation:
@@ -251,6 +252,7 @@ type ActivityPlayAreaProps = {
   slideAnimationName?: string
   hideAlt?: boolean
   showResultBar?: boolean
+  resultBarStyle?: CSSProperties
 }
 
 export const ActivityPlayArea = ({
@@ -265,6 +267,7 @@ export const ActivityPlayArea = ({
   slideAnimationName,
   hideAlt,
   showResultBar = true,
+  resultBarStyle,
 }: ActivityPlayAreaProps) => (
   <div
     className={className}
@@ -284,6 +287,7 @@ export const ActivityPlayArea = ({
         incorrectIcon={incorrectIcon}
         slideAnimationName={slideAnimationName}
         hideAlt={hideAlt}
+        style={resultBarStyle}
       />
     )}
     {children}

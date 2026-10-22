@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:14:40.455Z",
+    "measured_at": "2026-10-22T20:36:38.144Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:2c3e9c3817682375f631fc8ed50aab6c551dbaf1f36dce80f246a10a59af9f0e"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:1c1695f01206b0648c50bbf7c7c10e8a4e8edf6e49de76ea77e01c0375acc6db"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -134,7 +134,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-10-03T13:14:38.003Z",
+        "detectionDate": "2026-10-22T20:36:34.779Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -703,8 +703,8 @@
                 "newClones": 0
               },
               "src/assets/chores/assets.ts": {
-                "lines": 30,
-                "tokens": 379,
+                "lines": 32,
+                "tokens": 425,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -775,8 +775,8 @@
                 "newClones": 0
               },
               "src/ui/themeAssets.ts": {
-                "lines": 222,
-                "tokens": 1841,
+                "lines": 228,
+                "tokens": 1879,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -906,6 +906,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/ui/calendarHistoryAssets.ts": {
+                "lines": 25,
+                "tokens": 205,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/tokens/index.ts": {
                 "lines": 118,
                 "tokens": 911,
@@ -979,8 +991,8 @@
                 "newClones": 0
               },
               "src/offline/transport.ts": {
-                "lines": 159,
-                "tokens": 1559,
+                "lines": 179,
+                "tokens": 1744,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1003,8 +1015,8 @@
                 "newClones": 0
               },
               "src/offline/store.ts": {
-                "lines": 196,
-                "tokens": 1964,
+                "lines": 228,
+                "tokens": 2341,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1027,8 +1039,8 @@
                 "newClones": 0
               },
               "src/offline/runtime.ts": {
-                "lines": 233,
-                "tokens": 1982,
+                "lines": 258,
+                "tokens": 2229,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1063,8 +1075,8 @@
                 "newClones": 0
               },
               "src/offline/model.ts": {
-                "lines": 287,
-                "tokens": 3201,
+                "lines": 363,
+                "tokens": 3874,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1171,8 +1183,8 @@
                 "newClones": 0
               },
               "src/lib/starActions.ts": {
-                "lines": 200,
-                "tokens": 1674,
+                "lines": 209,
+                "tokens": 1800,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1279,8 +1291,8 @@
                 "newClones": 0
               },
               "src/lib/positionalNotationProblems.ts": {
-                "lines": 50,
-                "tokens": 572,
+                "lines": 100,
+                "tokens": 1056,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1377,6 +1389,18 @@
               "src/lib/calendarSchedule.ts": {
                 "lines": 277,
                 "tokens": 2638,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/calendarHistory.ts": {
+                "lines": 168,
+                "tokens": 1917,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1554,6 +1578,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/hooks/useCalendarHistory.ts": {
+                "lines": 68,
+                "tokens": 684,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/hooks/useAsyncFeedback.ts": {
                 "lines": 22,
                 "tokens": 225,
@@ -1603,8 +1639,8 @@
                 "newClones": 0
               },
               "src/data/useUserDocumentUpdates.ts": {
-                "lines": 90,
-                "tokens": 731,
+                "lines": 99,
+                "tokens": 793,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1615,8 +1651,8 @@
                 "newClones": 0
               },
               "src/data/useUserCollection.ts": {
-                "lines": 144,
-                "tokens": 1176,
+                "lines": 158,
+                "tokens": 1290,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1627,8 +1663,8 @@
                 "newClones": 0
               },
               "src/data/useTests.ts": {
-                "lines": 335,
-                "tokens": 2704,
+                "lines": 321,
+                "tokens": 2643,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1639,8 +1675,8 @@
                 "newClones": 0
               },
               "src/data/useRewards.ts": {
-                "lines": 117,
-                "tokens": 1013,
+                "lines": 114,
+                "tokens": 919,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1652,7 +1688,7 @@
               },
               "src/data/useChores.ts": {
                 "lines": 185,
-                "tokens": 1518,
+                "tokens": 1510,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1675,8 +1711,8 @@
                 "newClones": 0
               },
               "src/data/useChildTaskCollection.ts": {
-                "lines": 100,
-                "tokens": 948,
+                "lines": 101,
+                "tokens": 962,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1699,8 +1735,8 @@
                 "newClones": 0
               },
               "src/data/types.ts": {
-                "lines": 460,
-                "tokens": 3834,
+                "lines": 412,
+                "tokens": 3599,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2012,9 +2048,9 @@
               }
             },
             "total": {
-              "lines": 14150,
-              "tokens": 121868,
-              "sources": 156,
+              "lines": 14590,
+              "tokens": 126642,
+              "sources": 159,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -2231,8 +2267,8 @@
                 "newClones": 0
               },
               "src/components/ui/PositionalNotationPlayArea.tsx": {
-                "lines": 275,
-                "tokens": 2037,
+                "lines": 378,
+                "tokens": 2893,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2351,8 +2387,8 @@
                 "newClones": 0
               },
               "src/components/ui/CrownDifficultyControl.tsx": {
-                "lines": 37,
-                "tokens": 251,
+                "lines": 41,
+                "tokens": 320,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2411,8 +2447,8 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 284,
-                "tokens": 1781,
+                "lines": 288,
+                "tokens": 1805,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2723,8 +2759,8 @@
                 "newClones": 0
               },
               "src/pages/ChoreCreationFlow.tsx": {
-                "lines": 52,
-                "tokens": 340,
+                "lines": 54,
+                "tokens": 360,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2879,8 +2915,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 214,
-                "tokens": 1589,
+                "lines": 194,
+                "tokens": 1506,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2915,8 +2951,8 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 28,
-                "tokens": 157,
+                "lines": 33,
+                "tokens": 168,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2999,8 +3035,8 @@
                 "newClones": 0
               },
               "src/components/ExpandableAgendaItem.tsx": {
-                "lines": 13,
-                "tokens": 91,
+                "lines": 14,
+                "tokens": 97,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3013,6 +3049,30 @@
               "src/components/DinnerCountdown.tsx": {
                 "lines": 634,
                 "tokens": 4512,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/CalendarWeekdays.tsx": {
+                "lines": 8,
+                "tokens": 50,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/CalendarActivityHistory.tsx": {
+                "lines": 256,
+                "tokens": 2183,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3156,9 +3216,9 @@
               }
             },
             "total": {
-              "lines": 8827,
-              "tokens": 64656,
-              "sources": 94,
+              "lines": 9190,
+              "tokens": 67792,
+              "sources": 96,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -3375,8 +3435,8 @@
                 "newClones": 0
               },
               "src/components/ui/PositionalNotationPlayArea.tsx": {
-                "lines": 393,
-                "tokens": 2913,
+                "lines": 527,
+                "tokens": 3927,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3400,7 +3460,7 @@
               },
               "src/components/ui/MathActivityPlayArea.tsx": {
                 "lines": 40,
-                "tokens": 266,
+                "tokens": 270,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3507,8 +3567,8 @@
                 "newClones": 0
               },
               "src/components/ui/CrownDifficultyControl.tsx": {
-                "lines": 94,
-                "tokens": 667,
+                "lines": 99,
+                "tokens": 749,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3579,8 +3639,8 @@
                 "newClones": 0
               },
               "src/components/ui/ActivityControls.tsx": {
-                "lines": 357,
-                "tokens": 2299,
+                "lines": 361,
+                "tokens": 2323,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3747,8 +3807,8 @@
                 "newClones": 0
               },
               "src/ui/presetChoreActions.tsx": {
-                "lines": 173,
-                "tokens": 1361,
+                "lines": 125,
+                "tokens": 946,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3975,8 +4035,8 @@
                 "newClones": 0
               },
               "src/pages/ChoreCreationFlow.tsx": {
-                "lines": 290,
-                "tokens": 2125,
+                "lines": 309,
+                "tokens": 2238,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4203,8 +4263,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 336,
-                "tokens": 2781,
+                "lines": 297,
+                "tokens": 2543,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4239,8 +4299,8 @@
                 "newClones": 0
               },
               "src/components/PositionalNotation.tsx": {
-                "lines": 131,
-                "tokens": 1023,
+                "lines": 141,
+                "tokens": 1046,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4323,8 +4383,8 @@
                 "newClones": 0
               },
               "src/components/ExpandableAgendaItem.tsx": {
-                "lines": 76,
-                "tokens": 570,
+                "lines": 79,
+                "tokens": 587,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4361,6 +4421,30 @@
               "src/components/ChoreOutcomeView.tsx": {
                 "lines": 66,
                 "tokens": 516,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/CalendarWeekdays.tsx": {
+                "lines": 98,
+                "tokens": 769,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/CalendarActivityHistory.tsx": {
+                "lines": 313,
+                "tokens": 2604,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4528,9 +4612,9 @@
               }
             },
             "total": {
-              "lines": 17143,
-              "tokens": 132350,
-              "sources": 113,
+              "lines": 17642,
+              "tokens": 136347,
+              "sources": 115,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -4618,9 +4702,9 @@
           }
         },
         "total": {
-          "lines": 40146,
-          "tokens": 319135,
-          "sources": 368,
+          "lines": 41448,
+          "tokens": 331042,
+          "sources": 375,
           "clones": 0,
           "duplicatedLines": 0,
           "duplicatedTokens": 0,

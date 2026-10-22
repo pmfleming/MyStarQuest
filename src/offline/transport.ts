@@ -29,6 +29,13 @@ const receiptSchema = z.object({
       entityId: z.string(),
     })
     .optional(),
+  history: z
+    .object({
+      collection: z.enum(['starEvents', 'redemptions']),
+      id: z.string(),
+      data: documentSchema,
+    })
+    .optional(),
   appliedDelta: z.number().optional(),
   starsBefore: z.number().optional(),
   title: z.string().optional(),
@@ -95,19 +102,23 @@ async function applyActivity(
   const before = starBalance(child)
   const after = clampStars(before + starDelta(action))
   const audit = {
+    ...action.historySnapshot,
     childId: action.childId,
     deviceId: operation.deviceId,
     occurredAt: operation.occurredAt,
     createdAt: new Date(),
   }
+  let history: SyncReceipt['history']
   if (action.kind === 'redeem') {
-    transaction.set(`${root}/redemptions/${operation.id}`, {
+    const data = {
       ...audit,
       rewardId: action.entityId,
       rewardTitle: action.title,
       costStars: action.cost,
       chargedStars: before - after,
-    })
+    }
+    transaction.set(`${root}/redemptions/${operation.id}`, data)
+    history = { collection: 'redemptions', id: operation.id, data }
   } else {
     const statePath = `${root}/deviceActivities/${operation.deviceId}_${action.collection}_${encodeURIComponent(action.entityId)}_${action.dateKey}`
     const previous = await transaction.get(statePath)
@@ -122,18 +133,27 @@ async function applyActivity(
         (action.consume && action.complete) || previous?.consumed === true,
       sequence: operation.sequence,
     })
-    if (action.complete)
-      transaction.set(`${root}/starEvents/${operation.id}`, {
+    if (action.complete) {
+      const data = {
         ...audit,
         taskId: action.entityId,
         taskCollection: action.collection,
         dateKey: action.dateKey,
         delta: after - before,
-      })
+      }
+      transaction.set(`${root}/starEvents/${operation.id}`, data)
+      history = { collection: 'starEvents', id: operation.id, data }
+    }
   }
   const document = stampBalance(child, child, operation, after)
   transaction.set(path, document)
-  return { collection: 'children', entityId: action.childId, document }
+  return {
+    collection: 'children',
+    entityId: action.childId,
+    document,
+    appliedDelta: after - before,
+    ...(history ? { history } : {}),
+  }
 }
 
 // Receipt and business writes are atomic. A replay never repeats their effects.

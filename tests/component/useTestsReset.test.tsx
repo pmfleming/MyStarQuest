@@ -9,11 +9,29 @@ import {
 import { manageTestOutcomePatch } from '../../src/data/dailyTaskState'
 import { getTodayDescriptor } from '../../src/lib/today'
 import { completeTaskAndAwardStars } from '../../src/lib/starActions'
+import { updateUserDocument } from '../../src/data/useUserDocumentUpdates'
+import { childStorageKey } from '../../src/sharing/scope'
 
 const firestore = vi.hoisted(() => ({
   onSnapshot: vi.fn(),
   updateDoc: vi.fn(),
   runTransaction: vi.fn(),
+}))
+const scope = vi.hoisted(() => ({
+  storageKey: 'parent' as string | undefined,
+  canAdmin: true,
+  timeZone: 'Europe/London',
+}))
+const device = vi.hoisted(() => ({ native: false, save: vi.fn() }))
+vi.mock('../../src/offline/platform', () => ({
+  isOfflineEnabled: () => device.native,
+}))
+vi.mock('../../src/offline/actions', () => ({
+  saveDocument: device.save,
+  saveActivityPatch: vi.fn(),
+}))
+vi.mock('../../src/sharing/ChildAccessContext', () => ({
+  useDataScope: () => scope,
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('../../src/firebase', () => ({ auth: {} }))
@@ -61,6 +79,8 @@ const attempt = (
 
 describe('test reset persistence', () => {
   beforeEach(() => {
+    device.native = false
+    scope.storageKey = 'parent'
     documents = [
       { ...template, id: 'saved-test', createdAt: undefined, ...attempt(123) },
     ]
@@ -103,6 +123,51 @@ describe('test reset persistence', () => {
   afterEach(() => {
     cleanup()
     vi.clearAllMocks()
+  })
+
+  it('does not persist a reset while the child storage scope is loading', async () => {
+    scope.storageKey = undefined
+    const { result } = renderHook(() => useTests())
+    await act(async () => {
+      await result.current.resetTest(template)
+    })
+    expect(firestore.updateDoc).not.toHaveBeenCalled()
+    expect(firestore.runTransaction).not.toHaveBeenCalled()
+  })
+
+  it('routes document patches to legacy Firestore, native storage, or the shared child queue', async () => {
+    firestore.updateDoc.mockResolvedValue(undefined)
+    const patch = { title: 'Updated' }
+    await updateUserDocument('parent', 'rewards', 'reward', patch)
+    expect(firestore.updateDoc).toHaveBeenCalledWith(
+      'users/parent/rewards/reward',
+      patch
+    )
+    device.native = true
+    await updateUserDocument('parent', 'rewards', 'reward', patch)
+    expect(device.save).toHaveBeenLastCalledWith(
+      'parent',
+      'rewards',
+      'reward',
+      'patch',
+      patch
+    )
+    device.native = false
+    const shared = childStorageKey({
+      actorUid: 'parent',
+      ownerUid: 'owner',
+      childId: 'child',
+      membershipVersion: 1,
+    })
+    await updateUserDocument(shared, 'rewards', 'reward', patch)
+    expect(device.save).toHaveBeenLastCalledWith(
+      shared,
+      'rewards',
+      'reward',
+      'patch',
+      patch
+    )
+    expect(firestore.updateDoc).toHaveBeenCalledTimes(1)
   })
 
   it('restores a failure result when reset fails and permits retry', async () => {

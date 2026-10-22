@@ -3,7 +3,7 @@
   "task_id": "quality.locality_dynamic",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:14:56.190Z",
+    "measured_at": "2026-10-22T20:37:00.636Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:f021db08fc47a6f2d0fe33b388127ecac9f55cf7dccd96a244c632602950d3bc"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:00b6b35ce5042333692475c204e92f0db1e63499f02318dce9e59d66175bce26"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -113,8 +113,8 @@
     "stale_input": []
   },
   "summary": {
-    "records": 270,
-    "high_risk_records": 59
+    "records": 275,
+    "high_risk_records": 58
   },
   "records": [
     {
@@ -213,13 +213,13 @@
       "id": "locality:src/assets/chores/assets",
       "module_id": "src/assets/chores/assets",
       "file": "src/assets/chores/assets.ts",
-      "score": 69,
+      "score": 51,
       "risk": "medium",
       "evidence_kind": "heuristic",
-      "message": "src/assets/chores/assets.ts: 2 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "message": "src/assets/chores/assets.ts: 2 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 2,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 6,
@@ -278,9 +278,6 @@
           "kind": "far_import",
           "line": 2,
           "specifier": "../../ui/themeOptions"
-        },
-        {
-          "kind": "missing_direct_test_evidence"
         },
         {
           "kind": "cochange_ripple",
@@ -1677,6 +1674,92 @@
       ]
     },
     {
+      "id": "locality:src/components/CalendarActivityHistory",
+      "module_id": "src/components/CalendarActivityHistory",
+      "file": "src/components/CalendarActivityHistory.tsx",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/components/CalendarActivityHistory.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/CalendarActivityHistory",
+            "kind": "locality",
+            "file": "src/components/CalendarActivityHistory.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/components/CalendarWeekdays",
+      "module_id": "src/components/CalendarWeekdays",
+      "file": "src/components/CalendarWeekdays.tsx",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/components/CalendarWeekdays.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/components/CalendarWeekdays",
+            "kind": "locality",
+            "file": "src/components/CalendarWeekdays.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/components/ChoreOutcomeView",
       "module_id": "src/components/ChoreOutcomeView",
       "file": "src/components/ChoreOutcomeView.tsx",
@@ -1970,7 +2053,7 @@
       "id": "locality:src/components/ExpandableAgendaItem",
       "module_id": "src/components/ExpandableAgendaItem",
       "file": "src/components/ExpandableAgendaItem.tsx",
-      "score": 28,
+      "score": 33,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/components/ExpandableAgendaItem.tsx: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -1979,11 +2062,15 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 3,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
         {
           "file": "src/components/AgendaList.tsx",
           "commits": 2
@@ -2001,28 +2088,24 @@
           "commits": 2
         },
         {
+          "file": "src/components/ui/ImageStarFrame.tsx",
+          "commits": 2
+        },
+        {
           "file": "src/data/dailyTaskState.ts",
           "commits": 2
         },
         {
-          "file": "src/data/types.ts",
+          "file": "src/data/taskLimits.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 2
         },
         {
           "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
           "commits": 2
-        },
-        {
-          "file": "src/assets/chores/assets.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/assets/rewards/assets.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/components/activities/LazyActivities.tsx",
-          "commits": 1
         }
       ],
       "signals": [
@@ -2031,7 +2114,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 3
         }
       ],
       "kind": "locality",
@@ -2626,13 +2709,13 @@
       "id": "locality:src/components/PositionalNotation",
       "module_id": "src/components/PositionalNotation",
       "file": "src/components/PositionalNotation.tsx",
-      "score": 80,
-      "risk": "high",
+      "score": 62,
+      "risk": "medium",
       "evidence_kind": "heuristic",
-      "message": "src/components/PositionalNotation.tsx: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "message": "src/components/PositionalNotation.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 17,
@@ -2683,9 +2766,6 @@
       ],
       "signals": [
         {
-          "kind": "missing_direct_test_evidence"
-        },
-        {
           "kind": "defect_keyword_commits",
           "value": 3
         },
@@ -2704,12 +2784,6 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
         {
           "type": "add-to-config",
           "auto_fixable": true,
@@ -6323,7 +6397,7 @@
       "id": "locality:src/components/ui/ImageStarFrame",
       "module_id": "src/components/ui/ImageStarFrame",
       "file": "src/components/ui/ImageStarFrame.tsx",
-      "score": 77,
+      "score": 79,
       "risk": "high",
       "evidence_kind": "heuristic",
       "message": "src/components/ui/ImageStarFrame.tsx: 2 distant imports, 1 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -6337,17 +6411,25 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 4,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
         {
           "file": "src/ui/definitionRowDescriptors.tsx",
           "commits": 3
         },
         {
           "file": "src/components/AnimalTester.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/components/ExpandableAgendaItem.tsx",
           "commits": 2
         },
         {
@@ -6371,15 +6453,7 @@
           "commits": 2
         },
         {
-          "file": "src/data/types.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/pages/DashboardPage.tsx",
-          "commits": 2
-        },
-        {
-          "file": "src/pages/RewardsPage.tsx",
+          "file": "src/data/useChildren.ts",
           "commits": 2
         }
       ],
@@ -7032,11 +7106,11 @@
       "id": "locality:src/components/ui/PositionalNotationPlayArea",
       "module_id": "src/components/ui/PositionalNotationPlayArea",
       "file": "src/components/ui/PositionalNotationPlayArea.tsx",
-      "score": 90,
+      "score": 100,
       "risk": "high",
       "evidence_kind": "heuristic",
-      "message": "src/components/ui/PositionalNotationPlayArea.tsx: 4 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
-      "dependency_distance": 4,
+      "message": "src/components/ui/PositionalNotationPlayArea.tsx: 5 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 5,
       "hidden_coupling": [],
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
@@ -7107,6 +7181,11 @@
           "kind": "far_import",
           "line": 5,
           "specifier": "../../ui/themeAssets"
+        },
+        {
+          "kind": "far_import",
+          "line": 9,
+          "specifier": "../../lib/positionalNotationProblems"
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -8456,7 +8535,7 @@
       "id": "locality:src/components/ui/keyboardActivation",
       "module_id": "src/components/ui/keyboardActivation",
       "file": "src/components/ui/keyboardActivation.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/components/ui/keyboardActivation.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -8465,14 +8544,59 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/ExpandableAgendaItem.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ImageStarFrame.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/hooks/useAsyncFeedback.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/today.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/model.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -12787,7 +12911,7 @@
       "id": "locality:src/data/taskLimits",
       "module_id": "src/data/taskLimits",
       "file": "src/data/taskLimits.ts",
-      "score": 30,
+      "score": 32,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/data/taskLimits.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -12796,14 +12920,14 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/data/types.ts",
-          "commits": 6
+          "commits": 7
         },
         {
           "file": "src/components/AnimalTester.tsx",
@@ -12845,7 +12969,7 @@
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 6
+          "value": 7
         }
       ],
       "kind": "locality",
@@ -12974,7 +13098,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 28,
+        "commits": 29,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -13016,7 +13140,7 @@
           "commits": 10
         },
         {
-          "file": "src/data/useRewards.ts",
+          "file": "src/data/useChildren.ts",
           "commits": 10
         }
       ],
@@ -13164,7 +13288,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 16,
+        "commits": 17,
         "contributors": 1
       },
       "defect_commits": 0,
@@ -13179,7 +13303,7 @@
         },
         {
           "file": "src/data/types.ts",
-          "commits": 9
+          "commits": 10
         },
         {
           "file": "src/data/dailyTaskState.ts",
@@ -13624,7 +13748,7 @@
       "hidden_coupling": [
         {
           "kind": "event_bus",
-          "line": 82
+          "line": 94
         }
       ],
       "test_locality": "no_direct_import_association",
@@ -13679,7 +13803,7 @@
       "signals": [
         {
           "kind": "event_bus",
-          "line": 82
+          "line": 94
         },
         {
           "kind": "missing_direct_test_evidence"
@@ -13723,13 +13847,13 @@
       "id": "locality:src/data/useUserDocumentUpdates",
       "module_id": "src/data/useUserDocumentUpdates",
       "file": "src/data/useUserDocumentUpdates.ts",
-      "score": 45,
-      "risk": "medium",
+      "score": 27,
+      "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/data/useUserDocumentUpdates.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "message": "src/data/useUserDocumentUpdates.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 6,
@@ -13779,9 +13903,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 5
@@ -16597,7 +16718,7 @@
       "id": "locality:src/hooks/useAsyncFeedback",
       "module_id": "src/hooks/useAsyncFeedback",
       "file": "src/hooks/useAsyncFeedback.ts",
-      "score": 18,
+      "score": 23,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/hooks/useAsyncFeedback.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -16606,14 +16727,59 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 0,
-        "contributors": 0
+        "commits": 1,
+        "contributors": 1
       },
       "defect_commits": 0,
-      "cochange_partners": [],
+      "cochange_partners": [
+        {
+          "file": "src/components/ExpandableAgendaItem.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/ImageStarFrame.tsx",
+          "commits": 1
+        },
+        {
+          "file": "src/components/ui/keyboardActivation.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/taskLimits.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/lib/today.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/model.ts",
+          "commits": 1
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 1
+        }
+      ],
       "signals": [
         {
           "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
         }
       ],
       "kind": "locality",
@@ -16635,6 +16801,49 @@
             "id": "locality:src/hooks/useAsyncFeedback",
             "kind": "locality",
             "file": "src/hooks/useAsyncFeedback.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/hooks/useCalendarHistory",
+      "module_id": "src/hooks/useCalendarHistory",
+      "file": "src/hooks/useCalendarHistory.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/hooks/useCalendarHistory.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/hooks/useCalendarHistory",
+            "kind": "locality",
+            "file": "src/hooks/useCalendarHistory.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -18194,6 +18403,49 @@
       ]
     },
     {
+      "id": "locality:src/lib/calendarHistory",
+      "module_id": "src/lib/calendarHistory",
+      "file": "src/lib/calendarHistory.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/lib/calendarHistory.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/lib/calendarHistory",
+            "kind": "locality",
+            "file": "src/lib/calendarHistory.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "locality:src/lib/calendarSchedule",
       "module_id": "src/lib/calendarSchedule",
       "file": "src/lib/calendarSchedule.ts",
@@ -18956,13 +19208,13 @@
       "id": "locality:src/lib/positionalNotationProblems",
       "module_id": "src/lib/positionalNotationProblems",
       "file": "src/lib/positionalNotationProblems.ts",
-      "score": 28,
+      "score": 10,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/lib/positionalNotationProblems.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "message": "src/lib/positionalNotationProblems.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 2,
@@ -19012,9 +19264,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 2
@@ -20240,8 +20489,8 @@
       "id": "locality:src/lib/today",
       "module_id": "src/lib/today",
       "file": "src/lib/today.ts",
-      "score": 32,
-      "risk": "low",
+      "score": 37,
+      "risk": "medium",
       "evidence_kind": "heuristic",
       "message": "src/lib/today.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
@@ -20249,21 +20498,25 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 1,
       "cochange_partners": [
         {
+          "file": "src/data/types.ts",
+          "commits": 5
+        },
+        {
           "file": "src/components/ArithmeticTester.tsx",
           "commits": 4
         },
         {
-          "file": "src/data/types.ts",
-          "commits": 4
+          "file": "src/components/PositionalNotation.tsx",
+          "commits": 3
         },
         {
-          "file": "src/components/PositionalNotation.tsx",
+          "file": "src/data/useChildren.ts",
           "commits": 3
         },
         {
@@ -20289,10 +20542,6 @@
         {
           "file": "src/assets/chores/assets.ts",
           "commits": 2
-        },
-        {
-          "file": "src/components/AlphabetTester.tsx",
-          "commits": 2
         }
       ],
       "signals": [
@@ -20302,7 +20551,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -21331,7 +21580,7 @@
       "id": "locality:src/offline/firebaseTransport",
       "module_id": "src/offline/firebaseTransport",
       "file": "src/offline/firebaseTransport.ts",
-      "score": 15,
+      "score": 17,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/offline/firebaseTransport.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -21340,11 +21589,23 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 3,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/offline/model.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 3
+        },
         {
           "file": "src/offline/sync.ts",
           "commits": 3
@@ -21358,31 +21619,19 @@
           "commits": 2
         },
         {
+          "file": "src/data/taskLimits.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/types.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 2
+        },
+        {
           "file": "src/data/useUserCollection.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/data/useUserDocumentUpdates.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/offline/actions.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/offline/model.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/offline/runtime.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/offline/store.ts",
-          "commits": 2
-        },
-        {
-          "file": "src/ui/unifiedChoreDescriptors.tsx",
           "commits": 2
         }
       ],
@@ -21509,7 +21758,7 @@
       "id": "locality:src/offline/model",
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
-      "score": 39,
+      "score": 44,
       "risk": "medium",
       "evidence_kind": "heuristic",
       "message": "src/offline/model.ts: 1 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -21518,13 +21767,17 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 6,
+        "commits": 7,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/store.ts",
+          "commits": 6
+        },
+        {
+          "file": "src/offline/runtime.ts",
           "commits": 5
         },
         {
@@ -21532,11 +21785,15 @@
           "commits": 4
         },
         {
-          "file": "src/offline/runtime.ts",
-          "commits": 4
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 3
         },
         {
-          "file": "src/data/dailyTaskState.ts",
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 3
         },
         {
@@ -21554,14 +21811,6 @@
         {
           "file": "src/lib/weather/weatherStore.ts",
           "commits": 3
-        },
-        {
-          "file": "src/offline/actions.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 3
         }
       ],
       "signals": [
@@ -21572,7 +21821,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "locality",
@@ -21784,7 +22033,7 @@
       "id": "locality:src/offline/runtime",
       "module_id": "src/offline/runtime",
       "file": "src/offline/runtime.ts",
-      "score": 94,
+      "score": 99,
       "risk": "high",
       "evidence_kind": "heuristic",
       "message": "src/offline/runtime.ts: 0 distant imports, 4 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -21792,29 +22041,41 @@
       "hidden_coupling": [
         {
           "kind": "event_bus",
-          "line": 73
+          "line": 56
         },
         {
           "kind": "event_bus",
-          "line": 122
+          "line": 107
         },
         {
           "kind": "window_global",
-          "line": 209
+          "line": 234
         },
         {
           "kind": "window_global",
-          "line": 212
+          "line": 237
         }
       ],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
+        {
+          "file": "src/offline/model.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 5
+        },
+        {
+          "file": "src/data/useChildren.ts",
+          "commits": 4
+        },
         {
           "file": "src/data/useTests.ts",
           "commits": 4
@@ -21832,15 +22093,7 @@
           "commits": 4
         },
         {
-          "file": "src/offline/model.ts",
-          "commits": 4
-        },
-        {
           "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 4
-        },
-        {
-          "file": "src/offline/store.ts",
           "commits": 4
         },
         {
@@ -21848,34 +22101,30 @@
           "commits": 3
         },
         {
-          "file": "src/data/useChildren.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/data/useChildTaskCollection.ts",
+          "file": "src/data/types.ts",
           "commits": 3
         }
       ],
       "signals": [
         {
           "kind": "event_bus",
-          "line": 73
+          "line": 56
         },
         {
           "kind": "event_bus",
-          "line": 122
+          "line": 107
         },
         {
           "kind": "window_global",
-          "line": 209
+          "line": 234
         },
         {
           "kind": "window_global",
-          "line": 212
+          "line": 237
         },
         {
           "kind": "cochange_ripple",
-          "value": 4
+          "value": 5
         }
       ],
       "kind": "locality",
@@ -22009,35 +22258,39 @@
       "hidden_coupling": [
         {
           "kind": "event_bus",
-          "line": 37
+          "line": 39
         },
         {
           "kind": "event_bus",
-          "line": 45
+          "line": 47
         },
         {
           "kind": "event_bus",
-          "line": 63
+          "line": 65
         },
         {
           "kind": "event_bus",
-          "line": 71
+          "line": 75
         },
         {
           "kind": "event_bus",
-          "line": 86
+          "line": 90
         }
       ],
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 5,
+        "commits": 6,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
           "file": "src/offline/model.ts",
+          "commits": 6
+        },
+        {
+          "file": "src/offline/runtime.ts",
           "commits": 5
         },
         {
@@ -22045,11 +22298,15 @@
           "commits": 4
         },
         {
-          "file": "src/offline/runtime.ts",
-          "commits": 4
+          "file": "src/data/dailyTaskState.ts",
+          "commits": 3
         },
         {
-          "file": "src/data/dailyTaskState.ts",
+          "file": "src/data/types.ts",
+          "commits": 3
+        },
+        {
+          "file": "src/data/useChildren.ts",
           "commits": 3
         },
         {
@@ -22067,40 +22324,32 @@
         {
           "file": "src/lib/weather/weatherStore.ts",
           "commits": 3
-        },
-        {
-          "file": "src/offline/actions.ts",
-          "commits": 3
-        },
-        {
-          "file": "src/offline/OfflineBoundary.tsx",
-          "commits": 3
         }
       ],
       "signals": [
         {
           "kind": "event_bus",
-          "line": 37
+          "line": 39
         },
         {
           "kind": "event_bus",
-          "line": 45
+          "line": 47
         },
         {
           "kind": "event_bus",
-          "line": 63
+          "line": 65
         },
         {
           "kind": "event_bus",
-          "line": 71
+          "line": 75
         },
         {
           "kind": "event_bus",
-          "line": 86
+          "line": 90
         },
         {
           "kind": "cochange_ripple",
-          "value": 5
+          "value": 6
         }
       ],
       "kind": "locality",
@@ -22378,13 +22627,13 @@
       "id": "locality:src/pages/ChoreCreationFlow",
       "module_id": "src/pages/ChoreCreationFlow",
       "file": "src/pages/ChoreCreationFlow.tsx",
-      "score": 56,
+      "score": 38,
       "risk": "medium",
       "evidence_kind": "heuristic",
-      "message": "src/pages/ChoreCreationFlow.tsx: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "message": "src/pages/ChoreCreationFlow.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
       "hidden_coupling": [],
-      "test_locality": "no_direct_import_association",
+      "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
         "commits": 13,
@@ -22434,9 +22683,6 @@
         }
       ],
       "signals": [
-        {
-          "kind": "missing_direct_test_evidence"
-        },
         {
           "kind": "cochange_ripple",
           "value": 10
@@ -22950,7 +23196,7 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 13,
+        "commits": 14,
         "contributors": 2
       },
       "defect_commits": 0,
@@ -22988,11 +23234,11 @@
           "commits": 7
         },
         {
-          "file": "src/data/useChores.ts",
+          "file": "src/data/types.ts",
           "commits": 7
         },
         {
-          "file": "src/pages/ChoreCreationFlow.tsx",
+          "file": "src/data/useChores.ts",
           "commits": 7
         }
       ],
@@ -23766,7 +24012,7 @@
       "id": "locality:src/sharing/ChildAccessContext",
       "module_id": "src/sharing/ChildAccessContext",
       "file": "src/sharing/ChildAccessContext.ts",
-      "score": 41,
+      "score": 46,
       "risk": "medium",
       "evidence_kind": "heuristic",
       "message": "src/sharing/ChildAccessContext.ts: 0 distant imports, 2 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -23784,50 +24030,50 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessProvider.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/InvitationPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/invitationPath.ts",
+          "commits": 2
         }
       ],
       "signals": [
@@ -23841,7 +24087,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -23872,7 +24118,7 @@
       "id": "locality:src/sharing/ChildAccessProvider",
       "module_id": "src/sharing/ChildAccessProvider",
       "file": "src/sharing/ChildAccessProvider.tsx",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/ChildAccessProvider.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -23881,56 +24127,56 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessContext.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/InvitationPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/invitationPath.ts",
+          "commits": 2
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -24053,7 +24299,7 @@
       "id": "locality:src/sharing/InvitationPage",
       "module_id": "src/sharing/InvitationPage",
       "file": "src/sharing/InvitationPage.tsx",
-      "score": 5,
+      "score": 10,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/InvitationPage.tsx: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -24062,56 +24308,56 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessContext.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessProvider.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/invitationPath.ts",
+          "commits": 2
         }
       ],
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -24142,7 +24388,7 @@
       "id": "locality:src/sharing/ParentAccessPanel",
       "module_id": "src/sharing/ParentAccessPanel",
       "file": "src/sharing/ParentAccessPanel.tsx",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/ParentAccessPanel.tsx: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
@@ -24151,50 +24397,50 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessContext.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessProvider.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/InvitationPage.tsx",
+          "commits": 2
         }
       ],
       "signals": [
@@ -24203,7 +24449,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -24331,7 +24577,7 @@
       "id": "locality:src/sharing/invitationPath",
       "module_id": "src/sharing/invitationPath",
       "file": "src/sharing/invitationPath.ts",
-      "score": 23,
+      "score": 28,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/invitationPath.ts: 0 distant imports, 1 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -24345,50 +24591,50 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessContext.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessProvider.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/InvitationPage.tsx",
+          "commits": 2
         }
       ],
       "signals": [
@@ -24398,7 +24644,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -24429,7 +24675,7 @@
       "id": "locality:src/sharing/scope",
       "module_id": "src/sharing/scope",
       "file": "src/sharing/scope.ts",
-      "score": 29,
+      "score": 34,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/scope.ts: 2 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -24438,50 +24684,50 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 1,
+        "commits": 2,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/App.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/auth/AuthProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/components/AppMenu.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildContext.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/contexts/ActiveChildProvider.tsx",
-          "commits": 1
-        },
-        {
-          "file": "src/data/dailyTaskState.ts",
-          "commits": 1
-        },
-        {
-          "file": "src/data/taskDocuments.ts",
-          "commits": 1
-        },
-        {
           "file": "src/data/useChildren.ts",
-          "commits": 1
+          "commits": 2
         },
         {
-          "file": "src/data/useChildTaskCollection.ts",
-          "commits": 1
+          "file": "src/offline/firebaseTransport.ts",
+          "commits": 2
         },
         {
-          "file": "src/data/useChoreActivityActions.ts",
-          "commits": 1
+          "file": "src/offline/model.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/runtime.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/sharedProgress.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/offline/store.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/pages/TestsPage.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessContext.ts",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/ChildAccessProvider.tsx",
+          "commits": 2
+        },
+        {
+          "file": "src/sharing/InvitationPage.tsx",
+          "commits": 2
         }
       ],
       "signals": [
@@ -24497,7 +24743,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 1
+          "value": 2
         }
       ],
       "kind": "locality",
@@ -24611,6 +24857,53 @@
             "id": "locality:src/tokens/index",
             "kind": "locality",
             "file": "src/tokens/index.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/ui/calendarHistoryAssets",
+      "module_id": "src/ui/calendarHistoryAssets",
+      "file": "src/ui/calendarHistoryAssets.ts",
+      "score": 18,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/ui/calendarHistoryAssets.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 0,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/ui/calendarHistoryAssets",
+            "kind": "locality",
+            "file": "src/ui/calendarHistoryAssets.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

@@ -3,7 +3,7 @@
   "task_id": "map.architecture",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified",
+    "root": "C:\\Code\\MyStarQuest",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-sharing-review\\audit-snapshot-verified\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-03T13:15:09.502Z",
+    "measured_at": "2026-10-22T20:37:18.908Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:a0f238dc35f9a2842f4f37ab91159cdcd75272fe7b49923aa015abc08385d61d",
-    "input_set_hash": "sha256:d14e12da6936c4c62a184c7a08da58412f3638eaae761b17027f32f345826ca7"
+    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
+    "input_set_hash": "sha256:c3ad96508c84e9b7a0ae843cd600f0c55b9e5e8759e1b9760314221a6563b846"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -117,12 +117,12 @@
     "partial": false
   },
   "summary": {
-    "nodes": 270,
-    "edges": 1399,
+    "nodes": 275,
+    "edges": 1449,
     "workspaces": 1,
     "cross_workspace_edges": 0,
     "entrypoint_nodes": 1,
-    "high_risk_nodes": 132,
+    "high_risk_nodes": 134,
     "unknown_metric_nodes": 0,
     "missing_inputs": 0,
     "stale_inputs": 0,
@@ -196,7 +196,7 @@
       "id": "src/assets/chores",
       "label": "src/assets/chores",
       "node_count": 1,
-      "risk_score": 69,
+      "risk_score": 51,
       "kind": "src/assets/chores",
       "rule_id": "ts-react-quality-lens/src/assets/chores",
       "evidence_kind": "heuristic",
@@ -307,7 +307,7 @@
     {
       "id": "src/components",
       "label": "src/components",
-      "node_count": 33,
+      "node_count": 35,
       "risk_score": 306,
       "kind": "src/components",
       "rule_id": "ts-react-quality-lens/src/components",
@@ -364,7 +364,7 @@
       "id": "src/components/ui",
       "label": "src/components/ui",
       "node_count": 40,
-      "risk_score": 231,
+      "risk_score": 250,
       "kind": "src/components/ui",
       "rule_id": "ts-react-quality-lens/src/components/ui",
       "evidence_kind": "heuristic",
@@ -531,7 +531,7 @@
     {
       "id": "src/hooks",
       "label": "src/hooks",
-      "node_count": 17,
+      "node_count": 18,
       "risk_score": 121,
       "kind": "src/hooks",
       "rule_id": "ts-react-quality-lens/src/hooks",
@@ -559,7 +559,7 @@
     {
       "id": "src/lib",
       "label": "src/lib",
-      "node_count": 25,
+      "node_count": 26,
       "risk_score": 121,
       "kind": "src/lib",
       "rule_id": "ts-react-quality-lens/src/lib",
@@ -616,7 +616,7 @@
       "id": "src/offline",
       "label": "src/offline",
       "node_count": 12,
-      "risk_score": 214,
+      "risk_score": 257,
       "kind": "src/offline",
       "rule_id": "ts-react-quality-lens/src/offline",
       "evidence_kind": "heuristic",
@@ -755,7 +755,7 @@
     {
       "id": "src/ui",
       "label": "src/ui",
-      "node_count": 24,
+      "node_count": 25,
       "risk_score": 151,
       "kind": "src/ui",
       "rule_id": "ts-react-quality-lens/src/ui",
@@ -866,7 +866,7 @@
       "tsconfigs": [
         "tsconfig.app.json"
       ],
-      "source_files": 270,
+      "source_files": 275,
       "project_loaded": true,
       "project_reason": null
     }
@@ -928,26 +928,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 69,
+      "risk_score": 51,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 15,
-        "correctness": 40,
+        "maintainability": 16,
+        "correctness": 0,
         "architecture": 0,
-        "change": 69,
+        "change": 51,
         "render_performance": 0,
         "performance": 0,
         "quality": 15,
-        "total": 25
+        "total": 15
       },
-      "maintainability_risk": 15,
-      "change_risk": 69,
+      "maintainability_risk": 16,
+      "change_risk": 51,
       "performance_risk": 0,
-      "correctness_risk": 40,
+      "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 15,
-      "total_score": 25,
+      "total_score": 15,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -961,7 +961,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -1625,6 +1625,100 @@
       }
     },
     {
+      "id": "src/components/CalendarActivityHistory",
+      "label": "CalendarActivityHistory.tsx",
+      "file": "src/components/CalendarActivityHistory.tsx",
+      "type": "component",
+      "group": "src/components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 263,
+      "risk": "high",
+      "classification": "bad",
+      "category_scores": {
+        "maintainability": 263,
+        "correctness": 0,
+        "architecture": 37,
+        "change": 0,
+        "render_performance": 115,
+        "performance": 115,
+        "quality": 45,
+        "total": 73
+      },
+      "maintainability_risk": 263,
+      "change_risk": 0,
+      "performance_risk": 115,
+      "correctness_risk": 0,
+      "architectural_risk": 37,
+      "quality_risk": 45,
+      "total_score": 73,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 17,
+        "exports": 1,
+        "functions": 5,
+        "components": 4,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/components/CalendarWeekdays",
+      "label": "CalendarWeekdays.tsx",
+      "file": "src/components/CalendarWeekdays.tsx",
+      "type": "component",
+      "group": "src/components",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 62,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 62,
+        "correctness": 0,
+        "architecture": 12,
+        "change": 0,
+        "render_performance": 11,
+        "performance": 11,
+        "quality": 45,
+        "total": 23
+      },
+      "maintainability_risk": 62,
+      "change_risk": 0,
+      "performance_risk": 11,
+      "correctness_risk": 0,
+      "architectural_risk": 12,
+      "quality_risk": 45,
+      "total_score": 23,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 16,
+        "exports": 1,
+        "functions": 1,
+        "components": 1,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/components/ChoreOutcomeView",
       "label": "ChoreOutcomeView.tsx",
       "file": "src/components/ChoreOutcomeView.tsx",
@@ -1778,22 +1872,22 @@
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 42,
+        "maintainability": 43,
         "correctness": 40,
         "architecture": 0,
-        "change": 28,
+        "change": 33,
         "render_performance": 60,
         "performance": 60,
         "quality": 18,
-        "total": 29
+        "total": 30
       },
-      "maintainability_risk": 42,
-      "change_risk": 28,
+      "maintainability_risk": 43,
+      "change_risk": 33,
       "performance_risk": 60,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 29,
+      "total_score": 30,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -2103,26 +2197,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 103,
+      "risk_score": 104,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 72,
-        "correctness": 40,
+        "maintainability": 74,
+        "correctness": 0,
         "architecture": 0,
-        "change": 80,
-        "render_performance": 103,
-        "performance": 103,
+        "change": 62,
+        "render_performance": 104,
+        "performance": 104,
         "quality": 55,
-        "total": 54
+        "total": 44
       },
-      "maintainability_risk": 72,
-      "change_risk": 80,
-      "performance_risk": 103,
-      "correctness_risk": 40,
+      "maintainability_risk": 74,
+      "change_risk": 62,
+      "performance_risk": 104,
+      "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 54,
+      "total_score": 44,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -2130,13 +2224,13 @@
       "evidence": {
         "imports": 9,
         "exports": 1,
-        "functions": 3,
+        "functions": 2,
         "components": 1,
         "types": 0,
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -2244,34 +2338,34 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 191,
+      "risk_score": 199,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 191,
+        "maintainability": 199,
         "correctness": 0,
-        "architecture": 3,
+        "architecture": 0,
         "change": 54,
-        "render_performance": 165,
-        "performance": 165,
+        "render_performance": 167,
+        "performance": 167,
         "quality": 18,
-        "total": 63
+        "total": 64
       },
-      "maintainability_risk": 191,
+      "maintainability_risk": 199,
       "change_risk": 54,
-      "performance_risk": 165,
+      "performance_risk": 167,
       "correctness_risk": 0,
-      "architectural_risk": 3,
+      "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 63,
+      "total_score": 64,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 17,
+        "imports": 22,
         "exports": 1,
-        "functions": 4,
+        "functions": 2,
         "components": 1,
         "types": 1,
         "entrypoint_roles": 0
@@ -3282,7 +3376,7 @@
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 149,
+        "maintainability": 151,
         "correctness": 40,
         "architecture": 5,
         "change": 100,
@@ -3291,7 +3385,7 @@
         "quality": 155,
         "total": 84
       },
-      "maintainability_risk": 149,
+      "maintainability_risk": 151,
       "change_risk": 100,
       "performance_risk": 23,
       "correctness_risk": 40,
@@ -3564,22 +3658,22 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 47,
+        "maintainability": 49,
         "correctness": 40,
         "architecture": 0,
         "change": 79,
-        "render_performance": 22,
-        "performance": 22,
+        "render_performance": 24,
+        "performance": 24,
         "quality": 55,
-        "total": 42
+        "total": 43
       },
-      "maintainability_risk": 47,
+      "maintainability_risk": 49,
       "change_risk": 79,
-      "performance_risk": 22,
+      "performance_risk": 24,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 55,
-      "total_score": 42,
+      "total_score": 43,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -3802,19 +3896,19 @@
         "maintainability": 133,
         "correctness": 40,
         "architecture": 0,
-        "change": 77,
+        "change": 79,
         "render_performance": 40,
         "performance": 40,
         "quality": 72,
-        "total": 62
+        "total": 63
       },
       "maintainability_risk": 133,
-      "change_risk": 77,
+      "change_risk": 79,
       "performance_risk": 40,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 72,
-      "total_score": 62,
+      "total_score": 63,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -4040,7 +4134,7 @@
         "change": 35,
         "render_performance": 5,
         "performance": 5,
-        "quality": 18,
+        "quality": 20,
         "total": 24
       },
       "maintainability_risk": 37,
@@ -4048,7 +4142,7 @@
       "performance_risk": 5,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 18,
+      "quality_risk": 20,
       "total_score": 24,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
@@ -4124,36 +4218,36 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 174,
+      "risk_score": 250,
       "risk": "high",
       "classification": "bad",
       "category_scores": {
-        "maintainability": 174,
+        "maintainability": 250,
         "correctness": 40,
-        "architecture": 20,
-        "change": 90,
-        "render_performance": 32,
-        "performance": 32,
+        "architecture": 42,
+        "change": 100,
+        "render_performance": 34,
+        "performance": 34,
         "quality": 55,
-        "total": 72
+        "total": 92
       },
-      "maintainability_risk": 174,
-      "change_risk": 90,
-      "performance_risk": 32,
+      "maintainability_risk": 250,
+      "change_risk": 100,
+      "performance_risk": 34,
       "correctness_risk": 40,
-      "architectural_risk": 20,
+      "architectural_risk": 42,
       "quality_risk": 55,
-      "total_score": 72,
+      "total_score": 92,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 8,
-        "exports": 3,
+        "imports": 9,
+        "exports": 1,
         "functions": 5,
         "components": 4,
-        "types": 3,
+        "types": 1,
         "entrypoint_roles": 0
       },
       "test_evidence": {
@@ -4742,14 +4836,14 @@
         "maintainability": 26,
         "correctness": 40,
         "architecture": 0,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
         "total": 19
       },
       "maintainability_risk": 26,
-      "change_risk": 18,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
@@ -6857,19 +6951,19 @@
         "maintainability": 70,
         "correctness": 0,
         "architecture": 0,
-        "change": 30,
+        "change": 32,
         "render_performance": 0,
         "performance": 0,
         "quality": 0,
-        "total": 18
+        "total": 19
       },
       "maintainability_risk": 70,
-      "change_risk": 30,
+      "change_risk": 32,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 0,
-      "total_score": 18,
+      "total_score": 19,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -6944,26 +7038,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 174,
+      "risk_score": 160,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 174,
+        "maintainability": 160,
         "correctness": 0,
-        "architecture": 13,
+        "architecture": 9,
         "change": 38,
         "render_performance": 0,
         "performance": 0,
         "quality": 95,
-        "total": 58
+        "total": 55
       },
-      "maintainability_risk": 174,
+      "maintainability_risk": 160,
       "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 13,
+      "architectural_risk": 9,
       "quality_risk": 95,
-      "total_score": 58,
+      "total_score": 55,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -6973,7 +7067,7 @@
         "exports": 56,
         "functions": 17,
         "components": 0,
-        "types": 35,
+        "types": 30,
         "entrypoint_roles": 0
       },
       "test_evidence": {
@@ -6991,11 +7085,11 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 62,
+      "risk_score": 65,
       "risk": "medium",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 62,
+        "maintainability": 65,
         "correctness": 40,
         "architecture": 0,
         "change": 56,
@@ -7004,7 +7098,7 @@
         "quality": 43,
         "total": 37
       },
-      "maintainability_risk": 62,
+      "maintainability_risk": 65,
       "change_risk": 56,
       "performance_risk": 0,
       "correctness_risk": 40,
@@ -7138,20 +7232,20 @@
       "category_scores": {
         "maintainability": 120,
         "correctness": 0,
-        "architecture": 96,
+        "architecture": 0,
         "change": 62,
         "render_performance": 0,
         "performance": 0,
-        "quality": 45,
-        "total": 59
+        "quality": 18,
+        "total": 36
       },
       "maintainability_risk": 120,
       "change_risk": 62,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 96,
-      "quality_risk": 45,
-      "total_score": 59,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 36,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -7179,32 +7273,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 87,
+      "risk_score": 75,
       "risk": "high",
-      "classification": "warning",
+      "classification": "ok",
       "category_scores": {
-        "maintainability": 87,
+        "maintainability": 75,
         "correctness": 0,
-        "architecture": 36,
+        "architecture": 0,
         "change": 38,
         "render_performance": 0,
         "performance": 0,
-        "quality": 45,
-        "total": 37
+        "quality": 19,
+        "total": 24
       },
-      "maintainability_risk": 87,
+      "maintainability_risk": 75,
       "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 36,
-      "quality_risk": 45,
-      "total_score": 37,
+      "architectural_risk": 0,
+      "quality_risk": 19,
+      "total_score": 24,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 14,
+        "imports": 9,
         "exports": 2,
         "functions": 5,
         "components": 0,
@@ -7226,32 +7320,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 173,
+      "risk_score": 171,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 173,
+        "maintainability": 171,
         "correctness": 0,
-        "architecture": 100,
+        "architecture": 2,
         "change": 46,
         "render_performance": 0,
         "performance": 0,
-        "quality": 45,
-        "total": 66
+        "quality": 18,
+        "total": 43
       },
-      "maintainability_risk": 173,
+      "maintainability_risk": 171,
       "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 100,
-      "quality_risk": 45,
-      "total_score": 66,
+      "architectural_risk": 2,
+      "quality_risk": 18,
+      "total_score": 43,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 17,
+        "imports": 18,
         "exports": 1,
         "functions": 11,
         "components": 0,
@@ -7273,26 +7367,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 109,
+      "risk_score": 116,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 66,
+        "maintainability": 70,
         "correctness": 40,
         "architecture": 0,
         "change": 70,
         "render_performance": 0,
         "performance": 0,
-        "quality": 109,
-        "total": 52
+        "quality": 116,
+        "total": 54
       },
-      "maintainability_risk": 66,
+      "maintainability_risk": 70,
       "change_risk": 70,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 109,
-      "total_score": 52,
+      "quality_risk": 116,
+      "total_score": 54,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -7300,7 +7394,7 @@
       "evidence": {
         "imports": 7,
         "exports": 1,
-        "functions": 3,
+        "functions": 4,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -7320,40 +7414,40 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 55,
+      "risk_score": 62,
       "risk": "medium",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 55,
-        "correctness": 40,
+        "maintainability": 62,
+        "correctness": 0,
         "architecture": 0,
-        "change": 45,
+        "change": 27,
         "render_performance": 0,
         "performance": 0,
         "quality": 32,
-        "total": 31
+        "total": 22
       },
-      "maintainability_risk": 55,
-      "change_risk": 45,
+      "maintainability_risk": 62,
+      "change_risk": 27,
       "performance_risk": 0,
-      "correctness_risk": 40,
+      "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 32,
-      "total_score": 31,
+      "total_score": 22,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 9,
-        "exports": 3,
-        "functions": 3,
+        "exports": 4,
+        "functions": 4,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -8596,19 +8690,19 @@
         "maintainability": 38,
         "correctness": 40,
         "architecture": 0,
-        "change": 18,
+        "change": 23,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 21
+        "total": 22
       },
       "maintainability_risk": 38,
-      "change_risk": 18,
+      "change_risk": 23,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 21,
+      "total_score": 22,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -8623,6 +8717,53 @@
       },
       "test_evidence": {
         "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/hooks/useCalendarHistory",
+      "label": "useCalendarHistory.ts",
+      "file": "src/hooks/useCalendarHistory.ts",
+      "type": "hook",
+      "group": "src/hooks",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 51,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 51,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 0,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 18,
+        "total": 13
+      },
+      "maintainability_risk": 51,
+      "change_risk": 0,
+      "performance_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 18,
+      "total_score": 13,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 5,
+        "exports": 1,
+        "functions": 3,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -9333,6 +9474,53 @@
       }
     },
     {
+      "id": "src/lib/calendarHistory",
+      "label": "calendarHistory.ts",
+      "file": "src/lib/calendarHistory.ts",
+      "type": "module",
+      "group": "src/lib",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 87,
+      "risk": "high",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 87,
+        "correctness": 0,
+        "architecture": 0,
+        "change": 0,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": 26
+      },
+      "maintainability_risk": 87,
+      "change_risk": 0,
+      "performance_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 0,
+      "quality_risk": 55,
+      "total_score": 26,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 9,
+        "functions": 8,
+        "components": 0,
+        "types": 5,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": true,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
       "id": "src/lib/calendarSchedule",
       "label": "calendarSchedule.ts",
       "file": "src/lib/calendarSchedule.ts",
@@ -9717,40 +9905,40 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 53,
-      "risk": "medium",
+      "risk_score": 87,
+      "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 53,
-        "correctness": 40,
-        "architecture": 0,
-        "change": 28,
+        "maintainability": 87,
+        "correctness": 0,
+        "architecture": 12,
+        "change": 10,
         "render_performance": 0,
         "performance": 0,
-        "quality": 18,
-        "total": 25
+        "quality": 45,
+        "total": 28
       },
-      "maintainability_risk": 53,
-      "change_risk": 28,
+      "maintainability_risk": 87,
+      "change_risk": 10,
       "performance_risk": 0,
-      "correctness_risk": 40,
-      "architectural_risk": 0,
-      "quality_risk": 18,
-      "total_score": 25,
+      "correctness_risk": 0,
+      "architectural_risk": 12,
+      "quality_risk": 45,
+      "total_score": 28,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 0,
-        "exports": 4,
-        "functions": 2,
+        "exports": 9,
+        "functions": 3,
         "components": 0,
-        "types": 1,
+        "types": 3,
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -10140,11 +10328,11 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 106,
+      "risk_score": 109,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 106,
+        "maintainability": 109,
         "correctness": 0,
         "architecture": 0,
         "change": 46,
@@ -10153,7 +10341,7 @@
         "quality": 12,
         "total": 30
       },
-      "maintainability_risk": 106,
+      "maintainability_risk": 109,
       "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
@@ -10335,19 +10523,19 @@
         "maintainability": 65,
         "correctness": 0,
         "architecture": 0,
-        "change": 32,
+        "change": 37,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 26
+        "total": 27
       },
       "maintainability_risk": 65,
-      "change_risk": 32,
+      "change_risk": 37,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 45,
-      "total_score": 26,
+      "total_score": 27,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -10854,14 +11042,14 @@
         "maintainability": 59,
         "correctness": 0,
         "architecture": 0,
-        "change": 15,
+        "change": 17,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
         "total": 17
       },
       "maintainability_risk": 59,
-      "change_risk": 15,
+      "change_risk": 17,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
@@ -10941,36 +11129,36 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 214,
+      "risk_score": 257,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 214,
+        "maintainability": 257,
         "correctness": 0,
-        "architecture": 0,
-        "change": 39,
+        "architecture": 5,
+        "change": 44,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 49
+        "total": 59
       },
-      "maintainability_risk": 214,
-      "change_risk": 39,
+      "maintainability_risk": 257,
+      "change_risk": 44,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 0,
+      "architectural_risk": 5,
       "quality_risk": 18,
-      "total_score": 49,
+      "total_score": 59,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 2,
-        "exports": 21,
-        "functions": 16,
+        "exports": 25,
+        "functions": 18,
         "components": 0,
-        "types": 6,
+        "types": 8,
         "entrypoint_roles": 0
       },
       "test_evidence": {
@@ -11082,26 +11270,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 116,
+      "risk_score": 124,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 116,
+        "maintainability": 124,
         "correctness": 0,
-        "architecture": 0,
-        "change": 94,
+        "architecture": 32,
+        "change": 99,
         "render_performance": 0,
         "performance": 0,
-        "quality": 20,
-        "total": 42
+        "quality": 45,
+        "total": 55
       },
-      "maintainability_risk": 116,
-      "change_risk": 94,
+      "maintainability_risk": 124,
+      "change_risk": 99,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 0,
-      "quality_risk": 20,
-      "total_score": 42,
+      "architectural_risk": 32,
+      "quality_risk": 45,
+      "total_score": 55,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -11180,20 +11368,20 @@
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 71,
+        "maintainability": 81,
         "correctness": 0,
-        "architecture": 12,
+        "architecture": 0,
         "change": 100,
         "render_performance": 0,
         "performance": 0,
         "quality": 48,
         "total": 42
       },
-      "maintainability_risk": 71,
+      "maintainability_risk": 81,
       "change_risk": 100,
       "performance_risk": 0,
       "correctness_risk": 0,
-      "architectural_risk": 12,
+      "architectural_risk": 0,
       "quality_risk": 48,
       "total_score": 42,
       "unknown_metrics": [],
@@ -11270,26 +11458,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 80,
+      "risk_score": 88,
       "risk": "high",
       "classification": "ok",
       "category_scores": {
-        "maintainability": 80,
+        "maintainability": 88,
         "correctness": 0,
         "architecture": 0,
         "change": 20,
         "render_performance": 0,
         "performance": 0,
         "quality": 22,
-        "total": 22
+        "total": 24
       },
-      "maintainability_risk": 80,
+      "maintainability_risk": 88,
       "change_risk": 20,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 22,
-      "total_score": 22,
+      "total_score": 24,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -11317,26 +11505,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 159,
+      "risk_score": 161,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 159,
-        "correctness": 40,
-        "architecture": 0,
-        "change": 56,
+        "maintainability": 161,
+        "correctness": 0,
+        "architecture": 1,
+        "change": 38,
         "render_performance": 70,
         "performance": 70,
         "quality": 55,
-        "total": 63
+        "total": 53
       },
-      "maintainability_risk": 159,
-      "change_risk": 56,
+      "maintainability_risk": 161,
+      "change_risk": 38,
       "performance_risk": 70,
-      "correctness_risk": 40,
-      "architectural_risk": 0,
+      "correctness_risk": 0,
+      "architectural_risk": 1,
       "quality_risk": 55,
-      "total_score": 63,
+      "total_score": 53,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -11350,7 +11538,7 @@
         "entrypoint_roles": 0
       },
       "test_evidence": {
-        "direct_import_association": false,
+        "direct_import_association": true,
         "suite_status": "passed",
         "coverage_status": "not_collected"
       }
@@ -12029,19 +12217,19 @@
         "maintainability": 86,
         "correctness": 0,
         "architecture": 0,
-        "change": 41,
+        "change": 46,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 31
+        "total": 32
       },
       "maintainability_risk": 86,
-      "change_risk": 41,
+      "change_risk": 46,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 45,
-      "total_score": 31,
+      "total_score": 32,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12076,19 +12264,19 @@
         "maintainability": 105,
         "correctness": 0,
         "architecture": 0,
-        "change": 5,
+        "change": 10,
         "render_performance": 161,
         "performance": 161,
         "quality": 19,
-        "total": 38
+        "total": 39
       },
       "maintainability_risk": 105,
-      "change_risk": 5,
+      "change_risk": 10,
       "performance_risk": 161,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 19,
-      "total_score": 38,
+      "total_score": 39,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12170,19 +12358,19 @@
         "maintainability": 147,
         "correctness": 0,
         "architecture": 0,
-        "change": 5,
+        "change": 10,
         "render_performance": 100,
         "performance": 100,
         "quality": 18,
-        "total": 40
+        "total": 41
       },
       "maintainability_risk": 147,
-      "change_risk": 5,
+      "change_risk": 10,
       "performance_risk": 100,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 40,
+      "total_score": 41,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12217,19 +12405,19 @@
         "maintainability": 245,
         "correctness": 40,
         "architecture": 0,
-        "change": 23,
+        "change": 28,
         "render_performance": 184,
         "performance": 184,
         "quality": 18,
-        "total": 76
+        "total": 77
       },
       "maintainability_risk": 245,
-      "change_risk": 23,
+      "change_risk": 28,
       "performance_risk": 184,
       "correctness_risk": 40,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 76,
+      "total_score": 77,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12311,14 +12499,14 @@
         "maintainability": 70,
         "correctness": 0,
         "architecture": 0,
-        "change": 23,
+        "change": 28,
         "render_performance": 0,
         "performance": 0,
         "quality": 20,
         "total": 21
       },
       "maintainability_risk": 70,
-      "change_risk": 23,
+      "change_risk": 28,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
@@ -12358,19 +12546,19 @@
         "maintainability": 86,
         "correctness": 0,
         "architecture": 0,
-        "change": 29,
+        "change": 34,
         "render_performance": 0,
         "performance": 0,
         "quality": 18,
-        "total": 24
+        "total": 25
       },
       "maintainability_risk": 86,
-      "change_risk": 29,
+      "change_risk": 34,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 18,
-      "total_score": 24,
+      "total_score": 25,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12426,6 +12614,53 @@
         "imports": 2,
         "exports": 4,
         "functions": 3,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "passed",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/ui/calendarHistoryAssets",
+      "label": "calendarHistoryAssets.ts",
+      "file": "src/ui/calendarHistoryAssets.ts",
+      "type": "module",
+      "group": "src/ui",
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "entrypoint_roles": [],
+      "risk_score": 40,
+      "risk": "medium",
+      "classification": "ok",
+      "category_scores": {
+        "maintainability": 24,
+        "correctness": 40,
+        "architecture": 0,
+        "change": 18,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 0,
+        "total": 15
+      },
+      "maintainability_risk": 24,
+      "change_risk": 18,
+      "performance_risk": 0,
+      "correctness_risk": 40,
+      "architectural_risk": 0,
+      "quality_risk": 0,
+      "total_score": 15,
+      "unknown_metrics": [],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 7,
+        "exports": 2,
+        "functions": 1,
         "components": 0,
         "types": 0,
         "entrypoint_roles": 0
@@ -12633,26 +12868,26 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 86,
-      "risk": "high",
+      "risk_score": 64,
+      "risk": "medium",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 62,
+        "maintainability": 52,
         "correctness": 40,
         "architecture": 0,
         "change": 64,
         "render_performance": 0,
         "performance": 0,
-        "quality": 86,
-        "total": 46
+        "quality": 38,
+        "total": 35
       },
-      "maintainability_risk": 62,
+      "maintainability_risk": 52,
       "change_risk": 64,
       "performance_risk": 0,
       "correctness_risk": 40,
       "architectural_risk": 0,
-      "quality_risk": 86,
-      "total_score": 46,
+      "quality_risk": 38,
+      "total_score": 35,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
@@ -12660,7 +12895,7 @@
       "evidence": {
         "imports": 3,
         "exports": 4,
-        "functions": 7,
+        "functions": 5,
         "components": 0,
         "types": 7,
         "entrypoint_roles": 0
@@ -13056,32 +13291,32 @@
       "workspace_id": "mystarquest",
       "workspace_name": "mystarquest",
       "entrypoint_roles": [],
-      "risk_score": 109,
+      "risk_score": 115,
       "risk": "high",
       "classification": "warning",
       "category_scores": {
-        "maintainability": 109,
+        "maintainability": 115,
         "correctness": 0,
         "architecture": 0,
         "change": 43,
         "render_performance": 0,
         "performance": 0,
         "quality": 45,
-        "total": 36
+        "total": 37
       },
-      "maintainability_risk": 109,
+      "maintainability_risk": 115,
       "change_risk": 43,
       "performance_risk": 0,
       "correctness_risk": 0,
       "architectural_risk": 0,
       "quality_risk": 45,
-      "total_score": 36,
+      "total_score": 37,
       "unknown_metrics": [],
       "risk_model_id": "tsrqlens.architecture_risk",
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 18,
+        "imports": 20,
         "exports": 7,
         "functions": 8,
         "components": 0,
@@ -15206,6 +15441,369 @@
       "line": 15
     },
     {
+      "id": "import:src/components/CalendarActivityHistory:react:1",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useState, type CSSProperties, type ReactNode } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/contexts/ThemeContext:2",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/contexts/ThemeContext",
+      "type": "type_only_import",
+      "source": "import type { Theme } from '../contexts/ThemeContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/contexts/SelectedDateContext:3",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/contexts/SelectedDateContext",
+      "type": "static_import",
+      "source": "import { useSelectedDate } from '../contexts/SelectedDateContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/lib/today:4",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/lib/today",
+      "type": "static_import",
+      "source": "import { parseDateKey } from '../lib/today'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/lib/calendarHistory:5",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/lib/calendarHistory",
+      "type": "static_import",
+      "source": "import { selectCalendarHistory, shiftHistoryDate, type CalendarHistoryEntry, type HistoryPeriod, type HistoryView, } from '../lib/calendarHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/ui/calendarHistoryAssets:12",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/ui/calendarHistoryAssets",
+      "type": "static_import",
+      "source": "import { historyIcon, historyPeriodIcons } from '../ui/calendarHistoryAssets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/ui/themeAssets:13",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/ui/themeAssets",
+      "type": "static_import",
+      "source": "import { getThemeAsset } from '../ui/themeAssets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/assets/chores/assets:14",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/assets/chores/assets",
+      "type": "static_import",
+      "source": "import { getChoreImage } from '../assets/chores/assets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 14
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/assets/rewards/assets:15",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/assets/rewards/assets",
+      "type": "static_import",
+      "source": "import { getRewardImage } from '../assets/rewards/assets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 15
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/assets/global/star.svg:16",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/assets/global/star.svg",
+      "type": "static_import",
+      "source": "import starImage from '../assets/global/star.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/ui/SegmentedChoiceControl:17",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/ui/SegmentedChoiceControl",
+      "type": "static_import",
+      "source": "import SegmentedChoiceControl from './ui/SegmentedChoiceControl'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 17
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/ui/ResourceLoadingIcon:18",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/ui/ResourceLoadingIcon",
+      "type": "static_import",
+      "source": "import ResourceLoadingIcon from './ui/ResourceLoadingIcon'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 18
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/ExpandableAgendaItem:19",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/ExpandableAgendaItem",
+      "type": "static_import",
+      "source": "import ExpandableAgendaItem from './ExpandableAgendaItem'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 19
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/AgendaTime:20",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/AgendaTime",
+      "type": "static_import",
+      "source": "import AgendaTime from './AgendaTime'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 20
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/tokens/index:21",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/tokens/index",
+      "type": "static_import",
+      "source": "import { uiTokens } from '../tokens'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 21
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/DayAgenda.css:22",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/DayAgenda.css",
+      "type": "static_import",
+      "source": "import './DayAgenda.css'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 22
+    },
+    {
+      "id": "import:src/components/CalendarActivityHistory:src/components/CalendarActivityHistory.css:23",
+      "from": "src/components/CalendarActivityHistory",
+      "to": "src/components/CalendarActivityHistory.css",
+      "type": "static_import",
+      "source": "import './CalendarActivityHistory.css'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 23
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/contexts/ThemeContext:1",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/contexts/ThemeContext",
+      "type": "type_only_import",
+      "source": "import type { Theme } from '../contexts/ThemeContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/mon-princess.svg:2",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/mon-princess.svg",
+      "type": "static_import",
+      "source": "import moon from '../assets/calendar/weekdays/mon-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/tue-princess.svg:3",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/tue-princess.svg",
+      "type": "static_import",
+      "source": "import courage from '../assets/calendar/weekdays/tue-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/wed-princess.svg:4",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/wed-princess.svg",
+      "type": "static_import",
+      "source": "import wisdom from '../assets/calendar/weekdays/wed-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/thu-princess.svg:5",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/thu-princess.svg",
+      "type": "static_import",
+      "source": "import thunder from '../assets/calendar/weekdays/thu-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/fri-princess.svg:6",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/fri-princess.svg",
+      "type": "static_import",
+      "source": "import love from '../assets/calendar/weekdays/fri-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 6
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/sat-princess.svg:7",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/sat-princess.svg",
+      "type": "static_import",
+      "source": "import saturn from '../assets/calendar/weekdays/sat-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 7
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/sun-princess.svg:8",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/sun-princess.svg",
+      "type": "static_import",
+      "source": "import sun from '../assets/calendar/weekdays/sun-princess.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 8
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/mon-teenie.webp:9",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/mon-teenie.webp",
+      "type": "static_import",
+      "source": "import twinkle from '../assets/calendar/weekdays/mon-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 9
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/tue-teenie.webp:10",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/tue-teenie.webp",
+      "type": "static_import",
+      "source": "import gogo from '../assets/calendar/weekdays/tue-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 10
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/wed-teenie.webp:11",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/wed-teenie.webp",
+      "type": "static_import",
+      "source": "import dada from '../assets/calendar/weekdays/wed-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/thu-teenie.webp:12",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/thu-teenie.webp",
+      "type": "static_import",
+      "source": "import giggle from '../assets/calendar/weekdays/thu-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/fri-teenie.webp:13",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/fri-teenie.webp",
+      "type": "static_import",
+      "source": "import heart from '../assets/calendar/weekdays/fri-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/sat-teenie.webp:14",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/sat-teenie.webp",
+      "type": "static_import",
+      "source": "import hula from '../assets/calendar/weekdays/sat-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 14
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/assets/calendar/weekdays/sun-teenie.webp:15",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/assets/calendar/weekdays/sun-teenie.webp",
+      "type": "static_import",
+      "source": "import happy from '../assets/calendar/weekdays/sun-teenie.webp'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 15
+    },
+    {
+      "id": "import:src/components/CalendarWeekdays:src/components/CalendarWeekdays.css:16",
+      "from": "src/components/CalendarWeekdays",
+      "to": "src/components/CalendarWeekdays.css",
+      "type": "static_import",
+      "source": "import './CalendarWeekdays.css'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
       "id": "import:src/components/ChoreOutcomeView:src/contexts/ThemeContext:1",
       "from": "src/components/ChoreOutcomeView",
       "to": "src/contexts/ThemeContext",
@@ -15947,14 +16545,14 @@
       "from": "src/components/PositionalNotation",
       "to": "src/lib/positionalNotationProblems",
       "type": "static_import",
-      "source": "import { generateProgressivePositionalNotationProblem, MAX_ONE_CROWN_TENS, MAX_TWO_CROWN_DIGIT, type PositionalNotationDifficulty, } from '../lib/positionalNotationProblems'",
+      "source": "import { generateProgressivePositionalNotationProblem, getPlaceValueTotal, MAX_ONE_CROWN_TENS, MAX_TWO_CROWN_DIGIT, type PositionalNotationDifficulty, type PlaceValueKind, type Pla",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 4
     },
     {
-      "id": "import:src/components/PositionalNotation:src/components/ui/ActivityControls:10",
+      "id": "import:src/components/PositionalNotation:src/components/ui/ActivityControls:13",
       "from": "src/components/PositionalNotation",
       "to": "src/components/ui/ActivityControls",
       "type": "type_only_import",
@@ -15962,10 +16560,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 13
     },
     {
-      "id": "import:src/components/PositionalNotation:src/components/ui/CrownDifficultyControl:11",
+      "id": "import:src/components/PositionalNotation:src/components/ui/CrownDifficultyControl:14",
       "from": "src/components/PositionalNotation",
       "to": "src/components/ui/CrownDifficultyControl",
       "type": "static_import",
@@ -15973,18 +16571,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 14
     },
     {
-      "id": "import:src/components/PositionalNotation:src/components/ui/PositionalNotationPlayArea:14",
+      "id": "import:src/components/PositionalNotation:src/components/ui/PositionalNotationPlayArea:17",
       "from": "src/components/PositionalNotation",
       "to": "src/components/ui/PositionalNotationPlayArea",
       "type": "static_import",
-      "source": "import PositionalNotationPlayArea, { type PlaceValueKind, type PlaceValues, } from './ui/PositionalNotationPlayArea'",
+      "source": "import PositionalNotationPlayArea from './ui/PositionalNotationPlayArea'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 17
     },
     {
       "id": "import:src/components/PositionalNotation:src/components/ui/MathActivityShell:18",
@@ -16086,7 +16684,51 @@
       "line": 2
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/ui/themeAssets:1",
+      "id": "import:src/components/SchoolCalendar:src/components/CalendarActivityHistory:1",
+      "from": "src/components/SchoolCalendar",
+      "to": "src/components/CalendarActivityHistory",
+      "type": "static_import",
+      "source": "import CalendarActivityHistory from './CalendarActivityHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/components/SchoolCalendar:src/ui/calendarHistoryAssets:2",
+      "from": "src/components/SchoolCalendar",
+      "to": "src/ui/calendarHistoryAssets",
+      "type": "static_import",
+      "source": "import { historyIcon } from '../ui/calendarHistoryAssets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/components/SchoolCalendar:src/hooks/useCalendarHistory:3",
+      "from": "src/components/SchoolCalendar",
+      "to": "src/hooks/useCalendarHistory",
+      "type": "static_import",
+      "source": "import { useCalendarHistory } from '../hooks/useCalendarHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/components/SchoolCalendar:src/lib/calendarHistory:4",
+      "from": "src/components/SchoolCalendar",
+      "to": "src/lib/calendarHistory",
+      "type": "type_only_import",
+      "source": "import type { HistoryView } from '../lib/calendarHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/components/SchoolCalendar:src/ui/themeAssets:5",
       "from": "src/components/SchoolCalendar",
       "to": "src/ui/themeAssets",
       "type": "static_import",
@@ -16094,10 +16736,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 1
+      "line": 5
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/ui/seasonAssets:2",
+      "id": "import:src/components/SchoolCalendar:src/ui/seasonAssets:6",
       "from": "src/components/SchoolCalendar",
       "to": "src/ui/seasonAssets",
       "type": "static_import",
@@ -16105,21 +16747,21 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 2
+      "line": 6
     },
     {
-      "id": "import:src/components/SchoolCalendar:react:3",
+      "id": "import:src/components/SchoolCalendar:react:7",
       "from": "src/components/SchoolCalendar",
       "to": "react",
       "type": "static_import",
-      "source": "import { useEffect, useMemo, useState } from 'react'",
+      "source": "import { useMemo, useState } from 'react'",
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 3
+      "line": 7
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/contexts/ThemeContext:4",
+      "id": "import:src/components/SchoolCalendar:src/contexts/ThemeContext:8",
       "from": "src/components/SchoolCalendar",
       "to": "src/contexts/ThemeContext",
       "type": "type_only_import",
@@ -16127,10 +16769,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 4
+      "line": 8
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/contexts/SelectedDateContext:5",
+      "id": "import:src/components/SchoolCalendar:src/contexts/SelectedDateContext:9",
       "from": "src/components/SchoolCalendar",
       "to": "src/contexts/SelectedDateContext",
       "type": "static_import",
@@ -16138,10 +16780,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 5
+      "line": 9
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/lib/today:6",
+      "id": "import:src/components/SchoolCalendar:src/lib/today:10",
       "from": "src/components/SchoolCalendar",
       "to": "src/lib/today",
       "type": "static_import",
@@ -16149,10 +16791,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 6
+      "line": 10
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/hooks/useSchoolCalendar:12",
+      "id": "import:src/components/SchoolCalendar:src/hooks/useSchoolCalendar:16",
       "from": "src/components/SchoolCalendar",
       "to": "src/hooks/useSchoolCalendar",
       "type": "static_import",
@@ -16160,10 +16802,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 16
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/hooks/useCalendarSchedule:13",
+      "id": "import:src/components/SchoolCalendar:src/hooks/useCalendarSchedule:17",
       "from": "src/components/SchoolCalendar",
       "to": "src/hooks/useCalendarSchedule",
       "type": "static_import",
@@ -16171,10 +16813,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 17
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/lib/calendarSchedule:14",
+      "id": "import:src/components/SchoolCalendar:src/lib/calendarSchedule:18",
       "from": "src/components/SchoolCalendar",
       "to": "src/lib/calendarSchedule",
       "type": "static_import",
@@ -16182,10 +16824,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 18
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/components/DayAgenda:15",
+      "id": "import:src/components/SchoolCalendar:src/components/DayAgenda:19",
       "from": "src/components/SchoolCalendar",
       "to": "src/components/DayAgenda",
       "type": "static_import",
@@ -16193,10 +16835,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 19
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/components/SchoolEvents:16",
+      "id": "import:src/components/SchoolCalendar:src/components/SchoolEvents:20",
       "from": "src/components/SchoolCalendar",
       "to": "src/components/SchoolEvents",
       "type": "static_import",
@@ -16204,10 +16846,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 20
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/components/TheatreEvents:17",
+      "id": "import:src/components/SchoolCalendar:src/components/TheatreEvents:21",
       "from": "src/components/SchoolCalendar",
       "to": "src/components/TheatreEvents",
       "type": "static_import",
@@ -16215,10 +16857,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 17
+      "line": 21
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/lib/theatreEvents:18",
+      "id": "import:src/components/SchoolCalendar:src/lib/theatreEvents:22",
       "from": "src/components/SchoolCalendar",
       "to": "src/lib/theatreEvents",
       "type": "static_import",
@@ -16226,10 +16868,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 18
+      "line": 22
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/ui/theatreEventAssets:19",
+      "id": "import:src/components/SchoolCalendar:src/ui/theatreEventAssets:23",
       "from": "src/components/SchoolCalendar",
       "to": "src/ui/theatreEventAssets",
       "type": "static_import",
@@ -16237,10 +16879,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 19
+      "line": 23
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/lib/schoolCalendarData:20",
+      "id": "import:src/components/SchoolCalendar:src/lib/schoolCalendarData:24",
       "from": "src/components/SchoolCalendar",
       "to": "src/lib/schoolCalendarData",
       "type": "static_import",
@@ -16248,10 +16890,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 20
+      "line": 24
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/ui/schoolEventAssets:21",
+      "id": "import:src/components/SchoolCalendar:src/ui/schoolEventAssets:25",
       "from": "src/components/SchoolCalendar",
       "to": "src/ui/schoolEventAssets",
       "type": "static_import",
@@ -16259,10 +16901,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 21
+      "line": 25
     },
     {
-      "id": "import:src/components/SchoolCalendar:src/tokens/index:22",
+      "id": "import:src/components/SchoolCalendar:src/tokens/index:26",
       "from": "src/components/SchoolCalendar",
       "to": "src/tokens/index",
       "type": "static_import",
@@ -16270,7 +16912,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 22
+      "line": 26
+    },
+    {
+      "id": "import:src/components/SchoolCalendar:src/components/CalendarWeekdays:28",
+      "from": "src/components/SchoolCalendar",
+      "to": "src/components/CalendarWeekdays",
+      "type": "static_import",
+      "source": "import CalendarWeekdays from './CalendarWeekdays'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 28
     },
     {
       "id": "import:src/components/SchoolCalendarSync:react:1",
@@ -18361,6 +19014,17 @@
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 8
+    },
+    {
+      "id": "import:src/components/ui/PositionalNotationPlayArea:src/lib/positionalNotationProblems:9",
+      "from": "src/components/ui/PositionalNotationPlayArea",
+      "to": "src/lib/positionalNotationProblems",
+      "type": "static_import",
+      "source": "import { PLACE_VALUE_FACTORS, POSITIONAL_NOTATION_PLACES, type PlaceValueKind, type PlaceValues, type PositionalNotationDifficulty, } from '../../lib/positionalNotationProblems'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 9
     },
     {
       "id": "import:src/components/ui/PrimaryActionImageContext:react:1",
@@ -22070,62 +22734,7 @@
       "line": 22
     },
     {
-      "id": "import:src/data/useRewards:firebase/firestore:1",
-      "from": "src/data/useRewards",
-      "to": "firebase/firestore",
-      "type": "static_import",
-      "source": "import { doc, updateDoc } from 'firebase/firestore'",
-      "from_workspace": "mystarquest",
-      "to_workspace": null,
-      "workspace_dependency": false,
-      "line": 1
-    },
-    {
-      "id": "import:src/data/useRewards:src/firebaseDb:2",
-      "from": "src/data/useRewards",
-      "to": "src/firebaseDb",
-      "type": "static_import",
-      "source": "import { db } from '../firebaseDb'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 2
-    },
-    {
-      "id": "import:src/data/useRewards:src/offline/actions:3",
-      "from": "src/data/useRewards",
-      "to": "src/offline/actions",
-      "type": "static_import",
-      "source": "import { saveDocument } from '../offline/actions'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 3
-    },
-    {
-      "id": "import:src/data/useRewards:src/offline/platform:4",
-      "from": "src/data/useRewards",
-      "to": "src/offline/platform",
-      "type": "static_import",
-      "source": "import { isOfflineEnabled } from '../offline/platform'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 4
-    },
-    {
-      "id": "import:src/data/useRewards:src/sharing/scope:5",
-      "from": "src/data/useRewards",
-      "to": "src/sharing/scope",
-      "type": "static_import",
-      "source": "import { parseChildScope } from '../sharing/scope'",
-      "from_workspace": "mystarquest",
-      "to_workspace": "mystarquest",
-      "workspace_dependency": false,
-      "line": 5
-    },
-    {
-      "id": "import:src/data/useRewards:react:8",
+      "id": "import:src/data/useRewards:react:3",
       "from": "src/data/useRewards",
       "to": "react",
       "type": "static_import",
@@ -22133,10 +22742,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 8
+      "line": 3
     },
     {
-      "id": "import:src/data/useRewards:src/data/useChildren:9",
+      "id": "import:src/data/useRewards:src/data/useChildren:4",
       "from": "src/data/useRewards",
       "to": "src/data/useChildren",
       "type": "static_import",
@@ -22144,10 +22753,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 9
+      "line": 4
     },
     {
-      "id": "import:src/data/useRewards:src/auth/AuthContext:10",
+      "id": "import:src/data/useRewards:src/auth/AuthContext:5",
       "from": "src/data/useRewards",
       "to": "src/auth/AuthContext",
       "type": "static_import",
@@ -22155,10 +22764,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 10
+      "line": 5
     },
     {
-      "id": "import:src/data/useRewards:src/sharing/ChildAccessContext:11",
+      "id": "import:src/data/useRewards:src/sharing/ChildAccessContext:6",
       "from": "src/data/useRewards",
       "to": "src/sharing/ChildAccessContext",
       "type": "static_import",
@@ -22166,10 +22775,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 11
+      "line": 6
     },
     {
-      "id": "import:src/data/useRewards:src/contexts/ActiveChildContext:12",
+      "id": "import:src/data/useRewards:src/contexts/ActiveChildContext:7",
       "from": "src/data/useRewards",
       "to": "src/contexts/ActiveChildContext",
       "type": "static_import",
@@ -22177,10 +22786,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 7
     },
     {
-      "id": "import:src/data/useRewards:src/lib/starActions:13",
+      "id": "import:src/data/useRewards:src/lib/starActions:8",
       "from": "src/data/useRewards",
       "to": "src/lib/starActions",
       "type": "static_import",
@@ -22188,10 +22797,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 8
     },
     {
-      "id": "import:src/data/useRewards:src/data/types:14",
+      "id": "import:src/data/useRewards:src/data/types:9",
       "from": "src/data/useRewards",
       "to": "src/data/types",
       "type": "static_import",
@@ -22199,10 +22808,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 9
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserCollection:15",
+      "id": "import:src/data/useRewards:src/data/useUserCollection:10",
       "from": "src/data/useRewards",
       "to": "src/data/useUserCollection",
       "type": "static_import",
@@ -22210,18 +22819,18 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 10
     },
     {
-      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:16",
+      "id": "import:src/data/useRewards:src/data/useUserDocumentUpdates:11",
       "from": "src/data/useRewards",
       "to": "src/data/useUserDocumentUpdates",
       "type": "static_import",
-      "source": "import { createUserDocument, deleteUserDocument, } from './useUserDocumentUpdates'",
+      "source": "import { createUserDocument, deleteUserDocument, updateUserDocument, } from './useUserDocumentUpdates'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 11
     },
     {
       "id": "import:src/data/useTests:src/sharing/scope:1",
@@ -22239,7 +22848,7 @@
       "from": "src/data/useTests",
       "to": "firebase/firestore",
       "type": "static_import",
-      "source": "import { doc, runTransaction, updateDoc } from 'firebase/firestore'",
+      "source": "import { doc, runTransaction } from 'firebase/firestore'",
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
@@ -22411,6 +23020,17 @@
       "line": 35
     },
     {
+      "id": "import:src/data/useTests:src/data/useUserDocumentUpdates:36",
+      "from": "src/data/useTests",
+      "to": "src/data/useUserDocumentUpdates",
+      "type": "static_import",
+      "source": "import { updateUserDocument } from './useUserDocumentUpdates'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 36
+    },
+    {
       "id": "import:src/data/useUserCollection:react:1",
       "from": "src/data/useUserCollection",
       "to": "react",
@@ -22470,7 +23090,7 @@
       "from": "src/data/useUserCollection",
       "to": "src/offline/model",
       "type": "type_only_import",
-      "source": "import type { CollectionName } from '../offline/model'",
+      "source": "import type { ReadCollection } from '../offline/model'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -23610,6 +24230,61 @@
       "line": 1
     },
     {
+      "id": "import:src/hooks/useCalendarHistory:react:1",
+      "from": "src/hooks/useCalendarHistory",
+      "to": "react",
+      "type": "static_import",
+      "source": "import { useCallback, useMemo, useState } from 'react'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/hooks/useCalendarHistory:src/sharing/ChildAccessContext:2",
+      "from": "src/hooks/useCalendarHistory",
+      "to": "src/sharing/ChildAccessContext",
+      "type": "static_import",
+      "source": "import { useDataScope } from '../sharing/ChildAccessContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/hooks/useCalendarHistory:src/data/useUserCollection:3",
+      "from": "src/hooks/useCalendarHistory",
+      "to": "src/data/useUserCollection",
+      "type": "static_import",
+      "source": "import { useUserCollection } from '../data/useUserCollection'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/hooks/useCalendarHistory:src/lib/calendarHistory:4",
+      "from": "src/hooks/useCalendarHistory",
+      "to": "src/lib/calendarHistory",
+      "type": "static_import",
+      "source": "import { buildCalendarHistory } from '../lib/calendarHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/hooks/useCalendarHistory:src/offline/model:5",
+      "from": "src/hooks/useCalendarHistory",
+      "to": "src/offline/model",
+      "type": "type_only_import",
+      "source": "import type { ReadCollection } from '../offline/model'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
       "id": "import:src/hooks/useCalendarSchedule:react:1",
       "from": "src/hooks/useCalendarSchedule",
       "to": "react",
@@ -24028,6 +24703,17 @@
       "line": 16
     },
     {
+      "id": "import:src/lib/calendarHistory:src/lib/today:1",
+      "from": "src/lib/calendarHistory",
+      "to": "src/lib/today",
+      "type": "static_import",
+      "source": "import { buildDateKey, getTodayDescriptor, parseDateKey } from './today'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
       "id": "import:src/lib/calendarSchedule:zod:1",
       "from": "src/lib/calendarSchedule",
       "to": "zod",
@@ -24325,7 +25011,7 @@
       "line": 44
     },
     {
-      "id": "import:src/lib/starActions:src/offline/actions:142",
+      "id": "import:src/lib/starActions:src/offline/actions:150",
       "from": "src/lib/starActions",
       "to": "src/offline/actions",
       "type": "dynamic_import",
@@ -24333,7 +25019,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 142
+      "line": 150
     },
     {
       "id": "import:src/lib/tabNavigation:src/ui/themeAssets:1",
@@ -24967,14 +25653,14 @@
       "from": "src/offline/runtime",
       "to": "src/offline/model",
       "type": "static_import",
-      "source": "import { collections, type CollectionName, type LocalDocument } from './model'",
+      "source": "import { collections, historyDocuments, type ReadCollection, type LocalDocument, } from './model'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 13
     },
     {
-      "id": "import:src/offline/runtime:src/offline/persistence:14",
+      "id": "import:src/offline/runtime:src/offline/persistence:19",
       "from": "src/offline/runtime",
       "to": "src/offline/persistence",
       "type": "static_import",
@@ -24982,10 +25668,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 19
     },
     {
-      "id": "import:src/offline/runtime:src/offline/store:15",
+      "id": "import:src/offline/runtime:src/offline/store:20",
       "from": "src/offline/runtime",
       "to": "src/offline/store",
       "type": "static_import",
@@ -24993,10 +25679,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 20
     },
     {
-      "id": "import:src/offline/runtime:src/offline/sync:16",
+      "id": "import:src/offline/runtime:src/offline/sync:21",
       "from": "src/offline/runtime",
       "to": "src/offline/sync",
       "type": "static_import",
@@ -25004,10 +25690,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 21
     },
     {
-      "id": "import:src/offline/runtime:src/offline/firebaseTransport:17",
+      "id": "import:src/offline/runtime:src/offline/firebaseTransport:22",
       "from": "src/offline/runtime",
       "to": "src/offline/firebaseTransport",
       "type": "static_import",
@@ -25015,10 +25701,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 17
+      "line": 22
     },
     {
-      "id": "import:src/offline/runtime:src/offline/selectors:22",
+      "id": "import:src/offline/runtime:src/offline/selectors:27",
       "from": "src/offline/runtime",
       "to": "src/offline/selectors",
       "type": "static_import",
@@ -25026,10 +25712,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 22
+      "line": 27
     },
     {
-      "id": "import:src/offline/runtime:src/lib/snapshotStore:23",
+      "id": "import:src/offline/runtime:src/lib/snapshotStore:28",
       "from": "src/offline/runtime",
       "to": "src/lib/snapshotStore",
       "type": "static_import",
@@ -25037,10 +25723,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 23
+      "line": 28
     },
     {
-      "id": "import:src/offline/runtime:src/sharing/scope:24",
+      "id": "import:src/offline/runtime:src/sharing/scope:29",
       "from": "src/offline/runtime",
       "to": "src/sharing/scope",
       "type": "static_import",
@@ -25048,10 +25734,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 24
+      "line": 29
     },
     {
-      "id": "import:src/offline/runtime:src/offline/persistence:25",
+      "id": "import:src/offline/runtime:src/offline/persistence:30",
       "from": "src/offline/runtime",
       "to": "src/offline/persistence",
       "type": "type_only_import",
@@ -25059,10 +25745,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 25
+      "line": 30
     },
     {
-      "id": "import:src/offline/runtime:src/offline/model:26",
+      "id": "import:src/offline/runtime:src/offline/model:31",
       "from": "src/offline/runtime",
       "to": "src/offline/model",
       "type": "static_import",
@@ -25070,7 +25756,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 26
+      "line": 31
     },
     {
       "id": "import:src/offline/selectors:src/offline/model:1",
@@ -25088,14 +25774,14 @@
       "from": "src/offline/store",
       "to": "src/offline/model",
       "type": "static_import",
-      "source": "import { emptyState, mergeSharedProgress, rebuildSharedProgress, enqueue, latestDocument, type Action, type CollectionName, type LocalDocument, type OfflineState, } from './model'",
+      "source": "import { emptyState, operationHistory, type HistoryCollection, mergeSharedProgress, rebuildSharedProgress, enqueue, latestDocument, type Action, type CollectionName, type LocalDocu",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
       "line": 1
     },
     {
-      "id": "import:src/offline/store:src/offline/persistence:12",
+      "id": "import:src/offline/store:src/offline/persistence:14",
       "from": "src/offline/store",
       "to": "src/offline/persistence",
       "type": "type_only_import",
@@ -25103,10 +25789,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 12
+      "line": 14
     },
     {
-      "id": "import:src/offline/store:src/lib/snapshotStore:13",
+      "id": "import:src/offline/store:src/lib/snapshotStore:15",
       "from": "src/offline/store",
       "to": "src/lib/snapshotStore",
       "type": "static_import",
@@ -25114,10 +25800,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 13
+      "line": 15
     },
     {
-      "id": "import:src/offline/store:src/offline/transport:14",
+      "id": "import:src/offline/store:src/offline/transport:16",
       "from": "src/offline/store",
       "to": "src/offline/transport",
       "type": "type_only_import",
@@ -25125,10 +25811,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 14
+      "line": 16
     },
     {
-      "id": "import:src/offline/store:src/offline/importWebProgress:15",
+      "id": "import:src/offline/store:src/offline/importWebProgress:17",
       "from": "src/offline/store",
       "to": "src/offline/importWebProgress",
       "type": "static_import",
@@ -25136,10 +25822,10 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 15
+      "line": 17
     },
     {
-      "id": "import:src/offline/store:src/sharing/scope:16",
+      "id": "import:src/offline/store:src/sharing/scope:18",
       "from": "src/offline/store",
       "to": "src/sharing/scope",
       "type": "static_import",
@@ -25147,7 +25833,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
-      "line": 16
+      "line": 18
     },
     {
       "id": "import:src/offline/sync:src/offline/model:1",
@@ -25341,7 +26027,7 @@
       "from": "src/pages/ChoreCreationFlow",
       "to": "src/assets/chores/assets",
       "type": "static_import",
-      "source": "import { getChoreImageOptions } from '../assets/chores/assets'",
+      "source": "import { getChoreImage, getChoreImageOptions } from '../assets/chores/assets'",
       "from_workspace": "mystarquest",
       "to_workspace": "mystarquest",
       "workspace_dependency": false,
@@ -27416,6 +28102,83 @@
       "line": 2
     },
     {
+      "id": "import:src/ui/calendarHistoryAssets:src/lib/calendarHistory:1",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/lib/calendarHistory",
+      "type": "type_only_import",
+      "source": "import type { HistoryPeriod } from '../lib/calendarHistory'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/assets/calendar/period-day.svg:2",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/assets/calendar/period-day.svg",
+      "type": "static_import",
+      "source": "import day from '../assets/calendar/period-day.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/assets/calendar/period-week.svg:3",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/assets/calendar/period-week.svg",
+      "type": "static_import",
+      "source": "import week from '../assets/calendar/period-week.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/assets/calendar/period-month.svg:4",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/assets/calendar/period-month.svg",
+      "type": "static_import",
+      "source": "import month from '../assets/calendar/period-month.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/assets/calendar/period-year.svg:5",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/assets/calendar/period-year.svg",
+      "type": "static_import",
+      "source": "import year from '../assets/calendar/period-year.svg'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/contexts/ThemeContext:7",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/contexts/ThemeContext",
+      "type": "type_only_import",
+      "source": "import type { Theme } from '../contexts/ThemeContext'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 7
+    },
+    {
+      "id": "import:src/ui/calendarHistoryAssets:src/ui/themeAssets:8",
+      "from": "src/ui/calendarHistoryAssets",
+      "to": "src/ui/themeAssets",
+      "type": "static_import",
+      "source": "import { getThemeAsset, type ThemeAssetRole } from './themeAssets'",
+      "from_workspace": "mystarquest",
+      "to_workspace": "mystarquest",
+      "workspace_dependency": false,
+      "line": 8
+    },
+    {
       "id": "import:src/ui/choreModeDefinitions:src/data/types:1",
       "from": "src/ui/choreModeDefinitions",
       "to": "src/data/types",
@@ -28285,7 +29048,29 @@
       "line": 17
     },
     {
-      "id": "import:src/ui/themeAssets:src/assets/themes/princess/now-character.png:18",
+      "id": "import:src/ui/themeAssets:src/assets/themes/princess/practice-piano.png:18",
+      "from": "src/ui/themeAssets",
+      "to": "src/assets/themes/princess/practice-piano.png",
+      "type": "static_import",
+      "source": "import practicePiano from '../assets/themes/princess/practice-piano.png'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 18
+    },
+    {
+      "id": "import:src/ui/themeAssets:src/assets/themes/princess/practice-judo.png:19",
+      "from": "src/ui/themeAssets",
+      "to": "src/assets/themes/princess/practice-judo.png",
+      "type": "static_import",
+      "source": "import practiceJudo from '../assets/themes/princess/practice-judo.png'",
+      "from_workspace": "mystarquest",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 19
+    },
+    {
+      "id": "import:src/ui/themeAssets:src/assets/themes/princess/now-character.png:20",
       "from": "src/ui/themeAssets",
       "to": "src/assets/themes/princess/now-character.png",
       "type": "static_import",
@@ -28293,7 +29078,7 @@
       "from_workspace": "mystarquest",
       "to_workspace": null,
       "workspace_dependency": false,
-      "line": 18
+      "line": 20
     },
     {
       "id": "import:src/ui/themeOptions:src/assets/themes/princess/princess.svg:1",

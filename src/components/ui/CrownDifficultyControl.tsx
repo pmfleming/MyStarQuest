@@ -30,7 +30,8 @@ const CrownDifficultyControl = <T extends string>({
     role="radiogroup"
     aria-label={ariaLabel}
     style={{
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))`,
       minHeight: uiTokens.listActionHeight,
       background: theme.colors.surface,
       borderRadius: uiTokens.listActionRadius,
@@ -52,7 +53,7 @@ const CrownDifficultyControl = <T extends string>({
           aria-checked={isSelected}
           onClick={() => onChange(option.value)}
           style={{
-            flex: 1,
+            minWidth: 0,
             padding: 0,
             borderRadius: uiTokens.listActionRadius - uiTokens.controlInset / 2,
             border: 'none',
@@ -64,8 +65,10 @@ const CrownDifficultyControl = <T extends string>({
           <span
             aria-hidden="true"
             style={{
-              display: 'flex',
+              display: 'grid',
+              gridTemplateColumns: `repeat(${Math.min(option.crowns, 2)}, ${crownSize}px)`,
               alignItems: 'center',
+              justifyItems: 'center',
               justifyContent: 'center',
               gap: uiTokens.activityTokens.mathCounterGap,
               width: '100%',
@@ -78,6 +81,8 @@ const CrownDifficultyControl = <T extends string>({
                 alt=""
                 decoding="async"
                 style={{
+                  gridColumn:
+                    option.crowns === 3 && index === 0 ? '1 / -1' : undefined,
                   width: crownSize,
                   height: crownSize,
                   objectFit: 'contain',

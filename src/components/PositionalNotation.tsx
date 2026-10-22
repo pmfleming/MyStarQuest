@@ -3,30 +3,36 @@ import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import {
   generateProgressivePositionalNotationProblem,
+  getPlaceValueTotal,
   MAX_ONE_CROWN_TENS,
   MAX_TWO_CROWN_DIGIT,
   type PositionalNotationDifficulty,
+  type PlaceValueKind,
+  type PlaceValues,
 } from '../lib/positionalNotationProblems'
 import { type ActivityChoreProps } from './ui/ActivityControls'
 import CrownDifficultyControl, {
   type CrownDifficultyOption,
 } from './ui/CrownDifficultyControl'
-import PositionalNotationPlayArea, {
-  type PlaceValueKind,
-  type PlaceValues,
-} from './ui/PositionalNotationPlayArea'
+import PositionalNotationPlayArea from './ui/PositionalNotationPlayArea'
 import MathActivityShell from './ui/MathActivityShell'
 import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
-const EMPTY_VALUES: PlaceValues = { hundreds: 0, tens: 0, ones: 0 }
+const EMPTY_VALUES: PlaceValues = {
+  hundredThousands: 0,
+  tenThousands: 0,
+  thousands: 0,
+  hundreds: 0,
+  tens: 0,
+  ones: 0,
+}
 const POSITIONAL_NOTATION_DIFFICULTIES: CrownDifficultyOption<PositionalNotationDifficulty>[] =
   [
     { value: 'one-crown', label: 'One crown', crowns: 1 },
     { value: 'two-crowns', label: 'Two crowns', crowns: 2 },
+    { value: 'three-crowns', label: 'Three crowns: 1–9,999', crowns: 3 },
+    { value: 'four-crowns', label: 'Four crowns: 1–999,999', crowns: 4 },
   ]
-
-const getTotal = ({ hundreds, tens, ones }: PlaceValues) =>
-  hundreds * 100 + tens * 10 + ones
 
 const PositionalNotation = (props: ActivityChoreProps) => {
   const { theme, isRunning, totalProblems } = props
@@ -35,7 +41,6 @@ const PositionalNotation = (props: ActivityChoreProps) => {
   const [targetNumber, setTargetNumber] = useState(0)
   const [values, setValues] = useState<PlaceValues>(EMPTY_VALUES)
   const { isSeen, markSeen, clearHistory } = useProblemHistory([difficulty])
-  const isTwoCrown = difficulty === 'two-crowns'
 
   const nextProblem = useCallback(
     (nextIndex: number) => {
@@ -84,7 +89,7 @@ const PositionalNotation = (props: ActivityChoreProps) => {
     canStart: targetNumber === 0,
     onStart: () => nextProblem(0),
     onReset: resetProblem,
-    isAnswerCorrect: getTotal(values) === targetNumber,
+    isAnswerCorrect: getPlaceValueTotal(values) === targetNumber,
     onNextProblem: nextProblem,
   })
 
@@ -107,6 +112,7 @@ const PositionalNotation = (props: ActivityChoreProps) => {
           options={POSITIONAL_NOTATION_DIFFICULTIES}
           onChange={handleDifficultyChange}
           ariaLabel="Positional notation difficulty"
+          crownSize={16}
         />
       }
     >
@@ -115,8 +121,12 @@ const PositionalNotation = (props: ActivityChoreProps) => {
           theme={theme}
           targetNumber={targetNumber}
           values={values}
-          maxTens={isTwoCrown ? MAX_TWO_CROWN_DIGIT : MAX_ONE_CROWN_TENS}
-          isTwoCrown={isTwoCrown}
+          maxTens={
+            difficulty === 'one-crown'
+              ? MAX_ONE_CROWN_TENS
+              : MAX_TWO_CROWN_DIGIT
+          }
+          difficulty={difficulty}
           isCorrect={isCorrect}
           isWrong={isWrong}
           retryCount={retryCount}

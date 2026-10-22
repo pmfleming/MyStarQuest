@@ -30,7 +30,8 @@ export const useChildTaskCollection = <T extends ChildTaskCollectionItem>({
   getPersistedState,
 }: UseChildTaskCollectionArgs<T>) => {
   const { user } = useAuth()
-  const { storageKey: userId, canAdmin, timeZone } = useDataScope()
+  const { storageKey, canAdmin, timeZone } = useDataScope()
+  const userId = user ? storageKey : undefined
   const queued = isOfflineEnabled() || !!parseChildScope(userId)
   const { activeChildId } = useActiveChild()
   const todayInfo = useTodayInfo(timeZone)

@@ -11,8 +11,10 @@ export default function ExpandableAgendaItem({
   children,
   className = 'day-agenda__item',
   style,
+  ariaLabel,
 }: {
   children: ReactNode
+  ariaLabel?: string
   className?: string
   style?: CSSProperties
 }) {
@@ -65,6 +67,7 @@ export default function ExpandableAgendaItem({
         role="button"
         tabIndex={0}
         aria-expanded={expanded}
+        aria-label={ariaLabel}
         aria-description="Double-click, Enter, or Space toggles the size. Click outside or press Escape to collapse."
         onDoubleClick={toggleExpanded}
         onKeyDown={(event) => keyboardActivation(event, toggleExpanded)}

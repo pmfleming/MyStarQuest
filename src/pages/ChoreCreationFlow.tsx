@@ -8,7 +8,7 @@ import ScheduleDayTypeControl from '../components/ui/ScheduleDayTypeControl'
 import StarDisplay from '../components/ui/StarDisplay'
 import { InlineChoiceList } from '../components/ui/InlineChoiceList'
 import { uiTokens } from '../tokens'
-import { getChoreImageOptions } from '../assets/chores/assets'
+import { getChoreImage, getChoreImageOptions } from '../assets/chores/assets'
 import {
   DEFAULT_DINNER_BITES,
   DEFAULT_DINNER_DURATION_SECONDS,
@@ -90,6 +90,24 @@ const typeOptions = [
       starValue: DEFAULT_WATER_TOILET_STARS,
     },
   },
+  {
+    type: 'standard',
+    label: 'Practice piano',
+    defaultDraft: {
+      ...defaultDraft,
+      title: 'Practice piano',
+      imageKey: 'practicePiano',
+    },
+  },
+  {
+    type: 'standard',
+    label: 'Practice judo',
+    defaultDraft: {
+      ...defaultDraft,
+      title: 'Practice judo',
+      imageKey: 'practiceJudo',
+    },
+  },
 ] satisfies readonly ChoreTypeOption[]
 
 const getOption = (type: ChoreType): ChoreTypeOption => {
@@ -133,9 +151,8 @@ const ChoreCreationFlow = ({
     setDraft((current) => ({ ...current, ...patch }))
   }
 
-  const selectType = (type: ChoreType) => {
-    const option = getOption(type)
-    setSelectedType(type)
+  const selectType = (option: ChoreTypeOption) => {
+    setSelectedType(option.type)
     setDraft(option.defaultDraft)
   }
 
@@ -184,11 +201,13 @@ const ChoreCreationFlow = ({
         <InlineChoiceList
           theme={theme}
           choices={typeOptions.map((option) => ({
-            key: option.type,
+            key: option.defaultDraft.imageKey || option.type,
             label: option.label,
-            icon: getTaskTypeIcon(option.type, theme.id),
+            icon:
+              getChoreImage(option.defaultDraft.imageKey, theme.id) ??
+              getTaskTypeIcon(option.type, theme.id),
             disabled: isSaving,
-            onSelect: () => selectType(option.type),
+            onSelect: () => selectType(option),
           }))}
           onCancel={onCancel}
         />

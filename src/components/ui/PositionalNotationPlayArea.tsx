@@ -6,16 +6,20 @@ import { getThemeAsset } from '../../ui/themeAssets'
 import { EmptyCounterHint, MathCounter, TenRod } from './ActivityMathCounters'
 import MathActivityPlayArea from './MathActivityPlayArea'
 import { NumberStepper } from './StepperButton'
-
-export type PlaceValueKind = 'hundreds' | 'tens' | 'ones'
-export type PlaceValues = Record<PlaceValueKind, number>
+import {
+  PLACE_VALUE_FACTORS,
+  POSITIONAL_NOTATION_PLACES,
+  type PlaceValueKind,
+  type PlaceValues,
+  type PositionalNotationDifficulty,
+} from '../../lib/positionalNotationProblems'
 
 type PositionalNotationPlayAreaProps = {
   theme: Theme
   targetNumber: number
   values: PlaceValues
   maxTens: number
-  isTwoCrown: boolean
+  difficulty: PositionalNotationDifficulty
   isCorrect: boolean
   isWrong: boolean
   retryCount: number
@@ -27,7 +31,31 @@ const { mathCounterSize, mathCounterGap } = uiTokens.activityTokens
 const MAX_DIGIT = 9
 const STEPPER_HEIGHT = 44
 
+const LARGE_PLACE_STYLE = {
+  width: 30,
+  fontSize: '1rem',
+  valueWidth: undefined,
+  minValueWidth: 34,
+  gap: 2,
+  padding: undefined,
+} as const
+
 const PLACE_VALUE_DETAILS = {
+  hundredThousands: {
+    ...LARGE_PLACE_STYLE,
+    label: 'Hundred thousands',
+    color: 'accent',
+  },
+  tenThousands: {
+    ...LARGE_PLACE_STYLE,
+    label: 'Ten thousands',
+    color: 'secondary',
+  },
+  thousands: {
+    ...LARGE_PLACE_STYLE,
+    label: 'Thousands',
+    color: 'primary',
+  },
   hundreds: {
     label: 'Hundreds',
     factor: 100,
@@ -69,15 +97,70 @@ const CounterCollection = ({
   color,
   theme,
   compact,
+  expanded,
 }: {
   kind: PlaceValueKind
   value: number
   color: string
   theme: Theme
   compact: boolean
+  expanded: boolean
 }) => {
   if (value === 0) {
-    return <EmptyCounterHint color={color} fontFamily={theme.fonts.body} />
+    return (
+      <div style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+        <EmptyCounterHint color={color} fontFamily={theme.fonts.body} />
+      </div>
+    )
+  }
+
+  const factor = PLACE_VALUE_FACTORS[kind]
+  if (factor >= 1_000) {
+    return Array.from({ length: value }, (_, index) => (
+      <div
+        key={`${kind}-${index}`}
+        aria-hidden="true"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: expanded ? '100%' : 40,
+          flexShrink: 0,
+          gap: expanded ? 0 : 2,
+          animation: `pv-pop-in 0.3s cubic-bezier(0.175,0.885,0.32,1.275) ${index * 0.05}s both`,
+        }}
+      >
+        <img
+          src={getThemeAsset(theme.id, 'placeValueCounter')}
+          alt=""
+          style={{
+            width: expanded ? 16 : 34,
+            height: expanded ? 16 : 34,
+            objectFit: 'contain',
+            filter: `drop-shadow(0 2px 1px ${color}55)`,
+          }}
+        />
+        <span
+          style={{
+            backgroundColor: theme.colors.surface,
+            border: `1px solid ${color}`,
+            borderRadius: 6,
+            padding: expanded ? 0 : '1px 4px',
+            width: expanded ? '100%' : undefined,
+            boxSizing: 'border-box',
+            textAlign: 'center',
+            color,
+            fontFamily: theme.fonts.body,
+            fontSize: expanded ? 8 : 11,
+            fontWeight: 800,
+            lineHeight: 1.2,
+          }}
+        >
+          {factor / 1_000}K
+        </span>
+      </div>
+    ))
   }
 
   if (kind === 'hundreds') {
@@ -86,8 +169,8 @@ const CounterCollection = ({
         key={`hundred-${index}`}
         aria-hidden="true"
         style={{
-          width: 30,
-          height: 30,
+          width: expanded ? 20 : 30,
+          height: expanded ? 20 : 30,
           border: `2px solid ${color}`,
           borderRadius: 4,
           backgroundColor: `${color}18`,
@@ -105,7 +188,7 @@ const CounterCollection = ({
       <TenRod
         key={`ten-${index}`}
         src={getThemeAsset(theme.id, 'placeValueCounter')}
-        counterSize={compact ? 5 : 12}
+        counterSize={expanded ? 3 : compact ? 5 : 12}
         delay={index * 0.05}
         animationName="pv-pop-in"
         borderColor={color}
@@ -114,7 +197,11 @@ const CounterCollection = ({
     ))
   }
 
-  const counterSize = compact ? 24 : Math.max(mathCounterSize + 12, 30)
+  const counterSize = expanded
+    ? 20
+    : compact
+      ? 24
+      : Math.max(mathCounterSize + 12, 30)
   return Array.from({ length: value }, (_, index) => (
     <MathCounter
       key={`one-${index}`}
@@ -129,15 +216,29 @@ const CounterCollection = ({
 
 const getCounterLayout = (
   kind: PlaceValueKind,
-  compact: boolean
+  compact: boolean,
+  expanded: boolean
 ): CSSProperties => {
+  if (expanded) {
+    return {
+      display: 'grid',
+      gridTemplateColumns: `repeat(${kind === 'tens' ? 9 : 5}, minmax(0, 1fr))`,
+      alignContent: 'center',
+      justifyItems: 'center',
+      alignItems: 'center',
+      gap: 2,
+      width: '100%',
+      minHeight: 56,
+    }
+  }
+
   const base: CSSProperties = {
     justifyContent: 'center',
     minHeight: compact ? 112 : 100,
     width: '100%',
   }
 
-  if (kind === 'ones') {
+  if (kind === 'ones' || PLACE_VALUE_FACTORS[kind] >= 1_000) {
     return {
       ...base,
       display: 'flex',
@@ -158,10 +259,9 @@ const getCounterLayout = (
         ? 'repeat(3, max-content)'
         : `repeat(${compact ? 3 : 6}, max-content)`,
     alignContent: 'center',
-    alignItems: kind === 'tens' ? 'flex-end' : undefined,
-    columnGap: kind === 'tens' ? mathCounterGap : 2,
-    rowGap: kind === 'tens' ? mathCounterGap : 2,
-    paddingBottom: kind === 'tens' ? 4 : undefined,
+    ...(kind === 'tens'
+      ? { alignItems: 'flex-end', gap: mathCounterGap, paddingBottom: 4 }
+      : { gap: 2 }),
   }
 }
 
@@ -170,6 +270,7 @@ const PlaceValueColumn = ({
   value,
   max,
   compact,
+  expanded,
   isCorrect,
   theme,
   onChange,
@@ -178,13 +279,15 @@ const PlaceValueColumn = ({
   value: number
   max: number
   compact: boolean
+  expanded: boolean
   isCorrect: boolean
   theme: Theme
   onChange: (value: number) => void
 }) => {
   const details = PLACE_VALUE_DETAILS[kind]
+  const factor = PLACE_VALUE_FACTORS[kind]
   const color = theme.colors[details.color]
-  const stepperWidth = compact ? 28 : details.width
+  const stepperWidth = expanded ? 32 : compact ? 28 : details.width
   const unitLabel = details.label.toLowerCase().slice(0, -1)
 
   return (
@@ -204,18 +307,20 @@ const PlaceValueColumn = ({
     >
       <span
         style={{
-          fontSize: compact ? 15 : 18,
+          fontSize: expanded ? 12 : compact ? 15 : 18,
           fontWeight: 'bold',
           fontFamily: theme.fonts.heading,
           color,
-          marginBottom: 6,
+          marginBottom: expanded ? 2 : 6,
+          textAlign: 'center',
+          lineHeight: expanded ? '16px' : undefined,
         }}
       >
         {details.label}
       </span>
       <NumberStepper
         theme={theme}
-        value={value * details.factor}
+        value={expanded ? value : value * factor}
         disabled={isCorrect}
         decrease={{
           onClick: () => onChange(Math.max(0, value - 1)),
@@ -230,13 +335,17 @@ const PlaceValueColumn = ({
         buttonStyle={{
           width: stepperWidth,
           minWidth: stepperWidth,
-          height: STEPPER_HEIGHT,
+          height: expanded ? 32 : STEPPER_HEIGHT,
+          ...(expanded && {
+            borderWidth: 2,
+            boxShadow: '0 2px 0 rgba(0, 0, 0, 0.12)',
+          }),
           fontSize: compact ? '0.9rem' : details.fontSize,
           flexShrink: 0,
         }}
         style={{
           gap: details.gap,
-          marginBottom: 8,
+          marginBottom: expanded ? 2 : 8,
           width: '100%',
           paddingInline: details.padding,
           boxSizing: 'border-box',
@@ -250,15 +359,31 @@ const PlaceValueColumn = ({
           flexShrink: 0,
         }}
       />
-      <div style={getCounterLayout(kind, compact)}>
+      <div style={getCounterLayout(kind, compact, expanded)}>
         <CounterCollection
           kind={kind}
           value={value}
           color={color}
           theme={theme}
           compact={compact}
+          expanded={expanded}
         />
       </div>
+      {expanded && (
+        <span
+          style={{
+            color,
+            fontFamily: theme.fonts.body,
+            fontSize: 11,
+            lineHeight: '14px',
+            paddingBlock: 2,
+            textAlign: 'center',
+          }}
+        >
+          {value} × {factor >= 1_000 ? `${factor / 1_000}K` : factor} ={' '}
+          {(value * factor).toLocaleString('en-US')}
+        </span>
+      )}
     </div>
   )
 }
@@ -266,16 +391,18 @@ const PlaceValueColumn = ({
 const TargetNumber = ({
   targetNumber,
   theme,
+  compact,
 }: {
   targetNumber: number
   theme: Theme
+  compact: boolean
 }) => (
   <div
     style={{
       background: theme.colors.surface,
       border: `3px dashed ${theme.colors.primary}33`,
       borderRadius: 16,
-      padding: '8px 16px',
+      padding: compact ? '2px 12px' : '8px 16px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -287,14 +414,14 @@ const TargetNumber = ({
   >
     <span
       style={{
-        fontSize: 48,
+        fontSize: compact ? 32 : 48,
         fontWeight: 900,
         fontFamily: theme.fonts.heading,
         color: theme.colors.primary,
         lineHeight: 1,
       }}
     >
-      {targetNumber}
+      {targetNumber.toLocaleString('en-US')}
     </span>
   </div>
 )
@@ -304,22 +431,21 @@ const PositionalNotationPlayArea = ({
   targetNumber,
   values,
   maxTens,
-  isTwoCrown,
+  difficulty,
   isCorrect,
   isWrong,
   retryCount,
   results,
   onChange,
 }: PositionalNotationPlayAreaProps) => {
-  const kinds: PlaceValueKind[] = isTwoCrown
-    ? ['hundreds', 'tens', 'ones']
-    : ['tens', 'ones']
-  const maxByKind: PlaceValues = {
-    hundreds: MAX_DIGIT,
-    tens: maxTens,
-    ones: MAX_DIGIT,
-  }
-  const plusPositions = isTwoCrown ? ['33.33%', '66.66%'] : ['56.66%']
+  const kinds = POSITIONAL_NOTATION_PLACES[difficulty]
+  const isTwoCrown = difficulty === 'two-crowns'
+  const expanded = kinds.length > 3
+  const plusPositions = expanded
+    ? []
+    : isTwoCrown
+      ? ['33.33%', '66.66%']
+      : ['56.66%']
   return (
     <MathActivityPlayArea
       theme={theme}
@@ -328,16 +454,23 @@ const PositionalNotationPlayArea = ({
       isCorrect={isCorrect}
       isWrong={isWrong}
       retryCount={retryCount}
+      resultBarStyle={expanded ? { height: 24 } : undefined}
     >
-      <TargetNumber targetNumber={targetNumber} theme={theme} />
+      <TargetNumber
+        targetNumber={targetNumber}
+        theme={theme}
+        compact={expanded}
+      />
       <div style={{ position: 'relative', width: '100%' }}>
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: isTwoCrown
-              ? 'repeat(3, minmax(0, 1fr))'
-              : '1.7fr 1.3fr',
-            gap: 2,
+            gridTemplateColumns: expanded
+              ? 'repeat(2, minmax(0, 1fr))'
+              : isTwoCrown
+                ? 'repeat(3, minmax(0, 1fr))'
+                : '1.7fr 1.3fr',
+            gap: expanded ? 4 : 2,
             width: '100%',
             alignItems: 'stretch',
           }}
@@ -347,8 +480,9 @@ const PositionalNotationPlayArea = ({
               key={kind}
               kind={kind}
               value={values[kind]}
-              max={maxByKind[kind]}
-              compact={isTwoCrown}
+              max={kind === 'tens' ? maxTens : MAX_DIGIT}
+              compact={difficulty !== 'one-crown'}
+              expanded={expanded}
               isCorrect={isCorrect}
               theme={theme}
               onChange={(value) => onChange(kind, value)}

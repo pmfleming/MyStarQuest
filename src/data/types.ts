@@ -195,56 +195,28 @@ type EatingTask = TaskBase &
   }
 export type MathDifficulty = 'easy' | 'hard'
 
-type MathTask = TaskBase & {
-  taskType: 'math'
-  mathTotalProblems: number
-  mathDifficulty?: MathDifficulty
-}
-type LargeNumbersTask = TaskBase & {
-  taskType: 'large-numbers'
-  largeNumbersTotalProblems: number
-}
-type FractionsTask = TaskBase & {
-  taskType: 'fractions'
-  fractionsTotalProblems: number
-  fractionsMaxDenominator?: number
-}
-type PositionalNotationTask = TaskBase & {
-  taskType: 'positional-notation'
-  pvTotalProblems: number
-}
-type AlphabetTask = TaskBase & {
-  taskType: 'alphabet'
-  alphabetTotalProblems: number
-}
-type SpellingTask = TaskBase & {
-  taskType: 'spelling'
-  spellingTotalProblems: number
-}
-type AnimalsTask = TaskBase & {
-  taskType: 'animals'
-  animalsTotalProblems: number
+type TestSettings = {
+  math: { mathTotalProblems: number; mathDifficulty?: MathDifficulty }
+  'large-numbers': { largeNumbersTotalProblems: number }
+  fractions: {
+    fractionsTotalProblems: number
+    fractionsMaxDenominator?: number
+  }
+  'positional-notation': { pvTotalProblems: number }
+  alphabet: { alphabetTotalProblems: number }
+  spelling: { spellingTotalProblems: number }
+  animals: { animalsTotalProblems: number }
 }
 export type WaterToiletTask = TaskBase &
   WaterToiletTaskState & {
     taskType: 'watertoiletcheck'
   }
 
-export type TaskRecord =
-  | StandardTask
-  | EatingTask
-  | MathTask
-  | LargeNumbersTask
-  | FractionsTask
-  | PositionalNotationTask
-  | AlphabetTask
-  | SpellingTask
-  | AnimalsTask
-  | WaterToiletTask
-
-export type ChoreRecord = Extract<TaskRecord, { taskType: ChoreType }>
-
-export type TestRecord = Extract<TaskRecord, { taskType: TestType }>
+export type ChoreRecord = StandardTask | EatingTask | WaterToiletTask
+export type TestRecord = {
+  [Type in TestType]: TaskBase & { taskType: Type } & TestSettings[Type]
+}[TestType]
+export type TaskRecord = ChoreRecord | TestRecord
 
 // Quiz variants share a state shape while preserving their stored field names.
 type TestStatePrefixes = {
@@ -298,35 +270,15 @@ export function isTestWithEphemeral(
 
 // ── Updatable field subsets ──
 
+// Keep writable field types aligned with snapshot validation without its passthrough index signature.
+type TaskSnapshot = z.infer<typeof taskSnapshotDataSchema>
 export type TaskUpdatableFields = Partial<{
-  title: string
-  schoolDayEnabled: boolean
-  nonSchoolDayEnabled: boolean
-  starValue: number
-  isRepeating: boolean
-  imageKey: string
-  dinnerDurationSeconds: number
-  dinnerTotalBites: number
-  mathTotalProblems: number
-  mathDifficulty: MathDifficulty
-  largeNumbersTotalProblems: number
-  fractionsTotalProblems: number
-  fractionsMaxDenominator: number
-  pvTotalProblems: number
-  alphabetTotalProblems: number
-  spellingTotalProblems: number
-  animalsTotalProblems: number
-  lastAttemptedAt: number | null
-  lastAttemptDateKey: string
-  lastAttemptOutcome: TaskOutcome | null
-  manageCompletedAt: number | null
-  manageDinnerRemainingSeconds: number
-  manageDinnerBitesLeft: number
-  manageDinnerTimerStartedAt: number | null
-  manageDinnerCompletedAt: number | null
-  manageWaterLevel: WaterLevel
-  manageToiletStatus: ToiletStatus
-  manageWaterToiletCompletedAt: number | null
+  [
+    Key in Exclude<
+      keyof typeof taskSnapshotDataSchema.shape,
+      'childId' | 'category' | 'taskType' | 'createdAt'
+    >
+  ]: TaskSnapshot[Key]
 }>
 
 // ── Constants ──

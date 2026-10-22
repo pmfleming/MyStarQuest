@@ -1,5 +1,6 @@
 import { expect, it } from 'vitest'
 import {
+  parseOperation,
   activityPatch,
   documentPatch,
 } from '../../functions/src/sharing/policy'
@@ -119,4 +120,49 @@ it('normalizes activity timestamps and admits only state belonging to that activ
       '2026-10-03'
     )
   ).toThrow()
+})
+
+it('checks sequence and revision boundaries without accepting coercible numbers', () => {
+  const operation = {
+    id: 'op',
+    deviceId: 'device',
+    sequence: 1,
+    occurredAt: 0,
+    action: {
+      kind: 'activity',
+      collection: 'tests',
+      entityId: 'task',
+      childId: 'child',
+      dateKey: '2026-10-22',
+      complete: true,
+      reset: false,
+      consume: false,
+      generation: 0,
+      revision: 0,
+      patch: {},
+    },
+  }
+  expect(parseOperation(operation)).toEqual(operation)
+  expect(
+    parseOperation({ ...operation, sequence: Number.MAX_SAFE_INTEGER }).sequence
+  ).toBe(Number.MAX_SAFE_INTEGER)
+  expect(() => parseOperation({ ...operation, sequence: 0 })).toThrow()
+  for (const value of [
+    -1,
+    0.5,
+    Number.MAX_SAFE_INTEGER + 1,
+    Infinity,
+    NaN,
+    '1',
+    undefined,
+  ]) {
+    expect(() => parseOperation({ ...operation, sequence: value })).toThrow()
+    for (const field of ['generation', 'revision'])
+      expect(() =>
+        parseOperation({
+          ...operation,
+          action: { ...operation.action, [field]: value },
+        })
+      ).toThrow('Refresh this activity')
+  }
 })

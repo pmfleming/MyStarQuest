@@ -171,13 +171,14 @@ export class SharingService {
         .collection(`users/${ownerUid}/${name}`)
         .where('childId', '==', childId)
         .get()
-    const [rewards, chores, tests, deviceStates, redemptions] =
+    const [rewards, chores, tests, deviceStates, redemptions, starEvents] =
       await Promise.all([
         this.db.collection(`users/${ownerUid}/rewards`).get(),
         childItems('chores'),
         childItems('tests'),
         childItems('deviceActivities'),
         childItems('redemptions'),
+        childItems('starEvents'),
       ])
     const report = {
       ready: !dryRun,
@@ -274,6 +275,16 @@ export class SharingService {
         `${ref.path}/rewards/${doc.id}`,
         { ...(dataOf(doc) ?? {}), childId, migratedFrom: doc.ref.path },
       ])
+    for (const [name, snapshot] of [
+      ['starEvents', starEvents],
+      ['redemptions', redemptions],
+    ] as const) {
+      for (const event of snapshot.docs)
+        writes.push([
+          `${ref.path}/${name}/legacy-${event.id}`,
+          dataOf(event) ?? {},
+        ])
+    }
     for (const [type, template] of Object.entries(TEST_TEMPLATES)) {
       if (tests.docs.some((doc) => (dataOf(doc) ?? {}).taskType === type))
         continue
@@ -687,14 +698,23 @@ export class SharingService {
             }
           }
           result.title = String(entity.title)
-          tx.set(ref.collection('redemptions').doc(receiptRef.id), {
+          const history = {
             rewardId: action.entityId,
             title: entity.title,
+            imageKey: String(entity.imageKey ?? ''),
+            occurredAt: operation.occurredAt,
+            operationId: operation.id,
             costStars: cost,
             childId,
             actorUid: caller.uid,
             createdAt: time,
-          })
+          }
+          tx.set(ref.collection('redemptions').doc(receiptRef.id), history)
+          result.history = {
+            collection: 'redemptions',
+            id: operation.id,
+            data: history,
+          }
         } else {
           const occurred = Number(operation.occurredAt)
           if (
@@ -810,15 +830,29 @@ export class SharingService {
           tx.set(progressRef, progress)
           result.progress = progress
           result.progressKey = key
-          if (action.complete && !alreadyComplete)
-            tx.set(ref.collection('starEvents').doc(receiptRef.id), {
+          if (action.complete && !alreadyComplete) {
+            const history = {
               childId,
               taskId: action.entityId,
+              taskCollection: collection,
+              taskTitle: String(entity.title ?? ''),
+              taskType: String(entity.taskType ?? ''),
+              imageKey: String(entity.imageKey ?? ''),
+              outcome: 'success',
+              occurredAt: operation.occurredAt,
+              operationId: operation.id,
               dateKey: action.dateKey,
               delta: Math.max(-before, delta),
               actorUid: caller.uid,
               createdAt: time,
-            })
+            }
+            tx.set(ref.collection('starEvents').doc(receiptRef.id), history)
+            result.history = {
+              collection: 'starEvents',
+              id: operation.id,
+              data: history,
+            }
+          }
         }
         const after = Math.max(0, before + delta)
         const document = {
