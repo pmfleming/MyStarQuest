@@ -13,7 +13,7 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:37:14.155Z",
+    "measured_at": "2026-10-22T21:49:33.190Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
-    "input_set_hash": "sha256:9a395e187fad34dc73c3bac0b1fcd60867cc14436c0612e058a656001159b7ed"
+    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
+    "input_set_hash": "sha256:85f2da3339c5f062e7c0fd9847b581ceadc58f4b8a0fdad2f9285ae537aabadd"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -126,14 +126,14 @@
   },
   "summary": {
     "components": 150,
-    "records": 160,
+    "records": 157,
     "hook_lint_findings": 0,
     "correctness_findings": 0,
     "optimization_findings": 0,
     "configuration_findings": 0,
     "unclassified_hook_findings": 0,
-    "a11y_findings": 9,
-    "a11y_tool_findings": 9,
+    "a11y_findings": 6,
+    "a11y_tool_findings": 6,
     "a11y_heuristic_findings": 0,
     "high_risk_components": 33
   },
@@ -2550,16 +2550,16 @@
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "LearningNavigation",
       "line": 50,
-      "score": 201,
+      "score": 212,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 244
+          "value": 254
         },
         {
           "kind": "many_hooks",
-          "value": 13
+          "value": 14
         }
       ],
       "kind": "component",
@@ -4613,7 +4613,7 @@
       "file": "src/components/ui/StarInfoBox.tsx",
       "name": "StarInfoBox",
       "line": 190,
-      "score": 48,
+      "score": 47,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -6263,100 +6263,6 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:3271a14f:1",
-      "rule_id": "jsx-a11y/no-noninteractive-element-interactions",
-      "kind": "a11y_no_noninteractive_element_interactions",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 226,
-      "column": 9,
-      "end_line": 272,
-      "end_column": 10,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners.",
-      "signals": [
-        {
-          "kind": "a11y_no_noninteractive_element_interactions",
-          "message": "Non-interactive elements should not be assigned mouse or keyboard event listeners."
-        }
-      ],
-      "fingerprint": "3271a14f",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/no-noninteractive-element-interactions",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_no_noninteractive_element_interactions finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:3271a14f:1",
-            "kind": "a11y_no_noninteractive_element_interactions",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:1b5169a:1",
-      "rule_id": "jsx-a11y/role-supports-aria-props",
-      "kind": "a11y_role_supports_aria_props",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 226,
-      "column": 9,
-      "end_line": 272,
-      "end_column": 10,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "The attribute aria-description is not supported by the role group.",
-      "signals": [
-        {
-          "kind": "a11y_role_supports_aria_props",
-          "message": "The attribute aria-description is not supported by the role group."
-        }
-      ],
-      "fingerprint": "1b5169a",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/role-supports-aria-props",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:1b5169a:1",
-            "kind": "a11y_role_supports_aria_props",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "eslint-plugin-jsx-a11y:232c9c14:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
@@ -6398,53 +6304,6 @@
             "id": "eslint-plugin-jsx-a11y:232c9c14:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/animalTester/PicturePortrait.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "eslint-plugin-jsx-a11y:fdd73e86:1",
-      "rule_id": "jsx-a11y/no-noninteractive-element-to-interactive-role",
-      "kind": "a11y_no_noninteractive_element_to_interactive_role",
-      "evidence_kind": "tool-rule",
-      "disposition": "warn",
-      "finding_confidence": "high",
-      "scope": "file",
-      "module_id": "src/components/ui/StarInfoBox",
-      "file": "src/components/ui/StarInfoBox.tsx",
-      "line": 207,
-      "column": 7,
-      "end_line": 207,
-      "end_column": 20,
-      "score": 60,
-      "severity": "medium",
-      "risk": "medium",
-      "source": "eslint-plugin-jsx-a11y",
-      "message": "Non-interactive elements should not be assigned interactive roles.",
-      "signals": [
-        {
-          "kind": "a11y_no_noninteractive_element_to_interactive_role",
-          "message": "Non-interactive elements should not be assigned interactive roles."
-        }
-      ],
-      "fingerprint": "fdd73e86",
-      "occurrence": 1,
-      "reason_code": "jsx-a11y/no-noninteractive-element-to-interactive-role",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 30,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this a11y_no_noninteractive_element_to_interactive_role finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "eslint-plugin-jsx-a11y:fdd73e86:1",
-            "kind": "a11y_no_noninteractive_element_to_interactive_role",
-            "file": "src/components/ui/StarInfoBox.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

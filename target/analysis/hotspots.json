@@ -13,7 +13,7 @@
     "schema_version": "0.3.0",
     "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:33.803Z",
+    "measured_at": "2026-10-22T21:48:54.101Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
-    "input_set_hash": "sha256:7f022c28365acbc5682658b8d5460c409f75bfeff8cf165de9f78631e5ecbe97"
+    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
+    "input_set_hash": "sha256:023cad139992eeab34d1e31f5f558cc09ca81548267d42f8472ed82c36781d87"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -113,26 +113,26 @@
     "stale_input": []
   },
   "summary": {
-    "source_files": 275,
-    "records": 1081,
-    "high_risk_records": 181,
-    "source_lines": 34298,
-    "functions": 806,
+    "source_files": 278,
+    "records": 1087,
+    "high_risk_records": 184,
+    "source_lines": 34354,
+    "functions": 809,
     "function_metrics": {
       "cyclomatic_complexity": {
-        "total": 2446,
-        "max": 24,
+        "total": 2451,
+        "max": 19,
         "mean": 3.03
       },
       "cognitive_complexity": {
         "total": 1783,
-        "max": 28,
-        "mean": 2.21
+        "max": 19,
+        "mean": 2.2
       },
       "halstead_effort": {
-        "total": 11385509.53,
-        "max": 467834.71,
-        "mean": 14125.94
+        "total": 11183897.5,
+        "max": 363004.22,
+        "mean": 13824.35
       }
     }
   },
@@ -495,18 +495,18 @@
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
       "line": 1,
-      "score": 257,
+      "score": 256,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/offline/model.ts: 364 lines, 72 branches, 2 imports.",
+      "message": "src/offline/model.ts: 365 lines, 71 branches, 2 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 364
+          "value": 365
         },
         {
           "kind": "branch_count",
-          "value": 72
+          "value": 71
         },
         {
           "kind": "import_count",
@@ -1362,68 +1362,6 @@
             "id": "file:src/pages/DashboardPage",
             "kind": "file",
             "file": "src/pages/DashboardPage.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/offline/model.ts:enqueue:227",
-      "kind": "function",
-      "module_id": "src/offline/model",
-      "file": "src/offline/model.ts",
-      "name": "enqueue",
-      "line": 227,
-      "score": 191,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "enqueue: cyclomatic 24, cognitive 28, nesting 2, Halstead effort 37704.55, 62 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 24
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 28
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 37704.55
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 2
-        },
-        {
-          "kind": "line_count",
-          "value": 62
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/offline/model.ts:enqueue:227",
-            "kind": "function",
-            "file": "src/offline/model.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2677,6 +2615,59 @@
       ]
     },
     {
+      "id": "file:src/components/animalTester/useAnimalSession",
+      "kind": "file",
+      "module_id": "src/components/animalTester/useAnimalSession",
+      "file": "src/components/animalTester/useAnimalSession.ts",
+      "line": 1,
+      "score": 156,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/components/animalTester/useAnimalSession.ts: 328 lines, 20 branches, 9 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 328
+        },
+        {
+          "kind": "branch_count",
+          "value": 20
+        },
+        {
+          "kind": "import_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/animalTester/useAnimalSession",
+            "kind": "file",
+            "file": "src/components/animalTester/useAnimalSession.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/AppMenu",
       "kind": "file",
       "module_id": "src/components/AppMenu",
@@ -2976,33 +2967,50 @@
       ]
     },
     {
-      "id": "file:src/components/animalTester/useAnimalSession",
-      "kind": "file",
-      "module_id": "src/components/animalTester/useAnimalSession",
-      "file": "src/components/animalTester/useAnimalSession.ts",
-      "line": 1,
-      "score": 148,
+      "id": "src/components/animalTester/LearningNavigation.tsx:LearningNavigation:50",
+      "kind": "component",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
+      "name": "LearningNavigation",
+      "line": 50,
+      "score": 147,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/components/animalTester/useAnimalSession.ts: 328 lines, 17 branches, 8 imports.",
+      "message": "LearningNavigation: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 220074.83, 254 lines.",
       "signals": [
         {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 220074.83
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
           "kind": "line_count",
-          "value": 328
+          "value": 254
         },
         {
-          "kind": "branch_count",
-          "value": 17
+          "kind": "jsx_density",
+          "value": 9
         },
         {
-          "kind": "import_count",
-          "value": 8
+          "kind": "render_branch_complexity",
+          "value": 2
         }
       ],
-      "rule_id": "ts-react-quality-lens/file",
+      "rule_id": "ts-react-quality-lens/component",
       "disposition": "review",
       "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
+      "reason_code": "ts-react-quality-lens/component",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
       "workspace_id": "mystarquest",
@@ -3017,12 +3025,12 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "file:src/components/animalTester/useAnimalSession",
-            "kind": "file",
-            "file": "src/components/animalTester/useAnimalSession.ts",
+            "id": "src/components/animalTester/LearningNavigation.tsx:LearningNavigation:50",
+            "kind": "component",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3239,59 +3247,6 @@
       ]
     },
     {
-      "id": "file:src/features/dayNightExplorer/useDayNightExplorerModel",
-      "kind": "file",
-      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
-      "line": 1,
-      "score": 142,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "src/features/dayNightExplorer/useDayNightExplorerModel.ts: 328 lines, 5 branches, 17 imports.",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 328
-        },
-        {
-          "kind": "branch_count",
-          "value": 5
-        },
-        {
-          "kind": "import_count",
-          "value": 17
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/features/dayNightExplorer/useDayNightExplorerModel",
-            "kind": "file",
-            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/AnimalTester.tsx:AnimalPlayContent:257",
       "kind": "component",
       "module_id": "src/components/AnimalTester",
@@ -3485,68 +3440,6 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:useDayNightExplorerModel:65",
-      "kind": "hook",
-      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
-      "name": "useDayNightExplorerModel",
-      "line": 65,
-      "score": 138,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "useDayNightExplorerModel: cyclomatic 5, cognitive 4, nesting 0, Halstead effort 467834.71, 260 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 5
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 4
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 467834.71
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 260
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/hook",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/hook",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:useDayNightExplorerModel:65",
-            "kind": "hook",
-            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
       "kind": "hook",
       "module_id": "src/features/dayNightExplorer/useExplorerClock",
@@ -3603,76 +3496,6 @@
             "id": "src/features/dayNightExplorer/useExplorerClock.ts:useExplorerClock:32",
             "kind": "hook",
             "file": "src/features/dayNightExplorer/useExplorerClock.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/components/animalTester/LearningNavigation.tsx:LearningNavigation:50",
-      "kind": "component",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "name": "LearningNavigation",
-      "line": 50,
-      "score": 135,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "LearningNavigation: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 195394.14, 244 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 195394.14
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 244
-        },
-        {
-          "kind": "jsx_density",
-          "value": 8
-        },
-        {
-          "kind": "render_branch_complexity",
-          "value": 2
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/component",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/component",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/components/animalTester/LearningNavigation.tsx:LearningNavigation:50",
-            "kind": "component",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -3938,6 +3761,59 @@
       ]
     },
     {
+      "id": "file:src/components/animalTester/LearningNavigation",
+      "kind": "file",
+      "module_id": "src/components/animalTester/LearningNavigation",
+      "file": "src/components/animalTester/LearningNavigation.tsx",
+      "line": 1,
+      "score": 130,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/components/animalTester/LearningNavigation.tsx: 314 lines, 14 branches, 4 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 314
+        },
+        {
+          "kind": "branch_count",
+          "value": 14
+        },
+        {
+          "kind": "import_count",
+          "value": 4
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/components/animalTester/LearningNavigation",
+            "kind": "file",
+            "file": "src/components/animalTester/LearningNavigation.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ui/StandardActionList.tsx:ListFooter:274",
       "kind": "component",
       "module_id": "src/components/ui/StandardActionList",
@@ -4002,59 +3878,6 @@
             "id": "src/components/ui/StandardActionList.tsx:ListFooter:274",
             "kind": "component",
             "file": "src/components/ui/StandardActionList.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/components/animalTester/LearningNavigation",
-      "kind": "file",
-      "module_id": "src/components/animalTester/LearningNavigation",
-      "file": "src/components/animalTester/LearningNavigation.tsx",
-      "line": 1,
-      "score": 125,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "src/components/animalTester/LearningNavigation.tsx: 304 lines, 13 branches, 4 imports.",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 304
-        },
-        {
-          "kind": "branch_count",
-          "value": 13
-        },
-        {
-          "kind": "import_count",
-          "value": 4
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/components/animalTester/LearningNavigation",
-            "kind": "file",
-            "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -5119,14 +4942,14 @@
       "module_id": "src/components/ui/StarInfoBox",
       "file": "src/components/ui/StarInfoBox.tsx",
       "line": 1,
-      "score": 113,
+      "score": 112,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/components/ui/StarInfoBox.tsx: 304 lines, 7 branches, 4 imports.",
+      "message": "src/components/ui/StarInfoBox.tsx: 299 lines, 7 branches, 4 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 304
+          "value": 299
         },
         {
           "kind": "branch_count",
@@ -5660,7 +5483,7 @@
       "score": 109,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "StarInfoBox: cyclomatic 6, cognitive 5, nesting 0, Halstead effort 35036.68, 112 lines.",
+      "message": "StarInfoBox: cyclomatic 6, cognitive 5, nesting 0, Halstead effort 39254.7, 107 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -5672,7 +5495,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 35036.68
+          "value": 39254.7
         },
         {
           "kind": "nesting_depth",
@@ -5680,11 +5503,11 @@
         },
         {
           "kind": "line_count",
-          "value": 112
+          "value": 107
         },
         {
           "kind": "jsx_density",
-          "value": 7
+          "value": 8
         },
         {
           "kind": "render_branch_complexity",
@@ -5721,12 +5544,12 @@
       ]
     },
     {
-      "id": "src/offline/model.ts:projectedSharedProgress:294",
+      "id": "src/offline/model.ts:projectedSharedProgress:295",
       "kind": "function",
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
       "name": "projectedSharedProgress",
-      "line": 294,
+      "line": 295,
       "score": 108,
       "risk": "high",
       "evidence_kind": "metric",
@@ -5774,7 +5597,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/offline/model.ts:projectedSharedProgress:294",
+            "id": "src/offline/model.ts:projectedSharedProgress:295",
             "kind": "function",
             "file": "src/offline/model.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6180,16 +6003,16 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:useAnimalSession:124",
+      "id": "src/components/animalTester/useAnimalSession.ts:useAnimalSession:125",
       "kind": "hook",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "useAnimalSession",
-      "line": 124,
+      "line": 125,
       "score": 105,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "useAnimalSession: cyclomatic 4, cognitive 3, nesting 0, Halstead effort 371764.43, 194 lines.",
+      "message": "useAnimalSession: cyclomatic 4, cognitive 3, nesting 0, Halstead effort 363004.22, 193 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -6201,7 +6024,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 371764.43
+          "value": 363004.22
         },
         {
           "kind": "nesting_depth",
@@ -6209,7 +6032,7 @@
         },
         {
           "kind": "line_count",
-          "value": 194
+          "value": 193
         }
       ],
       "rule_id": "ts-react-quality-lens/hook",
@@ -6233,7 +6056,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:useAnimalSession:124",
+            "id": "src/components/animalTester/useAnimalSession.ts:useAnimalSession:125",
             "kind": "hook",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6304,6 +6127,59 @@
       ]
     },
     {
+      "id": "file:src/lib/weather/weatherStore",
+      "kind": "file",
+      "module_id": "src/lib/weather/weatherStore",
+      "file": "src/lib/weather/weatherStore.ts",
+      "line": 1,
+      "score": 104,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/lib/weather/weatherStore.ts: 181 lines, 20 branches, 5 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 181
+        },
+        {
+          "kind": "branch_count",
+          "value": 20
+        },
+        {
+          "kind": "import_count",
+          "value": 5
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/weather/weatherStore",
+            "kind": "file",
+            "file": "src/lib/weather/weatherStore.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/ui/RepeatControl.tsx:RepeatControl:20",
       "kind": "component",
       "module_id": "src/components/ui/RepeatControl",
@@ -6368,59 +6244,6 @@
             "id": "src/components/ui/RepeatControl.tsx:RepeatControl:20",
             "kind": "component",
             "file": "src/components/ui/RepeatControl.tsx",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "file:src/lib/weather/weatherStore",
-      "kind": "file",
-      "module_id": "src/lib/weather/weatherStore",
-      "file": "src/lib/weather/weatherStore.ts",
-      "line": 1,
-      "score": 102,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "src/lib/weather/weatherStore.ts: 181 lines, 20 branches, 4 imports.",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 181
-        },
-        {
-          "kind": "branch_count",
-          "value": 20
-        },
-        {
-          "kind": "import_count",
-          "value": 4
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/weather/weatherStore",
-            "kind": "file",
-            "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6670,6 +6493,68 @@
       ]
     },
     {
+      "id": "src/offline/model.ts:prepareAction:228",
+      "kind": "function",
+      "module_id": "src/offline/model",
+      "file": "src/offline/model.ts",
+      "name": "prepareAction",
+      "line": 228,
+      "score": 99,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "prepareAction: cyclomatic 13, cognitive 12, nesting 1, Halstead effort 27151.58, 33 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 13
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 12
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 27151.58
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 33
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/offline/model.ts:prepareAction:228",
+            "kind": "function",
+            "file": "src/offline/model.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/components/CalendarActivityHistory.tsx:HistoryEntry:67",
       "kind": "component",
       "module_id": "src/components/CalendarActivityHistory",
@@ -6863,28 +6748,28 @@
       ]
     },
     {
-      "id": "src/hooks/useActivityChallenge.ts:useActivityChallenge:29",
+      "id": "src/features/dayNightExplorer/useExplorerSession.ts:useExplorerSession:25",
       "kind": "hook",
-      "module_id": "src/hooks/useActivityChallenge",
-      "file": "src/hooks/useActivityChallenge.ts",
-      "name": "useActivityChallenge",
-      "line": 29,
+      "module_id": "src/features/dayNightExplorer/useExplorerSession",
+      "file": "src/features/dayNightExplorer/useExplorerSession.ts",
+      "name": "useExplorerSession",
+      "line": 25,
       "score": 97,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "useActivityChallenge: cyclomatic 6, cognitive 5, nesting 0, Halstead effort 221621.74, 145 lines.",
+      "message": "useExplorerSession: cyclomatic 5, cognitive 4, nesting 0, Halstead effort 276633.88, 158 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
-          "value": 6
-        },
-        {
-          "kind": "cognitive_complexity",
           "value": 5
         },
         {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
           "kind": "halstead_effort",
-          "value": 221621.74
+          "value": 276633.88
         },
         {
           "kind": "nesting_depth",
@@ -6892,7 +6777,7 @@
         },
         {
           "kind": "line_count",
-          "value": 145
+          "value": 158
         }
       ],
       "rule_id": "ts-react-quality-lens/hook",
@@ -6916,9 +6801,9 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/hooks/useActivityChallenge.ts:useActivityChallenge:29",
+            "id": "src/features/dayNightExplorer/useExplorerSession.ts:useExplorerSession:25",
             "kind": "hook",
-            "file": "src/hooks/useActivityChallenge.ts",
+            "file": "src/features/dayNightExplorer/useExplorerSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -6995,6 +6880,68 @@
       ]
     },
     {
+      "id": "src/offline/model.ts:enqueue:262",
+      "kind": "function",
+      "module_id": "src/offline/model",
+      "file": "src/offline/model.ts",
+      "name": "enqueue",
+      "line": 262,
+      "score": 95,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "enqueue: cyclomatic 11, cognitive 13, nesting 2, Halstead effort 15792.12, 28 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 11
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 13
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 15792.12
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 2
+        },
+        {
+          "kind": "line_count",
+          "value": 28
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/offline/model.ts:enqueue:262",
+            "kind": "function",
+            "file": "src/offline/model.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/data/additionalAnimalKnowledge",
       "kind": "file",
       "module_id": "src/data/additionalAnimalKnowledge",
@@ -7042,6 +6989,68 @@
             "id": "file:src/data/additionalAnimalKnowledge",
             "kind": "file",
             "file": "src/data/additionalAnimalKnowledge.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/hooks/useActivityChallenge.ts:useActivityChallenge:30",
+      "kind": "hook",
+      "module_id": "src/hooks/useActivityChallenge",
+      "file": "src/hooks/useActivityChallenge.ts",
+      "name": "useActivityChallenge",
+      "line": 30,
+      "score": 94,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "useActivityChallenge: cyclomatic 6, cognitive 5, nesting 0, Halstead effort 171740.82, 137 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 6
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 5
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 171740.82
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 137
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/hook",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/hook",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/hooks/useActivityChallenge.ts:useActivityChallenge:30",
+            "kind": "hook",
+            "file": "src/hooks/useActivityChallenge.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -7365,12 +7374,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:refresh:76",
+      "id": "src/lib/weather/weatherStore.ts:refresh:77",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "refresh",
-      "line": 76,
+      "line": 77,
       "score": 91,
       "risk": "high",
       "evidence_kind": "metric",
@@ -7418,7 +7427,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:refresh:76",
+            "id": "src/lib/weather/weatherStore.ts:refresh:77",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -7877,59 +7886,6 @@
       ]
     },
     {
-      "id": "file:src/lib/schoolCalendarStore",
-      "kind": "file",
-      "module_id": "src/lib/schoolCalendarStore",
-      "file": "src/lib/schoolCalendarStore.ts",
-      "line": 1,
-      "score": 87,
-      "risk": "high",
-      "evidence_kind": "metric",
-      "message": "src/lib/schoolCalendarStore.ts: 149 lines, 16 branches, 5 imports.",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 149
-        },
-        {
-          "kind": "branch_count",
-          "value": 16
-        },
-        {
-          "kind": "import_count",
-          "value": 5
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "fix",
-          "auto_fixable": false,
-          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
-          "fix": "reduce-risk"
-        },
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/lib/schoolCalendarStore",
-            "kind": "file",
-            "file": "src/lib/schoolCalendarStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/components/SchoolEvents.tsx:eventTiming:25",
       "kind": "function",
       "module_id": "src/components/SchoolEvents",
@@ -8167,6 +8123,59 @@
             "id": "file:src/hooks/useDinnerCountdownState",
             "kind": "file",
             "file": "src/hooks/useDinnerCountdownState.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/schoolCalendarStore",
+      "kind": "file",
+      "module_id": "src/lib/schoolCalendarStore",
+      "file": "src/lib/schoolCalendarStore.ts",
+      "line": 1,
+      "score": 85,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/lib/schoolCalendarStore.ts: 142 lines, 15 branches, 6 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 142
+        },
+        {
+          "kind": "branch_count",
+          "value": 15
+        },
+        {
+          "kind": "import_count",
+          "value": 6
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/schoolCalendarStore",
+            "kind": "file",
+            "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -8702,6 +8711,59 @@
             "id": "file:src/components/ui/DragScrollRegion",
             "kind": "file",
             "file": "src/components/ui/DragScrollRegion.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/features/dayNightExplorer/useExplorerSession",
+      "kind": "file",
+      "module_id": "src/features/dayNightExplorer/useExplorerSession",
+      "file": "src/features/dayNightExplorer/useExplorerSession.ts",
+      "line": 1,
+      "score": 82,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/features/dayNightExplorer/useExplorerSession.ts: 185 lines, 5 branches, 8 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 185
+        },
+        {
+          "kind": "branch_count",
+          "value": 5
+        },
+        {
+          "kind": "import_count",
+          "value": 8
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/features/dayNightExplorer/useExplorerSession",
+            "kind": "file",
+            "file": "src/features/dayNightExplorer/useExplorerSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -9307,6 +9369,59 @@
       ]
     },
     {
+      "id": "file:src/features/dayNightExplorer/useDayNightExplorerModel",
+      "kind": "file",
+      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "line": 1,
+      "score": 80,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/features/dayNightExplorer/useDayNightExplorerModel.ts: 172 lines, 0 branches, 14 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 172
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 14
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/features/dayNightExplorer/useDayNightExplorerModel",
+            "kind": "file",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/hooks/useActivityChallenge",
       "kind": "file",
       "module_id": "src/hooks/useActivityChallenge",
@@ -9315,11 +9430,11 @@
       "score": 80,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/hooks/useActivityChallenge.ts: 213 lines, 5 branches, 3 imports.",
+      "message": "src/hooks/useActivityChallenge.ts: 206 lines, 5 branches, 4 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 213
+          "value": 206
         },
         {
           "kind": "branch_count",
@@ -9327,7 +9442,7 @@
         },
         {
           "kind": "import_count",
-          "value": 3
+          "value": 4
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
@@ -10147,6 +10262,68 @@
             "id": "file:src/components/FractionFood",
             "kind": "file",
             "file": "src/components/FractionFood.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/components/animalTester/useAnimalSession.ts:handleSoloChoice:252",
+      "kind": "function",
+      "module_id": "src/components/animalTester/useAnimalSession",
+      "file": "src/components/animalTester/useAnimalSession.ts",
+      "name": "handleSoloChoice",
+      "line": 252,
+      "score": 73,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "handleSoloChoice: cyclomatic 9, cognitive 8, nesting 1, Halstead effort 18012.93, 29 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 9
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 8
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 18012.93
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 29
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/components/animalTester/useAnimalSession.ts:handleSoloChoice:252",
+            "kind": "function",
+            "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -12098,68 +12275,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:refresh:35",
-      "kind": "function",
-      "module_id": "src/lib/schoolCalendarStore",
-      "file": "src/lib/schoolCalendarStore.ts",
-      "name": "refresh",
-      "line": 35,
-      "score": 66,
-      "risk": "medium",
-      "evidence_kind": "metric",
-      "message": "refresh: cyclomatic 7, cognitive 6, nesting 1, Halstead effort 56707.52, 41 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 7
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 6
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 56707.52
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 41
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/schoolCalendarStore.ts:refresh:35",
-            "kind": "function",
-            "file": "src/lib/schoolCalendarStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/lib/schoolCalendarStore.ts:start:77",
+      "id": "src/lib/schoolCalendarStore.ts:start:70",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "start",
-      "line": 77,
+      "line": 70,
       "score": 66,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -12201,7 +12322,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:start:77",
+            "id": "src/lib/schoolCalendarStore.ts:start:70",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -12634,12 +12755,12 @@
       ]
     },
     {
-      "id": "src/offline/model.ts:rebuildSharedProgress:327",
+      "id": "src/offline/model.ts:rebuildSharedProgress:328",
       "kind": "function",
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
       "name": "rebuildSharedProgress",
-      "line": 327,
+      "line": 328,
       "score": 65,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -12681,7 +12802,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/offline/model.ts:rebuildSharedProgress:327",
+            "id": "src/offline/model.ts:rebuildSharedProgress:328",
             "kind": "function",
             "file": "src/offline/model.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -13993,62 +14114,6 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:createSchoolCalendarStore:17",
-      "kind": "function",
-      "module_id": "src/lib/schoolCalendarStore",
-      "file": "src/lib/schoolCalendarStore.ts",
-      "name": "createSchoolCalendarStore",
-      "line": 17,
-      "score": 61,
-      "risk": "medium",
-      "evidence_kind": "metric",
-      "message": "createSchoolCalendarStore: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 263856.7, 130 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 263856.7
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 130
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/schoolCalendarStore.ts:createSchoolCalendarStore:17",
-            "kind": "function",
-            "file": "src/lib/schoolCalendarStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "file:src/components/animalTester/modeArtwork",
       "kind": "file",
       "module_id": "src/components/animalTester/modeArtwork",
@@ -14096,12 +14161,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/LearningNavigation.tsx:browseWithKeyboard:128",
+      "id": "src/components/animalTester/LearningNavigation.tsx:browseWithKeyboard:133",
       "kind": "function",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "browseWithKeyboard",
-      "line": 128,
+      "line": 133,
       "score": 60,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -14143,7 +14208,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/LearningNavigation.tsx:browseWithKeyboard:128",
+            "id": "src/components/animalTester/LearningNavigation.tsx:browseWithKeyboard:133",
             "kind": "function",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -14671,6 +14736,62 @@
       ]
     },
     {
+      "id": "src/lib/schoolCalendarStore.ts:createSchoolCalendarStore:18",
+      "kind": "function",
+      "module_id": "src/lib/schoolCalendarStore",
+      "file": "src/lib/schoolCalendarStore.ts",
+      "name": "createSchoolCalendarStore",
+      "line": 18,
+      "score": 58,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "createSchoolCalendarStore: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 208433.73, 122 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 208433.73
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 122
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/schoolCalendarStore.ts:createSchoolCalendarStore:18",
+            "kind": "function",
+            "file": "src/lib/schoolCalendarStore.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "file:src/components/ui/SegmentedChoiceControl",
       "kind": "file",
       "module_id": "src/components/ui/SegmentedChoiceControl",
@@ -15057,6 +15178,62 @@
       ]
     },
     {
+      "id": "src/lib/schoolCalendarStore.ts:refresh:36",
+      "kind": "function",
+      "module_id": "src/lib/schoolCalendarStore",
+      "file": "src/lib/schoolCalendarStore.ts",
+      "name": "refresh",
+      "line": 36,
+      "score": 57,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "refresh: cyclomatic 6, cognitive 5, nesting 1, Halstead effort 28951.73, 33 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 6
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 5
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 28951.73
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 33
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/schoolCalendarStore.ts:refresh:36",
+            "kind": "function",
+            "file": "src/lib/schoolCalendarStore.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/lib/weather/weatherCodes.ts:getPrecipitationKind:47",
       "kind": "function",
       "module_id": "src/lib/weather/weatherCodes",
@@ -15169,33 +15346,42 @@
       ]
     },
     {
-      "id": "file:src/offline/sync",
-      "kind": "file",
-      "module_id": "src/offline/sync",
-      "file": "src/offline/sync.ts",
-      "line": 1,
+      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:useDayNightExplorerModel:51",
+      "kind": "hook",
+      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
+      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "name": "useDayNightExplorerModel",
+      "line": 51,
       "score": 56,
       "risk": "medium",
       "evidence_kind": "metric",
-      "message": "src/offline/sync.ts: 153 lines, 0 branches, 5 imports.",
+      "message": "useDayNightExplorerModel: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 80654.5, 118 lines.",
       "signals": [
         {
-          "kind": "line_count",
-          "value": 153
+          "kind": "cyclomatic_complexity",
+          "value": 1
         },
         {
-          "kind": "branch_count",
+          "kind": "cognitive_complexity",
           "value": 0
         },
         {
-          "kind": "import_count",
-          "value": 5
+          "kind": "halstead_effort",
+          "value": 80654.5
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 118
         }
       ],
-      "rule_id": "ts-react-quality-lens/file",
+      "rule_id": "ts-react-quality-lens/hook",
       "disposition": "review",
       "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
+      "reason_code": "ts-react-quality-lens/hook",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
       "workspace_id": "mystarquest",
@@ -15204,12 +15390,12 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "file:src/offline/sync",
-            "kind": "file",
-            "file": "src/offline/sync.ts",
+            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:useDayNightExplorerModel:51",
+            "kind": "hook",
+            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -15272,16 +15458,16 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:requestWeather:107",
+      "id": "src/lib/weather/weatherStore.ts:requestWeather:108",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "requestWeather",
-      "line": 107,
+      "line": 108,
       "score": 56,
       "risk": "medium",
       "evidence_kind": "metric",
-      "message": "requestWeather: cyclomatic 5, cognitive 5, nesting 2, Halstead effort 28193.11, 30 lines.",
+      "message": "requestWeather: cyclomatic 5, cognitive 5, nesting 2, Halstead effort 28130.84, 29 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -15293,7 +15479,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 28193.11
+          "value": 28130.84
         },
         {
           "kind": "nesting_depth",
@@ -15301,7 +15487,7 @@
         },
         {
           "kind": "line_count",
-          "value": 30
+          "value": 29
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
@@ -15319,7 +15505,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:requestWeather:107",
+            "id": "src/lib/weather/weatherStore.ts:requestWeather:108",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -15482,42 +15668,33 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:handleSoloChoice:256",
-      "kind": "function",
-      "module_id": "src/components/animalTester/useAnimalSession",
-      "file": "src/components/animalTester/useAnimalSession.ts",
-      "name": "handleSoloChoice",
-      "line": 256,
+      "id": "file:src/offline/sync",
+      "kind": "file",
+      "module_id": "src/offline/sync",
+      "file": "src/offline/sync.ts",
+      "line": 1,
       "score": 55,
       "risk": "medium",
       "evidence_kind": "metric",
-      "message": "handleSoloChoice: cyclomatic 6, cognitive 5, nesting 1, Halstead effort 18255.45, 29 lines.",
+      "message": "src/offline/sync.ts: 142 lines, 0 branches, 6 imports.",
       "signals": [
         {
-          "kind": "cyclomatic_complexity",
-          "value": 6
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 5
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 18255.45
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
           "kind": "line_count",
-          "value": 29
+          "value": 142
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 6
         }
       ],
-      "rule_id": "ts-react-quality-lens/function",
+      "rule_id": "ts-react-quality-lens/file",
       "disposition": "review",
       "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
+      "reason_code": "ts-react-quality-lens/file",
       "semantic_decision": "confirmed",
       "estimated_effort": 15,
       "workspace_id": "mystarquest",
@@ -15526,12 +15703,12 @@
         {
           "type": "add-to-config",
           "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:handleSoloChoice:256",
-            "kind": "function",
-            "file": "src/components/animalTester/useAnimalSession.ts",
+            "id": "file:src/offline/sync",
+            "kind": "file",
+            "file": "src/offline/sync.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -20748,12 +20925,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:selectLetter:186",
+      "id": "src/components/animalTester/useAnimalSession.ts:selectLetter:187",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "selectLetter",
-      "line": 186,
+      "line": 187,
       "score": 41,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -20795,7 +20972,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:selectLetter:186",
+            "id": "src/components/animalTester/useAnimalSession.ts:selectLetter:187",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -22645,12 +22822,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:readNative:84",
+      "id": "src/lib/schoolCalendarStore.ts:readNative:77",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "readNative",
-      "line": 84,
+      "line": 77,
       "score": 38,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -22692,7 +22869,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:readNative:84",
+            "id": "src/lib/schoolCalendarStore.ts:readNative:77",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -23782,12 +23959,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:useAnimalCatalog:52",
+      "id": "src/components/animalTester/useAnimalSession.ts:useAnimalCatalog:53",
       "kind": "hook",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "useAnimalCatalog",
-      "line": 52,
+      "line": 53,
       "score": 35,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -23829,7 +24006,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:useAnimalCatalog:52",
+            "id": "src/components/animalTester/useAnimalSession.ts:useAnimalCatalog:53",
             "kind": "hook",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -29340,12 +29517,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/LearningNavigation.tsx:dismiss:85",
+      "id": "src/components/animalTester/LearningNavigation.tsx:dismiss:90",
       "kind": "function",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "dismiss",
-      "line": 85,
+      "line": 90,
       "score": 27,
       "risk": "low",
       "evidence_kind": "metric",
@@ -29387,7 +29564,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/LearningNavigation.tsx:dismiss:85",
+            "id": "src/components/animalTester/LearningNavigation.tsx:dismiss:90",
             "kind": "function",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30072,12 +30249,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:entryFor:35",
+      "id": "src/lib/weather/weatherStore.ts:entryFor:36",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "entryFor",
-      "line": 35,
+      "line": 36,
       "score": 27,
       "risk": "low",
       "evidence_kind": "metric",
@@ -30119,7 +30296,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:entryFor:35",
+            "id": "src/lib/weather/weatherStore.ts:entryFor:36",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30531,12 +30708,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/LearningNavigation.tsx:browse:99",
+      "id": "src/components/animalTester/LearningNavigation.tsx:browse:104",
       "kind": "function",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "browse",
-      "line": 99,
+      "line": 104,
       "score": 26,
       "risk": "low",
       "evidence_kind": "metric",
@@ -30578,7 +30755,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/LearningNavigation.tsx:browse:99",
+            "id": "src/components/animalTester/LearningNavigation.tsx:browse:104",
             "kind": "function",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -30587,12 +30764,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/LearningNavigation.tsx:escape:92",
+      "id": "src/components/animalTester/LearningNavigation.tsx:escape:97",
       "kind": "function",
       "module_id": "src/components/animalTester/LearningNavigation",
       "file": "src/components/animalTester/LearningNavigation.tsx",
       "name": "escape",
-      "line": 92,
+      "line": 97,
       "score": 26,
       "risk": "low",
       "evidence_kind": "metric",
@@ -30634,7 +30811,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/LearningNavigation.tsx:escape:92",
+            "id": "src/components/animalTester/LearningNavigation.tsx:escape:97",
             "kind": "function",
             "file": "src/components/animalTester/LearningNavigation.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -31600,12 +31777,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:changeCollection:208",
+      "id": "src/components/animalTester/useAnimalSession.ts:changeCollection:209",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "changeCollection",
-      "line": 208,
+      "line": 209,
       "score": 25,
       "risk": "low",
       "evidence_kind": "metric",
@@ -31647,7 +31824,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:changeCollection:208",
+            "id": "src/components/animalTester/useAnimalSession.ts:changeCollection:209",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -33843,12 +34020,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:publish:57",
+      "id": "src/lib/weather/weatherStore.ts:publish:58",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "publish",
-      "line": 57,
+      "line": 58,
       "score": 23,
       "risk": "low",
       "evidence_kind": "metric",
@@ -33890,7 +34067,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:publish:57",
+            "id": "src/lib/weather/weatherStore.ts:publish:58",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -34832,12 +35009,12 @@
       ]
     },
     {
-      "id": "src/lib/weather/weatherStore.ts:usableWeather:69",
+      "id": "src/lib/weather/weatherStore.ts:usableWeather:70",
       "kind": "function",
       "module_id": "src/lib/weather/weatherStore",
       "file": "src/lib/weather/weatherStore.ts",
       "name": "usableWeather",
-      "line": 69,
+      "line": 70,
       "score": 22,
       "risk": "low",
       "evidence_kind": "metric",
@@ -34879,7 +35056,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/weather/weatherStore.ts:usableWeather:69",
+            "id": "src/lib/weather/weatherStore.ts:usableWeather:70",
             "kind": "function",
             "file": "src/lib/weather/weatherStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -36074,6 +36251,62 @@
       ]
     },
     {
+      "id": "src/lib/withDeadline.ts:withDeadline:3",
+      "kind": "function",
+      "module_id": "src/lib/withDeadline",
+      "file": "src/lib/withDeadline.ts",
+      "name": "withDeadline",
+      "line": 3,
+      "score": 21,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "withDeadline: cyclomatic 1, cognitive 0, nesting 1, Halstead effort 9411.27, 19 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 9411.27
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 19
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/withDeadline.ts:withDeadline:3",
+            "kind": "function",
+            "file": "src/lib/withDeadline.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/pages/DashboardPage.tsx:handleDeleteChore:219",
       "kind": "function",
       "module_id": "src/pages/DashboardPage",
@@ -36817,12 +37050,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:finishAnimal:219",
+      "id": "src/components/animalTester/useAnimalSession.ts:finishAnimal:220",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "finishAnimal",
-      "line": 219,
+      "line": 220,
       "score": 20,
       "risk": "low",
       "evidence_kind": "metric",
@@ -36864,7 +37097,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:finishAnimal:219",
+            "id": "src/components/animalTester/useAnimalSession.ts:finishAnimal:220",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -36873,12 +37106,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:showNextUnscoredAnimal:227",
+      "id": "src/components/animalTester/useAnimalSession.ts:showNextUnscoredAnimal:228",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "showNextUnscoredAnimal",
-      "line": 227,
+      "line": 228,
       "score": 20,
       "risk": "low",
       "evidence_kind": "metric",
@@ -36920,7 +37153,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:showNextUnscoredAnimal:227",
+            "id": "src/components/animalTester/useAnimalSession.ts:showNextUnscoredAnimal:228",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -37669,12 +37902,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:accept:29",
+      "id": "src/lib/schoolCalendarStore.ts:accept:30",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "accept",
-      "line": 29,
+      "line": 30,
       "score": 20,
       "risk": "low",
       "evidence_kind": "metric",
@@ -37716,7 +37949,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:accept:29",
+            "id": "src/lib/schoolCalendarStore.ts:accept:30",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -37725,12 +37958,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:wake:107",
+      "id": "src/lib/schoolCalendarStore.ts:wake:100",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "wake",
-      "line": 107,
+      "line": 100,
       "score": 20,
       "risk": "low",
       "evidence_kind": "metric",
@@ -37772,7 +38005,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:wake:107",
+            "id": "src/lib/schoolCalendarStore.ts:wake:100",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -39180,12 +39413,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:newest:14",
+      "id": "src/lib/schoolCalendarStore.ts:newest:15",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "newest",
-      "line": 14,
+      "line": 15,
       "score": 19,
       "risk": "low",
       "evidence_kind": "metric",
@@ -39227,7 +39460,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:newest:14",
+            "id": "src/lib/schoolCalendarStore.ts:newest:15",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -40161,12 +40394,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:onVisibilityChange:173",
+      "id": "src/features/dayNightExplorer/useExplorerSession.ts:onVisibilityChange:119",
       "kind": "function",
-      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "module_id": "src/features/dayNightExplorer/useExplorerSession",
+      "file": "src/features/dayNightExplorer/useExplorerSession.ts",
       "name": "onVisibilityChange",
-      "line": 173,
+      "line": 119,
       "score": 18,
       "risk": "low",
       "evidence_kind": "metric",
@@ -40208,9 +40441,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:onVisibilityChange:173",
+            "id": "src/features/dayNightExplorer/useExplorerSession.ts:onVisibilityChange:119",
             "kind": "function",
-            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "file": "src/features/dayNightExplorer/useExplorerSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -43144,6 +43377,62 @@
       ]
     },
     {
+      "id": "src/hooks/useTimeouts.ts:useTimeouts:4",
+      "kind": "hook",
+      "module_id": "src/hooks/useTimeouts",
+      "file": "src/hooks/useTimeouts.ts",
+      "name": "useTimeouts",
+      "line": 4,
+      "score": 15,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "useTimeouts: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 12606.88, 16 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 12606.88
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 16
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/hook",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/hook",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/hooks/useTimeouts.ts:useTimeouts:4",
+            "kind": "hook",
+            "file": "src/hooks/useTimeouts.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "src/lib/snapshotStore.ts:snapshotStore:2",
       "kind": "function",
       "module_id": "src/lib/snapshotStore",
@@ -44146,12 +44435,12 @@
       ]
     },
     {
-      "id": "src/hooks/useActivityChallenge.ts:useCheckedActivityChallenge:192",
+      "id": "src/hooks/useActivityChallenge.ts:useCheckedActivityChallenge:185",
       "kind": "hook",
       "module_id": "src/hooks/useActivityChallenge",
       "file": "src/hooks/useActivityChallenge.ts",
       "name": "useCheckedActivityChallenge",
-      "line": 192,
+      "line": 185,
       "score": 14,
       "risk": "low",
       "evidence_kind": "metric",
@@ -44193,7 +44482,7 @@
           "description": "Keep this hook finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/hooks/useActivityChallenge.ts:useCheckedActivityChallenge:192",
+            "id": "src/hooks/useActivityChallenge.ts:useCheckedActivityChallenge:185",
             "kind": "hook",
             "file": "src/hooks/useActivityChallenge.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -44706,12 +44995,12 @@
       ]
     },
     {
-      "id": "src/offline/model.ts:mergeSharedProgress:346",
+      "id": "src/offline/model.ts:mergeSharedProgress:347",
       "kind": "function",
       "module_id": "src/offline/model",
       "file": "src/offline/model.ts",
       "name": "mergeSharedProgress",
-      "line": 346,
+      "line": 347,
       "score": 14,
       "risk": "low",
       "evidence_kind": "metric",
@@ -44753,7 +45042,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/offline/model.ts:mergeSharedProgress:346",
+            "id": "src/offline/model.ts:mergeSharedProgress:347",
             "kind": "function",
             "file": "src/offline/model.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -45272,12 +45561,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:getActiveAnimalOrder:25",
+      "id": "src/components/animalTester/useAnimalSession.ts:getActiveAnimalOrder:26",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "getActiveAnimalOrder",
-      "line": 25,
+      "line": 26,
       "score": 13,
       "risk": "low",
       "evidence_kind": "metric",
@@ -45319,7 +45608,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:getActiveAnimalOrder:25",
+            "id": "src/components/animalTester/useAnimalSession.ts:getActiveAnimalOrder:26",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -46402,62 +46691,6 @@
             "id": "src/offline/platform.ts:isOfflineEnabled:5",
             "kind": "function",
             "file": "src/offline/platform.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
-      "id": "src/offline/sync.ts:boundedSend:9",
-      "kind": "function",
-      "module_id": "src/offline/sync",
-      "file": "src/offline/sync.ts",
-      "name": "boundedSend",
-      "line": 9,
-      "score": 13,
-      "risk": "low",
-      "evidence_kind": "metric",
-      "message": "boundedSend: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 5066.01, 12 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 5066.01
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 12
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/offline/sync.ts:boundedSend:9",
-            "kind": "function",
-            "file": "src/offline/sync.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -50360,12 +50593,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:getEarthRotationDeg:58",
+      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:getEarthRotationDeg:44",
       "kind": "function",
       "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
       "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
       "name": "getEarthRotationDeg",
-      "line": 58,
+      "line": 44,
       "score": 10,
       "risk": "low",
       "evidence_kind": "metric",
@@ -50407,7 +50640,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:getEarthRotationDeg:58",
+            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:getEarthRotationDeg:44",
             "kind": "function",
             "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -51845,12 +52078,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:save:164",
+      "id": "src/features/dayNightExplorer/useExplorerSession.ts:save:110",
       "kind": "function",
-      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "module_id": "src/features/dayNightExplorer/useExplorerSession",
+      "file": "src/features/dayNightExplorer/useExplorerSession.ts",
       "name": "save",
-      "line": 164,
+      "line": 110,
       "score": 9,
       "risk": "low",
       "evidence_kind": "metric",
@@ -51892,9 +52125,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:save:164",
+            "id": "src/features/dayNightExplorer/useExplorerSession.ts:save:110",
             "kind": "function",
-            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "file": "src/features/dayNightExplorer/useExplorerSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -52540,6 +52773,100 @@
             "id": "file:src/hooks/useRequiredContext",
             "kind": "file",
             "file": "src/hooks/useRequiredContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/hooks/useTimeouts",
+      "kind": "file",
+      "module_id": "src/hooks/useTimeouts",
+      "file": "src/hooks/useTimeouts.ts",
+      "line": 1,
+      "score": 8,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/hooks/useTimeouts.ts: 20 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 20
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/hooks/useTimeouts",
+            "kind": "file",
+            "file": "src/hooks/useTimeouts.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "file:src/lib/withDeadline",
+      "kind": "file",
+      "module_id": "src/lib/withDeadline",
+      "file": "src/lib/withDeadline.ts",
+      "line": 1,
+      "score": 8,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/lib/withDeadline.ts: 26 lines, 0 branches, 0 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 26
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/lib/withDeadline",
+            "kind": "file",
+            "file": "src/lib/withDeadline.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -53498,12 +53825,12 @@
       ]
     },
     {
-      "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:cancel:133",
+      "id": "src/features/dayNightExplorer/useExplorerSession.ts:cancel:81",
       "kind": "function",
-      "module_id": "src/features/dayNightExplorer/useDayNightExplorerModel",
-      "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+      "module_id": "src/features/dayNightExplorer/useExplorerSession",
+      "file": "src/features/dayNightExplorer/useExplorerSession.ts",
       "name": "cancel",
-      "line": 133,
+      "line": 81,
       "score": 8,
       "risk": "low",
       "evidence_kind": "metric",
@@ -53545,9 +53872,9 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/features/dayNightExplorer/useDayNightExplorerModel.ts:cancel:133",
+            "id": "src/features/dayNightExplorer/useExplorerSession.ts:cancel:81",
             "kind": "function",
-            "file": "src/features/dayNightExplorer/useDayNightExplorerModel.ts",
+            "file": "src/features/dayNightExplorer/useExplorerSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -54432,12 +54759,12 @@
       ]
     },
     {
-      "id": "src/components/animalTester/useAnimalSession.ts:shuffle:23",
+      "id": "src/components/animalTester/useAnimalSession.ts:shuffle:24",
       "kind": "function",
       "module_id": "src/components/animalTester/useAnimalSession",
       "file": "src/components/animalTester/useAnimalSession.ts",
       "name": "shuffle",
-      "line": 23,
+      "line": 24,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -54479,7 +54806,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/components/animalTester/useAnimalSession.ts:shuffle:23",
+            "id": "src/components/animalTester/useAnimalSession.ts:shuffle:24",
             "kind": "function",
             "file": "src/components/animalTester/useAnimalSession.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -56392,12 +56719,12 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:online:113",
+      "id": "src/lib/schoolCalendarStore.ts:online:106",
       "kind": "function",
       "module_id": "src/lib/schoolCalendarStore",
       "file": "src/lib/schoolCalendarStore.ts",
       "name": "online",
-      "line": 113,
+      "line": 106,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -56439,7 +56766,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/lib/schoolCalendarStore.ts:online:113",
+            "id": "src/lib/schoolCalendarStore.ts:online:106",
             "kind": "function",
             "file": "src/lib/schoolCalendarStore.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -58531,62 +58858,6 @@
       ]
     },
     {
-      "id": "src/lib/schoolCalendarStore.ts:onAbort:47",
-      "kind": "function",
-      "module_id": "src/lib/schoolCalendarStore",
-      "file": "src/lib/schoolCalendarStore.ts",
-      "name": "onAbort",
-      "line": 47,
-      "score": 6,
-      "risk": "low",
-      "evidence_kind": "metric",
-      "message": "onAbort: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 31.02, 1 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 31.02
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest",
-      "workspace_name": "mystarquest",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/lib/schoolCalendarStore.ts:onAbort:47",
-            "kind": "function",
-            "file": "src/lib/schoolCalendarStore.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ]
-    },
-    {
       "id": "src/lib/solar.ts:getSolarDeclinationDegrees:152",
       "kind": "function",
       "module_id": "src/lib/solar",
@@ -60225,6 +60496,62 @@
             "id": "src/components/RewardCelebration.tsx:celebrationStyle:9",
             "kind": "function",
             "file": "src/components/RewardCelebration.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "src/lib/withDeadline.ts:onAbort:10",
+      "kind": "function",
+      "module_id": "src/lib/withDeadline",
+      "file": "src/lib/withDeadline.ts",
+      "name": "onAbort",
+      "line": 10,
+      "score": 4,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "onAbort: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 0, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 1
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 0
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 0
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/lib/withDeadline.ts:onAbort:10",
+            "kind": "function",
+            "file": "src/lib/withDeadline.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

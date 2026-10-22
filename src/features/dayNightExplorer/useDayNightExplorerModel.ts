@@ -1,22 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import {
-  useSelectedDate,
-  useSolarTimes,
-} from '../../contexts/SelectedDateContext'
+import { useExplorerSession } from './useExplorerSession'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useSolarTimes } from '../../contexts/SelectedDateContext'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getSunPosition } from '../../lib/solar'
-import { buildDateKey, getTodayDescriptor } from '../../lib/today'
-import {
-  readTimeExplorerState,
-  saveTimeExplorerState,
-} from './timeExplorerStorage'
 import { getSeason } from '../../lib/seasons'
 import {
   buildExplorerInstant,
-  getClockTimeForInstant,
-  getInitialExplorerClockTime,
   getYearProgress,
-  getDateAtOrbitProgress,
 } from './dayNightExplorerCalendar'
 import {
   getExplorerBackgroundBlend,
@@ -28,13 +18,9 @@ import {
   EXPLORER_FOCUS_OPTIONS,
   EXPLORER_CITY_OPTIONS,
   getExplorerCityOption,
-  type ExplorerCityId,
-  type ExplorerDisplayMode,
   type ExplorerFocusId,
 } from './dayNightExplorerOptions'
 import type { ClockViewModel } from './Clock'
-import useExplorerClock from './useExplorerClock'
-import { getCurrentExplorerCity } from './currentExplorerCity'
 import useSolarSystem3D from './useSolarSystem3D'
 import { useCalendarSchedule } from '../../hooks/useCalendarSchedule'
 import { useSchoolCalendar } from '../../hooks/useSchoolCalendar'
@@ -66,8 +52,27 @@ export default function useDayNightExplorerModel(
   theme: Theme,
   globeVisible = true
 ): UseDayNightExplorerModelResult {
-  const { selectedDate, setSelectedDateKey, nightlyResetKey } =
-    useSelectedDate()
+  const onUpdateRef = useRef<
+    ((minutes: number, seconds: number) => void) | null
+  >(null)
+  const {
+    clock,
+    selectedDate,
+    calculationCity,
+    displayMode,
+    activeFocusId,
+    resetToNow,
+    handleFocusSelection,
+    handleOrbitChange,
+  } = useExplorerSession(
+    useCallback(
+      (minutes: number, seconds: number) =>
+        onUpdateRef.current?.(minutes, seconds),
+      []
+    )
+  )
+  const calculationLocation = calculationCity.location
+  const solarTimes = useSolarTimes(calculationLocation)
   const schedule = useCalendarSchedule()
   const { events: holidays } = useSchoolCalendar()
   const agenda = useMemo(
@@ -75,123 +80,6 @@ export default function useDayNightExplorerModel(
     [schedule, selectedDate, holidays]
   )
   const season = getSeason(selectedDate)
-  const [savedState] = useState(readTimeExplorerState)
-  const [locationResetKey, setLocationResetKey] = useState(
-    savedState.exploration ? nightlyResetKey : ''
-  )
-  const pendingDateRestore = useRef<string | undefined>(
-    savedState.exploration?.dateKey ??
-      getTodayDescriptor(
-        new Date(),
-        getExplorerCityOption(savedState.activeCalculationCityId).location
-          .timeZone
-      ).dateKey
-  )
-  const [displayMode, setDisplayMode] = useState<ExplorerDisplayMode>(
-    savedState.displayMode
-  )
-  const [activeFocusId, setActiveFocusId] = useState<ExplorerFocusId>(
-    savedState.activeFocusId
-  )
-  const [activeCalculationCityId, setActiveCalculationCityId] =
-    useState<ExplorerCityId>(savedState.activeCalculationCityId)
-
-  const calculationCity = getExplorerCityOption(activeCalculationCityId)
-  const calculationLocation = calculationCity.location
-
-  const solarTimes = useSolarTimes(calculationLocation)
-  const initialClockTime = useMemo(
-    () => getInitialExplorerClockTime(calculationLocation),
-    [calculationLocation]
-  )
-
-  const onUpdateRef = useRef<
-    ((minutes: number, seconds: number) => void) | null
-  >(null)
-
-  const clock = useExplorerClock({
-    initialMinutes:
-      savedState.exploration?.minutes ?? initialClockTime.totalMinutes,
-    initialSeconds: savedState.exploration?.seconds ?? initialClockTime.seconds,
-    onUpdate: useCallback(
-      (m: number, s: number) => onUpdateRef.current?.(m, s),
-      []
-    ),
-  })
-  const getClockTime = clock.getClockTime
-  const syncClockTime = clock.syncClockTime
-  const resetToNow = useCallback(() => {
-    const now = new Date()
-    setSelectedDateKey(
-      getTodayDescriptor(now, calculationLocation.timeZone).dateKey
-    )
-    syncClockTime(getClockTimeForInstant(now, calculationLocation))
-  }, [calculationLocation, setSelectedDateKey, syncClockTime])
-  useEffect(() => {
-    if (locationResetKey === nightlyResetKey) return
-    let active = true
-    const cancel = () => {
-      active = false
-      setLocationResetKey(nightlyResetKey)
-    }
-    void getCurrentExplorerCity().then((cityId) => {
-      if (!active) return
-      const now = new Date()
-      const { location } = getExplorerCityOption(cityId)
-      pendingDateRestore.current = undefined
-      setActiveCalculationCityId(cityId)
-      setActiveFocusId(cityId)
-      setSelectedDateKey(getTodayDescriptor(now, location.timeZone).dateKey)
-      syncClockTime(getClockTimeForInstant(now, location))
-      setLocationResetKey(nightlyResetKey)
-    })
-    // A late location fix must not undo a new exploration chosen by the user.
-    document.addEventListener('pointerdown', cancel, { once: true })
-    document.addEventListener('keydown', cancel, { once: true })
-    return () => {
-      active = false
-      document.removeEventListener('pointerdown', cancel)
-      document.removeEventListener('keydown', cancel)
-    }
-  }, [nightlyResetKey, locationResetKey, setSelectedDateKey, syncClockTime])
-  const dateKey = buildDateKey(selectedDate)
-  useEffect(() => {
-    if (pendingDateRestore.current && pendingDateRestore.current !== dateKey) {
-      setSelectedDateKey(pendingDateRestore.current)
-      return
-    }
-    pendingDateRestore.current = undefined
-    const save = () =>
-      saveTimeExplorerState({
-        displayMode,
-        activeFocusId,
-        activeCalculationCityId,
-        explorationResetKey: locationResetKey,
-        exploration: { dateKey, ...getClockTime() },
-      })
-    save()
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') save()
-    }
-    window.addEventListener('pagehide', save)
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    return () => {
-      save()
-      window.removeEventListener('pagehide', save)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-    }
-  }, [
-    dateKey,
-    displayMode,
-    activeFocusId,
-    activeCalculationCityId,
-    clock.minutes,
-    clock.seconds,
-    getClockTime,
-    locationResetKey,
-    setSelectedDateKey,
-  ])
-
   // React snapshots and smooth hand dragging use the same scene projection.
   const buildSceneState = useCallback(
     (minutes: number, seconds: number) => ({
@@ -224,12 +112,6 @@ export default function useDayNightExplorerModel(
     [buildSceneState, clock.minutes, clock.seconds]
   )
 
-  const handleOrbitChange = useCallback(
-    (year: number, progress: number) => {
-      setSelectedDateKey(buildDateKey(getDateAtOrbitProgress(year, progress)))
-    },
-    [setSelectedDateKey]
-  )
   const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
     useSolarSystem3D(planetSceneState, globeVisible, handleOrbitChange)
 
@@ -237,44 +119,6 @@ export default function useDayNightExplorerModel(
     onUpdateRef.current = (minutes, seconds) =>
       updateSceneState(buildSceneState(minutes, seconds))
   }, [buildSceneState, updateSceneState])
-
-  const handleFocusSelection = useCallback(
-    (focusId: ExplorerFocusId) => {
-      if (focusId === 'sun' || focusId === 'earth') {
-        // Toggle display mode
-        const nextDisplayMode: ExplorerDisplayMode =
-          displayMode === 'earth-focus' ? 'solar-focus' : 'earth-focus'
-        setDisplayMode(nextDisplayMode)
-
-        // Update active focus id to match the new display mode (sun for solar, earth for earth)
-        setActiveFocusId(nextDisplayMode === 'solar-focus' ? 'sun' : 'earth')
-        return
-      }
-
-      const nextCity = getExplorerCityOption(focusId)
-      const { minutes, seconds } = getClockTime()
-      const currentInstant = buildExplorerInstant(
-        selectedDate,
-        minutes,
-        seconds,
-        calculationLocation
-      )
-      syncClockTime(getClockTimeForInstant(currentInstant, nextCity.location))
-      setSelectedDateKey(
-        getTodayDescriptor(currentInstant, nextCity.location.timeZone).dateKey
-      )
-      setActiveCalculationCityId(focusId)
-      setActiveFocusId(focusId)
-    },
-    [
-      calculationLocation,
-      displayMode,
-      getClockTime,
-      selectedDate,
-      setSelectedDateKey,
-      syncClockTime,
-    ]
-  )
 
   const filteredOptions = useMemo(() => {
     // Show Sun icon when in Earth focus (to switch to Solar)

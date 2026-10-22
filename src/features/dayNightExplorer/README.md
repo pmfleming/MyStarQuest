@@ -3,7 +3,8 @@
 The clock, scene manager, texture worker, and their calculations live together here. Pages consume `useDayNightExplorerModel`, `Clock`, and `SpinningPlanet`. Weather accepts the selected city through its own `WeatherCity` contract, without importing this feature. General solar and season calculations remain in `src/lib`.
 
 - `useExplorerClock` owns the timer, pointer listeners, and pending drag frame. `commitExplorerTime` normalizes and commits adjustments, synchronization, and dragging. Pointer release flushes the final queued position before committing.
+- `useExplorerSession` owns saved exploration state, restoration, city/date transitions and the nightly location reset. Every city transition synchronizes the date and clock through the same instant conversion. `useDayNightExplorerModel` combines this session with agenda imagery and scene projection.
 - `useSolarSystem3D` owns one `SolarSystem3DManager` per mounted canvas. The manager owns its animation frame, visibility listener, intersection observer, renderer, geometries, materials, and GPU textures. Disposal is idempotent and subsequent updates are ignored.
 - `earthTextureCache` owns the shared pixel build for the application session. A scene unmount intentionally does not cancel that shared build. Its worker is terminated on success, failure, or timeout; disposed scenes cannot upload late results.
 
-Regression coverage: `dayNightPerformance.test.tsx`, `SolarSystem3DManager.test.ts`, `earthTextureCache.test.ts`, and `disposeSceneObject.test.ts`.
+Regression coverage: `TimeExplorerReset.test.tsx`, `TimeExplorerWeather.test.tsx`, `dayNightPerformance.test.tsx`, `SolarSystem3DManager.test.ts`, `earthTextureCache.test.ts`, and `disposeSceneObject.test.ts`.

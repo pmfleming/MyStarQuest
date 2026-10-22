@@ -13,7 +13,7 @@
     "schema_version": "0.3.0",
     "command": "quality review 2026-10-22; whole-project API audit",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:35:36.656Z",
+    "measured_at": "2026-10-22T21:46:51.818Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:92c67cf5870db92327f0550ea840f1777e51fa08d14305a4b457b6b0a2ea98a1",
-    "input_set_hash": "sha256:45e7d13d3005cb2d3b381677af67822b05fb51ebb83ed54afef8e226a26120ad"
+    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
+    "input_set_hash": "sha256:b3991b8bd42e8f8af2f49e96f010441e676d57e3cc918f51bec3ef25dd56cc4a"
   },
   "analysis_identity": {
     "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
@@ -113,9 +113,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 70,
+    "tests": 72,
     "colocated_tests": 0,
-    "external_tests": 70,
+    "external_tests": 72,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -592,6 +592,32 @@
       "source_associations": [
         {
           "file": "src/components/SchoolCalendarSync.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/StarInfoBox.test.tsx",
+      "name": "StarInfoBox.test.tsx",
+      "path": "tests/component/StarInfoBox.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/ui/StarInfoBox.tsx",
+        "src/contexts/ThemeContext.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/ui/StarInfoBox.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/contexts/ThemeContext.tsx",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -2168,6 +2194,26 @@
         },
         {
           "file": "src/lib/weather/weatherStore.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/withDeadline.test.ts",
+      "name": "withDeadline.test.ts",
+      "path": "tests/unit/withDeadline.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/withDeadline.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/withDeadline.ts",
           "kind": "direct-import",
           "confidence": "high"
         }

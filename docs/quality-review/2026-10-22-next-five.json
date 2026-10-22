@@ -1,0 +1,122 @@
+{
+  "baseline_commit": "8914dce",
+  "lens": {
+    "version": "0.3.0",
+    "commit": "233239b623b67df9c772d7ac3602740fb9de3f12",
+    "verified_main": "2026-10-22"
+  },
+  "scope": "Frontend production TS/TSX. Functions unchanged. Same Lens revision, configuration, thresholds, exclusions and whole-project audit scope as baseline.",
+  "priorities": [
+    {
+      "rank": 1,
+      "change": "Separate offline action preparation from local mutation",
+      "value": "Validation, child scope and history snapshots resolve before progress changes. enqueue cognitive complexity 28 to 13; preparation is counted separately. Rejected actions preserve projections and sequence."
+    },
+    {
+      "rank": 2,
+      "change": "Share bounded request lifecycle",
+      "value": "Calendar, weather and offline sync share timeout/abort cleanup. Weather retries recover even if the transport ignores abort. Late responses cannot replace a retried result."
+    },
+    {
+      "rank": 3,
+      "change": "Centralize activity feedback timers",
+      "value": "Animal sessions and checked activities share timer ownership. Reset, mode changes, external completion and unmount cancel stale feedback and prevent duplicate outcome saves."
+    },
+    {
+      "rank": 4,
+      "change": "Native star button and keyboard letter toolbar",
+      "value": "Native Space/Enter activation replaces manual keyboard branching. Letter navigation has a single roving Tab stop, arrow-key navigation and an associated accessible description. Existing artwork remains."
+    },
+    {
+      "rank": 5,
+      "change": "Localize Time Explorer session lifecycle",
+      "value": "Saved exploration, city/date transitions and nightly resets belong to useExplorerSession. Date and clock conversion share syncInstant; rendering remains in useDayNightExplorerModel. Existing integration tests exercise restoration, DST, cancellation of late location fixes and scene synchronization."
+    }
+  ],
+  "before": {
+    "source_files": 275,
+    "source_lines": 34298,
+    "cognitive": 1783,
+    "max_cognitive": 28,
+    "cyclomatic": 2446,
+    "max_cyclomatic": 24,
+    "estimated_effort": 11385510,
+    "locality_risk": 12717,
+    "leverage_risk": 336,
+    "clone_groups": 0,
+    "accessibility_findings": 9,
+    "warnings": 59,
+    "blockers": 0
+  },
+  "after": {
+    "source_files": 278,
+    "source_lines": 34354,
+    "cognitive": 1783,
+    "max_cognitive": 19,
+    "cyclomatic": 2451,
+    "max_cyclomatic": 19,
+    "estimated_effort": 11183898,
+    "locality_risk": 12885,
+    "leverage_risk": 336,
+    "clone_groups": 0,
+    "accessibility_findings": 6,
+    "warnings": 57,
+    "blockers": 0
+  },
+  "delta": {
+    "source_files": 3,
+    "source_lines": 56,
+    "cognitive": 0,
+    "max_cognitive": -9,
+    "cyclomatic": 5,
+    "max_cyclomatic": -5,
+    "estimated_effort": -201612,
+    "locality_risk": 168,
+    "leverage_risk": 0,
+    "clone_groups": 0,
+    "accessibility_findings": -3,
+    "warnings": -2,
+    "blockers": 0
+  },
+  "validation": {
+    "whole_project_audit": {
+      "verdict": "warn",
+      "complete": true,
+      "incomplete_reasons": [],
+      "gate": "all",
+      "base": "",
+      "changed_files": 0,
+      "changed_hunks": 0,
+      "base_snapshot_available": false,
+      "base_snapshot_compatible": null,
+      "findings": 2795,
+      "active_findings": 57,
+      "introduced_findings": 2795,
+      "inherited_findings": 0,
+      "high_risk_findings": 352,
+      "blocking_findings": 0,
+      "warning_findings": 57,
+      "baseline_suppressed": 0,
+      "config_suppressed": 0,
+      "stale_suppressions": 0
+    },
+    "vitest": {
+      "status": "passed",
+      "command": "npm run test"
+    },
+    "browser": "5 Chromium scenarios passed, covering both calendar themes, filters/navigation and concurrent offline replay",
+    "build": "npm run build passed",
+    "lint": "npm run lint and all pre-commit ESLint/Prettier hooks passed",
+    "focused_tests": "Offline/store/recovery/shared progress, deadline/weather/calendar, animal/challenge cancellation, star keyboard activation, letter navigation and Time Explorer reset/weather passed"
+  },
+  "limitations": [
+    "Total cognitive complexity is unchanged and total cyclomatic complexity increases by 5. Maximum callable complexity and estimated effort improve.",
+    "Production TS/TSX grows by 56 source lines; regression tests add further lines. This pass does not reduce total LOC.",
+    "Summed locality risk increases by 168 while module count increases by 3. Leverage risk is unchanged. Shared lifecycle code improves actual reuse but does not lower those aggregate risk scores.",
+    "Clone detectors report zero groups before and after. Removed duplication was conceptual, not a detected clone group.",
+    "High-risk hotspot records increase from 181 to 184 as responsibilities move. New helpers are counted in project totals.",
+    "Six accessibility findings remain: five aria-description compatibility warnings and the native dialog event warning. No accessibility rules were disabled.",
+    "A new cross-layer import warning offsets one of the three removed accessibility warnings; total audit warnings fall by two. No layer policy or package configuration was weakened.",
+    "Effort is a static estimate, not engineering time. Coverage and runtime performance were not measured. Existing large-chunk build warning remains."
+  ]
+}
