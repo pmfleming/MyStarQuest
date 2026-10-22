@@ -46,6 +46,13 @@ describe('Who am I training photos', () => {
     expect(screen.getByRole('button', { name: 'Jump to A' })).toHaveFocus()
     fireEvent.keyDown(document.activeElement!, { key: 'ArrowRight' })
     expect(screen.getByRole('button', { name: 'Jump to B' })).toHaveFocus()
+    const toolbar = screen.getByRole('toolbar', { name: 'Starting letters' })
+    expect(toolbar).toHaveAccessibleDescription(/arrow keys/)
+    expect(toolbar.querySelectorAll('button[tabindex="0"]')).toHaveLength(1)
+    expect(screen.getByRole('button', { name: 'Jump to B' })).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
     fireEvent.click(screen.getByRole('button', { name: 'Jump to B' }))
     expect(screen.queryByAltText('Alpaca')).not.toBeInTheDocument()
     expect(opener).toHaveAttribute('aria-expanded', 'false')

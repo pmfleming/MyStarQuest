@@ -60,6 +60,11 @@ export default function LearningNavigation({
 }: LearningNavigationProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [start, setStart] = useState(0)
+  const [tabLetter, setTabLetter] = useState(currentLetter)
+  const visibleLetters = ALPHABET.slice(start, start + VISIBLE_LETTERS)
+  const tabStop = visibleLetters.includes(tabLetter)
+    ? tabLetter
+    : visibleLetters.charAt(0)
   const navigation = useRef<HTMLDivElement>(null)
   const opener = useRef<HTMLButtonElement>(null)
   const strip = useRef<HTMLDivElement>(null)
@@ -216,6 +221,7 @@ export default function LearningNavigation({
           onClick={() => {
             setStart(clampStart(ALPHABET.indexOf(currentLetter) - 4))
             focusLetter.current = currentLetter
+            setTabLetter(currentLetter)
             suppressClick.current = false
             setIsOpen(true)
           }}
@@ -227,9 +233,9 @@ export default function LearningNavigation({
           id={stripId}
           ref={strip}
           className="animal-letter-strip"
-          role="group"
+          role="toolbar"
           aria-label="Starting letters"
-          aria-description="Swipe left or right, scroll, or use arrow keys to browse. Select a letter to jump. Escape closes."
+          aria-describedby={`${stripId}-help`}
           inert={!isOpen}
           onKeyDown={browseWithKeyboard}
           onPointerDown={(event) => {
@@ -270,33 +276,37 @@ export default function LearningNavigation({
             suppressClick.current = true
           }}
         >
-          {ALPHABET.slice(start, start + VISIBLE_LETTERS)
-            .split('')
-            .map((letter) => {
-              const available = availableLetters.includes(letter)
-              return (
-                <button
-                  key={letter}
-                  type="button"
-                  data-letter={letter}
-                  aria-label={`Jump to ${letter}`}
-                  aria-pressed={letter === currentLetter}
-                  aria-disabled={!available}
-                  onClick={(event) => {
-                    if (
-                      !available ||
-                      (event.detail !== 0 && suppressClick.current)
-                    )
-                      return
-                    onSelectLetter(letter)
-                    close()
-                  }}
-                >
-                  {letter}
-                </button>
-              )
-            })}
+          {visibleLetters.split('').map((letter) => {
+            const available = availableLetters.includes(letter)
+            return (
+              <button
+                key={letter}
+                type="button"
+                data-letter={letter}
+                tabIndex={letter === tabStop ? 0 : -1}
+                onFocus={() => setTabLetter(letter)}
+                aria-label={`Jump to ${letter}`}
+                aria-pressed={letter === currentLetter}
+                aria-disabled={!available}
+                onClick={(event) => {
+                  if (
+                    !available ||
+                    (event.detail !== 0 && suppressClick.current)
+                  )
+                    return
+                  onSelectLetter(letter)
+                  close()
+                }}
+              >
+                {letter}
+              </button>
+            )
+          })}
         </div>
+        <span id={`${stripId}-help`} className="sr-only">
+          Swipe left or right, scroll, or use arrow keys to browse. Select a
+          letter to jump. Escape closes.
+        </span>
       </div>
     </div>
   )

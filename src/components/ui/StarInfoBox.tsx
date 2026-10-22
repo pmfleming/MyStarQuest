@@ -78,7 +78,7 @@ const MiniStar = ({
   const transition = STAR_TRANSITIONS[starState]
 
   return (
-    <div
+    <span
       style={{
         position: 'absolute',
         top: '50%',
@@ -104,7 +104,7 @@ const MiniStar = ({
         style={{ width: '100%', height: '100%', display: 'block' }}
         aria-hidden="true"
       />
-    </div>
+    </span>
   )
 }
 
@@ -193,97 +193,92 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
   const visualCount = Math.max(0, Math.min(count, 50))
 
   return (
-    <section
-      className="relative z-10 transform text-center transition-transform hover:scale-[1.02]"
-      style={{
-        backgroundColor: theme.colors.surface,
-        boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
-        border: `5px solid ${theme.colors.primary}`,
-        borderRadius: `${uiTokens.surfaceRadius}px`,
-        height: '180px',
-        overflow: 'hidden',
-        cursor: 'pointer',
-      }}
-      role="button"
-      tabIndex={0}
-      aria-label="Replay star animation"
-      onClick={replay}
-      onKeyDown={(event) => {
-        if (!['Enter', ' '].includes(event.key)) return
-        event.preventDefault()
-        replay()
-      }}
-    >
-      {/* Animation Container */}
-      <div
+    <>
+      <button
+        type="button"
+        className="relative z-10 w-full transform p-0 text-center transition-transform hover:scale-[1.02]"
         style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: `${uiTokens.actionRowGap}px`,
+          backgroundColor: theme.colors.surface,
+          boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
+          border: `5px solid ${theme.colors.primary}`,
+          borderRadius: `${uiTokens.surfaceRadius}px`,
+          height: '180px',
+          overflow: 'hidden',
+          cursor: 'pointer',
         }}
+        aria-label="Replay star animation"
+        onClick={replay}
       >
-        {/* Mini Stars */}
-        {starPositions.slice(0, visualCount).map((position, i) => (
-          <MiniStar
-            key={i}
-            index={i}
-            targetPos={position}
-            starState={i < spawned ? phase : 'hidden'}
-          />
-        ))}
-
-        {/* Hero Star - grows during gathering */}
-        <div
+        {/* Animation Container */}
+        <span
           style={{
             position: 'relative',
-            width: '100px',
-            height: '100px',
-            flexShrink: 0,
-            zIndex: 10,
-            opacity: heroState === 'hidden' ? 0 : 1,
-            transform: heroState === 'hidden' ? 'scale(0)' : 'scale(1)',
-            transition:
-              heroState === 'growing'
-                ? `opacity ${PHASE_DURATION * 0.3}ms ease-out, transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
-                : 'none',
-            animation:
-              heroState === 'pulsing'
-                ? 'pulse-soft 3s infinite ease-in-out'
-                : 'none',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: `${uiTokens.actionRowGap}px`,
           }}
         >
-          <img
-            src={starSvgUrl}
-            alt=""
-            style={{ width: '100%', height: '100%', display: 'block' }}
-            aria-hidden="true"
-          />
-        </div>
+          {/* Mini Stars */}
+          {starPositions.slice(0, visualCount).map((position, i) => (
+            <MiniStar
+              key={i}
+              index={i}
+              targetPos={position}
+              starState={i < spawned ? phase : 'hidden'}
+            />
+          ))}
 
-        {/* Result Number - to the right of the star */}
-        {phase === 'gathered' && (
-          <div
+          {/* Hero Star - grows during gathering */}
+          <span
             style={{
               position: 'relative',
-              zIndex: 20,
-              fontSize: '52px',
-              fontWeight: 900,
-              color: theme.colors.primary,
-              textShadow: `2px 2px 0px ${theme.colors.accent}`,
+              width: '100px',
+              height: '100px',
+              flexShrink: 0,
+              zIndex: 10,
+              opacity: heroState === 'hidden' ? 0 : 1,
+              transform: heroState === 'hidden' ? 'scale(0)' : 'scale(1)',
+              transition:
+                heroState === 'growing'
+                  ? `opacity ${PHASE_DURATION * 0.3}ms ease-out, transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
+                  : 'none',
               animation:
-                'reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-              fontFamily: theme.fonts.heading,
+                heroState === 'pulsing'
+                  ? 'pulse-soft 3s infinite ease-in-out'
+                  : 'none',
             }}
           >
-            {count}
-          </div>
-        )}
-      </div>
+            <img
+              src={starSvgUrl}
+              alt=""
+              style={{ width: '100%', height: '100%', display: 'block' }}
+              aria-hidden="true"
+            />
+          </span>
 
+          {/* Result Number - to the right of the star */}
+          {phase === 'gathered' && (
+            <span
+              style={{
+                position: 'relative',
+                zIndex: 20,
+                fontSize: '52px',
+                fontWeight: 900,
+                color: theme.colors.primary,
+                textShadow: `2px 2px 0px ${theme.colors.accent}`,
+                animation:
+                  'reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                fontFamily: theme.fonts.heading,
+              }}
+            >
+              {count}
+            </span>
+          )}
+        </span>
+      </button>
       {/* Keyframe animations injected via style tag */}
       <style>{`
         @keyframes reveal-pop {
@@ -296,7 +291,7 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
           50% { filter: drop-shadow(0 0 25px #fbbf24cc); transform: scale(1.05); }
         }
       `}</style>
-    </section>
+    </>
   )
 }
 
