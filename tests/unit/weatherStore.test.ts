@@ -71,3 +71,28 @@ describe('weather cache and subscriptions', () => {
     expect(store.getWeatherSnapshot(dublin).data).toBeNull()
   })
 })
+
+it('allows retry after a stalled request times out and ignores its late result', async () => {
+  let finish!: (value: unknown) => void
+  const fetch = vi
+    .fn()
+    .mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          finish = resolve
+        })
+    )
+    .mockResolvedValue(response(12))
+  vi.stubGlobal('fetch', fetch)
+  cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
+  await vi.advanceTimersByTimeAsync(15_000)
+  expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+    loading: false,
+    error: 'Could not update the weather.',
+  })
+  await store.retryWeather(amsterdam)
+  expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(12)
+  finish(response(30))
+  await vi.advanceTimersByTimeAsync(0)
+  expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(12)
+})

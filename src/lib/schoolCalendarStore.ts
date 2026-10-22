@@ -1,3 +1,4 @@
+import { withDeadline } from './withDeadline'
 import seed from '../data/calendar/school-calendar.json'
 import { snapshotStore } from './snapshotStore'
 import { CALENDAR_REFRESH_MS } from './schoolCalendarCache'
@@ -44,27 +45,19 @@ export function createSchoolCalendarStore(native = nativeSchoolCalendar) {
     const currentGeneration = generation
     const request = new AbortController()
     controller = request
-    const onAbort = () => rejectAbort(new Error('Calendar request interrupted'))
-    let rejectAbort: (reason: Error) => void
-    const aborted = new Promise<never>((_resolve, reject) => {
-      rejectAbort = reject
-      request.signal.addEventListener('abort', onAbort, { once: true })
-    })
-    const timeout = setTimeout(() => request.abort(), native ? 35_000 : 15_000)
     pending = (async () => {
       try {
-        const next = await Promise.race([
-          native ? native.refresh() : fetchSchoolCalendar(request.signal),
-          aborted,
-        ])
+        const next = await withDeadline(
+          (signal) => (native ? native.refresh() : fetchSchoolCalendar(signal)),
+          native ? 35_000 : 15_000,
+          request
+        )
         if (generation === currentGeneration && !request.signal.aborted)
           accept(next)
       } catch {
         if (generation === currentGeneration)
           state.publish({ ...state.getSnapshot(), loadError: true })
       } finally {
-        clearTimeout(timeout)
-        request.signal.removeEventListener('abort', onAbort)
         if (generation === currentGeneration) {
           controller = undefined
           pending = undefined

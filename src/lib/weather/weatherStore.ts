@@ -1,3 +1,4 @@
+import { withDeadline } from '../withDeadline'
 import type { WeatherCity } from './weatherData'
 import {
   fetchCurrentWeather,
@@ -109,12 +110,12 @@ async function requestWeather(entry: Entry, now: number) {
   entry.controller = controller
   entry.lastAttempt = now
   publish(entry, { loading: true, error: null })
-  const timeout = setTimeout(
-    () => controller.abort(new Error('Weather request timed out')),
-    15_000
-  )
   try {
-    const next = await fetchCurrentWeather(entry.city, controller.signal)
+    const next = await withDeadline(
+      (signal) => fetchCurrentWeather(entry.city, signal),
+      15_000,
+      controller
+    )
     if (entry.controller !== controller) return
     writeWeatherCache(entry.city, next)
     publish(entry, { data: next, stale: false, error: null })
@@ -127,7 +128,6 @@ async function requestWeather(entry: Entry, now: number) {
       error: 'Could not update the weather.',
     })
   } finally {
-    clearTimeout(timeout)
     if (entry.controller === controller) {
       entry.controller = undefined
       publish(entry, { loading: false })

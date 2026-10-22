@@ -1,3 +1,4 @@
+import { withDeadline } from '../lib/withDeadline'
 import type { PendingAction } from './model'
 import { OfflineStore } from './store'
 import { SyncConflict, type SyncReceipt } from './transport'
@@ -5,19 +6,6 @@ import { snapshotStore } from '../lib/snapshotStore'
 import { parseChildScope } from '../sharing/scope'
 
 export const SYNC_TIMEOUT_MS = 20_000
-
-function boundedSend(send: () => Promise<SyncReceipt>) {
-  let timer: ReturnType<typeof setTimeout>
-  return Promise.race([
-    Promise.resolve().then(send),
-    new Promise<never>((_resolve, reject) => {
-      timer = setTimeout(
-        () => reject(new Error('Sync timed out')),
-        SYNC_TIMEOUT_MS
-      )
-    }),
-  ]).finally(() => clearTimeout(timer))
-}
 
 export type SyncStatus = {
   state: 'ready' | 'syncing' | 'waiting' | 'attention'
@@ -89,8 +77,9 @@ export class OfflineSync {
         // operation ID on retry; its server receipt prevents duplicate effects.
         let receipt: SyncReceipt
         try {
-          receipt = await boundedSend(() =>
-            this.send(this.store.userId, operation)
+          receipt = await withDeadline(
+            () => this.send(this.store.userId, operation),
+            SYNC_TIMEOUT_MS
           )
         } catch (error) {
           const code =
