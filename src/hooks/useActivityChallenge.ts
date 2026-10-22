@@ -1,3 +1,4 @@
+import { useTimeouts } from './useTimeouts'
 import { useActivityPersistence } from './useActivityPersistence'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
@@ -49,16 +50,8 @@ export const useActivityChallenge = ({
   const [resultHistory, setResultHistory] = useState<ActivityResult[]>([])
   const [isFailurePending, setIsFailurePending] = useState(false)
   const [feedback, setFeedback] = useState<ActivityFeedback>('idle')
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const historyTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const { schedule, cancel: clearFeedbackTimer } = useTimeouts()
   const prevCheckTrigger = useRef(checkTrigger)
-
-  const clearFeedbackTimer = useCallback(() => {
-    clearTimeout(historyTimer.current)
-    clearTimeout(feedbackTimer.current)
-    historyTimer.current = undefined
-    feedbackTimer.current = undefined
-  }, [])
 
   const isSetup = !isRunning && !isCompleted
   const incorrectCount = resultHistory.filter(
@@ -78,12 +71,11 @@ export const useActivityChallenge = ({
 
       if (isAnswerCorrect) {
         setFeedback('correct')
-        historyTimer.current = setTimeout(() => {
-          historyTimer.current = undefined
+        schedule(() => {
           setResultHistory((prev) => [...prev, 'correct'])
         }, 120)
 
-        feedbackTimer.current = setTimeout(() => {
+        schedule(() => {
           const nextIndex = problemIndex + 1
           if (nextIndex >= totalProblems) {
             complete()
@@ -104,19 +96,17 @@ export const useActivityChallenge = ({
 
       if (failureModeEnabled && nextRetryCount >= MAX_ACTIVITY_MISTAKES) {
         setIsFailurePending(true)
-        feedbackTimer.current = setTimeout(() => {
+        schedule(() => {
           fail()
         }, FAILURE_TRANSITION_DELAY_MS)
         return
       }
 
-      feedbackTimer.current = setTimeout(
-        () => setFeedback('idle'),
-        SHAKE_DURATION_MS
-      )
+      schedule(() => setFeedback('idle'), SHAKE_DURATION_MS)
     },
     [
       clearFeedbackTimer,
+      schedule,
       feedback,
       failureModeEnabled,
       isFailurePending,
@@ -140,7 +130,10 @@ export const useActivityChallenge = ({
 
   const resetFeedback = useCallback(() => setFeedback('idle'), [])
 
-  useEffect(() => clearFeedbackTimer, [clearFeedbackTimer])
+  useEffect(
+    () => clearFeedbackTimer,
+    [clearFeedbackTimer, isRunning, isCompleted]
+  )
 
   useEffect(() => {
     if (isRunning && canStart && problemIndex === 0 && feedback === 'idle') {

@@ -1,5 +1,6 @@
+import { useTimeouts } from '../../hooks/useTimeouts'
 import { useActivityPersistence } from '../../hooks/useActivityPersistence'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import animalCollection from '../../data/creatureCollections/animals'
 import type {
   CatalogAnimal,
@@ -143,13 +144,13 @@ export function useAnimalSession({
   const [round, setRound] = useState(EMPTY_ROUND)
   const { animalIndex, leavingChoice, dismissedChoices, answeredCorrectly } =
     round
-  const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const { schedule, cancel } = useTimeouts()
 
   const resetPlayState = useCallback(() => {
-    if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
+    cancel()
     setResults([])
     setRound(EMPTY_ROUND)
-  }, [])
+  }, [cancel])
   const moveAnimal = useCallback(
     (delta: number) => {
       setRound((previous) => ({
@@ -246,15 +247,10 @@ export function useAnimalSession({
     return () => clearInterval(timer)
   }, [animal, getTeachingFacts, isFinished, isRunning, mode, theme.id])
 
-  useEffect(
-    () => () => {
-      if (feedbackTimer.current) clearTimeout(feedbackTimer.current)
-    },
-    []
-  )
+  useEffect(() => cancel, [cancel, isRunning, isCompleted, mode])
 
   const handleSoloChoice = (choice: CatalogAnimal) => {
-    if (!animal) return
+    if (!isRunning || isFinished || mode !== 'solo' || !animal) return
 
     if (
       answeredCorrectly ||
@@ -265,7 +261,7 @@ export function useAnimalSession({
 
     if (choice.name === animal.name) {
       setRound((previous) => ({ ...previous, answeredCorrectly: true }))
-      feedbackTimer.current = setTimeout(finishAnimal, CHOICE_ANIMATION_MS)
+      schedule(finishAnimal, CHOICE_ANIMATION_MS)
       return
     }
 
@@ -273,7 +269,7 @@ export function useAnimalSession({
     const mistake = getActivityMistakeUpdate(results, failureModeEnabled)
     setResults(mistake.nextResults)
 
-    feedbackTimer.current = setTimeout(() => {
+    schedule(() => {
       setRound((previous) => ({
         ...previous,
         dismissedChoices: [...previous.dismissedChoices, choice.name],
@@ -291,7 +287,11 @@ export function useAnimalSession({
     collectionLocked,
     changeCollection,
     mode,
-    setMode,
+    setMode: (next: AnimalMode) => {
+      if (next === mode) return
+      resetPlayState()
+      setMode(next)
+    },
     difficulty,
     setDifficulty,
     results,

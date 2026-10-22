@@ -74,3 +74,25 @@ describe('reset an active test', () => {
     })
   })
 })
+
+it('cancels both feedback timers when another client completes an active challenge', () => {
+  vi.useFakeTimers()
+  const props = {
+    isRunning: true,
+    isCompleted: false,
+    totalProblems: 1,
+    canStart: true,
+    onStart: vi.fn(),
+    onReset: vi.fn(),
+    onComplete: vi.fn(),
+  }
+  const { result, rerender } = renderHook(useActivityChallenge, {
+    initialProps: props,
+  })
+  act(() => result.current.submitAnswer(true, vi.fn()))
+  rerender({ ...props, isCompleted: true })
+  act(() => vi.advanceTimersByTime(1600))
+  expect(result.current.resultHistory).toEqual([])
+  expect(props.onComplete).not.toHaveBeenCalled()
+  expect(vi.getTimerCount()).toBe(0)
+})
