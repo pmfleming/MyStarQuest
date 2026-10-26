@@ -7,6 +7,7 @@ import { themes } from '../../src/contexts/ThemeContext'
 import {
   buildCalendarHistory,
   type HistoryView,
+  type HistoryPeriod,
 } from '../../src/lib/calendarHistory'
 import { buildDateKey, parseDateKey } from '../../src/lib/today'
 import '../../src/index.css'
@@ -77,6 +78,8 @@ export default function Fixture() {
       ? themes.teenie
       : themes.princess
   const [view, setView] = useState<HistoryView>('all')
+  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
+  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
   const [selectedDateKey, setSelectedDateKey] = useState('2026-10-22')
   return (
     <SelectedDateContext.Provider
@@ -105,6 +108,8 @@ export default function Fixture() {
           entries={entries}
           view={view}
           onViewChange={setView}
+          period={view === 'rewards' ? rewardPeriod : taskPeriod}
+          onPeriodChange={view === 'rewards' ? setRewardPeriod : setTaskPeriod}
           childId="child"
           loading={false}
           error={false}

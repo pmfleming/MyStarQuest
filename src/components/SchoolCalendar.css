@@ -1,0 +1,42 @@
+.school-calendar-grid {
+  --calendar-weekday-size: min(72px, calc((100cqw - 18px) / 7));
+  --calendar-weekday-growth: 0px;
+}
+
+.school-calendar-grid[data-period='day'],
+.school-calendar-grid[data-period='week'] {
+  --calendar-weekday-growth: calc(var(--calendar-weekday-size) * 0.2);
+}
+
+.calendar-weekday-row {
+  height: calc(
+    var(--calendar-weekday-size) + var(--calendar-weekday-growth) + 10px
+  );
+}
+
+.calendar-weekday-row .calendar-weekday {
+  min-height: 0;
+}
+
+.calendar-weekday-row .calendar-weekday > img {
+  width: min(100%, var(--calendar-weekday-size));
+  max-width: none;
+  transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-weekday-row .calendar-weekday[data-highlighted='true'] > img {
+  width: calc(var(--calendar-weekday-size) + var(--calendar-weekday-growth));
+}
+
+.calendar-date-grid,
+.calendar-weekday-row {
+  transition: grid-template-columns 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-date-grid,
+  .calendar-weekday-row,
+  .calendar-weekday-row .calendar-weekday > img {
+    transition: none;
+  }
+}

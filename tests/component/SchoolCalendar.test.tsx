@@ -64,15 +64,141 @@ afterEach(() => {
   localStorage.clear()
 })
 
+it('uses the same day, week and month for the grid, agenda, chores and tests across month boundaries', async () => {
+  selection.selectedDateKey = '2026-09-30'
+  vi.stubGlobal(
+    'fetch',
+    vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
+  )
+  saveCalendarSchedule({
+    version: 1,
+    events: [
+      {
+        id: 'daily',
+        title: 'Daily play',
+        activity: 'playing',
+        kind: 'routine',
+        start: '16:00',
+        end: '17:00',
+        weekdays: [0, 1, 2, 3, 4, 5, 6],
+        schoolDaysOnly: false,
+      },
+    ],
+  })
+  historyState.entries = buildCalendarHistory(
+    ['2026-09-01', '2026-09-30', '2026-10-01', '2026-10-08'].flatMap(
+      (dateKey) =>
+        ['chores', 'tests'].map((kind) => ({
+          id: `${kind}-${dateKey}`,
+          data: {
+            taskTitle: `${kind} ${dateKey}`,
+            taskCollection: kind,
+            dateKey,
+            delta: 1,
+          },
+        }))
+    ),
+    [],
+    [],
+    [],
+    [],
+    'Europe/Amsterdam'
+  )
+  const { container, rerender } = render(
+    <SchoolCalendar theme={themes.princess} />
+  )
+  const cases = [
+    { period: 'Day', dates: ['2026-09-30'], days: 1 },
+    { period: 'Week', dates: ['2026-09-30', '2026-10-01'], days: 7 },
+    { period: 'Month', dates: ['2026-09-01', '2026-09-30'], days: 30 },
+  ]
+  for (const { period, dates, days } of cases) {
+    fireEvent.click(
+      screen.getByRole('radio', { name: 'All activity', exact: true })
+    )
+    fireEvent.click(screen.getByRole('radio', { name: period, exact: true }))
+    const grid = screen.getByRole('group', { name: `${period} calendar` })
+    expect(
+      within(grid).getAllByRole('button', { name: /^Select / })
+    ).toHaveLength(days)
+    expect(grid.querySelectorAll('.calendar-weekday')).toHaveLength(
+      period === 'Day' ? 1 : 7
+    )
+    const agenda = screen.getByRole('group', { name: `${period} agenda` })
+    expect(
+      within(agenda).getAllByRole('region', { name: /^Agenda for / })
+    ).toHaveLength(days)
+    expect(within(agenda).getAllByText('Daily play')).toHaveLength(days)
+    if (period === 'Week') {
+      expect(
+        within(grid).getByRole('button', { name: 'Select 2026-09-28' })
+      ).toBeVisible()
+      expect(
+        within(grid).getByRole('button', { name: 'Select 2026-10-04' })
+      ).toBeVisible()
+      expect(
+        within(agenda).getByRole('region', { name: 'Agenda for 2026-10-01' })
+      ).toBeVisible()
+    }
+    expect(
+      screen.queryByRole('region', { name: 'Agenda for 2026-10-08' })
+    ).not.toBeInTheDocument()
+    for (const [label, kind] of [
+      ['Chores completed', 'chores'],
+      ['Tests completed', 'tests'],
+    ] as const) {
+      fireEvent.click(screen.getByRole('radio', { name: label, exact: true }))
+      expect(
+        container.querySelectorAll('.calendar-history__item')
+      ).toHaveLength(dates.length)
+      for (const date of dates) {
+        expect(
+          screen.getByRole('button', { name: new RegExp(`^${kind} ${date},`) })
+        ).toBeVisible()
+      }
+      expect(
+        screen.getByRole('group', { name: `${period} calendar` })
+      ).toBeVisible()
+      expect(
+        screen.queryByRole('group', { name: `${period} agenda` })
+      ).not.toBeInTheDocument()
+    }
+  }
+  fireEvent.click(
+    screen.getByRole('radio', { name: 'All activity', exact: true })
+  )
+  fireEvent.click(screen.getByRole('radio', { name: 'Week', exact: true }))
+  fireEvent.click(screen.getByRole('button', { name: 'Next calendar week' }))
+  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith('2026-10-07')
+  selection.selectedDateKey = '2026-10-07'
+  rerender(<SchoolCalendar theme={themes.princess} />)
+  expect(
+    screen.getByRole('button', { name: 'Select 2026-10-05' })
+  ).toBeVisible()
+  expect(
+    screen.getByRole('button', { name: 'Select 2026-10-11' })
+  ).toBeVisible()
+  expect(
+    screen.getByRole('region', { name: 'Agenda for 2026-10-08' })
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('region', { name: 'Agenda for 2026-09-30' })
+  ).not.toBeInTheDocument()
+  expect(container.querySelectorAll('.calendar-history__item')).toHaveLength(2)
+  await waitFor(() => expect(fetch).toHaveBeenCalled())
+})
+
 it.each([['2026-01-31', 31, '2026-02-28']])(
   'selects %s and clamps month navigation',
   async (dateKey, days, next) => {
     selection.selectedDateKey = dateKey
+    saveCalendarSchedule({ version: 1, events: [] })
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
     )
     const { rerender } = render(<SchoolCalendar theme={themes.princess} />)
+    fireEvent.click(screen.getByRole('radio', { name: 'Month' }))
     const dateButtons = screen.getAllByRole('button', { name: /^Select / })
     const selected = screen.getByLabelText(`Select ${dateKey}`)
     expect(dateButtons).toHaveLength(days)
@@ -250,6 +376,7 @@ it('keeps calendar markers, history totals and selected-day results in sync with
     'Europe/Amsterdam'
   )
   const { rerender } = render(<SchoolCalendar theme={themes.teenie} />)
+  fireEvent.click(screen.getByRole('radio', { name: 'Week', exact: true }))
   const ninth = () => screen.getByRole('button', { name: 'Select 2026-09-09' })
   const tenth = () => screen.getByRole('button', { name: 'Select 2026-09-10' })
   expect(ninth()).toHaveAttribute(
@@ -290,6 +417,8 @@ it('keeps calendar markers, history totals and selected-day results in sync with
     'aria-description',
     expect.stringContaining('Maths: completed')
   )
+  expect(screen.getByRole('button', { name: /^Maths,/ })).toBeVisible()
+  fireEvent.click(screen.getByRole('radio', { name: 'Day', exact: true }))
   expect(
     screen.getByRole('status', { name: 'No tests completed this day' })
   ).toBeVisible()
@@ -308,6 +437,10 @@ it('keeps calendar markers, history totals and selected-day results in sync with
   fireEvent.click(
     screen.getByRole('radio', { name: 'Rewards granted', exact: true })
   )
+  expect(
+    screen.getByRole('status', { name: 'No rewards granted this day' })
+  ).toBeVisible()
+  fireEvent.click(screen.getByRole('radio', { name: 'Month', exact: true }))
   expect(ninth()).toHaveAttribute(
     'aria-description',
     expect.stringContaining('Cards: reward granted')
@@ -320,10 +453,6 @@ it('keeps calendar markers, history totals and selected-day results in sync with
     'aria-description',
     expect.not.stringContaining('Maths')
   )
-  expect(
-    screen.getByRole('status', { name: 'No rewards granted this day' })
-  ).toBeVisible()
-  fireEvent.click(screen.getByRole('radio', { name: 'Month', exact: true }))
   expect(screen.getByRole('button', { name: /^Cards,/ })).toBeVisible()
   expect(
     within(screen.getByRole('status')).getByRole('img', {
@@ -334,10 +463,9 @@ it('keeps calendar markers, history totals and selected-day results in sync with
     screen.getByRole('radio', { name: 'All activity', exact: true })
   )
   expect(screen.getByRole('region', { name: 'Day agenda' })).toBeVisible()
-  expect(ninth()).toHaveAttribute(
-    'aria-description',
-    expect.stringContaining('Tidy: completed')
-  )
+  expect(
+    screen.queryByRole('button', { name: 'Select 2026-09-09' })
+  ).not.toBeInTheDocument()
   expect(tenth()).toHaveAttribute(
     'aria-description',
     expect.stringContaining('Maths: completed')

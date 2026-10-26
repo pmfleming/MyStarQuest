@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type ReactNode } from 'react'
+import { type CSSProperties, type ReactNode } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import { useSelectedDate } from '../contexts/SelectedDateContext'
 import { parseDateKey } from '../lib/today'
@@ -127,6 +127,8 @@ export default function CalendarActivityHistory({
   entries,
   view,
   onViewChange,
+  period,
+  onPeriodChange,
   childId,
   loading,
   error,
@@ -136,15 +138,14 @@ export default function CalendarActivityHistory({
   entries: CalendarHistoryEntry[]
   view: HistoryView
   onViewChange: (view: HistoryView) => void
+  period: HistoryPeriod
+  onPeriodChange: (period: HistoryPeriod) => void
   childId: string | null
   loading: boolean
   error: boolean
   children?: ReactNode
 }) {
   const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
-  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
-  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
-  const period = view === 'rewards' ? rewardPeriod : taskPeriod
   const filtered = selectCalendarHistory(entries, selectedDateKey, view, period)
   const groups = new Map<string, CalendarHistoryEntry[]>()
   filtered.forEach((entry) =>
@@ -185,7 +186,7 @@ export default function CalendarActivityHistory({
         theme={theme}
         value={period}
         ariaLabel="History period"
-        onChange={view === 'rewards' ? setRewardPeriod : setTaskPeriod}
+        onChange={onPeriodChange}
         options={(view === 'rewards'
           ? (['day', 'month', 'year'] as const)
           : (['day', 'week', 'month'] as const)

@@ -3,7 +3,7 @@ import { fireEvent, render, screen, within } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import CalendarActivityHistory from '../../src/components/CalendarActivityHistory'
 import { themes } from '../../src/contexts/ThemeContext'
-import type { HistoryView } from '../../src/lib/calendarHistory'
+import type { HistoryPeriod, HistoryView } from '../../src/lib/calendarHistory'
 import { buildCalendarHistory } from '../../src/lib/calendarHistory'
 
 const selection = vi.hoisted(() => ({
@@ -76,12 +76,16 @@ function Harness({
   error?: boolean
 }) {
   const [view, setView] = useState<HistoryView>('all')
+  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
+  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
   return (
     <CalendarActivityHistory
       theme={themes.princess}
       entries={entries}
       view={view}
       onViewChange={setView}
+      period={view === 'rewards' ? rewardPeriod : taskPeriod}
+      onPeriodChange={view === 'rewards' ? setRewardPeriod : setTaskPeriod}
       childId={childId}
       loading={loading}
       error={error}

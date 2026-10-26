@@ -1,4 +1,6 @@
 import type { Theme } from '../contexts/ThemeContext'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import moon from '../assets/calendar/weekdays/mon-princess.svg'
 import courage from '../assets/calendar/weekdays/tue-princess.svg'
 import wisdom from '../assets/calendar/weekdays/wed-princess.svg'
@@ -75,24 +77,107 @@ const weekdays = [
   },
 ] as const
 
-export default function CalendarWeekdays({ theme }: { theme: Theme }) {
-  return weekdays.map((weekday) => {
+export default function CalendarWeekdays({
+  theme,
+  dayOfWeek,
+  highlightedDayOfWeek,
+}: {
+  theme: Theme
+  dayOfWeek?: number
+  highlightedDayOfWeek?: number
+}) {
+  const [expandedDay, setExpandedDay] = useState<string | null>(null)
+  const previewRef = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (!expandedDay) return
+    const trigger = document.activeElement
+    const preview = previewRef.current
+    preview?.focus({ preventScroll: true })
+    const closeOutside = (event: Event) => {
+      if (event.target instanceof Node && !preview?.contains(event.target)) {
+        setExpandedDay(null)
+      }
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setExpandedDay(null)
+    }
+    document.addEventListener('pointerdown', closeOutside, true)
+    document.addEventListener('focusin', closeOutside)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOutside, true)
+      document.removeEventListener('focusin', closeOutside)
+      document.removeEventListener('keydown', closeOnEscape)
+      if (
+        (document.activeElement === preview ||
+          document.activeElement === document.body) &&
+        trigger instanceof HTMLElement &&
+        trigger.isConnected
+      )
+        trigger.focus({ preventScroll: true })
+    }
+  }, [expandedDay])
+  const visibleWeekdays = weekdays.filter(
+    (_, index) => dayOfWeek === undefined || index === (dayOfWeek + 6) % 7
+  )
+  return visibleWeekdays.map((weekday) => {
     const teenie = theme.id === 'teenie'
     const description = `${weekday.day}: ${weekday.meaning}${teenie ? `; ${weekday.name} represents ${weekday.link}` : `; ${weekday.link}`}`
     return (
-      <div
+      <button
         key={weekday.day}
+        type="button"
         className="calendar-weekday"
-        role="img"
+        data-highlighted={
+          highlightedDayOfWeek !== undefined &&
+          weekday === weekdays[(highlightedDayOfWeek + 6) % 7]
+        }
         aria-label={description}
+        aria-expanded={expandedDay === weekday.day}
+        aria-description="Double-click, Enter, or Space to enlarge. Double-click again, click outside, or press Escape to close."
         title={description}
+        onDoubleClick={(event) => {
+          event.currentTarget.focus({ preventScroll: true })
+          setExpandedDay(weekday.day)
+        }}
+        onClick={(event) => {
+          if (event.detail === 0) setExpandedDay(weekday.day)
+        }}
       >
         <img
           src={teenie ? weekday.ping : weekday.symbol}
           alt=""
           aria-hidden="true"
         />
-      </div>
+        {expandedDay === weekday.day &&
+          createPortal(
+            <button
+              ref={previewRef}
+              type="button"
+              className="calendar-weekday-preview"
+              aria-label={`Close enlarged ${weekday.day} image`}
+              aria-description="Double-click or press Enter, Space, or Escape to close. Clicking outside also closes the image."
+              onDoubleClick={(event) => {
+                event.stopPropagation()
+                setExpandedDay(null)
+              }}
+              onClick={(event) => {
+                event.stopPropagation()
+                if (event.detail === 0) setExpandedDay(null)
+              }}
+              style={{
+                background: theme.colors.surface,
+                borderColor: theme.colors.accent,
+              }}
+            >
+              <img
+                src={teenie ? weekday.ping : weekday.symbol}
+                alt={`${weekday.day} enlarged`}
+              />
+            </button>,
+            document.body
+          )}
+      </button>
     )
   })
 }

@@ -6,7 +6,16 @@ import {
   type ReactNode,
 } from 'react'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
-import type { MathDifficulty } from '../data/types'
+import {
+  generateLargeNumbersProblem,
+  type LargeNumbersDifficulty,
+  type LargeNumbersProblem,
+  type OperationMode,
+} from '../lib/largeNumbersProblems'
+import {
+  getPlaceValueTotal,
+  type PlaceValues,
+} from '../lib/positionalNotationProblems'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { uiTokens } from '../tokens'
 import { getThemeAsset } from '../ui/themeAssets'
@@ -14,6 +23,7 @@ import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles
 import { type ActivityChoreProps } from './ui/ActivityControls'
 import { CounterGroup, MathCounter, TenRod } from './ui/ActivityMathCounters'
 import MathActivityPlayArea from './ui/MathActivityPlayArea'
+import LargeNumbersExpandedAnswer from './ui/LargeNumbersExpandedAnswer'
 import MathActivityShell from './ui/MathActivityShell'
 import { NumberStepper } from './ui/StepperButton'
 import CrownDifficultyControl, {
@@ -23,9 +33,7 @@ import SegmentedChoiceControl, {
   type SegmentedChoiceOption,
 } from './ui/SegmentedChoiceControl'
 
-const MIN_ADDEND = 11
 const MAX_SUM = 99
-const MAX_FIRST_ADDEND = MAX_SUM - MIN_ADDEND
 const MAX_ONES_TENS = 1
 const MAX_TENS_RODS = 10
 const PLACE_GRID_COLUMNS = '44px 40px minmax(82px, 1fr) 42px minmax(82px, 1fr)'
@@ -45,55 +53,32 @@ const ONE_COUNTER_SIZE = 24
 
 const { mathCounterGap: DOT_GAP } = uiTokens.activityTokens
 
-type LargeNumbersProblem = {
-  a: number
-  b: number
-  operation: '+' | '-'
-}
-
-type OperationMode = 'addition' | 'subtraction' | 'both'
-
 const OPERATION_OPTIONS: SegmentedChoiceOption<OperationMode>[] = [
   { value: 'addition', label: 'Addition only', symbol: '+' },
   { value: 'subtraction', label: 'Subtraction only', symbol: '−' },
   { value: 'both', label: 'Addition and subtraction', symbol: '+ / −' },
 ]
 
-const DIFFICULTY_OPTIONS: CrownDifficultyOption<MathDifficulty>[] = [
+const DIFFICULTY_OPTIONS: CrownDifficultyOption<LargeNumbersDifficulty>[] = [
   { value: 'easy', label: 'Easy', crowns: 1 },
   { value: 'hard', label: 'Hard', crowns: 2 },
+  { value: 'three-crowns', label: 'Three crowns: 1–9,999', crowns: 3 },
+  { value: 'four-crowns', label: 'Four crowns: 1–999,999', crowns: 4 },
 ]
 
 const EMPTY_PROBLEM: LargeNumbersProblem = { a: 0, b: 0, operation: '+' }
+const EMPTY_VALUES: PlaceValues = {
+  hundredThousands: 0,
+  tenThousands: 0,
+  thousands: 0,
+  hundreds: 0,
+  tens: 0,
+  ones: 0,
+}
 
 type OnesAnswerState = {
   ones: number
   onesTens: number
-}
-
-function generateAddends(difficulty: MathDifficulty) {
-  if (difficulty === 'easy') {
-    const choice = Math.floor(Math.random() * 18)
-    const b = choice < 9 ? choice + 1 : (choice - 8) * 10
-    const a = Math.floor(Math.random() * (MAX_SUM - b)) + 1
-    return { a, b }
-  }
-  const a =
-    Math.floor(Math.random() * (MAX_FIRST_ADDEND - MIN_ADDEND + 1)) + MIN_ADDEND
-  const maxB = MAX_SUM - a
-  const b = Math.floor(Math.random() * (maxB - MIN_ADDEND + 1)) + MIN_ADDEND
-  return Math.random() > 0.5 ? { a, b } : { a: b, b: a }
-}
-
-function generateLargeNumbersProblem(
-  mode: OperationMode,
-  difficulty: MathDifficulty
-): LargeNumbersProblem {
-  const { a, b } = generateAddends(difficulty)
-  const subtract =
-    mode === 'subtraction' || (mode === 'both' && Math.random() < 0.5)
-  if (subtract) return { a: a + b, b, operation: '-' }
-  return { a, b, operation: '+' }
 }
 
 function getProblemKey(problem: LargeNumbersProblem): string {
@@ -127,40 +112,61 @@ const getAdjustedOnesState = (
 }
 
 const LargeNumbersTester = (props: ActivityChoreProps) => {
-  const { theme, isRunning } = props
+  const { theme, isRunning, totalProblems } = props
   const [operationMode, setOperationMode] = useState<OperationMode>('addition')
-  const [difficulty, setDifficulty] = useState<MathDifficulty>('hard')
+  const [difficulty, setDifficulty] = useState<LargeNumbersDifficulty>('hard')
+  const [values, setValues] = useState<PlaceValues>(EMPTY_VALUES)
+  const expandedDifficulty =
+    difficulty === 'three-crowns' || difficulty === 'four-crowns'
+      ? difficulty
+      : null
   const [{ a: operandA, b: operandB, operation }, setProblem] =
     useState(EMPTY_PROBLEM)
   const [userTensRods, setUserTensRods] = useState(0)
   const [onesState, setOnesState] = useState({ ones: 0, onesTens: 0 })
   const { ones: userOnes, onesTens: userOnesTens } = onesState
-  const { isSeen, markSeen, clearHistory } = useProblemHistory()
+  const { isSeen, markSeen, clearHistory } = useProblemHistory([
+    difficulty,
+    operationMode,
+  ])
 
   const expectedAnswer =
     operation === '+' ? operandA + operandB : operandA - operandB
   const firstDigits = getDigits(operandA)
   const secondDigits = getDigits(operandB)
-  const currentAnswer = (userTensRods + userOnesTens) * 10 + userOnes
+  const currentAnswer = expandedDifficulty
+    ? getPlaceValueTotal(values)
+    : (userTensRods + userOnesTens) * 10 + userOnes
   const answerDigits = getDigits(currentAnswer)
 
-  const nextProblem = useCallback(() => {
-    const problem = pickUnseenProblem(
-      () => generateLargeNumbersProblem(operationMode, difficulty),
-      (candidate) => isSeen(getProblemKey(candidate))
-    )
-    markSeen(getProblemKey(problem))
+  const nextProblem = useCallback(
+    (nextIndex: number) => {
+      const problem = pickUnseenProblem(
+        () =>
+          generateLargeNumbersProblem(
+            operationMode,
+            difficulty,
+            nextIndex,
+            totalProblems
+          ),
+        (candidate) => isSeen(getProblemKey(candidate))
+      )
+      markSeen(getProblemKey(problem))
 
-    setProblem(problem)
-    setUserTensRods(0)
-    setOnesState({ ones: 0, onesTens: 0 })
-  }, [isSeen, markSeen, operationMode, difficulty])
+      setProblem(problem)
+      setUserTensRods(0)
+      setOnesState({ ones: 0, onesTens: 0 })
+      setValues(EMPTY_VALUES)
+    },
+    [isSeen, markSeen, operationMode, difficulty, totalProblems]
+  )
 
   const resetProblem = useCallback(() => {
     clearHistory()
     setProblem(EMPTY_PROBLEM)
     setUserTensRods(0)
     setOnesState({ ones: 0, onesTens: 0 })
+    setValues(EMPTY_VALUES)
   }, [clearHistory])
 
   const {
@@ -175,7 +181,7 @@ const LargeNumbersTester = (props: ActivityChoreProps) => {
   } = useCheckedActivityChallenge({
     ...props,
     canStart: operandA === 0,
-    onStart: nextProblem,
+    onStart: () => nextProblem(0),
     onReset: resetProblem,
     isAnswerCorrect: currentAnswer === expectedAnswer,
     onNextProblem: nextProblem,
@@ -370,15 +376,23 @@ const LargeNumbersTester = (props: ActivityChoreProps) => {
       isFinished={isFinished}
       isSuccessState={isSuccessState}
       isSetup={isSetup}
-      animationStyles={getActivityFeedbackAnimationStyles('large-numbers')}
+      animationStyles={
+        getActivityFeedbackAnimationStyles('large-numbers') +
+        getActivityFeedbackAnimationStyles('pv')
+      }
       difficultyControl={
         <>
           <CrownDifficultyControl
             theme={theme}
             value={difficulty}
             options={DIFFICULTY_OPTIONS}
-            onChange={setDifficulty}
+            onChange={(nextDifficulty) => {
+              if (nextDifficulty === difficulty) return
+              resetProblem()
+              setDifficulty(nextDifficulty)
+            }}
             ariaLabel="Large numbers difficulty"
+            crownSize={16}
           />
           <SegmentedChoiceControl
             theme={theme}
@@ -399,119 +413,140 @@ const LargeNumbersTester = (props: ActivityChoreProps) => {
           isCorrect={isCorrect}
           isWrong={isWrong}
           retryCount={retryCount}
+          resultBarStyle={expandedDifficulty ? { height: 24 } : undefined}
         >
-          <div
-            role="group"
-            aria-label={`${operandA} ${operation === '+' ? 'plus' : 'minus'} ${operandB}`}
-            style={{
-              width: '100%',
-              borderRadius: 18,
-              border: `3px dashed ${theme.colors.primary}55`,
-              background: theme.colors.surface,
-              padding: 12,
-              boxSizing: 'border-box',
-              boxShadow: `0 8px 18px ${theme.colors.primary}12`,
-            }}
-          >
-            <div style={placeGridStyle}>
-              {[
-                { digits: firstDigits, symbol: '' },
-                { digits: secondDigits, symbol: operation === '+' ? '+' : '−' },
-              ].map(({ digits, symbol }, index) => (
-                <Fragment key={index}>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontFamily: theme.fonts.heading,
-                      fontSize: 52,
-                      fontWeight: 900,
-                      lineHeight: 1,
-                      color: theme.colors.primary,
-                    }}
-                  >
-                    {symbol}
-                  </div>
-
-                  <div />
-                  <div style={digitCellStyle(`${theme.colors.secondary}24`)}>
-                    {digits.tens}
-                  </div>
-                  <div />
-                  <div style={digitCellStyle(`${theme.colors.primary}24`)}>
-                    {digits.ones}
-                  </div>
-                </Fragment>
-              ))}
-              <div />
-              <div />
-              <div style={digitCellStyle(`${theme.colors.secondary}14`)}>
-                {userOnesTens > 0 ? userOnesTens : ''}
-              </div>
-              <div />
-              <div />
-            </div>
-
-            <div
-              style={{
-                height: 5,
-                borderRadius: 999,
-                background: theme.colors.text,
-                opacity: 0.9,
-                margin: '8px 0',
-              }}
+          {expandedDifficulty ? (
+            <LargeNumbersExpandedAnswer
+              theme={theme}
+              problem={{ a: operandA, b: operandB, operation }}
+              difficulty={expandedDifficulty}
+              values={values}
+              isCorrect={isCorrect}
+              onChange={(kind, value) =>
+                setValues((current) => ({ ...current, [kind]: value }))
+              }
             />
+          ) : (
+            <>
+              <div
+                role="group"
+                aria-label={`${operandA} ${operation === '+' ? 'plus' : 'minus'} ${operandB}`}
+                style={{
+                  width: '100%',
+                  borderRadius: 18,
+                  border: `3px dashed ${theme.colors.primary}55`,
+                  background: theme.colors.surface,
+                  padding: 12,
+                  boxSizing: 'border-box',
+                  boxShadow: `0 8px 18px ${theme.colors.primary}12`,
+                }}
+              >
+                <div style={placeGridStyle}>
+                  {[
+                    { digits: firstDigits, symbol: '' },
+                    {
+                      digits: secondDigits,
+                      symbol: operation === '+' ? '+' : '−',
+                    },
+                  ].map(({ digits, symbol }, index) => (
+                    <Fragment key={index}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontFamily: theme.fonts.heading,
+                          fontSize: 52,
+                          fontWeight: 900,
+                          lineHeight: 1,
+                          color: theme.colors.primary,
+                        }}
+                      >
+                        {symbol}
+                      </div>
 
-            <div style={placeGridStyle}>
-              <div />
-              <div style={digitCellStyle(`${theme.colors.accent}18`, true)}>
-                {answerDigits.hundreds === 0 ? '' : answerDigits.hundreds}
-              </div>
-              <div style={digitCellStyle(`${theme.colors.accent}22`, true)}>
-                {answerDigits.tens}
-              </div>
-              <div />
-              <div style={digitCellStyle(`${theme.colors.accent}22`, true)}>
-                {answerDigits.ones}
-              </div>
-            </div>
-          </div>
+                      <div />
+                      <div
+                        style={digitCellStyle(`${theme.colors.secondary}24`)}
+                      >
+                        {digits.tens}
+                      </div>
+                      <div />
+                      <div style={digitCellStyle(`${theme.colors.primary}24`)}>
+                        {digits.ones}
+                      </div>
+                    </Fragment>
+                  ))}
+                  <div />
+                  <div />
+                  <div style={digitCellStyle(`${theme.colors.secondary}14`)}>
+                    {userOnesTens > 0 ? userOnesTens : ''}
+                  </div>
+                  <div />
+                  <div />
+                </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: PLACE_GRID_COLUMNS,
-              gap: 8,
-              width: '100%',
-              alignItems: 'start',
-            }}
-          >
-            <div />
-            <div style={{ gridColumn: TENS_COUNTER_COLUMNS }}>
-              {counterControl(
-                'Tens',
-                userTensRods,
-                theme.colors.secondary,
-                () => adjustTens(-1),
-                () => adjustTens(1),
-                userTensRods === 0,
-                !canAddTen,
-                renderTenRods(userTensRods, theme.colors.secondary)
-              )}
-            </div>
-            {renderRegroupedTen()}
-            {counterControl(
-              'Ones',
-              userOnes,
-              theme.colors.primary,
-              () => adjustOnes(-1),
-              () => adjustOnes(1),
-              !canRemoveOne,
-              !canAddOne,
-              renderSingleCounters(userOnes, theme.colors.primary)
-            )}
-          </div>
+                <div
+                  style={{
+                    height: 5,
+                    borderRadius: 999,
+                    background: theme.colors.text,
+                    opacity: 0.9,
+                    margin: '8px 0',
+                  }}
+                />
+
+                <div style={placeGridStyle}>
+                  <div />
+                  <div style={digitCellStyle(`${theme.colors.accent}18`, true)}>
+                    {answerDigits.hundreds === 0 ? '' : answerDigits.hundreds}
+                  </div>
+                  <div style={digitCellStyle(`${theme.colors.accent}22`, true)}>
+                    {answerDigits.tens}
+                  </div>
+                  <div />
+                  <div style={digitCellStyle(`${theme.colors.accent}22`, true)}>
+                    {answerDigits.ones}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: PLACE_GRID_COLUMNS,
+                  gap: 8,
+                  width: '100%',
+                  alignItems: 'start',
+                }}
+              >
+                <div />
+                <div style={{ gridColumn: TENS_COUNTER_COLUMNS }}>
+                  {counterControl(
+                    'Tens',
+                    userTensRods,
+                    theme.colors.secondary,
+                    () => adjustTens(-1),
+                    () => adjustTens(1),
+                    userTensRods === 0,
+                    !canAddTen,
+                    renderTenRods(userTensRods, theme.colors.secondary)
+                  )}
+                </div>
+                {renderRegroupedTen()}
+                {counterControl(
+                  'Ones',
+                  userOnes,
+                  theme.colors.primary,
+                  () => adjustOnes(-1),
+                  () => adjustOnes(1),
+                  !canRemoveOne,
+                  !canAddOne,
+                  renderSingleCounters(userOnes, theme.colors.primary)
+                )}
+              </div>
+            </>
+          )}
         </MathActivityPlayArea>
       )}
     </MathActivityShell>

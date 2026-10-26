@@ -265,7 +265,7 @@ const getCounterLayout = (
   }
 }
 
-const PlaceValueColumn = ({
+export const PlaceValueColumn = ({
   kind,
   value,
   max,
