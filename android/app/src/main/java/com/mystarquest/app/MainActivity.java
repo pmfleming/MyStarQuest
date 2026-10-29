@@ -7,6 +7,7 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(SchoolCalendarPlugin.class);
+        registerPlugin(StoryReaderPlugin.class);
         super.onCreate(savedInstanceState);
         SchoolCalendarWorker.schedule(this);
     }

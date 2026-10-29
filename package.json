@@ -10,6 +10,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:comic": "npm --prefix comic run dev --",
+    "build:comic": "npm --prefix comic run build",
+    "preview:comic": "npm --prefix comic run preview --",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",

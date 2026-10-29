@@ -10,6 +10,8 @@ export default defineConfig({
     entries: ['index.html', 'tests/fixtures/*.html'],
   },
   server: {
+    port: 5173,
+    strictPort: true,
     watch: {
       ignored: ['**/android/**', '**/tmp/**', '**/output/**', '**/target/**'],
     },

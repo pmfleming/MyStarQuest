@@ -18,6 +18,14 @@ import { useTestCheckTriggers } from '../hooks/useTestCheckTriggers'
 import { createTestActivityBindings } from '../ui/testActivityBindings'
 import { filterActiveChildItems } from '../data/dailyTaskState'
 import { useTaskCelebration } from '../hooks/useTaskCelebration'
+import TestCategoryPicker from '../components/TestCategoryPicker'
+import StoryLibrary from '../components/StoryLibrary'
+import {
+  TEST_CATEGORIES,
+  categoryLabels,
+  testCategory,
+  type TestCategory,
+} from '../data/testCategories'
 
 const TestsPage = () => {
   const { activeChildId } = useActiveChild()
@@ -39,6 +47,8 @@ const TestsPage = () => {
   } = useTests()
 
   const [adding, setAdding] = useState(false)
+  const [selectedCategory, setSelectedCategory] =
+    useState<TestCategory>('numbers')
   const [newType, setNewType] = useState<TestType>('math')
   const {
     busy: saving,
@@ -110,80 +120,122 @@ const TestsPage = () => {
             </p>
           </div>
         ) : (
-          <StandardActionList
-            key={activityScope}
-            theme={theme}
-            items={celebration.retainItems(visibleTests)}
-            getKey={(test) => test.id}
-            getItemLabel={(test) => test.title}
-            {...descriptor}
-            getStarCount={() => undefined}
-            hideEdit
-            onDelete={(test) => deleteTest(test.id)}
-            addLabel="Add Test"
-            onAdd={() => setAdding(true)}
-            hideAdd={!canManageTests}
-            addDisabled={saving}
-            inlineNewRow={
-              adding ? (
-                <form
-                  className="flex flex-col gap-3"
-                  onSubmit={(event) => {
-                    event.preventDefault()
-                    void run(async () => {
-                      await createTest(newType)
-                      setAdding(false)
-                    })
-                  }}
-                >
-                  <label>
-                    Test type
-                    <select
-                      className="ml-3 rounded-lg border bg-white p-2 text-black"
-                      value={newType}
-                      onChange={(event) =>
-                        setNewType(
-                          TEST_TYPES.find(
-                            (type) => type === event.target.value
-                          ) ?? newType
-                        )
-                      }
-                    >
-                      {TEST_TYPES.map((type) => (
-                        <option key={type} value={type}>
-                          {TEST_TEMPLATES[type].title}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <button disabled={saving} className="font-bold underline">
-                    Save test
-                  </button>
-                  <button
-                    type="button"
-                    disabled={saving}
-                    onClick={() => setAdding(false)}
-                  >
-                    Cancel
-                  </button>
-                  {error && <p role="alert">{error}</p>}
-                </form>
-              ) : undefined
-            }
-            emptyState={
-              <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
-                {canManageTests ? (
-                  <p>No tests yet. Add a test to get started.</p>
+          <>
+            <TestCategoryPicker
+              theme={theme}
+              selected={selectedCategory}
+              onSelect={(category) => {
+                setSelectedCategory(category)
+                setAdding(false)
+                const firstType = TEST_TYPES.find(
+                  (type) => testCategory[type] === category
+                )
+                if (firstType) setNewType(firstType)
+              }}
+            />
+            {TEST_CATEGORIES.map((category) => (
+              <section
+                key={category}
+                id={`test-category-${category}`}
+                aria-label={categoryLabels[category]}
+                hidden={category !== selectedCategory}
+              >
+                {category === 'stories' ? (
+                  <StoryLibrary key={activeChildId} theme={theme} />
                 ) : (
-                  <ResourceLoadingIcon
-                    src={getTabIcon('tests', theme.id)}
-                    loading
-                    label="Loading tests"
+                  <StandardActionList
+                    key={activityScope}
+                    theme={theme}
+                    items={celebration
+                      .retainItems(visibleTests)
+                      .filter(
+                        (test) => testCategory[test.taskType] === category
+                      )}
+                    getKey={(test) => test.id}
+                    getItemLabel={(test) => test.title}
+                    {...descriptor}
+                    getStarCount={() => undefined}
+                    hideEdit
+                    onDelete={(test) => deleteTest(test.id)}
+                    addLabel="Add Test"
+                    onAdd={() => setAdding(true)}
+                    hideAdd={!canManageTests}
+                    addDisabled={saving}
+                    inlineNewRow={
+                      adding && selectedCategory === category ? (
+                        <form
+                          className="flex flex-col gap-3"
+                          onSubmit={(event) => {
+                            event.preventDefault()
+                            void run(async () => {
+                              await createTest(newType)
+                              setAdding(false)
+                            })
+                          }}
+                        >
+                          <label>
+                            Test type
+                            <select
+                              className="ml-3 rounded-lg border bg-white p-2 text-black"
+                              value={newType}
+                              onChange={(event) =>
+                                setNewType(
+                                  TEST_TYPES.find(
+                                    (type) => type === event.target.value
+                                  ) ?? newType
+                                )
+                              }
+                            >
+                              {TEST_TYPES.filter(
+                                (type) => testCategory[type] === category
+                              ).map((type) => (
+                                <option key={type} value={type}>
+                                  {TEST_TEMPLATES[type].title}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
+                          <button
+                            disabled={saving}
+                            className="font-bold underline"
+                          >
+                            Save test
+                          </button>
+                          <button
+                            type="button"
+                            disabled={saving}
+                            onClick={() => setAdding(false)}
+                          >
+                            Cancel
+                          </button>
+                          {error && <p role="alert">{error}</p>}
+                        </form>
+                      ) : undefined
+                    }
+                    emptyState={
+                      <div className="rounded-3xl bg-black/10 p-6 text-center text-lg font-bold">
+                        {canManageTests || visibleTests.length > 0 ? (
+                          <p>
+                            No {categoryLabels[category].toLowerCase()} tests
+                            yet.
+                            {canManageTests
+                              ? ' Add a test to get started.'
+                              : ''}
+                          </p>
+                        ) : (
+                          <ResourceLoadingIcon
+                            src={getTabIcon('tests', theme.id)}
+                            loading
+                            label="Loading tests"
+                          />
+                        )}
+                      </div>
+                    }
                   />
                 )}
-              </div>
-            }
-          />
+              </section>
+            ))}
+          </>
         )}
       </div>
     </TabContent>

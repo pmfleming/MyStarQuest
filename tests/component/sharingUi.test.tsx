@@ -211,6 +211,7 @@ it('offers adding a shared test to a secondary parent', async () => {
       </ChildAccessContext>
     </MemoryRouter>
   )
+  fireEvent.click(screen.getByRole('button', { name: 'Trivia', exact: true }))
   fireEvent.click(screen.getByRole('button', { name: 'Add Test' }))
   fireEvent.change(screen.getByRole('combobox', { name: 'Test type' }), {
     target: { value: 'animals' },

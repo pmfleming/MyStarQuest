@@ -15,6 +15,7 @@ import DashboardPage from '../../src/pages/DashboardPage'
 import TestsPage from '../../src/pages/TestsPage'
 import { buildDefaultTests } from '../../src/data/taskDocuments'
 import type { ChoreWithEphemeral } from '../../src/data/types'
+import { categoryLabels, testCategory } from '../../src/data/testCategories'
 
 const state = vi.hoisted(() => ({
   child: 'child',
@@ -151,6 +152,42 @@ const tree = () => (
   </ScopeContext>
 )
 
+it('shows only the selected category and a cover with an entry button for stories', async () => {
+  render(tree())
+  expect(
+    screen.getByRole('button', { name: 'Numbers', exact: true })
+  ).toHaveAttribute('aria-pressed', 'true')
+  expect(
+    screen.getByRole('button', { name: 'Run Arithmetic', exact: true })
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('button', { name: 'Run Alphabet Match', exact: true })
+  ).toBeNull()
+  await click('Letters')
+  expect(
+    screen.getByRole('button', { name: 'Run Alphabet Match', exact: true })
+  ).toBeVisible()
+  expect(
+    screen.getByRole('button', { name: 'Run Spelling', exact: true })
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('button', { name: 'Run Arithmetic', exact: true })
+  ).toBeNull()
+  await click('Trivia')
+  expect(
+    screen.getByRole('button', { name: 'Run Who am I?', exact: true })
+  ).toBeVisible()
+  expect(
+    screen.queryByRole('button', { name: 'Run Spelling', exact: true })
+  ).toBeNull()
+  await click('Stories')
+  expect(
+    screen.getByRole('img', { name: 'Sea friends story cover' })
+  ).toBeVisible()
+  expect(screen.getByRole('button', { name: 'Read Sea friends' })).toBeVisible()
+  expect(screen.queryByRole('button', { name: /^Run / })).toBeNull()
+})
+
 it('resets retained chores from the Tests menu without stopping its tests', async () => {
   render(tree())
   await act(async () => {
@@ -182,15 +219,21 @@ it.each([true])(
     await act(async () => {
       vi.advanceTimersByTime(20)
     })
-    for (const test of allTests) await click(`Run ${test.title}`)
+    for (const test of allTests) {
+      await click(categoryLabels[testCategory[test.taskType]])
+      await click(`Run ${test.title}`)
+    }
     await act(async () => {
       await vi.dynamicImportSettled()
       vi.advanceTimersByTime(400)
     })
-    for (const test of allTests)
+    for (const test of allTests) {
+      await click(categoryLabels[testCategory[test.taskType]])
       expect(
         screen.getByRole('button', { name: `Reset ${test.title}`, exact: true })
       ).toBeVisible()
+    }
+    await click('Numbers')
 
     // A partially answered real fraction puzzle must not restart when another
     // activity opens or its entire tab is hidden.
@@ -227,10 +270,13 @@ it.each([true])(
     expect(
       within(fraction).queryByRole('button', { name: '1 out of 4 equal parts' })
     ).not.toBeInTheDocument()
-    for (const test of allTests)
+    for (const test of allTests) {
+      await click(categoryLabels[testCategory[test.taskType]])
       expect(
         screen.getByRole('button', { name: `Reset ${test.title}`, exact: true })
       ).toBeVisible()
+    }
+    await click('Numbers')
     await click('Reset Arithmetic')
     await click('Yes, reset')
     expect(
@@ -252,10 +298,13 @@ it.each([true])(
     view.rerender(tree())
     expect(screen.getByRole('button', { name: 'Run Dinner' })).toBeVisible()
     await click('Tests tab')
-    for (const test of allTests)
+    for (const test of allTests) {
+      await click(categoryLabels[testCategory[test.taskType]])
       expect(
         screen.getByRole('button', { name: `Run ${test.title}`, exact: true })
       ).toBeVisible()
+    }
+    await click('Numbers')
     await click('Run Arithmetic')
     state.child = 'other-child'
     view.rerender(tree())
