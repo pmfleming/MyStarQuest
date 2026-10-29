@@ -60,7 +60,12 @@ const oneOf =
   (value) =>
     values.includes(value)
 const taskType: Validator = (value) =>
-  Object.hasOwn(completedFields, String(value))
+  typeof value === 'string' && Object.hasOwn(completedFields, value)
+const documentCollection = oneOf('children', 'chores', 'tests', 'rewards')
+const documentMode = oneOf('put', 'patch', 'delete')
+const activityCollection = oneOf('chores', 'tests')
+const activityDate: Validator = (value) =>
+  typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)
 const problemCount = between(1, 9)
 const starCount = between(0, 999)
 const sequenceNumber = between(1, Number.MAX_SAFE_INTEGER)
@@ -137,8 +142,7 @@ export function documentPatch(
 const finiteNumber: Validator = (value) =>
   typeof value === 'number' && Number.isFinite(value)
 const activityRules: Record<string, Validator> = {
-  manageWaterLevel: (value) =>
-    ['full', 'twothirds', 'onethird', 'empty'].includes(String(value)),
+  manageWaterLevel: oneOf('full', 'twothirds', 'onethird', 'empty'),
   manageToiletStatus: oneOf('notpeepee', 'didpeepee'),
 }
 const outcome = oneOf(null, 'success', 'failure')
@@ -211,20 +215,12 @@ export function parseOperation(input: unknown): SharedOperation {
   const action = record(op.action)
   id(action.entityId)
   if (action.kind === 'document') {
-    if (
-      !['children', 'chores', 'tests', 'rewards'].includes(
-        String(action.collection)
-      ) ||
-      !['put', 'patch', 'delete'].includes(String(action.mode))
-    )
+    if (!documentCollection(action.collection) || !documentMode(action.mode))
       fail('Invalid document action.')
     record(action.data)
   } else if (action.kind === 'activity') {
     id(action.childId)
-    if (
-      !['chores', 'tests'].includes(String(action.collection)) ||
-      !/^\d{4}-\d{2}-\d{2}$/.test(String(action.dateKey))
-    )
+    if (!activityCollection(action.collection) || !activityDate(action.dateKey))
       fail('Invalid activity.')
     if (![action.complete, action.reset, action.consume].every(boolean))
       fail('Invalid activity flags.')

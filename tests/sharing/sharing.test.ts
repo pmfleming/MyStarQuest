@@ -254,6 +254,27 @@ describe('invitations and membership', () => {
   })
 })
 describe('canonical operations', () => {
+  it('rejects coerced collections before a secondary parent can target child settings', async () => {
+    await accept()
+    for (const entityId of ['child', 'sibling']) {
+      const forged = op({
+        kind: 'document',
+        collection: 'children',
+        entityId,
+        mode: 'patch',
+        data: { totalStars: 999 },
+      })
+      Object.assign(forged.action, { collection: ['children'] })
+      await expect(service.apply(parent, scope, forged)).rejects.toMatchObject({
+        code: 'invalid-argument',
+      })
+    }
+    expect((await childRef.get()).data()!.totalStars).toBe(10)
+    expect(
+      (await db.doc('users/owner/children/sibling').get()).data()!.totalStars
+    ).toBe(100)
+  })
+
   it('awards one completion across parents and retries, using the stored star value', async () => {
     await accept()
     const one = completion(),
