@@ -1,5 +1,6 @@
+import { useDismissibleLayer } from '../hooks/useDismissibleLayer'
 import type { Theme } from '../contexts/ThemeContext'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import moon from '../assets/calendar/weekdays/mon-princess.svg'
 import courage from '../assets/calendar/weekdays/tue-princess.svg'
@@ -88,35 +89,12 @@ export default function CalendarWeekdays({
 }) {
   const [expandedDay, setExpandedDay] = useState<string | null>(null)
   const previewRef = useRef<HTMLButtonElement>(null)
-  useEffect(() => {
-    if (!expandedDay) return
-    const trigger = document.activeElement
-    const preview = previewRef.current
-    preview?.focus({ preventScroll: true })
-    const closeOutside = (event: Event) => {
-      if (event.target instanceof Node && !preview?.contains(event.target)) {
-        setExpandedDay(null)
-      }
-    }
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setExpandedDay(null)
-    }
-    document.addEventListener('pointerdown', closeOutside, true)
-    document.addEventListener('focusin', closeOutside)
-    document.addEventListener('keydown', closeOnEscape)
-    return () => {
-      document.removeEventListener('pointerdown', closeOutside, true)
-      document.removeEventListener('focusin', closeOutside)
-      document.removeEventListener('keydown', closeOnEscape)
-      if (
-        (document.activeElement === preview ||
-          document.activeElement === document.body) &&
-        trigger instanceof HTMLElement &&
-        trigger.isConnected
-      )
-        trigger.focus({ preventScroll: true })
-    }
-  }, [expandedDay])
+  useDismissibleLayer({
+    ref: previewRef,
+    active: expandedDay,
+    onDismiss: () => setExpandedDay(null),
+    autoFocus: true,
+  })
   const visibleWeekdays = weekdays.filter(
     (_, index) => dayOfWeek === undefined || index === (dayOfWeek + 6) % 7
   )

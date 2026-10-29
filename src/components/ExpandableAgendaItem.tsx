@@ -1,11 +1,6 @@
+import { useDismissibleLayer } from '../hooks/useDismissibleLayer'
 import { keyboardActivation } from './ui/keyboardActivation'
-import {
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from 'react'
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react'
 
 export default function ExpandableAgendaItem({
   children,
@@ -32,28 +27,11 @@ export default function ExpandableAgendaItem({
     }
   }
 
-  useEffect(() => {
-    if (!expanded) return
-    const collapseOutside = (event: Event) => {
-      if (
-        event.target instanceof Node &&
-        !itemRef.current?.contains(event.target)
-      ) {
-        setExpandedHeight(null)
-      }
-    }
-    const collapseOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setExpandedHeight(null)
-    }
-    document.addEventListener('pointerdown', collapseOutside, true)
-    document.addEventListener('focusin', collapseOutside)
-    document.addEventListener('keydown', collapseOnEscape)
-    return () => {
-      document.removeEventListener('pointerdown', collapseOutside, true)
-      document.removeEventListener('focusin', collapseOutside)
-      document.removeEventListener('keydown', collapseOnEscape)
-    }
-  }, [expanded])
+  useDismissibleLayer({
+    ref: itemRef,
+    active: expanded,
+    onDismiss: () => setExpandedHeight(null),
+  })
 
   return (
     <li

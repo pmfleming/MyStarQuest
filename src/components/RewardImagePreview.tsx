@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { useDismissibleLayer } from '../hooks/useDismissibleLayer'
+import { useRef } from 'react'
 import ImageWithOverlay from './ui/ImageWithOverlay'
 
 export default function RewardImagePreview({
@@ -14,45 +15,12 @@ export default function RewardImagePreview({
 }) {
   const previewRef = useRef<HTMLButtonElement>(null)
 
-  useEffect(() => {
-    const trigger = document.activeElement
-    const preview = previewRef.current
-    preview?.focus({ preventScroll: true })
-    return () => {
-      if (
-        (document.activeElement === preview ||
-          document.activeElement === document.body) &&
-        trigger instanceof HTMLElement &&
-        trigger.isConnected
-      ) {
-        trigger.focus({ preventScroll: true })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    const closeOutside = (event: Event) => {
-      if (
-        event.target instanceof Node &&
-        !previewRef.current?.contains(event.target)
-      ) {
-        onClose()
-      }
-    }
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    document.addEventListener('pointerdown', closeOutside, true)
-    document.addEventListener('click', closeOutside, true)
-    document.addEventListener('focusin', closeOutside)
-    document.addEventListener('keydown', closeOnEscape)
-    return () => {
-      document.removeEventListener('pointerdown', closeOutside, true)
-      document.removeEventListener('click', closeOutside, true)
-      document.removeEventListener('focusin', closeOutside)
-      document.removeEventListener('keydown', closeOnEscape)
-    }
-  }, [onClose])
+  useDismissibleLayer({
+    ref: previewRef,
+    onDismiss: onClose,
+    autoFocus: true,
+    dismissOnClick: true,
+  })
 
   return (
     <button
