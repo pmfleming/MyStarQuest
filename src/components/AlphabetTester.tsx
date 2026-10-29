@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useActivityChallenge } from '../hooks/useActivityChallenge'
 import { preloadImage } from '../lib/imageLoading'
+import { shuffle } from '../lib/shuffle'
 import { pickUnseenProblem, useProblemHistory } from '../lib/useProblemHistory'
 import { getThemeAsset } from '../ui/themeAssets'
 import {
@@ -67,9 +68,7 @@ function generateAlphabetProblem(): {
     const rand = pickRandomItem(others)
     if (!choices.includes(rand)) choices.push(rand)
   }
-  choices.sort(() => Math.random() - 0.5)
-
-  return { letter, image, choices }
+  return { letter, image, choices: shuffle(choices) }
 }
 
 /* ------------------------------------------------------------------ */

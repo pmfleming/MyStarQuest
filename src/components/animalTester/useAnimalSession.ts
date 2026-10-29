@@ -12,6 +12,7 @@ import {
   type ActivityResult,
 } from '../../lib/activityOutcome'
 import { preloadImage } from '../../lib/imageLoading'
+import { shuffle } from '../../lib/shuffle'
 import type { ActivityChoreProps } from '../ui/ActivityControls'
 import { useCreatureCollection } from './useCreatureCollection'
 
@@ -21,8 +22,6 @@ const CHOICE_ANIMATION_MS = 650
 const CLUE_REVEAL_INTERVAL_MS = 3000
 const MIN_PROBLEMS = 1
 const MAX_PROBLEMS = 9
-const shuffle = <T>(items: readonly T[]) =>
-  [...items].sort(() => Math.random() - 0.5)
 const getActiveAnimalOrder = (
   mode: AnimalMode,
   catalog: CatalogAnimal[],

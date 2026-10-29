@@ -1,4 +1,5 @@
 import { useActivityPersistence } from '../hooks/useActivityPersistence'
+import { shuffle } from '../lib/shuffle'
 import type { CSSProperties } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import animalsSetIcon from '../assets/global/cat-camel-cow.webp'
@@ -56,8 +57,6 @@ const SPELLING_SET_OPTIONS: {
   { id: 'animals', label: 'Animals', icon: animalsSetIcon },
   { id: 'pokemon', label: 'Pokémon', icon: pokemonSetIcon },
 ]
-
-const shuffle = <T,>(items: T[]) => [...items].sort(() => Math.random() - 0.5)
 
 const getRequiredItem = <T,>(
   items: readonly T[],
