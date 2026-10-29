@@ -35,6 +35,11 @@ const activity = {
 }
 describe('shared offline state', () => {
   it('uses actor, owner, child and membership namespaces', () => {
+    expect(
+      parseChildScope(
+        childStorageKey({ ...parseChildScope(key)!, membershipVersion: -1 })
+      )
+    ).toBeNull()
     expect(parseChildScope(key)).toEqual({
       actorUid: 'parent',
       ownerUid: 'owner',

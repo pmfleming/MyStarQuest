@@ -13,7 +13,7 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { parseChildProfile } from '../data/types'
 import { offlineRuntime } from '../offline/runtime'
 import { isOfflineEnabled } from '../offline/platform'
-import { childStorageKey } from './scope'
+import { childStorageKey, parseChildAccessGrant } from './scope'
 import { ChildAccessContext, type AccessibleChild } from './ChildAccessContext'
 
 function profile(
@@ -67,20 +67,9 @@ function subscribeSharedChildren(
       if (disposed) return
       const keys = new Set<string>()
       for (const grant of snapshot.docs) {
-        const {
-          ownerUid,
-          childId,
-          membershipVersion,
-          status,
-        }: Record<string, unknown> = grant.data()
-        if (
-          status !== 'active' ||
-          typeof ownerUid !== 'string' ||
-          typeof childId !== 'string' ||
-          typeof membershipVersion !== 'number' ||
-          !Number.isInteger(membershipVersion)
-        )
-          continue
+        const access = parseChildAccessGrant(grant.data())
+        if (!access) continue
+        const { ownerUid, childId, membershipVersion } = access
         keys.add(grant.id)
         const scope = childStorageKey({
           actorUid,

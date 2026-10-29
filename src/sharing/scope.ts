@@ -6,7 +6,19 @@ const scopeId = z
   .string()
   .min(1)
   .refine((value) => !value.includes('/'))
-const scopeTuple = z.tuple([scopeId, scopeId, scopeId, z.number().int()])
+const membershipVersion = z.number().int().nonnegative()
+const scopeTuple = z.tuple([scopeId, scopeId, scopeId, membershipVersion])
+const childAccessGrantSchema = z.object({
+  status: z.literal('active'),
+  ownerUid: scopeId,
+  childId: scopeId,
+  membershipVersion,
+})
+
+export function parseChildAccessGrant(value: unknown) {
+  const parsed = childAccessGrantSchema.safeParse(value)
+  return parsed.success ? parsed.data : null
+}
 export function childStorageKey(scope: ChildScope) {
   return (
     prefix +

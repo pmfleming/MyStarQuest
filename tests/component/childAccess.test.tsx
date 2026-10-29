@@ -72,6 +72,56 @@ beforeEach(() => {
   fixtures.revoke.mockClear()
 })
 afterEach(cleanup)
+it('ignores malformed grants without waiting for invalid profile paths', () => {
+  render(
+    <Wrapper>
+      <Probe />
+    </Wrapper>
+  )
+  act(() => fixtures.listeners.get('users/parent/children')!({ docs: [] }))
+  const valid = {
+    ownerUid: 'owner',
+    childId: 'child',
+    membershipVersion: 1,
+    status: 'active',
+  }
+  const invalid = [
+    { ownerUid: '' },
+    { childId: '' },
+    { ownerUid: 'owner/nested' },
+    { childId: 'child/nested' },
+    { membershipVersion: -1 },
+    { membershipVersion: 0.5 },
+    { membershipVersion: Number.MAX_SAFE_INTEGER + 1 },
+    { membershipVersion: '1' },
+    { status: 'revoked' },
+  ]
+  act(() =>
+    fixtures.listeners.get('users/parent/childAccess')!({
+      docs: [
+        ...invalid.map((patch, i) =>
+          snapshot(`bad-${i}`, { ...valid, ...patch })
+        ),
+        snapshot('grant', valid),
+      ],
+    })
+  )
+  expect([...fixtures.listeners.keys()].sort()).toEqual([
+    'users/owner/children/child',
+    'users/parent/childAccess',
+    'users/parent/children',
+  ])
+  act(() =>
+    fixtures.listeners.get('users/owner/children/child')!({
+      exists: () => true,
+      data: () => ({ displayName: 'Ready child', sharedDataVersion: 1 }),
+      metadata: { fromCache: false },
+    })
+  )
+  expect(screen.getByText('Ready child')).toBeInTheDocument()
+  expect(screen.queryByText('Opening')).toBeNull()
+})
+
 it('waits for the invited profile, isolates colliding IDs, and clears a removed membership', () => {
   render(
     <Wrapper>
