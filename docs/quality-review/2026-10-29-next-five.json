@@ -1,0 +1,145 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "233239b623b67df9c772d7ac3602740fb9de3f12",
+    "verified_main": "2026-10-29"
+  },
+  "baseline_head": "d09e285ab7a16756c2ff3aed8bc12b8acad41dee",
+  "measurement_head": "27cf57c",
+  "method": "Initial working-tree code hashes match the verified previous review. Same compiler/config/ruleset identity, policies and source roots. Frontend/Functions whole-project audit with base empty and gate all. Four commits precede the final measurement, so locality risk includes changed Git history and is not a controlled source-only comparison. No thresholds, exclusions or suppressions changed. Only new improvements are committed; pre-existing pending work stays unstaged.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 36425,
+        "cognitive": 1848,
+        "cyclomatic": 2522,
+        "effort": 11815485.98,
+        "clone_groups": 0,
+        "locality_risk": 13256,
+        "leverage_risk": 488,
+        "event_bus_implementations": 25,
+        "blockers": 0,
+        "warnings": 59
+      },
+      "after": {
+        "source_lines": 36416,
+        "cognitive": 1845,
+        "cyclomatic": 2516,
+        "effort": 11681758.12,
+        "clone_groups": 0,
+        "locality_risk": 13270,
+        "leverage_risk": 488,
+        "event_bus_implementations": 25,
+        "blockers": 0,
+        "warnings": 59
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 2091,
+        "cognitive": 148,
+        "cyclomatic": 174,
+        "effort": 216563.31,
+        "clone_groups": 0,
+        "locality_risk": 188,
+        "leverage_risk": 132,
+        "event_bus_implementations": 0,
+        "blockers": 0,
+        "warnings": 0
+      },
+      "after": {
+        "source_lines": 2087,
+        "cognitive": 150,
+        "cyclomatic": 177,
+        "effort": 202605.03,
+        "clone_groups": 0,
+        "locality_risk": 190,
+        "leverage_risk": 132,
+        "event_bus_implementations": 0,
+        "blockers": 0,
+        "warnings": 0
+      }
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 38516,
+      "cognitive": 1996,
+      "cyclomatic": 2696,
+      "effort": 12032049.29,
+      "clone_groups": 0,
+      "locality_risk": 13444,
+      "leverage_risk": 620,
+      "event_bus_implementations": 25,
+      "blockers": 0,
+      "warnings": 59
+    },
+    "after": {
+      "source_lines": 38503,
+      "cognitive": 1995,
+      "cyclomatic": 2693,
+      "effort": 11884363.15,
+      "clone_groups": 0,
+      "locality_risk": 13460,
+      "leverage_risk": 620,
+      "event_bus_implementations": 25,
+      "blockers": 0,
+      "warnings": 59
+    },
+    "delta": {
+      "source_lines": -13,
+      "cognitive": -1,
+      "cyclomatic": -3,
+      "effort": -147686.14,
+      "clone_groups": 0,
+      "locality_risk": 16,
+      "leverage_risk": 0,
+      "event_bus_implementations": 0,
+      "blockers": 0,
+      "warnings": 0
+    }
+  },
+  "physical": {
+    "before": 52176,
+    "after": 52437,
+    "delta": 261
+  },
+  "steps": [
+    {
+      "commit": "a034c94",
+      "subject": "Reject coerced shared operation fields before authorization",
+      "validation": "5 previously failing regression cases pass; sharing emulator 14 passed; Functions build passed."
+    },
+    {
+      "commit": "d3cbd72",
+      "subject": "Validate child access grants before subscribing to profiles",
+      "validation": "Child access and shared offline tests: 7 passed; type check passed."
+    },
+    {
+      "commit": "1349d14",
+      "subject": "Use an unbiased shared shuffle for learning choices",
+      "validation": "Shuffle/alphabet tests: 3 passed; animal session tests: 2 passed; type check passed."
+    },
+    {
+      "commit": "27cf57c",
+      "subject": "Share preview dismissal and focus ownership lifecycle",
+      "validation": "Preview, reward, calendar component tests: 10 passed; type check passed."
+    },
+    {
+      "subject": "Decouple theme identity from UI artwork",
+      "validation": "Theme, profile parsing and child access tests: 5 passed; full checks recorded below. This report belongs to the fifth commit."
+    }
+  ],
+  "validation": {
+    "frontend_audit": "complete, warn; full configured unit/component suite passed",
+    "functions_audit": "complete, pass",
+    "sharing_emulator": "14 passed",
+    "calendar_browsers": "12 passed across Chromium, Firefox and WebKit",
+    "preview_browser_checks": "6 theme/browser combinations passed, including focus restoration and keyboard dismissal",
+    "lint": "passed",
+    "formatting": "passed",
+    "web_build": "passed",
+    "functions_build": "passed",
+    "comic_build": "passed"
+  }
+}

@@ -1,8 +1,8 @@
 import princessImage from '../assets/themes/princess/princess.svg'
 import teenieImage from '../assets/teenie/heart.webp'
+import { isThemeId, type ThemeId } from '../data/themeIds'
 
-// Define a type for the theme IDs for type safety
-export type ThemeId = 'princess' | 'teenie'
+export { isThemeId, type ThemeId }
 
 interface ThemeOption {
   id: ThemeId
@@ -28,9 +28,6 @@ export const themeOptions: ThemeOption[] = [
     image: princessImage,
   },
 ]
-
-export const isThemeId = (value: string): value is ThemeId =>
-  themeOptions.some((option) => option.id === value)
 
 // A quick lookup map for getting theme details by ID
 export const THEME_ID_LOOKUP = new Map(

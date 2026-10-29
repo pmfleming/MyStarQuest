@@ -1,4 +1,4 @@
-import type { ThemeId } from '../ui/themeOptions'
+import type { ThemeId } from './themeIds'
 import { createAssetCatalog } from './assetCatalog'
 
 const princessModules = import.meta.glob<string>(

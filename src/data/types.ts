@@ -1,7 +1,7 @@
 // ── Shared data types and constants for the chore/task system ──
 
 import { z } from 'zod'
-import { isThemeId, type ThemeId } from '../ui/themeOptions'
+import { isThemeId, type ThemeId } from './themeIds'
 import {
   MAX_DINNER_SLICES,
   MAX_TASK_VALUE,

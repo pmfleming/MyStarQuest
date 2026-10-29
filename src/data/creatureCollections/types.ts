@@ -2,7 +2,7 @@ import type { AnimalFact, AnimalKnowledge } from '../animalKnowledgeTypes'
 import type { InsectKnowledge } from '../insectKnowledge'
 import type { TeeniepingKnowledge } from '../teeniepingKnowledge'
 import type { DinosaurKnowledge } from '../dinosaurKnowledge'
-import type { ThemeId } from '../../ui/themeOptions'
+import type { ThemeId } from '../themeIds'
 
 export type CreatureCollection =
   'animals' | 'insects' | 'teeniepings' | 'dinosaurs'

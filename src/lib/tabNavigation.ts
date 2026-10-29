@@ -1,5 +1,5 @@
 import { getThemeAsset } from '../ui/themeAssets'
-import type { ThemeId } from '../ui/themeOptions'
+import type { ThemeId } from '../data/themeIds'
 
 export type AppTabId = 'chores' | 'tests' | 'rewards' | 'time-explorer'
 

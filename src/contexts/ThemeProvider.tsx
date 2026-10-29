@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FC, type ReactNode } from 'react'
-import { isThemeId, type ThemeId } from '../ui/themeOptions'
+import { isThemeId, type ThemeId } from '../data/themeIds'
 import { ThemeContext, themes } from './ThemeContext'
 
 // Create the theme provider

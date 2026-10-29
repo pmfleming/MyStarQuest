@@ -1,4 +1,4 @@
-import type { ThemeId } from '../ui/themeOptions'
+import type { ThemeId } from './themeIds'
 import { createAssetResolver } from './assetCatalog'
 import { getGenericAnimalAbilityImage } from './genericAnimalAbilityAssets'
 

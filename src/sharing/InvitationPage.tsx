@@ -2,7 +2,7 @@ import { useAsyncFeedback } from '../hooks/useAsyncFeedback'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { isThemeId } from '../ui/themeOptions'
+import { isThemeId } from '../data/themeIds'
 import { sharingCall } from './api'
 export default function InvitationPage() {
   const { inviteId } = useParams()

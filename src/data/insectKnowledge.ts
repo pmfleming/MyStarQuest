@@ -4,7 +4,7 @@ import { getAnimalAbilityImage } from './animalAbilityAssets'
 import { getGenericAnimalAbilityImage } from './genericAnimalAbilityAssets'
 import { ANIMAL_HABITAT_IMAGE_BY_NAME } from './animalHabitatAssets'
 import { ANIMAL_FOOD_IMAGE_BY_NAME } from './animalFoodAssets'
-import type { ThemeId } from '../ui/themeOptions'
+import type { ThemeId } from './themeIds'
 
 const habitatImages = new Map(Object.entries(ANIMAL_HABITAT_IMAGE_BY_NAME))
 const foodImages = new Map(Object.entries(ANIMAL_FOOD_IMAGE_BY_NAME))
