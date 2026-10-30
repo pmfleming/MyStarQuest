@@ -25,41 +25,46 @@ const resolveTaskType = (...candidates: string[]): TaskType | null => {
 // Validation already supplies each variant's defaults; keep the discriminator
 // and its fields together instead of reconstructing them through string keys.
 function taskVariant(taskType: TaskType, data: TaskData) {
-  switch (taskType) {
-    case 'eating':
-      return {
-        taskType,
-        dinnerDurationSeconds: data.dinnerDurationSeconds,
-        dinnerTotalBites: data.dinnerTotalBites,
-      }
-    case 'math':
-      return {
-        taskType,
-        mathTotalProblems: data.mathTotalProblems,
-        mathDifficulty: data.mathDifficulty,
-      }
-    case 'large-numbers':
-      return {
-        taskType,
-        largeNumbersTotalProblems: data.largeNumbersTotalProblems,
-      }
-    case 'alphabet':
-      return { taskType, alphabetTotalProblems: data.alphabetTotalProblems }
-    case 'fractions':
-      return {
-        taskType,
-        fractionsTotalProblems: data.fractionsTotalProblems,
-        fractionsMaxDenominator: data.fractionsMaxDenominator,
-      }
-    case 'spelling':
-      return { taskType, spellingTotalProblems: data.spellingTotalProblems }
-    case 'animals':
-      return { taskType, animalsTotalProblems: data.animalsTotalProblems }
-    case 'positional-notation':
-      return { taskType, pvTotalProblems: data.pvTotalProblems }
-    default:
-      return { taskType }
-  }
+  const variants = {
+    eating: {
+      taskType: 'eating',
+      dinnerDurationSeconds: data.dinnerDurationSeconds,
+      dinnerTotalBites: data.dinnerTotalBites,
+    },
+    math: {
+      taskType: 'math',
+      mathTotalProblems: data.mathTotalProblems,
+      mathDifficulty: data.mathDifficulty,
+    },
+    'large-numbers': {
+      taskType: 'large-numbers',
+      largeNumbersTotalProblems: data.largeNumbersTotalProblems,
+    },
+    alphabet: {
+      taskType: 'alphabet',
+      alphabetTotalProblems: data.alphabetTotalProblems,
+    },
+    fractions: {
+      taskType: 'fractions',
+      fractionsTotalProblems: data.fractionsTotalProblems,
+      fractionsMaxDenominator: data.fractionsMaxDenominator,
+    },
+    spelling: {
+      taskType: 'spelling',
+      spellingTotalProblems: data.spellingTotalProblems,
+    },
+    animals: {
+      taskType: 'animals',
+      animalsTotalProblems: data.animalsTotalProblems,
+    },
+    'positional-notation': {
+      taskType: 'positional-notation',
+      pvTotalProblems: data.pvTotalProblems,
+    },
+    standard: { taskType: 'standard' },
+    watertoiletcheck: { taskType: 'watertoiletcheck' },
+  } satisfies { [Type in TaskType]: { taskType: Type } & Partial<TaskData> }
+  return variants[taskType]
 }
 
 // Null and zero are meaningful reset values. Missing fields remain absent.

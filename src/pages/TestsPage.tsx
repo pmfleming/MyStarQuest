@@ -49,6 +49,9 @@ const TestsPage = () => {
   const [adding, setAdding] = useState(false)
   const [selectedCategory, setSelectedCategory] =
     useState<TestCategory>('numbers')
+  const [visitedCategories, setVisitedCategories] = useState<
+    ReadonlySet<TestCategory>
+  >(() => new Set(['numbers']))
   const [newType, setNewType] = useState<TestType>('math')
   const {
     busy: saving,
@@ -126,6 +129,11 @@ const TestsPage = () => {
               selected={selectedCategory}
               onSelect={(category) => {
                 setSelectedCategory(category)
+                setVisitedCategories((visited) =>
+                  visited.has(category)
+                    ? visited
+                    : new Set([...visited, category])
+                )
                 setAdding(false)
                 const firstType = TEST_TYPES.find(
                   (type) => testCategory[type] === category
@@ -133,7 +141,9 @@ const TestsPage = () => {
                 if (firstType) setNewType(firstType)
               }}
             />
-            {TEST_CATEGORIES.map((category) => (
+            {TEST_CATEGORIES.filter((category) =>
+              visitedCategories.has(category)
+            ).map((category) => (
               <section
                 key={category}
                 id={`test-category-${category}`}

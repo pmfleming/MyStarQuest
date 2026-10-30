@@ -42,6 +42,7 @@ export const uiTokens = {
   actionButtonArrowSize: 32,
   topIconSize: 44,
   topIconBorder: 4,
+  pageControlHeight: 84,
   deviceMaxWidth: 414,
   floatingNavHeight: 55,
   floatingNavWidthPercent: surfaceWidthPercent,

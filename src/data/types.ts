@@ -1,6 +1,7 @@
 // ── Shared data types and constants for the chore/task system ──
 
 import { z } from 'zod'
+import { taskCompletedFields } from '../../functions/src/sharing/protocol'
 import { isThemeId, type ThemeId } from './themeIds'
 import {
   MAX_DINNER_SLICES,
@@ -327,18 +328,7 @@ export const getManageWaterLevel = (task: WaterToiletTask) =>
 export const getManageToiletStatus = (task: WaterToiletTask) =>
   task.manageToiletStatus ?? DEFAULT_TOILET_STATUS
 
-export const manageCompletedAtFieldByType = {
-  standard: 'manageCompletedAt',
-  eating: 'manageDinnerCompletedAt',
-  math: 'manageMathCompletedAt',
-  'large-numbers': 'manageLargeNumbersCompletedAt',
-  fractions: 'manageFractionsCompletedAt',
-  'positional-notation': 'managePVCompletedAt',
-  alphabet: 'manageAlphabetCompletedAt',
-  spelling: 'manageSpellingCompletedAt',
-  animals: 'manageAnimalsCompletedAt',
-  watertoiletcheck: 'manageWaterToiletCompletedAt',
-} satisfies {
+export const manageCompletedAtFieldByType = taskCompletedFields satisfies {
   [Type in TaskType]: Extract<
     keyof Extract<TaskWithEphemeral, { taskType: Type }>,
     `${string}CompletedAt`

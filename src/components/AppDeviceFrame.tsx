@@ -33,6 +33,7 @@ export const AppDeviceFrame = ({
   >
     <div
       className={contentClassName}
+      data-app-device-frame
       style={{
         height: isNativePlatform ? '100%' : `${browserFrameHeight}px`,
         maxWidth: isNativePlatform ? '100%' : `${uiTokens.deviceMaxWidth}px`,

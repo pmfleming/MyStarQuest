@@ -2,7 +2,6 @@ type PendingAction = 'primary' | 'edit' | 'utility' | null
 
 export function getActionButtonState({
   hidePrimary,
-  hideEdit,
   hasEdit,
   hideUtility,
   confirmingReset,
@@ -11,7 +10,6 @@ export function getActionButtonState({
   utilityDisabled,
 }: {
   hidePrimary: boolean
-  hideEdit: boolean
   hasEdit: boolean
   hideUtility: boolean
   confirmingReset: boolean
@@ -21,7 +19,7 @@ export function getActionButtonState({
 }) {
   const pending = pendingAction !== null
   const showPrimary = !hidePrimary
-  const showEdit = !hideEdit && hasEdit
+  const showEdit = hasEdit
   const showUtility = !hideUtility
   const confirm = showUtility && confirmingReset
   return {

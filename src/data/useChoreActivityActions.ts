@@ -4,15 +4,12 @@ import { celebrateSuccess } from '../lib/celebrate'
 import {
   calculateAwardTaskPatch,
   calculateNextDinnerBiteState,
-  calculateWaterToiletStars,
+  calculateTaskStars,
 } from '../lib/choreLogic'
 import {
   getManageDinnerBitesLeft,
   getManageDinnerRemaining,
-  getManageToiletStatus,
-  getManageWaterLevel,
   isEatingTask,
-  isWaterToiletTask,
   type TaskEphemeralState,
   type TaskWithEphemeral,
 } from './types'
@@ -31,45 +28,18 @@ type UseChoreActivityActionsArgs = {
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export const useChoreActivityActions = ({
-  user,
-  storageKey,
-  activeChildId,
-  dateKey,
-  updateEphemeral,
-}: UseChoreActivityActionsArgs) => {
+type PersistCompletion = (
+  item: TaskWithEphemeral,
+  updates: Partial<TaskEphemeralState>,
+  delta: number
+) => Promise<{ appliedDelta: number; starsBefore?: number }>
+
+// The delayed final bite and reset version belong to the same dinner lifecycle.
+function useDinnerActions(
+  updateEphemeral: UseChoreActivityActionsArgs['updateEphemeral'],
+  persistCompletion: PersistCompletion
+) {
   const dinnerResetVersions = useRef(new Map<string, number>())
-  const getCompletionDelta = (item: TaskWithEphemeral) => {
-    return isWaterToiletTask(item)
-      ? calculateWaterToiletStars(
-          getManageWaterLevel(item),
-          getManageToiletStatus(item)
-        )
-      : item.starValue
-  }
-
-  const persistCompletion = async (
-    item: TaskWithEphemeral,
-    updates: Partial<TaskEphemeralState>,
-    delta: number
-  ) => {
-    if (!user || !activeChildId) {
-      await updateEphemeral(item.id, updates)
-      return { appliedDelta: 0, starsBefore: undefined }
-    }
-    const result = await completeTaskAndAwardStars({
-      userId: storageKey ?? user.uid,
-      childId: activeChildId,
-      taskId: item.id,
-      taskCollection: 'chores',
-      dateKey,
-      delta,
-      updates,
-      deleteOnComplete: !item.isRepeating,
-    })
-    return result
-  }
-
   const applyBite = async (
     item: TaskWithEphemeral,
     onAward?: (delta: number, starsBefore?: number) => void
@@ -109,10 +79,8 @@ export const useChoreActivityActions = ({
     return true
   }
 
-  const startDinnerTimer = async (item: TaskWithEphemeral) => {
-    const now = Date.now()
-    await updateEphemeral(item.id, { manageDinnerTimerStartedAt: now })
-  }
+  const startDinnerTimer = (item: TaskWithEphemeral) =>
+    updateEphemeral(item.id, { manageDinnerTimerStartedAt: Date.now() })
 
   const expireDinnerTimer = async (item: TaskWithEphemeral) => {
     if (
@@ -147,6 +115,39 @@ export const useChoreActivityActions = ({
     })
   }
 
+  return { applyBite, startDinnerTimer, expireDinnerTimer, resetDinner }
+}
+
+export const useChoreActivityActions = ({
+  user,
+  storageKey,
+  activeChildId,
+  dateKey,
+  updateEphemeral,
+}: UseChoreActivityActionsArgs) => {
+  const persistCompletion = async (
+    item: TaskWithEphemeral,
+    updates: Partial<TaskEphemeralState>,
+    delta: number
+  ) => {
+    if (!user || !activeChildId) {
+      await updateEphemeral(item.id, updates)
+      return { appliedDelta: 0, starsBefore: undefined }
+    }
+    return completeTaskAndAwardStars({
+      userId: storageKey ?? user.uid,
+      childId: activeChildId,
+      taskId: item.id,
+      taskCollection: 'chores',
+      dateKey,
+      delta,
+      updates,
+      deleteOnComplete: !item.isRepeating,
+    })
+  }
+
+  const dinnerActions = useDinnerActions(updateEphemeral, persistCompletion)
+
   const completeChore = async (
     task: TaskWithEphemeral,
     onAward?: (delta: number, starsBefore?: number) => void
@@ -154,7 +155,7 @@ export const useChoreActivityActions = ({
     const result = await persistCompletion(
       task,
       calculateAwardTaskPatch(task, Date.now()),
-      getCompletionDelta(task)
+      calculateTaskStars(task)
     )
     if (result.appliedDelta > 0) {
       if (onAward) onAward(result.appliedDelta, result.starsBefore)
@@ -162,22 +163,17 @@ export const useChoreActivityActions = ({
     }
   }
 
-  const failChore = async (item: TaskWithEphemeral) => {
-    const now = Date.now()
-    await updateEphemeral(
+  const failChore = (item: TaskWithEphemeral) =>
+    updateEphemeral(
       item.id,
-      manageTestOutcomePatch(item.taskType, now, 'failure')
+      manageTestOutcomePatch(item.taskType, Date.now(), 'failure')
     )
-  }
 
   const resetChore = (item: TaskWithEphemeral) =>
     updateEphemeral(item.id, resetManageChorePatch(item.taskType))
 
   return {
-    applyBite,
-    startDinnerTimer,
-    expireDinnerTimer,
-    resetDinner,
+    ...dinnerActions,
     completeChore,
     failChore,
     resetChore,

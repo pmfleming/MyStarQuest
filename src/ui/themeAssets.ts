@@ -18,6 +18,9 @@ import mathsCounter from '../assets/themes/princess/maths-counter.svg'
 import practicePiano from '../assets/themes/princess/practice-piano.png'
 import practiceJudo from '../assets/themes/princess/practice-judo.png'
 import nowIcon from '../assets/themes/princess/now-character.png'
+import storyReturnIcon from '../assets/themes/princess/story-return-character.webp'
+import storyPageIcon from '../assets/themes/princess/story-page-next.webp'
+import storyProgressIcon from '../assets/themes/princess/story-progress-crown.svg'
 
 const princessAssets = {
   background: princess.princessBackground,
@@ -29,6 +32,9 @@ const princessAssets = {
   thermometerIcon: princess.princessThermometerIcon,
   childrenIcon: princess.princessChildrenIcon,
   exitIcon: princess.princessExitIcon,
+  storyReturnIcon,
+  storyPageIcon,
+  storyProgressIcon,
   editIcon: princess.princessEditIcon,
   deleteIcon: princess.princessDeleteIcon,
   resetIcon: princess.princessResetIcon,
@@ -105,6 +111,9 @@ const teenieRoles = {
   thermometerIcon: 'thermometer.svg',
   childrenIcon: '@heart',
   exitIcon: 'exit-character.png',
+  storyReturnIcon: 'exit-character.png',
+  storyPageIcon: 'story-page-next.webp',
+  storyProgressIcon: 'story-progress-heart.svg',
   editIcon: 'edit.webp',
   deleteIcon: 'delete.webp',
   resetIcon: 'reset.svg',

@@ -1,4 +1,27 @@
 // Wire contract shared by the web client and callable functions.
+export const taskCompletedFields = {
+  standard: 'manageCompletedAt',
+  eating: 'manageDinnerCompletedAt',
+  watertoiletcheck: 'manageWaterToiletCompletedAt',
+  math: 'manageMathCompletedAt',
+  'large-numbers': 'manageLargeNumbersCompletedAt',
+  fractions: 'manageFractionsCompletedAt',
+  'positional-notation': 'managePVCompletedAt',
+  alphabet: 'manageAlphabetCompletedAt',
+  spelling: 'manageSpellingCompletedAt',
+  animals: 'manageAnimalsCompletedAt',
+} as const
+
+/** Persisted counters have historically accepted numeric strings and missing values. */
+export const storedNumber = (
+  data: Record<string, unknown> | undefined,
+  field: string
+) => Number(data?.[field] ?? 0)
+
+export const waterToiletStars = (water: unknown, toilet: unknown) =>
+  (water === 'empty' ? 1 : water === 'full' ? -1 : 0) +
+  (toilet === 'didpeepee' ? 1 : -5)
+
 export type ChildScope = {
   actorUid: string
   ownerUid: string

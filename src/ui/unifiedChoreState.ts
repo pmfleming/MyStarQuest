@@ -10,6 +10,7 @@ import {
 } from '../data/types'
 import {
   calculateWaterToiletStars,
+  calculateTaskStars,
   getNextToiletStatus,
   getNextWaterLevel,
 } from '../lib/choreLogic'
@@ -21,15 +22,14 @@ import type {
   UnifiedChoreItem,
 } from './unifiedChoreDescriptorTypes'
 
-const getDinnerState = (item: UnifiedChoreItem) => {
-  return isEatingTask(item)
+const getDinnerState = (item: UnifiedChoreItem) =>
+  isEatingTask(item)
     ? {
         remaining: getManageDinnerRemaining(item),
         startedAt: item.manageDinnerTimerStartedAt,
         bitesLeft: getManageDinnerBitesLeft(item),
       }
     : null
-}
 
 export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
   const themedAsset = (asset?: string): ThemedAsset =>
@@ -60,19 +60,7 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
         : 'completed'
     }
 
-    return isActiveItem(deps, item.id) ? 'activity' : 'setup'
-  }
-
-  const getWaterToiletDelta = (item: UnifiedChoreItem) => {
-    if (!isWaterToiletTask(item)) return item.starValue
-    return calculateWaterToiletStars(
-      getManageWaterLevel(item),
-      getManageToiletStatus(item)
-    )
-  }
-
-  const getWaterToiletRenderState = (item: UnifiedChoreItem) => {
-    return getTaskWaterToiletRenderState(deps, item)
+    return deps.activeIds.has(item.id) ? 'activity' : 'setup'
   }
 
   return {
@@ -80,8 +68,9 @@ export const createUnifiedChoreState = (deps: UnifiedChoreDeps) => {
     testOutcomeImages,
     isCompleted,
     getStage,
-    getWaterToiletDelta,
-    getWaterToiletRenderState,
+    getWaterToiletDelta: calculateTaskStars,
+    getWaterToiletRenderState: (item: UnifiedChoreItem) =>
+      getTaskWaterToiletRenderState(deps, item),
   }
 }
 
@@ -94,9 +83,6 @@ const hasExpiredDinnerTimer = ({
   const elapsed = (Date.now() - startedAt) / 1000
   return remaining - elapsed <= 0 && bitesLeft > 0
 }
-
-const isActiveItem = (deps: UnifiedChoreDeps, id: string) =>
-  deps.activeIds.has(id)
 
 const getTaskWaterToiletRenderState = (
   deps: UnifiedChoreDeps,

@@ -1,5 +1,6 @@
 import type { Theme } from '../contexts/ThemeContext'
 import { AsyncButton } from './ui/AsyncButton'
+import { uiTokens } from '../tokens'
 import globeIcon from '../assets/cities/earth.svg'
 import TimeExplorerClockIcon, {
   type HeaderClock,
@@ -92,6 +93,10 @@ export default function TimeExplorerControls({
       className="flex items-stretch p-1"
       style={{
         containerType: 'inline-size',
+        height: uiTokens.pageControlHeight,
+        minHeight: uiTokens.pageControlHeight,
+        maxHeight: uiTokens.pageControlHeight,
+        boxSizing: 'border-box',
         borderRadius: 22,
         border: `2px solid ${theme.colors.accent}66`,
         background: theme.colors.surface,
@@ -144,7 +149,8 @@ export default function TimeExplorerControls({
             onClick={() => togglePanel(option.value)}
             className="flex min-w-0 items-center justify-center rounded-2xl p-0.5 transition active:scale-95"
             style={{
-              minHeight: 72,
+              height: '100%',
+              minHeight: 0,
               background: activePanels.includes(option.value)
                 ? theme.colors.primary
                 : 'transparent',
@@ -169,7 +175,7 @@ export default function TimeExplorerControls({
           onClick={resetToNow}
           aria-label="Reset all to now"
           title="Back to now"
-          className="flex min-h-[72px] w-full items-center justify-center rounded-2xl p-0.5 transition active:scale-95 disabled:opacity-60"
+          className="flex h-full w-full items-center justify-center rounded-2xl p-0.5 transition active:scale-95 disabled:opacity-60"
           style={{
             background: `${theme.colors.primary}10`,
             boxShadow: `inset 0 0 0 1.5px ${theme.colors.primary}55`,

@@ -11,7 +11,7 @@ import teenieArithmetic from '../assets/themes/teenie/category-arithmetic.webp'
 import teenieWriting from '../assets/teenie/memo.webp'
 import princessThinking from '../assets/themes/princess/category-thinking.webp'
 import princessReading from '../assets/themes/princess/category-reading.webp'
-import './TestCategoryPicker.css'
+import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 
 export default function TestCategoryPicker({
   theme,
@@ -36,26 +36,17 @@ export default function TestCategoryPicker({
   }
 
   return (
-    <nav className="test-categories" aria-label="Test categories">
-      {TEST_CATEGORIES.map((category) => (
-        <button
-          key={category}
-          type="button"
-          className="test-category"
-          aria-pressed={selected === category}
-          aria-controls={`test-category-${category}`}
-          onClick={() => onSelect(category)}
-          style={{
-            color: theme.colors.text,
-            borderColor:
-              selected === category ? theme.colors.primary : 'transparent',
-            background: selected === category ? theme.colors.bg : '#fff',
-          }}
-        >
-          <img src={images[category]} alt="" draggable={false} />
-          <span>{categoryLabels[category]}</span>
-        </button>
-      ))}
-    </nav>
+    <SegmentedChoiceControl
+      theme={theme}
+      value={selected}
+      onChange={onSelect}
+      ariaLabel="Test categories"
+      size="page"
+      options={TEST_CATEGORIES.map((category) => ({
+        value: category,
+        label: categoryLabels[category],
+        icon: images[category],
+      }))}
+    />
   )
 }

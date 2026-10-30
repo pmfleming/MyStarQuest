@@ -23,6 +23,7 @@ import {
 import {
   progressKey,
   sharedDateKey,
+  storedNumber,
   type ChildScope,
   type SharedReceipt,
 } from './protocol'
@@ -151,7 +152,7 @@ export class SharingService {
           'Finish the other child migration first.'
         )
       if (!dryRun && child.sharedDataVersion !== 1) {
-        if (Number(child.sharingMigrationLeaseUntil ?? 0) > this.now())
+        if (storedNumber(child, 'sharingMigrationLeaseUntil') > this.now())
           throw new HttpsError(
             'aborted',
             'Shared progress is being prepared. Try again in a few minutes.'
@@ -492,7 +493,7 @@ export class SharingService {
           'failed-precondition',
           'This invitation has expired or was cancelled. Ask the admin for a new invitation.'
         )
-      const version = Number(dataOf(membership)?.membershipVersion ?? 0) + 1
+      const version = storedNumber(dataOf(membership), 'membershipVersion') + 1
       tx.set(membership.ref, {
         role: 'secondary',
         status: 'active',
@@ -551,7 +552,7 @@ export class SharingService {
           status: 'revoked',
           revokedAt: this.now(),
           membershipVersion:
-            Number(dataOf(membership)?.membershipVersion ?? 0) + 1,
+            storedNumber(dataOf(membership), 'membershipVersion') + 1,
         })
         tx.delete(
           this.db.doc(
@@ -651,7 +652,7 @@ export class SharingService {
                 ...entity,
                 ...patch,
                 ...(action.mode === 'put' ? { createdAt: time, childId } : {}),
-                offlineRevision: Number(entity?.offlineRevision ?? 0) + 1,
+                offlineRevision: storedNumber(entity, 'offlineRevision') + 1,
               }
         if (
           document &&
@@ -661,7 +662,7 @@ export class SharingService {
           fail('An activity needs a type and a child.')
         if (collection === 'children' && document)
           document.offlineBalanceRevision =
-            Number(child.offlineBalanceRevision ?? 0) + 1
+            storedNumber(child, 'offlineBalanceRevision') + 1
         if (document) tx.set(entityRef, document)
         else {
           tx.delete(entityRef)
@@ -746,7 +747,7 @@ export class SharingService {
               'failed-precondition',
               'This one-time activity was already completed.'
             )
-          const generation = Number(prior?.generation ?? 0)
+          const generation = storedNumber(prior, 'generation')
           if (action.generation !== generation)
             throw new HttpsError(
               'failed-precondition',
@@ -771,7 +772,7 @@ export class SharingService {
             !action.complete &&
             !action.reset &&
             !alreadyComplete &&
-            action.revision !== Number(prior?.revision ?? 0)
+            action.revision !== storedNumber(prior, 'revision')
           )
             throw new HttpsError(
               'failed-precondition',
@@ -806,7 +807,7 @@ export class SharingService {
             entityId: action.entityId,
             dateKey: action.dateKey,
             generation: generation + (action.reset ? 1 : 0),
-            revision: Number(prior?.revision ?? 0) + 1,
+            revision: storedNumber(prior, 'revision') + 1,
             complete:
               !action.reset &&
               (alreadyComplete ||
@@ -858,7 +859,8 @@ export class SharingService {
         const document = {
           ...child,
           totalStars: after,
-          offlineBalanceRevision: Number(child.offlineBalanceRevision ?? 0) + 1,
+          offlineBalanceRevision:
+            storedNumber(child, 'offlineBalanceRevision') + 1,
           offlineDeviceSequences: {
             ...(child.offlineDeviceSequences ?? {}),
             [operation.deviceId]: operation.sequence,

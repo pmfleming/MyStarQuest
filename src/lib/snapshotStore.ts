@@ -3,6 +3,7 @@ export function snapshotStore<T>(initial: T) {
   let value = initial
   const listeners = new Set<() => void>()
   return {
+    getSubscriberCount: () => listeners.size,
     getSnapshot: () => value,
     subscribe: (listener: () => void) => {
       listeners.add(listener)

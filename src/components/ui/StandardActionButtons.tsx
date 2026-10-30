@@ -14,10 +14,14 @@ import {
 import { uiTokens } from '../../tokens'
 import { ActionArtwork } from './ActionArtwork'
 import { getThemeAsset } from '../../ui/themeAssets'
+import {
+  getStandardActionBaseStyle,
+  getStandardActionVariantStyle,
+} from './standardActionStyles'
 import type {
   ResolvedListAction,
-  ActionStyleResolver,
   ActionVariant,
+  CardUtilityPresentation,
 } from './standardActionListTypes'
 
 export const DefaultActionIcon = ({
@@ -67,7 +71,7 @@ export const ActionSpinner = () => (
 type UtilityButtonProps = {
   ariaLabel: string
   icon: ReactNode
-  onClick: () => void | Promise<void>
+  onClick: () => void | Promise<unknown>
   style: CSSProperties
   disabled?: boolean
   isDanger?: boolean
@@ -124,25 +128,14 @@ const UtilityButton = ({
 type StandardActionButtonsProps<T> = {
   theme: Theme
   primaryAction: ResolvedListAction<T>
-  primaryDisabled: boolean
-  hidePrimary: boolean
-  hideEdit: boolean
-  hideUtility: boolean
-  onPrimary: () => void | Promise<void>
-  onEdit?: () => void | Promise<void>
+  utility: CardUtilityPresentation
+  onPrimary: () => void | Promise<unknown>
+  onEdit?: () => void | Promise<unknown>
   editAriaLabel: string
   onUtility: () => void | Promise<void>
-  utilityIcon: ReactNode
-  utilityAriaLabel: string
-  utilityDisabled: boolean
-  utilityVariant: ActionVariant
-  actionBaseStyle: CSSProperties
-  getActionStyle: ActionStyleResolver
   pendingAction: 'primary' | 'edit' | 'utility' | null
   errorId?: string
   confirmingReset: boolean
-  confirmAriaLabel?: string
-  cancelAriaLabel?: string
   onConfirmReset: () => void
   onCancelReset: () => void
 }
@@ -155,28 +148,20 @@ type UtilityChoice = Omit<UtilityButtonProps, 'style'> & {
 export const StandardActionButtons = <T,>({
   theme,
   primaryAction,
-  primaryDisabled,
-  hidePrimary,
-  hideEdit,
-  hideUtility,
+  utility,
   onPrimary,
   onEdit,
   editAriaLabel,
   onUtility,
-  utilityIcon,
-  utilityAriaLabel,
-  utilityDisabled,
-  utilityVariant,
-  actionBaseStyle,
-  getActionStyle,
   pendingAction,
   errorId,
   confirmingReset,
-  confirmAriaLabel = 'Yes, reset',
-  cancelAriaLabel = 'No, keep progress',
   onConfirmReset,
   onCancelReset,
 }: StandardActionButtonsProps<T>) => {
+  const actionBaseStyle = getStandardActionBaseStyle(theme)
+  const getActionStyle = (variant: ActionVariant) =>
+    getStandardActionVariantStyle(theme, variant)
   const resetButton = useRef<HTMLButtonElement>(null)
   const cancelButton = useRef<HTMLButtonElement>(null)
   const restoreResetFocus = useRef(false)
@@ -187,12 +172,12 @@ export const StandardActionButtons = <T,>({
     } else if (
       restoreResetFocus.current &&
       !pendingAction &&
-      !utilityDisabled
+      !utility.disabled
     ) {
       resetButton.current?.focus()
       restoreResetFocus.current = false
     }
-  }, [confirmingReset, pendingAction, utilityDisabled])
+  }, [confirmingReset, pendingAction, utility.disabled])
   const utilityStyle = {
     ...actionBaseStyle,
     width: `${uiTokens.listUtilityActionWidth}px`,
@@ -200,14 +185,13 @@ export const StandardActionButtons = <T,>({
     padding: 0,
   }
   const state = getActionButtonState({
-    hidePrimary,
-    hideEdit,
+    hidePrimary: Boolean(primaryAction.hideButton),
     hasEdit: Boolean(onEdit),
-    hideUtility,
+    hideUtility: utility.hidden,
     confirmingReset,
     pendingAction,
-    primaryDisabled,
-    utilityDisabled,
+    primaryDisabled: Boolean(primaryAction.disabled),
+    utilityDisabled: utility.disabled,
   })
   const columns = [
     state.showPrimary && 'minmax(0, 1fr)',
@@ -220,7 +204,7 @@ export const StandardActionButtons = <T,>({
     ? [
         {
           key: 'confirm',
-          ariaLabel: confirmAriaLabel,
+          ariaLabel: utility.confirmLabel,
           icon: (
             <img
               src={getThemeAsset(theme.id, 'confirmExitImage')}
@@ -234,7 +218,7 @@ export const StandardActionButtons = <T,>({
         },
         {
           key: 'cancel',
-          ariaLabel: cancelAriaLabel,
+          ariaLabel: utility.cancelLabel,
           icon: (
             <img
               src={getThemeAsset(theme.id, 'continueActivityImage')}
@@ -250,12 +234,12 @@ export const StandardActionButtons = <T,>({
     : [
         {
           key: 'utility',
-          ariaLabel: utilityAriaLabel,
-          icon: utilityIcon,
+          ariaLabel: utility.ariaLabel,
+          icon: utility.icon,
           onClick: onUtility,
           disabled: state.utilityDisabled,
-          variant: utilityVariant,
-          isDanger: utilityVariant === 'danger',
+          variant: utility.variant,
+          isDanger: utility.variant === 'danger',
           isPending: pendingAction === 'utility',
           describedBy: errorId,
         },
@@ -269,7 +253,7 @@ export const StandardActionButtons = <T,>({
         gridTemplateColumns: columns,
         alignItems: 'stretch',
         gap: `${uiTokens.actionRowGap}px`,
-        justifyContent: hidePrimary ? 'flex-end' : undefined,
+        justifyContent: primaryAction.hideButton ? 'flex-end' : undefined,
         minHeight: `${uiTokens.listActionHeight}px`,
       }}
     >

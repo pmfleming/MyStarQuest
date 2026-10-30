@@ -62,20 +62,24 @@ describe('offline action model', () => {
 })
 
 describe('durable offline store', () => {
-  it('can retry an initial storage failure and ignores older document snapshots', async () => {
-    const disk = new MemoryPersistence()
-    const store = new OfflineStore('parent', disk)
-    disk.fail = true
-    await expect(store.open()).rejects.toThrow('Disk full')
-    disk.fail = false
-    await store.mergeCollection('rewards', {
-      toy: { title: 'New', offlineRevision: 2 },
-    })
-    await store.mergeCollection('rewards', {
-      toy: { title: 'Old', offlineRevision: 1 },
-    })
-    expect(store.getSnapshot()?.documents.rewards.toy.title).toBe('New')
-  })
+  it.each([2, '2'])(
+    'can retry a storage failure and preserves revision %s against older or unversioned snapshots',
+    async (revision) => {
+      const disk = new MemoryPersistence()
+      const store = new OfflineStore('parent', disk)
+      disk.fail = true
+      await expect(store.open()).rejects.toThrow('Disk full')
+      disk.fail = false
+      await store.mergeCollection('rewards', {
+        toy: { title: 'New', offlineRevision: revision },
+      })
+      await store.mergeCollection('rewards', {
+        toy: { title: 'Old', offlineRevision: 1 },
+      })
+      await store.mergeCollection('rewards', { toy: { title: 'Unversioned' } })
+      expect(store.getSnapshot()?.documents.rewards.toy.title).toBe('New')
+    }
+  )
 })
 
 it('keeps completion and reward snapshots through deletion, acknowledgement and restart', async () => {

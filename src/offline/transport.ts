@@ -1,3 +1,4 @@
+import { storedNumber } from '../../functions/src/sharing/protocol'
 import { z } from 'zod'
 import {
   clampStars,
@@ -52,7 +53,8 @@ function stampBalance(
   return {
     ...document,
     totalStars,
-    offlineBalanceRevision: Number(previous?.offlineBalanceRevision ?? 0) + 1,
+    offlineBalanceRevision:
+      storedNumber(previous, 'offlineBalanceRevision') + 1,
     offlineDeviceSequences: {
       ...recordData(previous?.offlineDeviceSequences),
       [operation.deviceId]: operation.sequence,
@@ -78,7 +80,7 @@ async function applyDocument(
     document = {
       ...(action.mode === 'patch' ? previous : {}),
       ...action.data,
-      offlineRevision: Number(previous?.offlineRevision ?? 0) + 1,
+      offlineRevision: storedNumber(previous, 'offlineRevision') + 1,
     }
     if (action.collection === 'children')
       document = stampBalance(document, previous, operation)

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 
 export type ActionVariant = 'primary' | 'neutral' | 'danger'
@@ -15,6 +15,16 @@ export type ResolvedListAction<T> = {
 
 export type ResolvedListUtilityAction<T> = ResolvedListAction<T> & {
   exits?: boolean
+}
+
+export type CardUtilityPresentation = {
+  hidden: boolean
+  icon: ReactNode
+  ariaLabel: string
+  disabled: boolean
+  variant: ActionVariant
+  confirmLabel: string
+  cancelLabel: string
 }
 
 export type ListRowDescriptor<T> = {
@@ -50,5 +60,3 @@ export type StandardActionListProps<T> = ActionCardContentProps<T> & {
   frameInlineNewRow?: boolean
   hideAdd?: boolean
 }
-
-export type ActionStyleResolver = (variant?: ActionVariant) => CSSProperties

@@ -50,6 +50,8 @@ import scene46 from '../../assets/comic/opening/46-star-planet.webp'
 import scene47 from '../../assets/comic/opening/47-flight-to-star-planet.webp'
 import scene48 from '../../assets/comic/opening/48-star-planet-friends.webp'
 import scene49 from '../../assets/comic/opening/49-pop-star-system-v2.webp'
+import scene50 from '../../assets/comic/opening/50-flight-to-princess-castle.webp'
+import scene51 from '../../assets/comic/opening/51-princess-castle-door-v2.webp'
 
 export type Panel = {
   id: string
@@ -638,6 +640,28 @@ export const story: { title: string; panels: Panel[] } = {
       aspectRatio: 1672 / 941,
       maxWidth: 1400,
       motion: 'slow-zoom',
+    },
+    {
+      id: '50-flight-to-princess-castle',
+      label: 'Five friends fly to the princess castle',
+      image: scene50,
+      alt: 'Odette, Aurora and Eclipse fly with rockets strapped to their backs beside their round pink and turquoise long-eared friends. The five approach the princess castle on a separate cloud-wrapped planet with a rainbow waterfall, leaving golden Pop Star far behind.',
+      tone: 'lavender',
+      framing: 'poster',
+      aspectRatio: 1672 / 941,
+      maxWidth: 1400,
+      motion: 'slow-zoom',
+    },
+    {
+      id: '51-princess-castle-door',
+      label: 'At the princess castle doors',
+      image: scene51,
+      alt: 'Odette, Aurora, Eclipse and their pink round and turquoise long-eared friends stand together on the shining castle terrace. Odette raises a hand toward the enormous closed golden doors decorated with a star, while the others look up eagerly. The three Teenie Pings still wear their yellow spacesuits and back-mounted rocket packs.',
+      tone: 'lavender',
+      framing: 'poster',
+      aspectRatio: 1672 / 941,
+      maxWidth: 1400,
+      motion: 'still',
     },
   ],
 }

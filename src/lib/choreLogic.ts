@@ -1,9 +1,13 @@
 import {
   manageCompletedAtFieldByType,
+  getManageWaterLevel,
+  getManageToiletStatus,
+  isWaterToiletTask,
   type TaskWithEphemeral,
   type ToiletStatus,
   type WaterLevel,
 } from '../data/types'
+import { waterToiletStars } from '../../functions/src/sharing/protocol'
 
 export type WaterToiletOutcome = 'success' | 'failure'
 
@@ -16,18 +20,6 @@ const waterLevelCycle: readonly WaterLevel[] = [
 
 const toiletStatusCycle: readonly ToiletStatus[] = ['notpeepee', 'didpeepee']
 
-const waterLevelStarMap: Record<WaterLevel, number> = {
-  full: -1,
-  twothirds: 0,
-  onethird: 0,
-  empty: 1,
-}
-
-const toiletStatusStarMap: Record<ToiletStatus, number> = {
-  notpeepee: -5,
-  didpeepee: 1,
-}
-
 const getNextCycleValue = <Value>(cycle: readonly Value[], current: Value) =>
   cycle[(cycle.indexOf(current) + 1) % cycle.length]
 
@@ -35,8 +27,16 @@ export function calculateWaterToiletStars(
   waterLevel: WaterLevel,
   toiletStatus: ToiletStatus
 ) {
-  return waterLevelStarMap[waterLevel] + toiletStatusStarMap[toiletStatus]
+  return waterToiletStars(waterLevel, toiletStatus)
 }
+
+export const calculateTaskStars = (task: TaskWithEphemeral) =>
+  isWaterToiletTask(task)
+    ? calculateWaterToiletStars(
+        getManageWaterLevel(task),
+        getManageToiletStatus(task)
+      )
+    : task.starValue
 
 export function getNextWaterLevel(currentLevel: WaterLevel) {
   return getNextCycleValue(waterLevelCycle, currentLevel)

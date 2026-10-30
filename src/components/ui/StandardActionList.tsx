@@ -1,12 +1,8 @@
 import { ActionImage } from './ActionArtwork'
-import { useEffect, useState, type ReactNode, type CSSProperties } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
 import { uiTokens } from '../../tokens'
 import StarDisplay from './StarDisplay'
-import {
-  getStandardActionBaseStyle,
-  getStandardActionVariantStyle,
-} from './standardActionStyles'
 import CardShell from './CardShell'
 import { ImageLoadingContext } from './ImageLoadingContext'
 import { PrimaryActionImageContext } from './PrimaryActionImageContext'
@@ -21,9 +17,7 @@ import {
   useCardExitAnimation,
 } from './standardActionCardAnimations'
 import type {
-  ActionVariant,
   ActionCardContentProps,
-  ActionStyleResolver,
   StandardActionListProps,
   ResolvedListUtilityAction,
 } from './standardActionListTypes'
@@ -71,15 +65,15 @@ const resolveUtilityState = <T,>(
 
 type ActionCardProps<T> = ActionCardContentProps<T> & {
   item: T
+  itemKey: string
   index: number
   isItemHighlighted: boolean
-  getActionStyle: ActionStyleResolver
-  actionBaseStyle: CSSProperties
 }
 
 // Wrapper for individual action card with exit animation support
 const ActionCard = <T,>({
   item,
+  itemKey,
   index,
   theme,
   isItemHighlighted,
@@ -90,9 +84,6 @@ const ActionCard = <T,>({
   onEdit,
   onDelete,
   getUtilityAction,
-  getActionStyle,
-  actionBaseStyle,
-  getKey,
   getItemLabel,
   getStarCount,
   hideEdit,
@@ -119,25 +110,20 @@ const ActionCard = <T,>({
   // Every delete and reset uses the same inline confirmation controls.
   const confirmingReset = resetRequested && !utility.hidden
 
-  const itemKey = getKey ? getKey(item) : `${index}`
   const isInlineEditing = editingId === itemKey
   const errorId = `card-action-error-${itemKey.replace(/[^a-zA-Z0-9_-]/g, '-')}`
 
-  const handlePrimaryAction = async () => {
-    await runAction('Action', 'primary', () => primaryAction.onClick(item))
-  }
+  const hideEditButton =
+    typeof hideEdit === 'function' ? hideEdit(item) : Boolean(hideEdit)
+  const handleEditAction =
+    onEdit && !hideEditButton
+      ? () => runAction('Edit', 'edit', () => onEdit(item))
+      : undefined
 
-  const handleEditAction = onEdit
-    ? async () => {
-        await runAction('Edit', 'edit', () => onEdit(item))
-      }
-    : undefined
-
-  const handleUtilityAction = async () => {
-    await runWithExit(utility.exits, () =>
+  const handleUtilityAction = () =>
+    runWithExit(utility.exits, () =>
       runAction(utility.name, 'utility', () => utility.onClick(item))
     )
-  }
 
   useEffect(() => {
     if (!isInlineEditing) return
@@ -146,8 +132,6 @@ const ActionCard = <T,>({
 
   const starCount = getStarCount?.(item)
   const hidePrimaryButton = Boolean(primaryAction.hideButton)
-  const hideEditButton =
-    typeof hideEdit === 'function' ? hideEdit(item) : Boolean(hideEdit)
 
   if (isInlineEditing && renderInlineEdit) {
     return (
@@ -173,28 +157,19 @@ const ActionCard = <T,>({
             }
           : primaryAction
       }
-      primaryDisabled={Boolean(primaryAction.disabled)}
-      hidePrimary={hidePrimaryButton}
-      hideEdit={hideEditButton}
-      hideUtility={utility.hidden}
-      onPrimary={handlePrimaryAction}
+      utility={utility}
+      onPrimary={() =>
+        runAction('Action', 'primary', () => primaryAction.onClick(item))
+      }
       onEdit={handleEditAction}
       editAriaLabel={itemLabel ? `Edit ${itemLabel}` : 'Edit item'}
       onUtility={() => setResetRequested(true)}
       confirmingReset={confirmingReset}
-      confirmAriaLabel={utility.confirmLabel}
-      cancelAriaLabel={utility.cancelLabel}
       onConfirmReset={() => {
         setResetRequested(false)
         void handleUtilityAction()
       }}
       onCancelReset={() => setResetRequested(false)}
-      utilityIcon={utility.icon}
-      utilityAriaLabel={utility.ariaLabel}
-      utilityDisabled={utility.disabled}
-      utilityVariant={utility.variant}
-      actionBaseStyle={actionBaseStyle}
-      getActionStyle={getActionStyle}
       pendingAction={pendingAction}
       errorId={actionError ? errorId : undefined}
     />
@@ -361,11 +336,6 @@ const StandardActionList = <T,>({
     injectStandardActionStyles()
   }, [])
 
-  const actionBaseStyle = getStandardActionBaseStyle(theme)
-
-  const getActionStyle = (variant?: ActionVariant) =>
-    getStandardActionVariantStyle(theme, variant)
-
   if (isLoading) {
     return (
       <div className="flex flex-col" style={{ width: '100%' }}>
@@ -384,19 +354,21 @@ const StandardActionList = <T,>({
           ? (emptyState ?? (
               <ListMessage theme={theme}>Nothing here yet.</ListMessage>
             ))
-          : items.map((item, index) => (
-              <ActionCard<T>
-                {...cardProps}
-                key={cardProps.getKey?.(item) ?? `${index}`}
-                item={item}
-                index={index}
-                theme={theme}
-                isItemHighlighted={isHighlighted?.(item) ?? false}
-                getPrimaryAction={getPrimaryAction}
-                getActionStyle={getActionStyle}
-                actionBaseStyle={actionBaseStyle}
-              />
-            ))}
+          : items.map((item, index) => {
+              const itemKey = cardProps.getKey?.(item) ?? `${index}`
+              return (
+                <ActionCard<T>
+                  {...cardProps}
+                  key={itemKey}
+                  item={item}
+                  itemKey={itemKey}
+                  index={index}
+                  theme={theme}
+                  isItemHighlighted={isHighlighted?.(item) ?? false}
+                  getPrimaryAction={getPrimaryAction}
+                />
+              )
+            })}
         <ListFooter
           theme={theme}
           inlineNewRow={inlineNewRow}

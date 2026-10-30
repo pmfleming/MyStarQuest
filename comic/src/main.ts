@@ -1,5 +1,6 @@
 import './style.css'
 import { story } from './story'
+import { storyPageForKey } from '../../src/lib/storyPresentation'
 
 const app = document.querySelector<HTMLDivElement>('#app')!
 const book = document.createElement('main')
@@ -65,24 +66,15 @@ previous.addEventListener('click', () => showPanel(current - 1))
 next.addEventListener('click', () => showPanel(current + 1))
 document.addEventListener('keydown', (event) => {
   if (event.altKey || event.ctrlKey || event.metaKey) return
-  if (event.key === 'ArrowRight' || event.key === 'PageDown') {
+  if (event.key === ' ' && event.target instanceof HTMLButtonElement) return
+  const destination = storyPageForKey(
+    event.key,
+    current,
+    story.panels.length - 1
+  )
+  if (destination !== undefined) {
     event.preventDefault()
-    showPanel(current + 1)
-  } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
-    event.preventDefault()
-    showPanel(current - 1)
-  } else if (event.key === 'Home') {
-    event.preventDefault()
-    showPanel(0)
-  } else if (event.key === 'End') {
-    event.preventDefault()
-    showPanel(story.panels.length - 1)
-  } else if (
-    event.key === ' ' &&
-    !(event.target instanceof HTMLButtonElement)
-  ) {
-    event.preventDefault()
-    showPanel(current + 1)
+    showPanel(destination)
   }
 })
 showPanel(0)

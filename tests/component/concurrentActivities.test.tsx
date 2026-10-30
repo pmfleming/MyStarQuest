@@ -133,7 +133,10 @@ afterEach(() => {
 
 const click = async (name: string) => {
   await act(async () => {
-    fireEvent.click(screen.getByRole('button', { name, exact: true }))
+    const role = Object.values(categoryLabels).includes(name)
+      ? 'radio'
+      : 'button'
+    fireEvent.click(screen.getByRole(role, { name, exact: true }))
   })
 }
 const tree = () => (
@@ -155,8 +158,14 @@ const tree = () => (
 it('shows only the selected category and a cover with an entry button for stories', async () => {
   render(tree())
   expect(
-    screen.getByRole('button', { name: 'Numbers', exact: true })
-  ).toHaveAttribute('aria-pressed', 'true')
+    screen.getByRole('radio', { name: 'Numbers', exact: true })
+  ).toBeChecked()
+  expect(
+    screen.queryByRole('button', { name: 'Run Alphabet Match', hidden: true })
+  ).toBeNull()
+  expect(
+    screen.queryByRole('img', { name: 'Sea friends story cover', hidden: true })
+  ).toBeNull()
   expect(
     screen.getByRole('button', { name: 'Run Arithmetic', exact: true })
   ).toBeVisible()
@@ -174,6 +183,9 @@ it('shows only the selected category and a cover with an entry button for storie
     screen.queryByRole('button', { name: 'Run Arithmetic', exact: true })
   ).toBeNull()
   await click('Trivia')
+  expect(
+    screen.getByRole('button', { name: 'Run Alphabet Match', hidden: true })
+  ).toBeInTheDocument()
   expect(
     screen.getByRole('button', { name: 'Run Who am I?', exact: true })
   ).toBeVisible()

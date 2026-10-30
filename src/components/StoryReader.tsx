@@ -1,70 +1,57 @@
-import { useEffect, useRef, useState, type PointerEvent } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent,
+} from 'react'
 import { createPortal } from 'react-dom'
 import type { Story } from '../data/stories'
-import { enterStoryPresentation } from '../lib/storyPresentation'
+import { useStoryPresentation } from '../hooks/useStoryPresentation'
+import StoryPageArtwork from './StoryPageArtwork'
+import type { Theme } from '../contexts/ThemeContext'
+import { getThemeAsset } from '../ui/themeAssets'
+import type { StoryOpeningFrame } from '../lib/storyMotion'
+import { storyPageForKey } from '../lib/storyPresentation'
 import './StoryReader.css'
 
 export default function StoryReader({
   story,
+  theme,
+  openingFrame,
   onClose,
 }: {
   story: Story
+  theme: Theme
+  openingFrame?: StoryOpeningFrame | null
   onClose: () => void
 }) {
   const [page, setPage] = useState(0)
   const [controlsOpen, setControlsOpen] = useState(false)
-  const [failedImage, setFailedImage] = useState<string | null>(null)
-  const dialogRef = useRef<HTMLDialogElement>(null)
+  const { dialogRef, close, isClosing } = useStoryPresentation({
+    openingFrame,
+    onClose,
+  })
   const stageRef = useRef<HTMLDivElement>(null)
   const gesture = useRef<{ x: number; y: number; bottom: boolean } | null>(null)
   const lastPage = story.panels.length - 1
   const panel = story.panels[page]!
   const turn = (delta: number) =>
     setPage((current) => Math.max(0, Math.min(lastPage, current + delta)))
-
-  useEffect(() => {
-    const dialog = dialogRef.current!
-    const previousFocus = document.activeElement
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    let disposed = false
-    // Fullscreen enters the top layer too. Open the dialog afterwards so it
-    // remains above the app when the fullscreen transition completes.
-    const presentation = Promise.resolve()
-      // React's development replay disposes its first effect immediately.
-      // Start once that replay finishes, avoiding competing fullscreen requests.
-      .then(() => (disposed ? null : enterStoryPresentation()))
-      .then((exit) => {
-        if (exit && !disposed) dialog.showModal()
-        return exit
-      })
-    let removeBackListener: (() => void) | undefined
-    void import('@capacitor/core').then(async ({ Capacitor }) => {
-      if (!Capacitor.isNativePlatform() || disposed) return
-      const { App } = await import('@capacitor/app')
-      if (disposed) return
-      const listener = await App.addListener('backButton', onClose)
-      if (disposed) void listener.remove()
-      else
-        removeBackListener = () => {
-          void listener.remove()
-        }
-    })
-    return () => {
-      disposed = true
-      removeBackListener?.()
-      dialog.close()
-      document.body.style.overflow = previousOverflow
-      void presentation.then((exit) => exit?.())
-      if (previousFocus instanceof HTMLElement) previousFocus.focus()
-    }
-  }, [onClose])
+  const progressStyle: CSSProperties & Record<'--story-progress', string> = {
+    '--story-progress': `${lastPage > 0 ? (page / lastPage) * 100 : 0}%`,
+  }
 
   // Only the adjacent pages are prefetched, keeping the rest of the book on demand.
   useEffect(() => {
     for (const index of [page - 1, page + 1]) {
       const next = story.panels[index]
-      if (next) new Image().src = next.image
+      if (next) {
+        const image = new Image()
+        image.decoding = 'async'
+        image.fetchPriority = 'low'
+        image.src = next.image
+      }
     }
   }, [page, story])
 
@@ -90,43 +77,38 @@ export default function StoryReader({
     <dialog
       ref={dialogRef}
       className="story-reader"
+      data-story-theme={theme.id}
       aria-label={`${story.title} story reader`}
       onCancel={(event) => {
         event.preventDefault()
-        onClose()
+        close()
       }}
       onKeyDown={(event) => {
+        if (isClosing) {
+          event.preventDefault()
+          return
+        }
         if (
           event.target instanceof HTMLInputElement ||
           (event.target instanceof HTMLButtonElement && event.key === ' ')
         )
           return
-        const delta = ['ArrowRight', 'PageDown', ' '].includes(event.key)
-          ? 1
-          : ['ArrowLeft', 'PageUp'].includes(event.key)
-            ? -1
-            : 0
-        if (delta) {
+        const destination = storyPageForKey(event.key, page, lastPage)
+        if (destination !== undefined) {
           event.preventDefault()
-          turn(delta)
-        }
-        if (event.key === 'Home') {
-          event.preventDefault()
-          setPage(0)
-        }
-        if (event.key === 'End') {
-          event.preventDefault()
-          setPage(lastPage)
+          setPage(destination)
         }
       }}
     >
       <div
         ref={stageRef}
         className="story-stage"
+        inert={isClosing}
         data-controls-open={controlsOpen}
         onPointerDown={(event) => {
           if (
-            (event.target as Element).closest('button, input, .story-controls')
+            event.target instanceof Element &&
+            event.target.closest('button, input, .story-controls')
           )
             return
           const point = localPoint(event)
@@ -150,41 +132,34 @@ export default function StoryReader({
           gesture.current = null
         }}
       >
-        <div className="story-artwork">
-          <img
-            key={panel.image}
-            src={panel.image}
-            alt={panel.alt}
-            draggable={false}
-            onError={() => setFailedImage(panel.image)}
-            onLoad={() =>
-              setFailedImage((failed) =>
-                failed === panel.image ? null : failed
-              )
-            }
-          />
-          {failedImage === panel.image && (
-            <p className="story-image-error" role="alert">
-              This page could not load. Check your connection, or try another
-              page.
-            </p>
-          )}
-        </div>
+        <StoryPageArtwork panels={story.panels} page={page} />
         <button
           className="story-turn story-turn-previous"
+          type="button"
           aria-label="Previous page"
           disabled={page === 0}
           onClick={() => turn(-1)}
         >
-          ‹
+          <img
+            src={getThemeAsset(theme.id, 'storyPageIcon')}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+          />
         </button>
         <button
           className="story-turn story-turn-next"
+          type="button"
           aria-label="Next page"
           disabled={page === lastPage}
           onClick={() => turn(1)}
         >
-          ›
+          <img
+            src={getThemeAsset(theme.id, 'storyPageIcon')}
+            alt=""
+            aria-hidden="true"
+            draggable={false}
+          />
         </button>
         <button
           className="story-controls-handle"
@@ -201,20 +176,46 @@ export default function StoryReader({
           <span />
         </button>
         <div id="story-controls" className="story-controls">
-          <button type="button" onClick={onClose}>
-            ← Return to tests
+          <button
+            type="button"
+            className="story-return"
+            onClick={close}
+            aria-label="Return to tests"
+            title="Return to tests"
+          >
+            <img
+              src={getThemeAsset(theme.id, 'storyReturnIcon')}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+            />
           </button>
           <input
+            id="story-progress"
+            className="story-progress"
             type="range"
             min={0}
             max={lastPage}
             value={page}
+            style={progressStyle}
             aria-label="Story progress"
             aria-valuetext={`${page + 1} of ${story.panels.length}: ${panel.label}`}
             onChange={(event) => setPage(Number(event.target.value))}
           />
-          <output aria-live="polite">
-            {page + 1} / {story.panels.length}
+          <output
+            htmlFor="story-progress"
+            aria-live="polite"
+            aria-label={`Page ${page + 1} of ${story.panels.length}`}
+          >
+            <img
+              src={getThemeAsset(theme.id, 'storyProgressIcon')}
+              alt=""
+              aria-hidden="true"
+            />
+            <span className="story-page-count" aria-hidden="true">
+              <strong>{page + 1}</strong>
+              <span className="story-page-total"> / {story.panels.length}</span>
+            </span>
           </output>
         </div>
       </div>

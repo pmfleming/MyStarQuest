@@ -1,5 +1,6 @@
 import { HttpsError } from 'firebase-functions/v2/https'
 import type { SharedOperation } from './protocol'
+import { taskCompletedFields, waterToiletStars } from './protocol'
 
 export function fail(message: string): never {
   throw new HttpsError('invalid-argument', message)
@@ -31,18 +32,8 @@ export function email(value: unknown) {
     return fail('Enter a valid email address.')
   return value.trim().toLowerCase()
 }
-export const completedFields: Record<string, string> = {
-  standard: 'manageCompletedAt',
-  eating: 'manageDinnerCompletedAt',
-  watertoiletcheck: 'manageWaterToiletCompletedAt',
-  math: 'manageMathCompletedAt',
-  'large-numbers': 'manageLargeNumbersCompletedAt',
-  fractions: 'manageFractionsCompletedAt',
-  'positional-notation': 'managePVCompletedAt',
-  alphabet: 'manageAlphabetCompletedAt',
-  spelling: 'manageSpellingCompletedAt',
-  animals: 'manageAnimalsCompletedAt',
-}
+export const completedFields: Readonly<Record<string, string>> =
+  taskCompletedFields
 
 type Validator = (value: unknown) => boolean
 const text: Validator = (value) =>
@@ -238,11 +229,9 @@ export function awardFor(
   patch: Record<string, unknown>
 ) {
   if (task.taskType === 'watertoiletcheck') {
-    const water = patch.manageWaterLevel ?? 'full'
-    const toilet = patch.manageToiletStatus ?? 'notpeepee'
-    return (
-      (water === 'empty' ? 1 : water === 'full' ? -1 : 0) +
-      (toilet === 'didpeepee' ? 1 : -5)
+    return waterToiletStars(
+      patch.manageWaterLevel ?? 'full',
+      patch.manageToiletStatus ?? 'notpeepee'
     )
   }
   return Math.max(0, Math.min(999, Number(task.starValue) || 0))

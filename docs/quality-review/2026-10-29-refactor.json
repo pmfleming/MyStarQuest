@@ -1,0 +1,476 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "233239b623b67df9c772d7ac3602740fb9de3f12",
+    "verified_main": "2026-10-29"
+  },
+  "baseline_head": "d09e285ab7a16756c2ff3aed8bc12b8acad41dee",
+  "method": "Working-tree source snapshot, including existing pending story changes. Same Lens revision, discovery roots, policies, exclusions, thresholds and suppressions. Frontend and Functions whole-project audits use API base empty and gate all. Companion source copy is measured separately for size and complexity; its Git-dependent risk scores are not compared. Effort sums overlap nested source text and estimates token complexity, not engineering time. Risk sums are comparison aids, not official project-wide grades. Physical lines include production, tests, CSS, scripts and Java, excluding JSON, Markdown, generated output and assets.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_files": 290,
+        "source_lines": 36473,
+        "cognitive": 1857,
+        "cyclomatic": 2538,
+        "effort": 11980700.64,
+        "max_cognitive": 18,
+        "max_cyclomatic": 19,
+        "high_risk_hotspots": 193,
+        "clone_groups": 0,
+        "locality_risk": 13284,
+        "leverage_risk": 536,
+        "blockers": 0,
+        "warnings": 63
+      },
+      "after": {
+        "source_files": 290,
+        "source_lines": 36425,
+        "cognitive": 1848,
+        "cyclomatic": 2522,
+        "effort": 11815485.98,
+        "max_cognitive": 18,
+        "max_cyclomatic": 19,
+        "high_risk_hotspots": 193,
+        "clone_groups": 0,
+        "locality_risk": 13256,
+        "leverage_risk": 488,
+        "blockers": 0,
+        "warnings": 59
+      },
+      "delta": {
+        "source_files": 0,
+        "source_lines": -48,
+        "cognitive": -9,
+        "cyclomatic": -16,
+        "effort": -165214.66,
+        "max_cognitive": 0,
+        "max_cyclomatic": 0,
+        "high_risk_hotspots": 0,
+        "clone_groups": 0,
+        "locality_risk": -28,
+        "leverage_risk": -48,
+        "blockers": 0,
+        "warnings": -4
+      }
+    },
+    "functions": {
+      "before": {
+        "source_files": 8,
+        "source_lines": 2077,
+        "cognitive": 150,
+        "cyclomatic": 171,
+        "effort": 219827.34,
+        "max_cognitive": 22,
+        "max_cyclomatic": 13,
+        "high_risk_hotspots": 10,
+        "clone_groups": 0,
+        "locality_risk": 188,
+        "leverage_risk": 120,
+        "blockers": 0,
+        "warnings": 0
+      },
+      "after": {
+        "source_files": 8,
+        "source_lines": 2091,
+        "cognitive": 148,
+        "cyclomatic": 174,
+        "effort": 216563.31,
+        "max_cognitive": 22,
+        "max_cyclomatic": 13,
+        "high_risk_hotspots": 10,
+        "clone_groups": 0,
+        "locality_risk": 188,
+        "leverage_risk": 132,
+        "blockers": 0,
+        "warnings": 0
+      },
+      "delta": {
+        "source_files": 0,
+        "source_lines": 14,
+        "cognitive": -2,
+        "cyclomatic": 3,
+        "effort": -3264.03,
+        "max_cognitive": 0,
+        "max_cyclomatic": 0,
+        "high_risk_hotspots": 0,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 12,
+        "blockers": 0,
+        "warnings": 0
+      }
+    },
+    "comic": {
+      "before": {
+        "source_files": 2,
+        "source_lines": 92,
+        "cognitive": 2,
+        "cyclomatic": 3,
+        "effort": 6255.97,
+        "max_cognitive": 2,
+        "max_cyclomatic": 3,
+        "high_risk_hotspots": 0,
+        "clone_groups": 0
+      },
+      "after": {
+        "source_files": 2,
+        "source_lines": 84,
+        "cognitive": 2,
+        "cyclomatic": 3,
+        "effort": 6255.97,
+        "max_cognitive": 2,
+        "max_cyclomatic": 3,
+        "high_risk_hotspots": 0,
+        "clone_groups": 0
+      },
+      "delta": {
+        "source_files": 0,
+        "source_lines": -8,
+        "cognitive": 0,
+        "cyclomatic": 0,
+        "effort": 0,
+        "max_cognitive": 0,
+        "max_cyclomatic": 0,
+        "high_risk_hotspots": 0,
+        "clone_groups": 0
+      }
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 38642,
+      "cognitive": 2009,
+      "cyclomatic": 2712,
+      "effort": 12206783.95,
+      "clone_groups": 0,
+      "locality_risk": 13472,
+      "leverage_risk": 656
+    },
+    "after": {
+      "source_lines": 38600,
+      "cognitive": 1998,
+      "cyclomatic": 2699,
+      "effort": 12038305.26,
+      "clone_groups": 0,
+      "locality_risk": 13444,
+      "leverage_risk": 620
+    },
+    "delta": {
+      "source_lines": -42,
+      "cognitive": -11,
+      "cyclomatic": -13,
+      "effort": -168478.69,
+      "clone_groups": 0,
+      "locality_risk": -28,
+      "leverage_risk": -36
+    }
+  },
+  "physical": {
+    "before": 52181,
+    "after": 52176,
+    "delta": -5
+  },
+  "changes": [
+    {
+      "file": "docs/assets/comic-princess-castle-door-prompt.json",
+      "before": {
+        "hash": "202f75786f4886068d55d2a2356b8143e5908a3e9d8c20240964e77510ab99b4",
+        "lines": 11
+      },
+      "after": {
+        "hash": "ed9fa4d2cc8291fe46403ceb7d3540a29a13c53a0bdbc027fbe435c8a67b7ae2",
+        "lines": 9
+      },
+      "line_delta": -2
+    },
+    {
+      "file": "src/components/StoryPageArtwork.tsx",
+      "before": {
+        "hash": "fe16c28e5d96ce8c6fb04352b46b37abb8e65ff9e2ac8d475cc5f86e3368334e",
+        "lines": 131
+      },
+      "after": {
+        "hash": "d5e8ba5cf646a8ec0e79a5b071a849ea4a417a3667849fd2411f37eca4276544",
+        "lines": 130
+      },
+      "line_delta": -1
+    },
+    {
+      "file": "src/lib/storyMotion.ts",
+      "before": {
+        "hash": "cc0b6df596fb22302b781bb21b415c7486becb7cda0e8a64e17c478bb96971f1",
+        "lines": 240
+      },
+      "after": {
+        "hash": "e4ff2f73dd8468f1cd4c44b584657f69289c562d144ab69f58c0879f33fc0c3a",
+        "lines": 245
+      },
+      "line_delta": 5
+    },
+    {
+      "file": "comic/src/main.ts",
+      "before": {
+        "hash": "bd9c3e2852437a4d7d6ef35d737e29dcff8abe7815ad25cd20b89978f3de367a",
+        "lines": 89
+      },
+      "after": {
+        "hash": "90a3a2882664751cd1c83a064ec686cdeb4e536d0f005d751744bbb2a5e8d80b",
+        "lines": 81
+      },
+      "line_delta": -8
+    },
+    {
+      "file": "functions/src/sharing/policy.ts",
+      "before": {
+        "hash": "76b8de6c1d8405b4ed2eb73f3c3197fd7491d96ccd68707320ad16ec07c7cbc2",
+        "lines": 254
+      },
+      "after": {
+        "hash": "109b26c7a5ca40bc536e11f769d566b9d512725309aa6a38a83c4860c11d1ccb",
+        "lines": 243
+      },
+      "line_delta": -11
+    },
+    {
+      "file": "functions/src/sharing/protocol.ts",
+      "before": {
+        "hash": "35830f2d92fad6fdac25dd666de6ce747da405aa521097525b7f9ab9dd3eb1ed",
+        "lines": 80
+      },
+      "after": {
+        "hash": "7af16e906f891e09344cb8f1e78ce91c753b5af4b52b1a26fb5b0882652c1207",
+        "lines": 103
+      },
+      "line_delta": 23
+    },
+    {
+      "file": "functions/src/sharing/service.ts",
+      "before": {
+        "hash": "c25bd7d34b002b3ea9949607ca30b672de4079074d489f65d6d225c094f72959",
+        "lines": 915
+      },
+      "after": {
+        "hash": "a44d449941f5d7542694ded0980dd3f2dcd168c1818d21a8e826a6d2b019cc33",
+        "lines": 917
+      },
+      "line_delta": 2
+    },
+    {
+      "file": "src/components/StoryReader.tsx",
+      "before": {
+        "hash": "0744dcf2b8ecf73649aeb2fb2af760913ceb4af30b478fcd84e7f0abbf58029f",
+        "lines": 232
+      },
+      "after": {
+        "hash": "2e0b717e4a0f884650556149a5fc782e9c0d10e2fe24b58571c34d806eca0c25",
+        "lines": 221
+      },
+      "line_delta": -11
+    },
+    {
+      "file": "src/components/ui/StandardActionButtons.tsx",
+      "before": {
+        "hash": "39181bf30ce0dae0a2530379504b985e1d9f0b8a4fa67361840fd7501c3bd02f",
+        "lines": 335
+      },
+      "after": {
+        "hash": "8bdefd79f2a86400e2aa83169d491246d2760f7d068884f38591d84883f1577e",
+        "lines": 319
+      },
+      "line_delta": -16
+    },
+    {
+      "file": "src/components/ui/StandardActionList.tsx",
+      "before": {
+        "hash": "1f25e74312f7c1b751a933996acc6486e7ce2a6e98d9702a12c1c91bab521200",
+        "lines": 415
+      },
+      "after": {
+        "hash": "806ac0f1ab6fae6fbf5ac543076502879d11b37af4a8083c707ae78b3b65dc5a",
+        "lines": 387
+      },
+      "line_delta": -28
+    },
+    {
+      "file": "src/components/ui/actionButtonState.ts",
+      "before": {
+        "hash": "ac281dd4cf9655b843f143042e520dbd3ad4fefb2a50b8fa9017e177d6c5f405",
+        "lines": 39
+      },
+      "after": {
+        "hash": "a6fc70c581d34adc79dcf7323c90274d7085af2d1db074dc0ed46e3d011c312e",
+        "lines": 37
+      },
+      "line_delta": -2
+    },
+    {
+      "file": "src/components/ui/standardActionListTypes.ts",
+      "before": {
+        "hash": "dfc831aa3c4ebd2a90fd168914a66ca619a3653df2c13e30d2cefc668c9e41ab",
+        "lines": 55
+      },
+      "after": {
+        "hash": "96fcbcb2dbeee57ac7b1191c0b3911789ed0a76d47357797906981ac26c20f3f",
+        "lines": 63
+      },
+      "line_delta": 8
+    },
+    {
+      "file": "src/data/types.ts",
+      "before": {
+        "hash": "8d1910bf44fe6b5403ef1d8a7db422b2661b1624624c086f3520aa472a75b2f1",
+        "lines": 413
+      },
+      "after": {
+        "hash": "dca7e0efcc13ac9c94b8c33d28de5df003b14f5b82b2c5d74cdf59a94b233b7c",
+        "lines": 403
+      },
+      "line_delta": -10
+    },
+    {
+      "file": "src/data/useChoreActivityActions.ts",
+      "before": {
+        "hash": "541a1eaffd9bb6e333f109ed163eb239ddd3d5c93c63c8216a53cfcc2df27a4b",
+        "lines": 186
+      },
+      "after": {
+        "hash": "ccac5c599ab2dedc64f741d2012f5909d864ffd37d3ed703b9c6f6d77ec0a963",
+        "lines": 182
+      },
+      "line_delta": -4
+    },
+    {
+      "file": "src/lib/choreLogic.ts",
+      "before": {
+        "hash": "e749de22b93c768fc8433cab393767a0e2b2fcfce1ebf7ac04cf12a11b25f3f6",
+        "lines": 85
+      },
+      "after": {
+        "hash": "5a9e75cf5257aabec730209ffe563996223cd0fc555997e4467e5a5deed353e4",
+        "lines": 85
+      },
+      "line_delta": 0
+    },
+    {
+      "file": "src/lib/choreParser.ts",
+      "before": {
+        "hash": "2125a1baf5e2ef0c0750e25e12134937dae208f9774234bba3b28d965d006bdb",
+        "lines": 149
+      },
+      "after": {
+        "hash": "a4cd748b9162dd620856096726d2ea83f3ef8b8deefe45c7199f03d89da13875",
+        "lines": 154
+      },
+      "line_delta": 5
+    },
+    {
+      "file": "src/lib/snapshotStore.ts",
+      "before": {
+        "hash": "d537e96019be634a8a040b1faa3f731ea57c16fe28bb9669243d4658e45d8b80",
+        "lines": 20
+      },
+      "after": {
+        "hash": "e41fc92f45ce9b09c763b2a99c2fc0f039400ebc0f8cf6dfcda82fc1628f911a",
+        "lines": 21
+      },
+      "line_delta": 1
+    },
+    {
+      "file": "src/lib/storyPresentation.ts",
+      "before": {
+        "hash": "03bbab802fa9016b50a148a1ca98b366f0ba79a9367933adbf3d94ac862f4445",
+        "lines": 49
+      },
+      "after": {
+        "hash": "28bd25f071da62f228a8b3f1f4a15e7b4c28bff4948eb95980fa951b9eb41c16",
+        "lines": 67
+      },
+      "line_delta": 18
+    },
+    {
+      "file": "src/lib/weather/weatherStore.ts",
+      "before": {
+        "hash": "9acee38f0c0a231c56b7419b4e7bb299fc6a9e951af5012155ef22d4ec44c95b",
+        "lines": 181
+      },
+      "after": {
+        "hash": "3a17cdc028ad7c7d6ec594e4d857992c9e832fe8007ab371fdbbdc9928d22b92",
+        "lines": 180
+      },
+      "line_delta": -1
+    },
+    {
+      "file": "src/offline/model.ts",
+      "before": {
+        "hash": "82a2139bf05c0028d7cac80680e79b4e8447f250d8036f2274407c6053a508e4",
+        "lines": 365
+      },
+      "after": {
+        "hash": "6aa54d9510240fbbb0f72d45b7542c0000661a924e90a96d648234c152c7fc0e",
+        "lines": 365
+      },
+      "line_delta": 0
+    },
+    {
+      "file": "src/offline/transport.ts",
+      "before": {
+        "hash": "0628fa11642a65296161cc9974f75245344f8cf4c932ff5a41d441ab1a3d9dd3",
+        "lines": 180
+      },
+      "after": {
+        "hash": "d275de4883e5232f3173926d8672c1c85f18c3d063a2a5554b5d9bd11565cdc7",
+        "lines": 182
+      },
+      "line_delta": 2
+    },
+    {
+      "file": "src/ui/unifiedChoreState.ts",
+      "before": {
+        "hash": "534115fe9422bb302f60999c85aba489ae17ad639ad834cf34079d253d37ca16",
+        "lines": 127
+      },
+      "after": {
+        "hash": "8d220c1c132e037fea2757229f582077598f9c00442818d233f027e6af9c4b5b",
+        "lines": 113
+      },
+      "line_delta": -14
+    },
+    {
+      "file": "tests/e2e/story-reader.spec.ts",
+      "before": {
+        "hash": "ed481a8d00d0106d599fc29b6341a92b37bbf02d9daf4488a01b748acf00ee02",
+        "lines": 235
+      },
+      "after": {
+        "hash": "b6f5bf36047e2076ae253ac78aecd2fb1f51f4c6f984eef3e534608fdb2c77f0",
+        "lines": 244
+      },
+      "line_delta": 9
+    },
+    {
+      "file": "tests/unit/offlineStore.test.ts",
+      "before": {
+        "hash": "469851318fa4f8043f81bddb60eff809ef7acbdead35750e1e302215f641fed6",
+        "lines": 192
+      },
+      "after": {
+        "hash": "13c8e0609638a13da7129a490d8b455534b3e86ab174fabe2680311015aef4e7",
+        "lines": 196
+      },
+      "line_delta": 4
+    },
+    {
+      "file": "tests/unit/sharingPolicy.test.ts",
+      "before": {
+        "hash": "6327f1deb1be94fb419f9e837f76a06afb9198c9fd87ebc23e667751ad3025ce",
+        "lines": 169
+      },
+      "after": {
+        "hash": "99b600edb11e1ca6b1885ec99100812da7bd4f646b668f24b9da4b0f1bf06a24",
+        "lines": 193
+      },
+      "line_delta": 24
+    }
+  ]
+}

@@ -3,7 +3,31 @@ import {
   parseOperation,
   activityPatch,
   documentPatch,
+  awardFor,
 } from '../../functions/src/sharing/policy'
+import { calculateWaterToiletStars } from '../../src/lib/choreLogic'
+
+it.each([
+  ['full', 'notpeepee', -6],
+  ['full', 'didpeepee', 0],
+  ['twothirds', 'notpeepee', -5],
+  ['twothirds', 'didpeepee', 1],
+  ['onethird', 'notpeepee', -5],
+  ['onethird', 'didpeepee', 1],
+  ['empty', 'notpeepee', -4],
+  ['empty', 'didpeepee', 2],
+] as const)(
+  'awards %s water / %s consistently on both sides',
+  (water, toilet, expected) => {
+    expect(calculateWaterToiletStars(water, toilet)).toBe(expected)
+    expect(
+      awardFor(
+        { taskType: 'watertoiletcheck' },
+        { manageWaterLevel: water, manageToiletStatus: toilet }
+      )
+    ).toBe(expected)
+  }
+)
 
 it('keeps document permissions and field limits at the shared write boundary', () => {
   expect(

@@ -1,4 +1,5 @@
 import { withDeadline } from '../withDeadline'
+import { snapshotStore } from '../snapshotStore'
 import type { WeatherCity } from './weatherData'
 import {
   fetchCurrentWeather,
@@ -23,8 +24,7 @@ export type WeatherSnapshot = {
 
 type Entry = {
   city: WeatherCity
-  snapshot: WeatherSnapshot
-  listeners: Set<() => void>
+  state: ReturnType<typeof snapshotStore<WeatherSnapshot>>
   controller?: AbortController
   stop?: () => void
   lastAttempt: number | null
@@ -39,14 +39,13 @@ function entryFor(city: WeatherCity): Entry {
   if (!entry) {
     entry = {
       city,
-      snapshot: {
+      state: snapshotStore<WeatherSnapshot>({
         now: Date.now(),
         data: readWeatherCache(city),
         loading: false,
         error: null,
         stale: false,
-      },
-      listeners: new Set(),
+      }),
       lastAttempt: null,
       lastDate: weatherDateKey(Date.now(), city.location.timeZone),
     }
@@ -56,19 +55,18 @@ function entryFor(city: WeatherCity): Entry {
 }
 
 function publish(entry: Entry, patch: Partial<WeatherSnapshot>) {
-  const next = { ...entry.snapshot, ...patch }
+  const previous = entry.state.getSnapshot()
   if (
     Object.entries(patch).every(([key, value]) =>
-      Object.is(Reflect.get(entry.snapshot, key), value)
+      Object.is(Reflect.get(previous, key), value)
     )
   )
     return
-  entry.snapshot = next
-  entry.listeners.forEach((listener) => listener())
+  entry.state.publish({ ...previous, ...patch })
 }
 
 function usableWeather(entry: Entry, now = Date.now()) {
-  const data = entry.snapshot.data
+  const data = entry.state.getSnapshot().data
   return data && isWeatherUsable(data, entry.city.location.timeZone, now)
     ? data
     : null
@@ -135,7 +133,8 @@ async function requestWeather(entry: Entry, now: number) {
   }
 }
 
-export const getWeatherSnapshot = (city: WeatherCity) => entryFor(city).snapshot
+export const getWeatherSnapshot = (city: WeatherCity) =>
+  entryFor(city).state.getSnapshot()
 export const retryWeather = (city: WeatherCity) => refresh(entryFor(city), true)
 
 function watchWeather(entry: Entry) {
@@ -159,13 +158,13 @@ function watchWeather(entry: Entry) {
 
 export function subscribeWeather(city: WeatherCity, listener: () => void) {
   const entry = entryFor(city)
-  entry.listeners.add(listener)
+  const unsubscribe = entry.state.subscribe(listener)
   entry.stop ??= watchWeather(entry)
   return () => {
-    entry.listeners.delete(listener)
+    unsubscribe()
     // StrictMode re-subscribes in the same turn; retain that in-flight request.
     queueMicrotask(() => {
-      if (entry.listeners.size) return
+      if (entry.state.getSubscriberCount()) return
       entry.stop?.()
       entry.stop = undefined
       const controller = entry.controller

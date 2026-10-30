@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { progressKey } from '../../functions/src/sharing/protocol'
+import { progressKey, storedNumber } from '../../functions/src/sharing/protocol'
 
 export const collectionSchema = z.enum([
   'children',
@@ -146,7 +146,7 @@ export const clampStars = (value: number) =>
 export const starDelta = (action: Exclude<Action, { kind: 'document' }>) =>
   action.kind === 'redeem' ? -action.cost : action.delta
 export const starBalance = (child: LocalDocument) =>
-  clampStars(Number(child.totalStars ?? 0))
+  clampStars(storedNumber(child, 'totalStars'))
 const isRecord = (value: unknown): value is LocalDocument =>
   value !== null && typeof value === 'object' && !Array.isArray(value)
 export const recordData = (value: unknown): LocalDocument =>
@@ -169,7 +169,7 @@ export function latestDocument(
 ) {
   const revision =
     collection === 'children' ? 'offlineBalanceRevision' : 'offlineRevision'
-  return Number(previous?.[revision] ?? 0) > Number(incoming[revision] ?? 0)
+  return storedNumber(previous, revision) > storedNumber(incoming, revision)
     ? (previous ?? incoming)
     : incoming
 }
@@ -236,8 +236,8 @@ function prepareAction(state: OfflineState, action: Action): Action {
       ]
     action = {
       ...action,
-      generation: Number(previous?.generation ?? 0),
-      revision: Number(previous?.revision ?? 0),
+      generation: storedNumber(previous, 'generation'),
+      revision: storedNumber(previous, 'revision'),
     }
   }
   const definition = projectDocuments(
@@ -299,12 +299,12 @@ function projectedSharedProgress(state: OfflineState) {
     if (action.kind !== 'activity') continue
     const key = progressKey(action.collection, action.entityId, action.dateKey)
     const previous = progress[key]
-    const generation = Number(previous?.generation ?? 0)
-    const revision = Number(previous?.revision ?? 0)
+    const generation = storedNumber(previous, 'generation')
+    const revision = storedNumber(previous, 'revision')
     if (reflectedByChild(state.documents.children[action.childId], operation))
       continue
     if (action.generation !== generation) continue
-    if (Number(action.revision ?? 0) < revision) continue
+    if (storedNumber(action, 'revision') < revision) continue
     progress[key] = {
       ...previous,
       collection: action.collection,
@@ -354,7 +354,7 @@ export function mergeSharedProgress(
       return [
         key,
         previous &&
-        Number(previous.revision ?? 0) > Number(document.revision ?? 0)
+        storedNumber(previous, 'revision') > storedNumber(document, 'revision')
           ? previous
           : document,
       ]
