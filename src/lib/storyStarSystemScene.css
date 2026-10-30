@@ -1,0 +1,103 @@
+.star-system-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  overflow: hidden;
+  isolation: isolate;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.star-system-scene.ready {
+  visibility: visible;
+}
+.star-system-scene .star-system-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.star-system-satellite {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.star-system-scene .star-system-spinner {
+  display: block;
+  position: static;
+  width: 100%;
+  height: auto;
+  transform-origin: 50% 50%;
+}
+.star-system-scene.ready .star-system-spinner {
+  animation: star-system-spin var(--duration) linear infinite var(--direction);
+}
+.star-system-rainbow {
+  position: absolute;
+  left: 71.2%;
+  top: 16%;
+  width: 3.8%;
+  height: 10.5%;
+  overflow: hidden;
+  border-radius: 0 0 35% 35%;
+  mask-image: linear-gradient(transparent, #000 14% 77%, transparent);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 19px,
+    #fff5 23px,
+    transparent 30px
+  );
+  background-size: 100% 60px;
+  mix-blend-mode: screen;
+}
+.star-system-scene.ready .star-system-rainbow {
+  animation: star-system-flow 6s linear infinite;
+}
+.star-system-rainbow i {
+  position: absolute;
+  top: -12%;
+  width: 3px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #fff;
+  opacity: 0;
+}
+.star-system-scene.ready .star-system-rainbow i {
+  animation: star-system-glint 5.8s var(--delay) linear infinite;
+}
+@keyframes star-system-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes star-system-flow {
+  to {
+    background-position: 0 60px;
+  }
+}
+@keyframes star-system-glint {
+  0% {
+    top: -12%;
+    opacity: 0;
+  }
+  20%,
+  75% {
+    opacity: 0.65;
+  }
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+.star-system-scene.paused * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .star-system-scene.ready .star-system-spinner,
+  .star-system-scene.ready .star-system-rainbow,
+  .star-system-scene.ready .star-system-rainbow i {
+    animation: none;
+  }
+  .star-system-rainbow {
+    display: none;
+  }
+}

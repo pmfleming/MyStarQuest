@@ -1,21 +1,14 @@
-# Five quality improvements compared with 8914dce
-
-Frontend production TS/TSX. Functions unchanged. Same Lens revision, configuration, thresholds, exclusions and whole-project audit scope as baseline.
+# Quality review — 30 October 2026 (app)
 
 | Metric | Before | After | Change |
 | --- | ---: | ---: | ---: |
-| source_files | 275 | 278 | +3 |
-| source_lines | 34298 | 34354 | +56 |
-| cognitive | 1783 | 1783 | +0 |
-| max_cognitive | 28 | 19 | -9 |
-| cyclomatic | 2446 | 2451 | +5 |
-| max_cyclomatic | 24 | 19 | -5 |
-| estimated_effort | 11385510 | 11183898 | -201612 |
-| locality_risk | 12717 | 12885 | +168 |
-| leverage_risk | 336 | 336 | +0 |
-| clone_groups | 0 | 0 | +0 |
-| accessibility_findings | 9 | 6 | -3 |
-| warnings | 59 | 57 | -2 |
-| blockers | 0 | 0 | +0 |
+| source_lines | 39344 | 39033 | -311 |
+| cognitive_complexity | 2120 | 2009 | -111 |
+| cyclomatic_complexity | 2790 | 2737 | -53 |
+| halstead_effort | 13101058 | 12855403 | -245655 |
+| clone_groups | 14 | 4 | -10 |
+| locality_risk | 13637 | 13619 | -18 |
+| leverage_risk | 796 | 772 | -24 |
+| lint_blockers | 0 | 0 | 0 |
 
-Estimated effort and maximum complexity improve. Total complexity, line count and summed locality risk do not all improve; see `docs/quality-review/2026-10-22-next-five.json` for limitations and validation.
+See docs/quality-review/2026-10-30-refactor.md for scope and limitations.

@@ -3,7 +3,7 @@
   "task_id": "quality.react_health",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T21:49:33.190Z",
+    "measured_at": "2026-10-30T22:52:55.481Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
-    "input_set_hash": "sha256:85f2da3339c5f062e7c0fd9847b581ceadc58f4b8a0fdad2f9285ae537aabadd"
+    "source_set_hash": "sha256:61d6cdfa0d81f5d521514104c6ca6ac280a2fb4444bd2312314f42104361bb6b",
+    "input_set_hash": "sha256:c709788e3ff442ea345b7c8ca44eea5bcce0523310240e93cd0e46a397bbf63a"
   },
   "analysis_identity": {
-    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
+    "id": "sha256:93f9fbdb301799130ce1248fd07ff693bf4aff1b9bda2788f6f425a51e44f090",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
+    "config_closure_hash": "sha256:5a6b0f43a79b9c3642138b3f91ee5e9af7be08aafcff7485f6d07a38e090afa0",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -125,17 +125,17 @@
     "stale_input": []
   },
   "summary": {
-    "components": 150,
-    "records": 157,
+    "components": 158,
+    "records": 167,
     "hook_lint_findings": 0,
     "correctness_findings": 0,
     "optimization_findings": 0,
     "configuration_findings": 0,
     "unclassified_hook_findings": 0,
-    "a11y_findings": 6,
-    "a11y_tool_findings": 6,
+    "a11y_findings": 8,
+    "a11y_tool_findings": 8,
     "a11y_heuristic_findings": 0,
-    "high_risk_components": 33
+    "high_risk_components": 35
   },
   "framework": {
     "framework": "vite",
@@ -534,7 +534,7 @@
       "module_id": "src/components/AlphabetTester",
       "file": "src/components/AlphabetTester.tsx",
       "name": "AlphabetTester",
-      "line": 85,
+      "line": 84,
       "score": 126,
       "risk": "high",
       "signals": [
@@ -1199,12 +1199,12 @@
       "file": "src/components/CalendarActivityHistory.tsx",
       "name": "CalendarActivityHistory",
       "line": 125,
-      "score": 115,
+      "score": 98,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 171
+          "value": 168
         },
         {
           "kind": "render_branch_complexity",
@@ -1248,9 +1248,9 @@
       "module_id": "src/components/CalendarWeekdays",
       "file": "src/components/CalendarWeekdays.tsx",
       "name": "CalendarWeekdays",
-      "line": 78,
-      "score": 11,
-      "risk": "low",
+      "line": 81,
+      "score": 54,
+      "risk": "medium",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1509,9 +1509,9 @@
       "module_id": "src/components/ExpandableAgendaItem",
       "file": "src/components/ExpandableAgendaItem.tsx",
       "name": "ExpandableAgendaItem",
-      "line": 10,
-      "score": 51,
-      "risk": "medium",
+      "line": 5,
+      "score": 35,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -1739,17 +1739,17 @@
       "module_id": "src/components/LargeNumbersTester",
       "file": "src/components/LargeNumbersTester.tsx",
       "name": "LargeNumbersTester",
-      "line": 129,
-      "score": 182,
+      "line": 114,
+      "score": 208,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 391
+          "value": 441
         },
         {
           "kind": "many_hooks",
-          "value": 9
+          "value": 10
         }
       ],
       "kind": "component",
@@ -1981,9 +1981,9 @@
       "module_id": "src/components/RewardImagePreview",
       "file": "src/components/RewardImagePreview.tsx",
       "name": "RewardImagePreview",
-      "line": 4,
-      "score": 68,
-      "risk": "medium",
+      "line": 5,
+      "score": 28,
+      "risk": "low",
       "signals": [],
       "kind": "component",
       "rule_id": "ts-react-quality-lens/component",
@@ -2016,21 +2016,21 @@
       "module_id": "src/components/SchoolCalendar",
       "file": "src/components/SchoolCalendar.tsx",
       "name": "SchoolCalendar",
-      "line": 39,
-      "score": 167,
+      "line": 44,
+      "score": 234,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 259
+          "value": 393
         },
         {
           "kind": "many_hooks",
-          "value": 9
+          "value": 11
         },
         {
           "kind": "render_branch_complexity",
-          "value": 5
+          "value": 8
         }
       ],
       "kind": "component",
@@ -2105,7 +2105,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingPicture",
-      "line": 155,
+      "line": 154,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -2140,7 +2140,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingWordTiles",
-      "line": 185,
+      "line": 184,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -2175,7 +2175,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingChoiceButtons",
-      "line": 241,
+      "line": 240,
       "score": 11,
       "risk": "low",
       "signals": [],
@@ -2210,7 +2210,7 @@
       "module_id": "src/components/SpellingTester",
       "file": "src/components/SpellingTester.tsx",
       "name": "SpellingTester",
-      "line": 266,
+      "line": 265,
       "score": 276,
       "risk": "high",
       "signals": [
@@ -2260,6 +2260,254 @@
       ]
     },
     {
+      "id": "component:src/components/StoryLibrary:StoryLibrary",
+      "module_id": "src/components/StoryLibrary",
+      "file": "src/components/StoryLibrary.tsx",
+      "name": "StoryLibrary",
+      "line": 16,
+      "score": 57,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryLibrary:StoryLibrary",
+            "kind": "component",
+            "file": "src/components/StoryLibrary.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/StoryPageArtwork:StoryPageArtwork",
+      "module_id": "src/components/StoryPageArtwork",
+      "file": "src/components/StoryPageArtwork.tsx",
+      "name": "StoryPageArtwork",
+      "line": 29,
+      "score": 171,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 164
+        },
+        {
+          "kind": "many_hooks",
+          "value": 8
+        },
+        {
+          "kind": "many_effects",
+          "value": 3
+        },
+        {
+          "kind": "render_branch_complexity",
+          "value": 5
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryPageArtwork:StoryPageArtwork",
+            "kind": "component",
+            "file": "src/components/StoryPageArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/StoryPageArtwork:StoryPhotoMoment",
+      "module_id": "src/components/StoryPageArtwork",
+      "file": "src/components/StoryPageArtwork.tsx",
+      "name": "StoryPhotoMoment",
+      "line": 202,
+      "score": 30,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryPageArtwork:StoryPhotoMoment",
+            "kind": "component",
+            "file": "src/components/StoryPageArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/StoryPageArtwork:StoryLayeredScene",
+      "module_id": "src/components/StoryPageArtwork",
+      "file": "src/components/StoryPageArtwork.tsx",
+      "name": "StoryLayeredScene",
+      "line": 212,
+      "score": 60,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryPageArtwork:StoryLayeredScene",
+            "kind": "component",
+            "file": "src/components/StoryPageArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/StoryPageArtwork:StoryMorningRooms",
+      "module_id": "src/components/StoryPageArtwork",
+      "file": "src/components/StoryPageArtwork.tsx",
+      "name": "StoryMorningRooms",
+      "line": 236,
+      "score": 31,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryPageArtwork:StoryMorningRooms",
+            "kind": "component",
+            "file": "src/components/StoryPageArtwork.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/StoryReader:StoryReader",
+      "module_id": "src/components/StoryReader",
+      "file": "src/components/StoryReader.tsx",
+      "name": "StoryReader",
+      "line": 19,
+      "score": 130,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "oversized_component",
+          "value": 230
+        },
+        {
+          "kind": "many_hooks",
+          "value": 6
+        }
+      ],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/StoryReader:StoryReader",
+            "kind": "component",
+            "file": "src/components/StoryReader.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/TabContent:TabContent",
       "module_id": "src/components/TabContent",
       "file": "src/components/TabContent.tsx",
@@ -2289,6 +2537,41 @@
             "id": "component:src/components/TabContent:TabContent",
             "kind": "component",
             "file": "src/components/TabContent.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "component:src/components/TestCategoryPicker:TestCategoryPicker",
+      "module_id": "src/components/TestCategoryPicker",
+      "file": "src/components/TestCategoryPicker.tsx",
+      "name": "TestCategoryPicker",
+      "line": 16,
+      "score": 7,
+      "risk": "low",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/TestCategoryPicker:TestCategoryPicker",
+            "kind": "component",
+            "file": "src/components/TestCategoryPicker.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2404,13 +2687,13 @@
       "module_id": "src/components/TimeExplorerControls",
       "file": "src/components/TimeExplorerControls.tsx",
       "name": "TimeExplorerControls",
-      "line": 31,
-      "score": 43,
+      "line": 32,
+      "score": 45,
       "risk": "medium",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 149
+          "value": 154
         }
       ],
       "kind": "component",
@@ -3702,6 +3985,41 @@
       ]
     },
     {
+      "id": "component:src/components/ui/LargeNumbersExpandedAnswer:LargeNumbersExpandedAnswer",
+      "module_id": "src/components/ui/LargeNumbersExpandedAnswer",
+      "file": "src/components/ui/LargeNumbersExpandedAnswer.tsx",
+      "name": "LargeNumbersExpandedAnswer",
+      "line": 20,
+      "score": 45,
+      "risk": "medium",
+      "signals": [],
+      "kind": "component",
+      "rule_id": "ts-react-quality-lens/component",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "component",
+      "reason_code": "ts-react-quality-lens/component",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this component finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "component:src/components/ui/LargeNumbersExpandedAnswer:LargeNumbersExpandedAnswer",
+            "kind": "component",
+            "file": "src/components/ui/LargeNumbersExpandedAnswer.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "component:src/components/ui/LetterCaseControl:LetterCaseControl",
       "module_id": "src/components/ui/LetterCaseControl",
       "file": "src/components/ui/LetterCaseControl.tsx",
@@ -4056,8 +4374,8 @@
       "module_id": "src/components/ui/SegmentedChoiceControl",
       "file": "src/components/ui/SegmentedChoiceControl.tsx",
       "name": "SegmentedChoiceControl",
-      "line": 28,
-      "score": 58,
+      "line": 29,
+      "score": 59,
       "risk": "medium",
       "signals": [
         {
@@ -4096,7 +4414,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "DefaultActionIcon",
-      "line": 23,
+      "line": 27,
       "score": 5,
       "risk": "low",
       "signals": [],
@@ -4131,7 +4449,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "ActionSpinner",
-      "line": 51,
+      "line": 55,
       "score": 4,
       "risk": "low",
       "signals": [],
@@ -4166,7 +4484,7 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "UtilityButton",
-      "line": 79,
+      "line": 83,
       "score": 15,
       "risk": "low",
       "signals": [],
@@ -4201,13 +4519,13 @@
       "module_id": "src/components/ui/StandardActionButtons",
       "file": "src/components/ui/StandardActionButtons.tsx",
       "name": "StandardActionButtons",
-      "line": 155,
-      "score": 119,
+      "line": 148,
+      "score": 120,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 156
+          "value": 158
         },
         {
           "kind": "render_branch_complexity",
@@ -4251,13 +4569,13 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ActionCard",
-      "line": 81,
-      "score": 112,
+      "line": 74,
+      "score": 108,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 144
+          "value": 128
         }
       ],
       "kind": "component",
@@ -4297,7 +4615,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListMessage",
-      "line": 246,
+      "line": 221,
       "score": 3,
       "risk": "low",
       "signals": [],
@@ -4332,7 +4650,7 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "ListFooter",
-      "line": 274,
+      "line": 249,
       "score": 41,
       "risk": "medium",
       "signals": [],
@@ -4367,8 +4685,8 @@
       "module_id": "src/components/ui/StandardActionList",
       "file": "src/components/ui/StandardActionList.tsx",
       "name": "StandardActionList",
-      "line": 344,
-      "score": 46,
+      "line": 319,
+      "score": 45,
       "risk": "medium",
       "signals": [],
       "kind": "component",
@@ -5627,21 +5945,21 @@
       "module_id": "src/pages/TestsPage",
       "file": "src/pages/TestsPage.tsx",
       "name": "TestsPage",
-      "line": 22,
-      "score": 189,
+      "line": 30,
+      "score": 230,
       "risk": "high",
       "signals": [
         {
           "kind": "oversized_component",
-          "value": 170
+          "value": 224
         },
         {
           "kind": "many_hooks",
-          "value": 13
+          "value": 15
         },
         {
           "kind": "render_branch_complexity",
-          "value": 5
+          "value": 7
         }
       ],
       "kind": "component",
@@ -5843,7 +6161,7 @@
       "module_id": "src/sharing/ChildAccessProvider",
       "file": "src/sharing/ChildAccessProvider.tsx",
       "name": "ChildAccessProvider",
-      "line": 140,
+      "line": 129,
       "score": 17,
       "risk": "low",
       "signals": [],
@@ -5878,7 +6196,7 @@
       "module_id": "src/sharing/ChildAccessProvider",
       "file": "src/sharing/ChildAccessProvider.tsx",
       "name": "AccountChildAccess",
-      "line": 154,
+      "line": 143,
       "score": 161,
       "risk": "high",
       "signals": [
@@ -6075,6 +6393,100 @@
       ]
     },
     {
+      "id": "eslint-plugin-jsx-a11y:317d5711:1",
+      "rule_id": "jsx-a11y/role-supports-aria-props",
+      "kind": "a11y_role_supports_aria_props",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/CalendarWeekdays",
+      "file": "src/components/CalendarWeekdays.tsx",
+      "line": 105,
+      "column": 7,
+      "end_line": 124,
+      "end_column": 8,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button.",
+      "signals": [
+        {
+          "kind": "a11y_role_supports_aria_props",
+          "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
+        }
+      ],
+      "fingerprint": "317d5711",
+      "occurrence": 1,
+      "reason_code": "jsx-a11y/role-supports-aria-props",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:317d5711:1",
+            "kind": "a11y_role_supports_aria_props",
+            "file": "src/components/CalendarWeekdays.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "eslint-plugin-jsx-a11y:317d5711:2",
+      "rule_id": "jsx-a11y/role-supports-aria-props",
+      "kind": "a11y_role_supports_aria_props",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "module_id": "src/components/CalendarWeekdays",
+      "file": "src/components/CalendarWeekdays.tsx",
+      "line": 132,
+      "column": 13,
+      "end_line": 150,
+      "end_column": 14,
+      "score": 60,
+      "severity": "medium",
+      "risk": "medium",
+      "source": "eslint-plugin-jsx-a11y",
+      "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button.",
+      "signals": [
+        {
+          "kind": "a11y_role_supports_aria_props",
+          "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
+        }
+      ],
+      "fingerprint": "317d5711",
+      "occurrence": 2,
+      "reason_code": "jsx-a11y/role-supports-aria-props",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "eslint-plugin-jsx-a11y:317d5711:2",
+            "kind": "a11y_role_supports_aria_props",
+            "file": "src/components/CalendarWeekdays.tsx",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "eslint-plugin-jsx-a11y:e8df31a9:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
@@ -6084,9 +6496,9 @@
       "scope": "file",
       "module_id": "src/components/ExpandableAgendaItem",
       "file": "src/components/ExpandableAgendaItem.tsx",
-      "line": 65,
+      "line": 43,
       "column": 7,
-      "end_line": 74,
+      "end_line": 52,
       "end_column": 8,
       "score": 60,
       "severity": "medium",
@@ -6131,9 +6543,9 @@
       "scope": "file",
       "module_id": "src/components/RewardImagePreview",
       "file": "src/components/RewardImagePreview.tsx",
-      "line": 58,
+      "line": 26,
       "column": 5,
-      "end_line": 84,
+      "end_line": 52,
       "end_column": 6,
       "score": 60,
       "severity": "medium",
@@ -6169,7 +6581,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:49dbd5fc:1",
+      "id": "eslint-plugin-jsx-a11y:6b2eaff8:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
       "evidence_kind": "tool-rule",
@@ -6178,10 +6590,10 @@
       "scope": "file",
       "module_id": "src/components/SchoolCalendar",
       "file": "src/components/SchoolCalendar.tsx",
-      "line": 166,
-      "column": 15,
-      "end_line": 189,
-      "end_column": 16,
+      "line": 262,
+      "column": 17,
+      "end_line": 289,
+      "end_column": 18,
       "score": 60,
       "severity": "medium",
       "risk": "medium",
@@ -6193,7 +6605,7 @@
           "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
         }
       ],
-      "fingerprint": "49dbd5fc",
+      "fingerprint": "6b2eaff8",
       "occurrence": 1,
       "reason_code": "jsx-a11y/role-supports-aria-props",
       "semantic_decision": "confirmed",
@@ -6207,7 +6619,7 @@
           "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:49dbd5fc:1",
+            "id": "eslint-plugin-jsx-a11y:6b2eaff8:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/SchoolCalendar.tsx",
             "reason": "Intentional finding; document the project-specific reason."
@@ -6216,7 +6628,7 @@
       ]
     },
     {
-      "id": "eslint-plugin-jsx-a11y:fc7de0ac:1",
+      "id": "eslint-plugin-jsx-a11y:f225f542:1",
       "rule_id": "jsx-a11y/role-supports-aria-props",
       "kind": "a11y_role_supports_aria_props",
       "evidence_kind": "tool-rule",
@@ -6225,9 +6637,9 @@
       "scope": "file",
       "module_id": "src/components/TimeExplorerControls",
       "file": "src/components/TimeExplorerControls.tsx",
-      "line": 133,
+      "line": 138,
       "column": 11,
-      "end_line": 155,
+      "end_line": 161,
       "end_column": 12,
       "score": 60,
       "severity": "medium",
@@ -6240,7 +6652,7 @@
           "message": "The attribute aria-description is not supported by the role button. This role is implicit on the element button."
         }
       ],
-      "fingerprint": "fc7de0ac",
+      "fingerprint": "f225f542",
       "occurrence": 1,
       "reason_code": "jsx-a11y/role-supports-aria-props",
       "semantic_decision": "confirmed",
@@ -6254,7 +6666,7 @@
           "description": "Keep this a11y_role_supports_aria_props finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "eslint-plugin-jsx-a11y:fc7de0ac:1",
+            "id": "eslint-plugin-jsx-a11y:f225f542:1",
             "kind": "a11y_role_supports_aria_props",
             "file": "src/components/TimeExplorerControls.tsx",
             "reason": "Intentional finding; document the project-specific reason."

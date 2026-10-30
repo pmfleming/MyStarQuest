@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "src/assets/comic/opening/49-pop-star-system-v2.webp",
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Edit this exact image into an animation background plate. Remove all 17 satellite objects surrounding the central yellow star: pastel ringed planet far left; flower-filled glass globe upper left; small yellow ringed planet along top; small green ringed planet along top; blue purple ringed planet upper right; umbrella-decorated purple ball far right; turquoise lightning crystal lower right; winged yellow gift at bottom; large turquoise-pink bubble sphere lower left; pink crescent with cyan star; white bunny-eared sphere; small pale spotted ringed ball; pair of purple moons above star; small dangling droplet ringed planet above right; small multicoloured faceted gem to right; pink yellow checkerboard globe; pair of winged magic cards. Remove their rings and accessories with them, but KEEP ALL LARGE ELLIPTICAL ORBIT TRACKS. Reconstruct nebula behind. KEEP central yellow star and its two crossing sparkling rings, distant princess castle in upper right with rainbow waterfall and clouds, starfield, camera, original 1672:941 aspect and exact positions. No characters or new objects.",
+      "source": "src/assets/comic/layers/star-system/background.png"
+    },
+    {
+      "name": "satellites",
+      "prompt": "Extract the 17 satellite objects from reference into a transparent SPRITE SHEET with exactly 5 columns and 4 rows, equal rectangular cells, each object centered in its cell and entirely inside cell with 12% transparent padding. Canvas 2500x2000. True transparent background. No gridlines, no labels, no text. Preserve exact original designs, materials and colours. Each sprite includes its OWN rings/accessories but excludes the large dotted orbit tracks and background stars. Cells read left-to-right then top-to-bottom: row1: [pastel rainbow-ringed pink planet from far left], [flower-filled glass globe upper left], [small yellow ringed planet at top], [small mint-green ringed planet at top], [blue-purple ringed planet with star and heart upper right]. Row2: [purple sphere with green umbrella from far right], [turquoise lightning-bolt crystal with golden ring lower right], [yellow gift with pink bow and white wings bottom, without large blue orbital track], [large cyan-to-pink round bubble sphere with two little bubbles and star decorations lower left], [pink crescent cradling cyan star]. Row3: [white bunny-eared sphere], [small cream spotted ringed planet], [pair of purple crystal moons as one sprite], [small peach-pink ringed planet with dangling pink droplet], [small multicolour faceted gem]. Row4: [yellow/pink checkerboard globe with golden ring and star on top], [pair of turquoise and pink magic cards with tiny white wings as one sprite], [EMPTY], [EMPTY], [EMPTY]. No central golden star or castle. Same polished cute 3D rendering as reference. Each sprite uncropped with no overlap into neighbouring cells.",
+      "source": "src/assets/comic/layers/star-system/satellites.png"
+    }
+  ],
+  "runtimeDirectory": "src/assets/comic/layers/star-system/",
+  "preparation": "scripts/prepare-star-system-layers.mjs"
+}

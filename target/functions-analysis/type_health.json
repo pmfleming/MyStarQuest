@@ -3,7 +3,7 @@
   "task_id": "quality.type_health",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:34.596Z",
+    "measured_at": "2026-10-30T22:49:07.976Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:281f7bf86e49a52da64e9d5363a3b363d639fee99c6b5ab79bd591c78db31dc5"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:2332927da222badec823b8ab0f265e6215f6789c7cde6ec1408080246e281780"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -113,8 +113,8 @@
     "high_risk_records": 2,
     "wide_types": 0,
     "compiler_diagnostics": 0,
-    "type_coverage_percent": 99.59,
-    "typed_symbols": 2203,
+    "type_coverage_percent": 99.6,
+    "typed_symbols": 2221,
     "untyped_symbols": 9
   },
   "compiler_options": {
@@ -150,13 +150,13 @@
   "type_coverage": {
     "summary": {
       "files": 8,
-      "analyzed_symbols": 2212,
-      "typed_symbols": 2203,
+      "analyzed_symbols": 2230,
+      "typed_symbols": 2221,
       "explicit_any": 0,
       "inferred_any": 4,
       "error_types": 5,
-      "unknown": 76,
-      "type_coverage_percent": 99.59
+      "unknown": 81,
+      "type_coverage_percent": 99.6
     },
     "files": [
       {
@@ -191,18 +191,18 @@
       },
       {
         "file": "src/sharing/protocol.ts",
-        "analyzed_symbols": 71,
-        "typed_symbols": 71,
+        "analyzed_symbols": 84,
+        "typed_symbols": 84,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
-        "unknown": 0,
+        "unknown": 5,
         "type_coverage_percent": 100
       },
       {
         "file": "src/sharing/policy.ts",
-        "analyzed_symbols": 311,
-        "typed_symbols": 311,
+        "analyzed_symbols": 316,
+        "typed_symbols": 316,
         "explicit_any": 0,
         "inferred_any": 0,
         "error_types": 0,
@@ -1228,13 +1228,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/policy:Validator:47",
+      "id": "type:src/sharing/policy:Validator:38",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "Validator",
       "kind": "type",
       "exported": false,
-      "line": 47,
+      "line": 38,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -1242,7 +1242,7 @@
       "typed_info": {
         "name": "Validator",
         "kind": "TypeAliasDeclaration",
-        "line": 47,
+        "line": 38,
         "type": "any",
         "exported": false
       },
@@ -1269,7 +1269,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/policy:Validator:47",
+            "id": "type:src/sharing/policy:Validator:38",
             "kind": "type",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1278,13 +1278,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:fail:4",
+      "id": "typed-symbol:src/sharing/policy:fail:5",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "fail",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 4,
+      "line": 5,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1309,7 +1309,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:fail:4",
+            "id": "typed-symbol:src/sharing/policy:fail:5",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1318,13 +1318,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:deny:7",
+      "id": "typed-symbol:src/sharing/policy:deny:8",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "deny",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 7,
+      "line": 8,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1349,7 +1349,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:deny:7",
+            "id": "typed-symbol:src/sharing/policy:deny:8",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1358,13 +1358,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:record:10",
+      "id": "typed-symbol:src/sharing/policy:record:11",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "record",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 10,
+      "line": 11,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1389,7 +1389,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:record:10",
+            "id": "typed-symbol:src/sharing/policy:record:11",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1398,13 +1398,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:id:15",
+      "id": "typed-symbol:src/sharing/policy:id:16",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "id",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 15,
+      "line": 16,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1429,7 +1429,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:id:15",
+            "id": "typed-symbol:src/sharing/policy:id:16",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1438,13 +1438,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:email:25",
+      "id": "typed-symbol:src/sharing/policy:email:26",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "email",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 25,
+      "line": 26,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1469,7 +1469,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:email:25",
+            "id": "typed-symbol:src/sharing/policy:email:26",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1478,13 +1478,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:documentPatch:109",
+      "id": "typed-symbol:src/sharing/policy:documentPatch:105",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "documentPatch",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 109,
+      "line": 105,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1509,7 +1509,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:documentPatch:109",
+            "id": "typed-symbol:src/sharing/policy:documentPatch:105",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1518,13 +1518,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:activityPatch:176",
+      "id": "typed-symbol:src/sharing/policy:activityPatch:171",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "activityPatch",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 176,
+      "line": 171,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1549,7 +1549,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:activityPatch:176",
+            "id": "typed-symbol:src/sharing/policy:activityPatch:171",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1558,13 +1558,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:parseOperation:205",
+      "id": "typed-symbol:src/sharing/policy:parseOperation:200",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "parseOperation",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 205,
+      "line": 200,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1589,7 +1589,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:parseOperation:205",
+            "id": "typed-symbol:src/sharing/policy:parseOperation:200",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1598,13 +1598,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/policy:awardFor:240",
+      "id": "typed-symbol:src/sharing/policy:awardFor:227",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "awardFor",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 240,
+      "line": 227,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1629,7 +1629,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:awardFor:240",
+            "id": "typed-symbol:src/sharing/policy:awardFor:227",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1638,13 +1638,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:ChildScope:2",
+      "id": "type:src/sharing/protocol:ChildScope:25",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "ChildScope",
       "kind": "type",
       "exported": true,
-      "line": 2,
+      "line": 25,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -1652,7 +1652,7 @@
       "typed_info": {
         "name": "ChildScope",
         "kind": "TypeAliasDeclaration",
-        "line": 2,
+        "line": 25,
         "type": "any",
         "exported": true
       },
@@ -1679,7 +1679,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:ChildScope:2",
+            "id": "type:src/sharing/protocol:ChildScope:25",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1688,13 +1688,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:SharedAction:8",
+      "id": "type:src/sharing/protocol:SharedAction:31",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedAction",
       "kind": "type",
       "exported": true,
-      "line": 8,
+      "line": 31,
       "score": 74,
       "risk": "high",
       "signals": [
@@ -1707,7 +1707,7 @@
       "typed_info": {
         "name": "SharedAction",
         "kind": "TypeAliasDeclaration",
-        "line": 8,
+        "line": 31,
         "type": "any",
         "exported": true
       },
@@ -1740,7 +1740,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedAction:8",
+            "id": "type:src/sharing/protocol:SharedAction:31",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1749,13 +1749,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:SharedOperation:38",
+      "id": "type:src/sharing/protocol:SharedOperation:61",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedOperation",
       "kind": "type",
       "exported": true,
-      "line": 38,
+      "line": 61,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -1763,7 +1763,7 @@
       "typed_info": {
         "name": "SharedOperation",
         "kind": "TypeAliasDeclaration",
-        "line": 38,
+        "line": 61,
         "type": "any",
         "exported": true
       },
@@ -1790,7 +1790,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedOperation:38",
+            "id": "type:src/sharing/protocol:SharedOperation:61",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1799,13 +1799,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:SharedReceipt:45",
+      "id": "type:src/sharing/protocol:SharedReceipt:68",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedReceipt",
       "kind": "type",
       "exported": true,
-      "line": 45,
+      "line": 68,
       "score": 132,
       "risk": "high",
       "signals": [
@@ -1822,7 +1822,7 @@
       "typed_info": {
         "name": "SharedReceipt",
         "kind": "TypeAliasDeclaration",
-        "line": 45,
+        "line": 68,
         "type": "any",
         "exported": true
       },
@@ -1855,7 +1855,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedReceipt:45",
+            "id": "type:src/sharing/protocol:SharedReceipt:68",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1864,13 +1864,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:ParentEntry:61",
+      "id": "type:src/sharing/protocol:ParentEntry:84",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "ParentEntry",
       "kind": "type",
       "exported": true,
-      "line": 61,
+      "line": 84,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -1878,7 +1878,7 @@
       "typed_info": {
         "name": "ParentEntry",
         "kind": "TypeAliasDeclaration",
-        "line": 61,
+        "line": 84,
         "type": "any",
         "exported": true
       },
@@ -1905,7 +1905,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:ParentEntry:61",
+            "id": "type:src/sharing/protocol:ParentEntry:84",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1914,13 +1914,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/protocol:InvitationEntry:62",
+      "id": "type:src/sharing/protocol:InvitationEntry:85",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "InvitationEntry",
       "kind": "type",
       "exported": true,
-      "line": 62,
+      "line": 85,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -1928,7 +1928,7 @@
       "typed_info": {
         "name": "InvitationEntry",
         "kind": "TypeAliasDeclaration",
-        "line": 62,
+        "line": 85,
         "type": "any",
         "exported": true
       },
@@ -1955,7 +1955,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:InvitationEntry:62",
+            "id": "type:src/sharing/protocol:InvitationEntry:85",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1964,13 +1964,13 @@
       ]
     },
     {
-      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:70",
+      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:93",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "sharedDateKey",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 70,
+      "line": 93,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -1995,7 +1995,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:70",
+            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:93",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2004,13 +2004,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/service:DocumentData:30",
+      "id": "type:src/sharing/service:DocumentData:31",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "DocumentData",
       "kind": "type",
       "exported": false,
-      "line": 30,
+      "line": 31,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -2018,7 +2018,7 @@
       "typed_info": {
         "name": "DocumentData",
         "kind": "TypeAliasDeclaration",
-        "line": 30,
+        "line": 31,
         "type": "any",
         "exported": false
       },
@@ -2045,7 +2045,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:DocumentData:30",
+            "id": "type:src/sharing/service:DocumentData:31",
             "kind": "type",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2054,13 +2054,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/service:Caller:34",
+      "id": "type:src/sharing/service:Caller:35",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "Caller",
       "kind": "type",
       "exported": true,
-      "line": 34,
+      "line": 35,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -2068,7 +2068,7 @@
       "typed_info": {
         "name": "Caller",
         "kind": "TypeAliasDeclaration",
-        "line": 34,
+        "line": 35,
         "type": "any",
         "exported": true
       },
@@ -2095,7 +2095,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:Caller:34",
+            "id": "type:src/sharing/service:Caller:35",
             "kind": "type",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2104,13 +2104,13 @@
       ]
     },
     {
-      "id": "type:src/sharing/service:SharingService:73",
+      "id": "type:src/sharing/service:SharingService:74",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "SharingService",
       "kind": "class",
       "exported": true,
-      "line": 73,
+      "line": 74,
       "score": 42,
       "risk": "medium",
       "signals": [],
@@ -2118,7 +2118,7 @@
       "typed_info": {
         "name": "SharingService",
         "kind": "ClassDeclaration",
-        "line": 73,
+        "line": 74,
         "type": "typeof SharingService",
         "exported": true
       },
@@ -2145,7 +2145,7 @@
           "description": "Keep this class finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:SharingService:73",
+            "id": "type:src/sharing/service:SharingService:74",
             "kind": "class",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."

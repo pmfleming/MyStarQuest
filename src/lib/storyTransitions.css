@@ -1,0 +1,168 @@
+.panel-frame.story-transition-frame {
+  transition: none;
+}
+.story-transition-frame .picture {
+  transition: none;
+}
+.story-transition {
+  position: absolute;
+  z-index: 3;
+  overflow: visible;
+  isolation: isolate;
+  border: 0;
+  background: transparent;
+  pointer-events: none;
+  contain: layout;
+}
+.story-transition .story-paper-illustration > img,
+.transition-door-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+.transition-water,
+.transition-pearl-light,
+.transition-diamond-facets,
+.transition-cloud-light,
+.transition-pink-light,
+.transition-party-light {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.transition-water {
+  inset: -20% -10%;
+  border-radius: 40% 45% 0 0;
+  background: linear-gradient(
+    #e4ffffe8 0%,
+    #8de4efd9 25%,
+    #52b9e5e8 65%,
+    #41a5d600
+  );
+}
+.transition-bubble {
+  position: absolute;
+  bottom: -15%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid #efffffbc;
+  background: radial-gradient(
+    circle at 30% 25%,
+    #fff 0 4%,
+    #ecffff73 9%,
+    #a6efff12 45%,
+    #defaff8c 90%
+  );
+  box-shadow:
+    inset -3px -5px 12px #c1f7ff7a,
+    0 0 12px #e5ffff33;
+}
+.transition-pearl-light {
+  background: radial-gradient(
+    ellipse at var(--focus-x) var(--focus-y),
+    #fff7d7 0%,
+    #c8faffb0 25%,
+    transparent 75%
+  );
+}
+.transition-diamond-facets {
+  background:
+    conic-gradient(
+      from 15deg at 80% 32%,
+      #fff1c7aa,
+      #86dfff77,
+      #d9b9ff99,
+      #fffef3bb,
+      #a8efff77,
+      #fff1c7aa
+    ),
+    repeating-conic-gradient(
+      from 30deg at 80% 32%,
+      transparent 0deg 35deg,
+      #fff9 36deg 37deg,
+      transparent 38deg 70deg
+    );
+}
+.transition-vortex {
+  position: absolute;
+  width: 28%;
+  height: 70%;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse, #fff7ff 0%, #ffc0f1bf 13%, transparent 65%),
+    repeating-conic-gradient(
+      from 0deg,
+      #fff0 0deg 40deg,
+      #ffc3f7bd 55deg,
+      #fff7 65deg,
+      #f99de955 75deg,
+      #fff0 90deg
+    );
+  box-shadow:
+    0 0 38px #fba9ef99,
+    inset 0 0 30px #fff9;
+  filter: blur(2px);
+}
+.transition-pink-light {
+  background: radial-gradient(
+    ellipse at var(--focus-x) var(--focus-y),
+    #fff2fdcc,
+    #f9a6e68c 30%,
+    transparent 80%
+  );
+}
+.transition-cloud-light {
+  background: radial-gradient(
+    ellipse at var(--focus-x) var(--focus-y),
+    #fffdf6 5%,
+    #ffe5f4dd 35%,
+    #e8f5ff99 65%,
+    transparent
+  );
+}
+.transition-doors .story-paper-illustration {
+  background: #101122;
+}
+.transition-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+.transition-door-left {
+  left: 0;
+  transform-origin: left center;
+}
+.transition-door-right {
+  right: 0;
+  transform-origin: right center;
+}
+.transition-door-art {
+  width: 200%;
+  max-width: none;
+}
+.transition-door-right .transition-door-art {
+  left: -100%;
+}
+.transition-party-light {
+  background:
+    radial-gradient(ellipse at 25% 0%, #ffe6aeaa, transparent 65%),
+    radial-gradient(ellipse at 75% 0%, #ffd9b8aa, transparent 65%);
+}
+.transition-confetti {
+  position: absolute;
+  top: -8%;
+  width: 8px;
+  height: 15px;
+  border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-transition {
+    display: none;
+  }
+}

@@ -1,0 +1,72 @@
+.air-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  z-index: 2;
+  visibility: hidden;
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  background: #b6e6fc;
+}
+.air-scene.ready {
+  visibility: visible;
+}
+.air-scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: none;
+  user-select: none;
+}
+.air-background,
+.air-foreground,
+.air-pillar,
+.air-chains,
+.air-swing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.air-scene .air-background,
+.air-scene .air-foreground,
+.air-scene .air-pillar {
+  object-fit: fill;
+}
+.air-actor {
+  position: absolute;
+  transform-origin: 50% 100%;
+  z-index: 2;
+  filter: drop-shadow(0 2px 2px #634b7229);
+}
+.air-cutout {
+  object-fit: contain;
+}
+.air-shadow {
+  position: absolute;
+  height: 1.4%;
+  border-radius: 50%;
+  background: #5f4b8c;
+  opacity: 0.22;
+  filter: blur(5px);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.air-swing {
+  z-index: 2;
+}
+.air-foreground {
+  z-index: 5;
+}
+.air-pillar {
+  z-index: 2;
+  clip-path: polygon(
+    46% 35%,
+    51% 33%,
+    55% 40%,
+    53% 44%,
+    55% 58%,
+    45% 58%,
+    46% 44%
+  );
+}

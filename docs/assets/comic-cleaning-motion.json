@@ -1,0 +1,34 @@
+{
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target. Make a clean background plate for this exact animated children's story scene. Remove BOTH the yellow flying helper and mint flying helper, their feather duster and mop, all their reflections, water splashes, swoosh speed trails and floating bubbles associated with them. Seamlessly reconstruct the empty ornate pearl pink and gold underwater castle corridor and reflective floor behind them. Preserve this exact camera angle, wide landscape framing, golden shell wall ornaments, columns, arched blue ocean windows, lighting and polished toy-like 3D illustration style. No characters, no cleaning tools, no text. This is an empty background for the original helpers to be animated over.",
+      "references": [
+        "C:/Code/MyStarQuest/src/assets/comic/opening/15-speed-cleaning.webp"
+      ],
+      "source": "src/assets/comic/layers/cleaning/background.png",
+      "runtime": "src/assets/comic/layers/cleaning/background.webp"
+    },
+    {
+      "name": "yellow-duster",
+      "prompt": "Use case: background-extraction. Image 1 is the edit target, Image 2 is supporting identity reference only. Extract ONLY the yellow floating helper holding its gold-handled white fluffy feather duster from Image 1, as one clean fully isolated animation sprite on true transparent background. Faithfully preserve its exact appearance, pose, proportions, big cuboid rounded yellow head, drooping ears, brown patches around large eyes, star eye highlights, little body, and the duster in its hands pointing upper left as in Image 1. Include the entire helper AND entire feather duster with no clipping. Do not include the mint helper. Remove all castle background, sparkles, motion trails, floor, water, reflections, borders and shadows. No redesign, no added objects, no text. Tightly framed single full sprite.",
+      "references": [
+        "C:/Code/MyStarQuest/src/assets/comic/opening/15-speed-cleaning.webp",
+        "C:/Code/MyStarQuest/src/assets/comic/references/helpers/yellow.png"
+      ],
+      "source": "src/assets/comic/layers/cleaning/yellow-duster.png",
+      "runtime": "src/assets/comic/layers/cleaning/yellow-duster.webp"
+    },
+    {
+      "name": "mint-mop",
+      "prompt": "Use case: background-extraction. Image 1 is the edit target, Image 2 is supporting identity reference only. Extract ONLY the mint/aqua floating helper holding its gold-handled mop from Image 1, as one clean fully isolated animation sprite on true transparent background. Preserve its exact appearance, pose, proportions, enormous round mint head with two rounded bumps, dark teal curl on forehead, tiny low-set eyes with dark teal cheek patches, small body, and its gold mop handle leading down-left to the white string mop head with teal top. Include the entire helper AND the entire mop, unclipped. Do not include the yellow helper. Remove all castle background, sparkles, motion trails, water splashes, floor, reflections, borders and shadows. Do not redraw into a different character. No added objects or text. Tightly framed single full sprite.",
+      "references": [
+        "C:/Code/MyStarQuest/src/assets/comic/opening/15-speed-cleaning.webp",
+        "C:/Code/MyStarQuest/src/assets/comic/references/helpers/mint-curl.png"
+      ],
+      "source": "src/assets/comic/layers/cleaning/mint-mop.png",
+      "runtime": "src/assets/comic/layers/cleaning/mint-mop.webp"
+    }
+  ]
+}

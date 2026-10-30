@@ -3,6 +3,8 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import StoryPageArtwork from '../../src/components/StoryPageArtwork'
 import type { Story } from '../../src/data/stories'
 import { STORY_PAGE_TRANSITION_MS } from '../../src/lib/storyMotion'
+import * as photoMoment from '../../src/lib/storyPhotoMoment'
+import * as underwater from '../../src/lib/storyUnderwater'
 
 class ControlledImage {
   src = ''
@@ -34,6 +36,7 @@ beforeEach(() => {
 afterEach(() => {
   cleanup()
   vi.unstubAllGlobals()
+  vi.restoreAllMocks()
   vi.useRealTimers()
 })
 
@@ -104,4 +107,51 @@ it('keeps the previous artwork on a failed load and recovers on another page', a
   })
   expect(screen.queryByRole('alert')).toBeNull()
   expect(screen.getByRole('img', { name: 'Story two' })).toBeVisible()
+})
+
+it('plays the photo once after decoding and disposes it immediately when scrubbing away', async () => {
+  vi.useFakeTimers()
+  const play = vi.fn().mockResolvedValue(undefined)
+  const dispose = vi.fn()
+  vi.spyOn(photoMoment, 'createPhotoMoment').mockReturnValue({
+    play,
+    stop: vi.fn(),
+    dispose,
+  })
+  const scenes: Story['panels'] = panels.map((panel, index) =>
+    index === 1 ? { ...panel, effect: 'photo-moment' } : panel
+  )
+  const view = render(<StoryPageArtwork panels={scenes} page={0} />)
+  view.rerender(<StoryPageArtwork panels={scenes} page={1} />)
+  expect(play).not.toHaveBeenCalled()
+  await act(async () => requests.at(-1)!.onload!())
+  expect(play).toHaveBeenCalledTimes(1)
+  act(() => vi.advanceTimersByTime(STORY_PAGE_TRANSITION_MS))
+  expect(play).toHaveBeenCalledTimes(1)
+  view.rerender(<StoryPageArtwork panels={scenes} page={2} />)
+  expect(dispose).toHaveBeenCalledTimes(1)
+  expect(screen.getByRole('img', { name: 'Story one' })).toBeVisible()
+  view.rerender(<StoryPageArtwork panels={scenes} page={1} />)
+  expect(play).toHaveBeenCalledTimes(2)
+  view.unmount()
+  expect(dispose).toHaveBeenCalledTimes(2)
+})
+
+it('retains one underwater scene between introductions and disposes it when leaving', async () => {
+  const show = vi.fn().mockResolvedValue(undefined)
+  const dispose = vi.fn()
+  const create = vi
+    .spyOn(underwater, 'createUnderwaterScene')
+    .mockReturnValue({ show, stop: vi.fn(), dispose })
+  const scenes: Story['panels'] = panels.map((panel, index) =>
+    index < 2 ? { ...panel, effect: 'underwater-meeting' } : panel
+  )
+  const view = render(<StoryPageArtwork panels={scenes} page={0} />)
+  expect(show).toHaveBeenLastCalledWith('cover')
+  view.rerender(<StoryPageArtwork panels={scenes} page={1} />)
+  await act(async () => requests.at(-1)!.onload!())
+  expect(create).toHaveBeenCalledTimes(1)
+  expect(show).toHaveBeenLastCalledWith('one')
+  view.rerender(<StoryPageArtwork panels={scenes} page={2} />)
+  expect(dispose).toHaveBeenCalledTimes(1)
 })

@@ -1,0 +1,24 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "src/assets/comic/opening/47-flight-to-star-planet.webp",
+  "identityReferences": [
+    "src/assets/teenie/spaceman-odette-ping-v2.webp",
+    "src/assets/teenie/dingdong.webp",
+    "src/assets/teenie/aurora.webp",
+    "src/assets/teenie/eclipse.webp"
+  ],
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Edit image1 into a clean animation background plate: remove ONLY all four flying characters, their helmets and backpack rockets, and their long rocket exhaust trails on the left and middle. Reconstruct the rich blue purple starry nebula behind them. Keep exact landscape 1672:941 camera composition, star planet on upper right, its sparkling orbit rings and small golden stars, colours and lighting. Do not introduce anything new. No people or characters. Full-bleed landscape.",
+      "source": "src/assets/comic/layers/space-flight/background.png",
+      "runtime": "src/assets/comic/layers/space-flight/background.webp"
+    },
+    {
+      "name": "friends",
+      "prompt": "Extract the exact FOUR flying friends from image1 into one transparent cutout group, retaining their exact spatial arrangement: Aurora upper left, Eclipse lower left, blue-eyed brown-haired Odette middle, Dingdong leading on upper right. Image1 is the edit target: keep its exact poses, faces, proportions, colors, yellow cat-eared helmets and spacesuits, pink heart backpack rockets ON THEIR BACKS, arms and legs, accessories. Images2-5 are existing project character identity references ONLY; do not substitute their poses or outfits for the image1 spacesuits. Remove all star background, planet, detached stars, and all long rocket exhaust trails. Retain full bodies and all backpack rockets, no cropping. No new symbols, redesign or extra characters. Genuine transparent background between all figures, no white or black background. Whole original four-character formation together as one sprite with no text.",
+      "source": "src/assets/comic/layers/space-flight/friends.png",
+      "runtime": "src/assets/comic/layers/space-flight/friends.webp"
+    }
+  ]
+}

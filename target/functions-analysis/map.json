@@ -3,7 +3,7 @@
   "task_id": "map.architecture",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:48.537Z",
+    "measured_at": "2026-10-30T22:49:25.423Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:9d404c5fe13a3f502a38ca85bf5dee377f4fdfe33cd9ba35e5391581ffe7a862"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:e8937b50533ceedffc7b12c369d5eef7cdd08e5b6ba356a3343871c4cae59f1c"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -118,7 +118,7 @@
   },
   "summary": {
     "nodes": 8,
-    "edges": 23,
+    "edges": 24,
     "workspaces": 1,
     "cross_workspace_edges": 0,
     "entrypoint_nodes": 1,
@@ -509,21 +509,21 @@
       "workspace_id": "mystarquest-functions",
       "workspace_name": "mystarquest-functions",
       "entrypoint_roles": [],
-      "risk_score": 200,
+      "risk_score": 196,
       "risk": "high",
       "classification": "unknown",
       "category_scores": {
-        "maintainability": 200,
+        "maintainability": 196,
         "correctness": null,
         "architecture": 24,
-        "change": 10,
+        "change": 22,
         "render_performance": 0,
         "performance": 0,
         "quality": 50,
         "total": null
       },
-      "maintainability_risk": 200,
-      "change_risk": 10,
+      "maintainability_risk": 196,
+      "change_risk": 22,
       "performance_risk": 0,
       "correctness_risk": null,
       "architectural_risk": 24,
@@ -536,9 +536,9 @@
       "risk_model_version": 3,
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
-        "imports": 2,
+        "imports": 3,
         "exports": 10,
-        "functions": 17,
+        "functions": 18,
         "components": 0,
         "types": 1,
         "entrypoint_roles": 0
@@ -562,20 +562,20 @@
       "risk": "high",
       "classification": "unknown",
       "category_scores": {
-        "maintainability": 24,
+        "maintainability": 39,
         "correctness": null,
-        "architecture": 0,
-        "change": 10,
+        "architecture": 12,
+        "change": 20,
         "render_performance": 0,
         "performance": 0,
         "quality": 132,
         "total": null
       },
-      "maintainability_risk": 24,
-      "change_risk": 10,
+      "maintainability_risk": 39,
+      "change_risk": 20,
       "performance_risk": 0,
       "correctness_risk": null,
-      "architectural_risk": 0,
+      "architectural_risk": 12,
       "quality_risk": 132,
       "total_score": null,
       "unknown_metrics": [
@@ -586,8 +586,8 @@
       "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
       "evidence": {
         "imports": 0,
-        "exports": 8,
-        "functions": 2,
+        "exports": 11,
+        "functions": 4,
         "components": 0,
         "types": 6,
         "entrypoint_roles": 0
@@ -614,14 +614,14 @@
         "maintainability": 301,
         "correctness": null,
         "architecture": 96,
-        "change": 28,
+        "change": 38,
         "render_performance": 0,
         "performance": 0,
         "quality": 50,
         "total": null
       },
       "maintainability_risk": 301,
-      "change_risk": 28,
+      "change_risk": 38,
       "performance_risk": 0,
       "correctness_risk": null,
       "architectural_risk": 96,
@@ -837,6 +837,17 @@
       "line": 2
     },
     {
+      "id": "import:src/sharing/policy:src/sharing/protocol:3",
+      "from": "src/sharing/policy",
+      "to": "src/sharing/protocol",
+      "type": "static_import",
+      "source": "import { taskCompletedFields, waterToiletStars } from './protocol'",
+      "from_workspace": "mystarquest-functions",
+      "to_workspace": "mystarquest-functions",
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
       "id": "import:src/sharing/service:src/sharing/defaultTests:1",
       "from": "src/sharing/service",
       "to": "src/sharing/defaultTests",
@@ -896,7 +907,7 @@
       "from": "src/sharing/service",
       "to": "src/sharing/protocol",
       "type": "static_import",
-      "source": "import { progressKey, sharedDateKey, type ChildScope, type SharedReceipt, } from './protocol'",
+      "source": "import { progressKey, sharedDateKey, storedNumber, type ChildScope, type SharedReceipt, } from './protocol'",
       "from_workspace": "mystarquest-functions",
       "to_workspace": "mystarquest-functions",
       "workspace_dependency": false,

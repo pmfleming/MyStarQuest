@@ -1,0 +1,83 @@
+.panel-frame.morning-rooms-frame {
+  border: 0;
+  background: white;
+}
+.morning-rooms-panel {
+  background: white;
+}
+.morning-rooms {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  background: #fffdf5;
+}
+.morning-rooms.ready {
+  visibility: visible;
+}
+.morning-room {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  border: 3px solid #151515;
+  background: white;
+  display: grid;
+  place-items: center;
+}
+.morning-rooms .morning-room img {
+  position: absolute;
+  inset: 0;
+  object-fit: contain;
+  transform-origin: 50% 48%;
+}
+.morning-room::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(145deg, #ffe9b75c, #fff7dc12 60%, transparent);
+  opacity: 0;
+}
+.morning-rooms-panel.active .morning-rooms.ready .morning-room img {
+  animation: morning-stretch 5.5s ease-in-out both;
+}
+.morning-rooms-panel.active .morning-rooms.ready .morning-room::after {
+  animation: morning-sunrise 5.5s ease-in-out both;
+}
+@keyframes morning-stretch {
+  0% {
+    transform: scale(1);
+    filter: brightness(0.78) saturate(0.92);
+  }
+  55% {
+    transform: scale(1.025);
+    filter: brightness(1.04) saturate(1);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
+}
+@keyframes morning-sunrise {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .morning-rooms-panel.active .morning-rooms.ready .morning-room img,
+  .morning-rooms-panel.active .morning-rooms.ready .morning-room::after {
+    animation: none;
+  }
+}

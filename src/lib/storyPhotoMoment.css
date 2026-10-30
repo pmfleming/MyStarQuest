@@ -1,0 +1,45 @@
+.photo-moment {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #faf7f2;
+  visibility: hidden;
+  pointer-events: none;
+}
+.photo-moment.playing {
+  visibility: visible;
+}
+.photo-moment-backdrop,
+.instant-print,
+.camera-flash {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.photo-moment-backdrop {
+  opacity: 0;
+}
+.instant-print {
+  transform-origin: 0 0;
+}
+.instant-paper {
+  position: absolute;
+  background: #fffdfa;
+  box-shadow: 0 14px 45px #42284840;
+  opacity: 0;
+}
+.photo-moment .instant-print img {
+  position: absolute;
+  inset: 0;
+  object-fit: fill;
+}
+.camera-flash {
+  background: white;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-moment.playing {
+    visibility: hidden;
+  }
+}

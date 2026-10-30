@@ -3,7 +3,7 @@
   "task_id": "quality.clones",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T21:48:58.225Z",
+    "measured_at": "2026-10-30T22:50:57.900Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
-    "input_set_hash": "sha256:86faa8d8afd690f1d39eea8fb104c78b75463e05a8ecbf197cae1554f5c311cd"
+    "source_set_hash": "sha256:61d6cdfa0d81f5d521514104c6ca6ac280a2fb4444bd2312314f42104361bb6b",
+    "input_set_hash": "sha256:fad9bba782c375411bfab89fc5a512c133e193cee7bacff65a0aabbedbbfe937"
   },
   "analysis_identity": {
-    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
+    "id": "sha256:93f9fbdb301799130ce1248fd07ff693bf4aff1b9bda2788f6f425a51e44f090",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
+    "config_closure_hash": "sha256:5a6b0f43a79b9c3642138b3f91ee5e9af7be08aafcff7485f6d07a38e090afa0",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -117,15 +117,15 @@
     "stale_input": []
   },
   "summary": {
-    "clone_groups": 0,
-    "jscpd_clone_groups": 0,
+    "clone_groups": 4,
+    "jscpd_clone_groups": 2,
     "heuristic_clone_groups": 0,
-    "ast_clone_groups": 0,
-    "source_clone_groups": 0,
+    "ast_clone_groups": 3,
+    "source_clone_groups": 4,
     "test_clone_groups": 0,
-    "duplication_records": 1,
-    "high_duplication_records": 1,
-    "clone_pressure_records": 0,
+    "duplication_records": 5,
+    "high_duplication_records": 2,
+    "clone_pressure_records": 4,
     "same_purpose_records": 1
   },
   "tool_status": {
@@ -134,7 +134,7 @@
       "ran": true,
       "reason": null,
       "statistics": {
-        "detectionDate": "2026-10-22T21:48:55.049Z",
+        "detectionDate": "2026-10-30T22:50:54.318Z",
         "formats": {
           "typescript": {
             "sources": {
@@ -163,8 +163,8 @@
                 "newClones": 0
               },
               "src/lib/weather/weatherStore.ts": {
-                "lines": 180,
-                "tokens": 1686,
+                "lines": 179,
+                "tokens": 1683,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -462,6 +462,30 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/data/stories/seaFriends.ts": {
+                "lines": 670,
+                "tokens": 4483,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/data/stories/index.ts": {
+                "lines": 10,
+                "tokens": 91,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/data/creatureCollections/types.ts": {
                 "lines": 33,
                 "tokens": 283,
@@ -571,8 +595,8 @@
                 "newClones": 0
               },
               "src/components/ui/standardActionListTypes.ts": {
-                "lines": 54,
-                "tokens": 569,
+                "lines": 62,
+                "tokens": 600,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -643,8 +667,8 @@
                 "newClones": 0
               },
               "src/components/ui/actionButtonState.ts": {
-                "lines": 38,
-                "tokens": 278,
+                "lines": 36,
+                "tokens": 263,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -679,8 +703,8 @@
                 "newClones": 0
               },
               "src/components/animalTester/useAnimalSession.ts": {
-                "lines": 327,
-                "tokens": 2724,
+                "lines": 326,
+                "tokens": 2690,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -751,8 +775,8 @@
                 "newClones": 0
               },
               "src/ui/unifiedChoreState.ts": {
-                "lines": 126,
-                "tokens": 1002,
+                "lines": 112,
+                "tokens": 897,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -775,8 +799,8 @@
                 "newClones": 0
               },
               "src/ui/themeOptions.ts": {
-                "lines": 38,
-                "tokens": 256,
+                "lines": 35,
+                "tokens": 225,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -787,8 +811,8 @@
                 "newClones": 0
               },
               "src/ui/themeAssets.ts": {
-                "lines": 228,
-                "tokens": 1879,
+                "lines": 237,
+                "tokens": 1936,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -931,8 +955,8 @@
                 "newClones": 0
               },
               "src/tokens/index.ts": {
-                "lines": 118,
-                "tokens": 911,
+                "lines": 119,
+                "tokens": 918,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -943,8 +967,8 @@
                 "newClones": 0
               },
               "src/sharing/scope.ts": {
-                "lines": 31,
-                "tokens": 306,
+                "lines": 43,
+                "tokens": 411,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1003,8 +1027,8 @@
                 "newClones": 0
               },
               "src/offline/transport.ts": {
-                "lines": 179,
-                "tokens": 1744,
+                "lines": 181,
+                "tokens": 1747,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1088,7 +1112,7 @@
               },
               "src/offline/model.ts": {
                 "lines": 364,
-                "tokens": 3895,
+                "tokens": 3850,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1194,6 +1218,198 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/lib/storyUnderwater.ts": {
+                "lines": 138,
+                "tokens": 1374,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyTransitions.ts": {
+                "lines": 645,
+                "tokens": 6144,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyTidyingScene.ts": {
+                "lines": 51,
+                "tokens": 532,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyStarSystemScene.ts": {
+                "lines": 70,
+                "tokens": 774,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storySparkles.ts": {
+                "lines": 476,
+                "tokens": 3805,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storySpaceFlightScene.ts": {
+                "lines": 37,
+                "tokens": 347,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyPresentation.ts": {
+                "lines": 66,
+                "tokens": 627,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyPhotoMoment.ts": {
+                "lines": 180,
+                "tokens": 1859,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyMotion.ts": {
+                "lines": 291,
+                "tokens": 2707,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyMorningRooms.ts": {
+                "lines": 51,
+                "tokens": 444,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyLayerScene.ts": {
+                "lines": 84,
+                "tokens": 691,
+                "sources": 1,
+                "clones": 2,
+                "duplicatedLines": 23,
+                "duplicatedTokens": 197,
+                "percentage": 27.38,
+                "percentageTokens": 28.51,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyIceCreamScene.ts": {
+                "lines": 32,
+                "tokens": 356,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyDingdongArrivalScene.ts": {
+                "lines": 21,
+                "tokens": 184,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyCleaningScene.ts": {
+                "lines": 144,
+                "tokens": 1290,
+                "sources": 1,
+                "clones": 1,
+                "duplicatedLines": 12,
+                "duplicatedTokens": 101,
+                "percentage": 8.33,
+                "percentageTokens": 7.83,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyChapters.ts": {
+                "lines": 25,
+                "tokens": 233,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/storyAirScenes.ts": {
+                "lines": 434,
+                "tokens": 5086,
+                "sources": 1,
+                "clones": 1,
+                "duplicatedLines": 11,
+                "duplicatedTokens": 96,
+                "percentage": 2.53,
+                "percentageTokens": 1.89,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/lib/startupPerformance.ts": {
                 "lines": 18,
                 "tokens": 120,
@@ -1231,8 +1447,20 @@
                 "newClones": 0
               },
               "src/lib/snapshotStore.ts": {
-                "lines": 19,
-                "tokens": 181,
+                "lines": 20,
+                "tokens": 195,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/lib/shuffle.ts": {
+                "lines": 10,
+                "tokens": 154,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1350,6 +1578,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/lib/largeNumbersProblems.ts": {
+                "lines": 55,
+                "tokens": 674,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/lib/imageLoading.ts": {
                 "lines": 28,
                 "tokens": 283,
@@ -1375,8 +1615,8 @@
                 "newClones": 0
               },
               "src/lib/choreParser.ts": {
-                "lines": 148,
-                "tokens": 1198,
+                "lines": 153,
+                "tokens": 1260,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1388,7 +1628,7 @@
               },
               "src/lib/choreLogic.ts": {
                 "lines": 84,
-                "tokens": 547,
+                "tokens": 536,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1506,6 +1746,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/hooks/useStoryPresentation.ts": {
+                "lines": 112,
+                "tokens": 1093,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/hooks/useSchoolCalendar.ts": {
                 "lines": 17,
                 "tokens": 137,
@@ -1533,6 +1785,18 @@
               "src/hooks/useRequiredContext.ts": {
                 "lines": 13,
                 "tokens": 115,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/hooks/useDismissibleLayer.ts": {
+                "lines": 53,
+                "tokens": 513,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1735,8 +1999,8 @@
                 "newClones": 0
               },
               "src/data/useChoreActivityActions.ts": {
-                "lines": 185,
-                "tokens": 1546,
+                "lines": 181,
+                "tokens": 1536,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -1771,8 +2035,32 @@
                 "newClones": 0
               },
               "src/data/types.ts": {
-                "lines": 412,
-                "tokens": 3599,
+                "lines": 402,
+                "tokens": 3539,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/data/themeIds.ts": {
+                "lines": 6,
+                "tokens": 80,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/data/testCategories.ts": {
+                "lines": 27,
+                "tokens": 199,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2084,14 +2372,14 @@
               }
             },
             "total": {
-              "lines": 14638,
-              "tokens": 126974,
-              "sources": 162,
-              "clones": 0,
-              "duplicatedLines": 0,
-              "duplicatedTokens": 0,
-              "percentage": 0,
-              "percentageTokens": 0,
+              "lines": 18329,
+              "tokens": 160679,
+              "sources": 186,
+              "clones": 2,
+              "duplicatedLines": 23,
+              "duplicatedTokens": 197,
+              "percentage": 0.13,
+              "percentageTokens": 0.12,
               "newDuplicatedLines": 0,
               "newClones": 0
             }
@@ -2231,8 +2519,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 341,
-                "tokens": 2576,
+                "lines": 319,
+                "tokens": 2382,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2243,8 +2531,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 293,
-                "tokens": 2025,
+                "lines": 273,
+                "tokens": 1982,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2255,8 +2543,8 @@
                 "newClones": 0
               },
               "src/components/ui/SegmentedChoiceControl.tsx": {
-                "lines": 72,
-                "tokens": 487,
+                "lines": 73,
+                "tokens": 483,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2304,7 +2592,7 @@
               },
               "src/components/ui/PositionalNotationPlayArea.tsx": {
                 "lines": 378,
-                "tokens": 2893,
+                "tokens": 2895,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2341,6 +2629,18 @@
               "src/components/ui/LetterCaseControl.tsx": {
                 "lines": 7,
                 "tokens": 51,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/LargeNumbersExpandedAnswer.tsx": {
+                "lines": 47,
+                "tokens": 374,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2723,8 +3023,8 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 86,
-                "tokens": 668,
+                "lines": 131,
+                "tokens": 976,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2891,8 +3191,8 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerControls.tsx": {
-                "lines": 128,
-                "tokens": 824,
+                "lines": 133,
+                "tokens": 863,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2926,9 +3226,57 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/TestCategoryPicker.tsx": {
+                "lines": 10,
+                "tokens": 66,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/TabContent.tsx": {
                 "lines": 24,
                 "tokens": 131,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/StoryReader.tsx": {
+                "lines": 105,
+                "tokens": 747,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/StoryPageArtwork.tsx": {
+                "lines": 98,
+                "tokens": 882,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/StoryLibrary.tsx": {
+                "lines": 60,
+                "tokens": 445,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -2951,8 +3299,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 194,
-                "tokens": 1506,
+                "lines": 271,
+                "tokens": 2004,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3035,8 +3383,8 @@
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 261,
-                "tokens": 1766,
+                "lines": 288,
+                "tokens": 1932,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3095,8 +3443,8 @@
                 "newClones": 0
               },
               "src/components/CalendarWeekdays.tsx": {
-                "lines": 8,
-                "tokens": 49,
+                "lines": 28,
+                "tokens": 195,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3107,8 +3455,8 @@
                 "newClones": 0
               },
               "src/components/CalendarActivityHistory.tsx": {
-                "lines": 256,
-                "tokens": 2183,
+                "lines": 257,
+                "tokens": 2139,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3252,9 +3600,9 @@
               }
             },
             "total": {
-              "lines": 9198,
-              "tokens": 67869,
-              "sources": 96,
+              "lines": 9652,
+              "tokens": 71257,
+              "sources": 101,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -3399,8 +3747,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionList.tsx": {
-                "lines": 414,
-                "tokens": 3115,
+                "lines": 386,
+                "tokens": 2890,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3411,8 +3759,8 @@
                 "newClones": 0
               },
               "src/components/ui/StandardActionButtons.tsx": {
-                "lines": 334,
-                "tokens": 2304,
+                "lines": 318,
+                "tokens": 2279,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3423,8 +3771,8 @@
                 "newClones": 0
               },
               "src/components/ui/SegmentedChoiceControl.tsx": {
-                "lines": 149,
-                "tokens": 1043,
+                "lines": 156,
+                "tokens": 1083,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3472,7 +3820,7 @@
               },
               "src/components/ui/PositionalNotationPlayArea.tsx": {
                 "lines": 527,
-                "tokens": 3927,
+                "tokens": 3929,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3509,6 +3857,18 @@
               "src/components/ui/LetterCaseControl.tsx": {
                 "lines": 29,
                 "tokens": 180,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/ui/LargeNumbersExpandedAnswer.tsx": {
+                "lines": 109,
+                "tokens": 845,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3903,8 +4263,8 @@
                 "newClones": 0
               },
               "src/sharing/ChildAccessProvider.tsx": {
-                "lines": 242,
-                "tokens": 2167,
+                "lines": 231,
+                "tokens": 2112,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -3999,8 +4359,8 @@
                 "newClones": 0
               },
               "src/pages/TestsPage.tsx": {
-                "lines": 193,
-                "tokens": 1529,
+                "lines": 255,
+                "tokens": 1960,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4203,8 +4563,8 @@
                 "newClones": 0
               },
               "src/components/TimeExplorerControls.tsx": {
-                "lines": 189,
-                "tokens": 1332,
+                "lines": 195,
+                "tokens": 1383,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4250,6 +4610,18 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/TestCategoryPicker.tsx": {
+                "lines": 52,
+                "tokens": 377,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/TabContent.tsx": {
                 "lines": 60,
                 "tokens": 367,
@@ -4262,9 +4634,45 @@
                 "newDuplicatedLines": 0,
                 "newClones": 0
               },
+              "src/components/StoryReader.tsx": {
+                "lines": 258,
+                "tokens": 2261,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/StoryPageArtwork.tsx": {
+                "lines": 245,
+                "tokens": 2257,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
+              "src/components/StoryLibrary.tsx": {
+                "lines": 92,
+                "tokens": 743,
+                "sources": 1,
+                "clones": 0,
+                "duplicatedLines": 0,
+                "duplicatedTokens": 0,
+                "percentage": 0,
+                "percentageTokens": 0,
+                "newDuplicatedLines": 0,
+                "newClones": 0
+              },
               "src/components/SpellingTester.tsx": {
-                "lines": 546,
-                "tokens": 4344,
+                "lines": 545,
+                "tokens": 4311,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4299,8 +4707,8 @@
                 "newClones": 0
               },
               "src/components/SchoolCalendar.tsx": {
-                "lines": 297,
-                "tokens": 2543,
+                "lines": 436,
+                "tokens": 3528,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4311,8 +4719,8 @@
                 "newClones": 0
               },
               "src/components/RewardImagePreview.tsx": {
-                "lines": 93,
-                "tokens": 690,
+                "lines": 61,
+                "tokens": 364,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4383,8 +4791,8 @@
                 "newClones": 0
               },
               "src/components/LargeNumbersTester.tsx": {
-                "lines": 521,
-                "tokens": 4304,
+                "lines": 556,
+                "tokens": 4291,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4419,8 +4827,8 @@
                 "newClones": 0
               },
               "src/components/ExpandableAgendaItem.tsx": {
-                "lines": 79,
-                "tokens": 587,
+                "lines": 57,
+                "tokens": 410,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4467,8 +4875,8 @@
                 "newClones": 0
               },
               "src/components/CalendarWeekdays.tsx": {
-                "lines": 98,
-                "tokens": 682,
+                "lines": 161,
+                "tokens": 1209,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4479,8 +4887,8 @@
                 "newClones": 0
               },
               "src/components/CalendarActivityHistory.tsx": {
-                "lines": 313,
-                "tokens": 2604,
+                "lines": 314,
+                "tokens": 2557,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4527,8 +4935,8 @@
                 "newClones": 0
               },
               "src/components/AppDeviceFrame.tsx": {
-                "lines": 54,
-                "tokens": 364,
+                "lines": 55,
+                "tokens": 373,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4551,8 +4959,8 @@
                 "newClones": 0
               },
               "src/components/AlphabetTester.tsx": {
-                "lines": 287,
-                "tokens": 2182,
+                "lines": 286,
+                "tokens": 2178,
                 "sources": 1,
                 "clones": 0,
                 "duplicatedLines": 0,
@@ -4648,9 +5056,9 @@
               }
             },
             "total": {
-              "lines": 17647,
-              "tokens": 136372,
-              "sources": 115,
+              "lines": 18606,
+              "tokens": 143995,
+              "sources": 120,
               "clones": 0,
               "duplicatedLines": 0,
               "duplicatedTokens": 0,
@@ -4738,22 +5146,403 @@
           }
         },
         "total": {
-          "lines": 41509,
-          "tokens": 331476,
-          "sources": 378,
-          "clones": 0,
-          "duplicatedLines": 0,
-          "duplicatedTokens": 0,
-          "percentage": 0,
-          "percentageTokens": 0,
+          "lines": 46613,
+          "tokens": 376192,
+          "sources": 412,
+          "clones": 2,
+          "duplicatedLines": 23,
+          "duplicatedTokens": 197,
+          "percentage": 0.05,
+          "percentageTokens": 0.05,
           "newDuplicatedLines": 0,
           "newClones": 0
         }
       }
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "jscpd:typescript:1",
+      "engine": "jscpd",
+      "hash": null,
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 100,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 13
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "format",
+          "value": "typescript"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/lib/storyCleaningScene.ts",
+          "start_line": 111,
+          "end_line": 123
+        },
+        {
+          "file": "src/lib/storyLayerScene.ts",
+          "start_line": 54,
+          "end_line": 66
+        }
+      ],
+      "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/storyCleaningScene.ts",
+          "start_line": 111,
+          "end_line": 123,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/storyLayerScene.ts",
+          "start_line": 54,
+          "end_line": 66,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:typescript:1",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jscpd:typescript:1",
+            "kind": "jscpd",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "jscpd:typescript:2",
+      "engine": "jscpd",
+      "hash": null,
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 99,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 12
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "format",
+          "value": "typescript"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 403,
+          "end_line": 414
+        },
+        {
+          "file": "src/lib/storyLayerScene.ts",
+          "start_line": 54,
+          "end_line": 65
+        }
+      ],
+      "kind": "jscpd",
+      "rule_id": "ts-react-quality-lens/jscpd",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "jscpd",
+      "reason_code": "ts-react-quality-lens/jscpd",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 403,
+          "end_line": 414,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/storyLayerScene.ts",
+          "start_line": 54,
+          "end_line": 65,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "jscpd:typescript:2",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this jscpd finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "jscpd:typescript:2",
+            "kind": "jscpd",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ast-clone:c294b18e",
+      "engine": "ast",
+      "hash": "c294b18e",
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 72,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "instance_count",
+          "value": 2
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "confidence_scope",
+          "value": "syntax_facts"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 417,
+          "end_line": 421
+        },
+        {
+          "file": "src/lib/storyTransitions.ts",
+          "start_line": 254,
+          "end_line": 258
+        }
+      ],
+      "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 417,
+          "end_line": 421,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/storyTransitions.ts",
+          "start_line": 254,
+          "end_line": 258,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:c294b18e",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "ast-clone:c294b18e",
+            "kind": "ast-clone",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ast-clone:7d9561e2",
+      "engine": "ast",
+      "hash": "7d9561e2",
+      "classification": "source_clone",
+      "test_code": false,
+      "score": 72,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "instance_count",
+          "value": 2
+        },
+        {
+          "kind": "file_count",
+          "value": 2
+        },
+        {
+          "kind": "confidence_scope",
+          "value": "syntax_facts"
+        }
+      ],
+      "instances": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 427,
+          "end_line": 432
+        },
+        {
+          "file": "src/lib/storyCleaningScene.ts",
+          "start_line": 137,
+          "end_line": 142
+        }
+      ],
+      "kind": "ast-clone",
+      "rule_id": "ts-react-quality-lens/ast-clone",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "ast-clone",
+      "reason_code": "ts-react-quality-lens/ast-clone",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "related_locations": [
+        {
+          "file": "src/lib/storyAirScenes.ts",
+          "start_line": 427,
+          "end_line": 432,
+          "role": "duplicate"
+        },
+        {
+          "file": "src/lib/storyCleaningScene.ts",
+          "start_line": 137,
+          "end_line": 142,
+          "role": "duplicate"
+        }
+      ],
+      "fix_group_id": "ast-clone:7d9561e2",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this ast-clone finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "ast-clone:7d9561e2",
+            "kind": "ast-clone",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ],
   "records": [
+    {
+      "id": "duplication-pressure:src/lib/storyAirScenes",
+      "kind": "duplication_pressure",
+      "module_id": "src/lib/storyAirScenes",
+      "file": "src/lib/storyAirScenes.ts",
+      "line": 1,
+      "score": 96,
+      "risk": "high",
+      "duplicated_lines": 23,
+      "clone_group_ids": [
+        "jscpd:typescript:2",
+        "ast-clone:c294b18e",
+        "ast-clone:7d9561e2"
+      ],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 3
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 3
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 2
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 23
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/lib/storyAirScenes",
+            "kind": "duplication_pressure",
+            "file": "src/lib/storyAirScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
     {
       "id": "same-purpose:export:a98cc29",
       "kind": "same_purpose_export",
@@ -4785,7 +5574,7 @@
           "module_id": "src/sharing/scope",
           "file": "src/sharing/scope.ts",
           "name": "childStorageKey",
-          "line": 10,
+          "line": 22,
           "exported": true,
           "signature": "(scope: ChildScope) => string",
           "entrypoint_roles": []
@@ -4850,6 +5639,206 @@
             "id": "same-purpose:export:a98cc29",
             "kind": "same_purpose_export",
             "file": "src/sharing/ChildAccessContext.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/lib/storyCleaningScene",
+      "kind": "duplication_pressure",
+      "module_id": "src/lib/storyCleaningScene",
+      "file": "src/lib/storyCleaningScene.ts",
+      "line": 1,
+      "score": 64,
+      "risk": "medium",
+      "duplicated_lines": 19,
+      "clone_group_ids": [
+        "jscpd:typescript:1",
+        "ast-clone:7d9561e2"
+      ],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 2
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 2
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 19
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/lib/storyCleaningScene",
+            "kind": "duplication_pressure",
+            "file": "src/lib/storyCleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/lib/storyLayerScene",
+      "kind": "duplication_pressure",
+      "module_id": "src/lib/storyLayerScene",
+      "file": "src/lib/storyLayerScene.ts",
+      "line": 1,
+      "score": 52,
+      "risk": "medium",
+      "duplicated_lines": 13,
+      "clone_group_ids": [
+        "jscpd:typescript:1",
+        "jscpd:typescript:2"
+      ],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 2
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 2
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 0
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 13
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/lib/storyLayerScene",
+            "kind": "duplication_pressure",
+            "file": "src/lib/storyLayerScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplication-pressure:src/lib/storyTransitions",
+      "kind": "duplication_pressure",
+      "module_id": "src/lib/storyTransitions",
+      "file": "src/lib/storyTransitions.ts",
+      "line": 1,
+      "score": 33,
+      "risk": "low",
+      "duplicated_lines": 5,
+      "clone_group_ids": [
+        "ast-clone:c294b18e"
+      ],
+      "entrypoint_roles": [],
+      "signals": [
+        {
+          "kind": "clone_group_count",
+          "value": 1
+        },
+        {
+          "kind": "cross_file_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "ast_clone_groups",
+          "value": 1
+        },
+        {
+          "kind": "duplicated_line_count",
+          "value": 5
+        },
+        {
+          "kind": "clone_engine_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/duplication_pressure",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "duplication pressure",
+      "reason_code": "ts-react-quality-lens/duplication_pressure",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Extract the duplicated logic or document why the clone should remain.",
+          "fix": "deduplicate-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this duplication_pressure finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "duplication-pressure:src/lib/storyTransitions",
+            "kind": "duplication_pressure",
+            "file": "src/lib/storyTransitions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }

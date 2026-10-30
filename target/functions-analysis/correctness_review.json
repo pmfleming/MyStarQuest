@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:41.553Z",
+    "measured_at": "2026-10-30T22:49:16.526Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:7525423ff245ec46593a440d4917d27764254767c38264c6e8f9ee910fec45b3"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:be5067cde9769ddd9eb0254cc3dceea4ded0bf8197d2a7205f608926a9e647fc"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -110,9 +110,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 19,
+    "tests": 23,
     "colocated_tests": 0,
-    "external_tests": 19,
+    "external_tests": 23,
     "execution_status": "not_run",
     "execution_scope": "suite",
     "coverage_status": "not_collected",
@@ -232,7 +232,7 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 16,
+      "assertions": 20,
       "skipped": 0,
       "todo": 0
     },
@@ -334,7 +334,28 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 15,
+      "assertions": 16,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/sharedOperationValidation.test.ts",
+      "name": "sharedOperationValidation.test.ts",
+      "path": "../tests/unit/sharedOperationValidation.test.ts",
+      "framework": "unknown",
+      "locality": "external",
+      "source_mapping": [
+        "src/sharing/policy.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/sharing/policy.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "assertions": 4,
       "skipped": 0,
       "todo": 0
     },
@@ -355,7 +376,7 @@
         }
       ],
       "coverage_status": "not_collected",
-      "assertions": 17,
+      "assertions": 19,
       "skipped": 0,
       "todo": 0
     },
@@ -373,6 +394,19 @@
       "todo": 0
     },
     {
+      "id": "test:../tests/unit/storyLayerScene.test.ts",
+      "name": "storyLayerScene.test.ts",
+      "path": "../tests/unit/storyLayerScene.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 14,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "id": "test:../tests/unit/taskLimits.test.ts",
       "name": "taskLimits.test.ts",
       "path": "../tests/unit/taskLimits.test.ts",
@@ -382,6 +416,19 @@
       "source_associations": [],
       "coverage_status": "not_collected",
       "assertions": 3,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/themeIds.test.ts",
+      "name": "themeIds.test.ts",
+      "path": "../tests/unit/themeIds.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 4,
       "skipped": 0,
       "todo": 0
     },
@@ -407,7 +454,20 @@
       "source_mapping": [],
       "source_associations": [],
       "coverage_status": "not_collected",
-      "assertions": 6,
+      "assertions": 9,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "id": "test:../tests/unit/withDeadline.test.ts",
+      "name": "withDeadline.test.ts",
+      "path": "../tests/unit/withDeadline.test.ts",
+      "framework": "vitest",
+      "locality": "external",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "assertions": 8,
       "skipped": 0,
       "todo": 0
     }

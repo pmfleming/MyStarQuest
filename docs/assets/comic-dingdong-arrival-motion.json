@@ -1,0 +1,21 @@
+{
+  "tool": "built-in image_gen",
+  "references": [
+    "src/assets/comic/opening/44-dingdong-invitation-v2.webp",
+    "src/assets/teenie/dingdong.webp"
+  ],
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Edit image1: remove ONLY flying yellow-suited Dingdong Ping at upper left including backpack rockets, and remove the long pink looping exhaust ribbon behind Dingdong on far left. Reconstruct castle sky and architecture. Preserve exact large circular starry portal with planet and moon, all three waiting friends below, all castles, lighting and camera composition. Same 1672:941 landscape. Do not redraw or change other characters.",
+      "source": "src/assets/comic/layers/dingdong-arrival/background.png",
+      "runtime": "src/assets/comic/layers/dingdong-arrival/background.webp"
+    },
+    {
+      "name": "dingdong",
+      "prompt": "Extract only the flying yellow-suited Dingdong Ping at UPPER LEFT of image1 into a faithful transparent cutout. Keep image1 exact flying pose with arms spread and waving, face, blonde fringe, purple eyes, yellow cat-ear headpiece, pink bow, white belly, legs and pink rocket backpack ON BACK. Image2 is existing character identity reference; use it for identity only, not its pose. No other characters, no stars, no background, no exhaust trail. Full uncropped character, genuine transparent background. Preserve proportions and expression, no redesign.",
+      "source": "src/assets/comic/layers/dingdong-arrival/dingdong.png",
+      "runtime": "src/assets/comic/layers/dingdong-arrival/dingdong.webp"
+    }
+  ]
+}

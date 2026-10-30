@@ -1,0 +1,132 @@
+.space-flight-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  overflow: hidden;
+  isolation: isolate;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.space-flight-scene.ready {
+  visibility: visible;
+}
+.space-flight-scene .space-flight-background,
+.space-flight-arrival,
+.space-flight-formation {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.space-flight-arrival {
+  transform: translateX(-110%);
+}
+.space-flight-scene .space-flight-friends {
+  position: absolute;
+  inset: auto;
+  left: 5.3%;
+  top: 16%;
+  width: 60.5%;
+  height: auto;
+}
+.space-flight-scene.flying .space-flight-arrival {
+  animation: space-flight-enter 4.8s cubic-bezier(0.2, 0.55, 0.25, 1) both;
+}
+.space-flight-scene.castle-flight .space-flight-friends {
+  left: 5%;
+  top: 6%;
+  width: 64%;
+}
+.castle-flight .space-flight-aurora {
+  left: 12.2%;
+  top: 33.7%;
+}
+.castle-flight .space-flight-eclipse {
+  left: 5.5%;
+  top: 65.5%;
+}
+.castle-flight .space-flight-odette {
+  left: 25.5%;
+  top: 60.8%;
+}
+.space-flight-scene.flying .space-flight-formation {
+  animation: space-flight-hover 5s 4.8s ease-in-out infinite;
+}
+.space-flight-trail {
+  position: absolute;
+  width: 18%;
+  height: 1.3%;
+  margin-left: -18%;
+  transform: rotate(-27deg);
+  transform-origin: right center;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    #c977ff66 30%,
+    #88f3ffcc 70%,
+    #fff
+  );
+  filter: drop-shadow(0 0 5px #90edff);
+}
+.space-flight-aurora {
+  left: 8%;
+  top: 43%;
+}
+.space-flight-eclipse {
+  left: 5.6%;
+  top: 80.5%;
+}
+.space-flight-odette {
+  left: 24%;
+  top: 61%;
+}
+.space-flight-dingdong {
+  left: 43.4%;
+  top: 51%;
+}
+.space-flight-scene.flying .space-flight-trail {
+  animation: space-flight-thrust 0.8s ease-in-out infinite alternate;
+}
+@keyframes space-flight-enter {
+  from {
+    transform: translate(-110%, 14%);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+@keyframes space-flight-hover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.8%);
+  }
+}
+@keyframes space-flight-thrust {
+  from {
+    opacity: 0.65;
+    scale: 0.92 0.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1 1.1;
+  }
+}
+.space-flight-scene.paused * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-flight-scene .space-flight-arrival,
+  .space-flight-scene.flying .space-flight-arrival,
+  .space-flight-scene.flying .space-flight-formation,
+  .space-flight-scene.flying .space-flight-trail {
+    animation: none;
+    transform: none;
+  }
+  .space-flight-scene .space-flight-trail {
+    display: none;
+  }
+}

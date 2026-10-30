@@ -1,6 +1,6 @@
 # TypeScript quality gate
 
-MyStarQuest uses **ts-react-quality-lens 0.3.0**, pinned to commit `233239b623b67df9c772d7ac3602740fb9de3f12` (latest `main` verified 3 October 2026) from [pmfleming/ts-react-quality-lens](https://github.com/pmfleming/ts-react-quality-lens). The CI workflow checks out and builds this revision separately from the application dependencies. The latest [deep review and refactor](2026-10-03-refactor.md) compares a fresh working-tree baseline with the result, including the user's existing uncommitted features in both measurements.
+MyStarQuest uses **ts-react-quality-lens 0.3.0**, pinned to commit `233239b623b67df9c772d7ac3602740fb9de3f12` (latest `main` verified 30 October 2026) from [pmfleming/ts-react-quality-lens](https://github.com/pmfleming/ts-react-quality-lens). The CI workflow checks out and builds this revision separately from the application dependencies. The latest [deep review and refactor](2026-10-30-refactor.md) compares a fresh working-tree baseline with the result, including the user's existing uncommitted features in both measurements. Historical results for the former standalone comic remain under `target/comic-analysis/`; that website has since been retired, and the app retains its story and animations.
 
 With the pinned checkout built in `tmp/quality-lens-latest`, run:
 

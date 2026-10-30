@@ -1,0 +1,1257 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.dependency_health",
+  "project": {
+    "name": "MyStarQuest Comic",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "playwright"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-10-30T22:49:13.423Z",
+    "source_type": "static",
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:8e50d053113b8750ae2f9fc2e40f70e00d93643bd63acd05d4ffd7a32a5ad43c",
+    "input_set_hash": "sha256:794c02bedbdfc333cf0619992ef1a87451e5bc7cb90482db6a096509a6c81ec1"
+  },
+  "analysis_identity": {
+    "id": "sha256:cafd47d385e9a6c42482edb75c54160ad0e478b6e48cf0c9a7eb08a8563d88e7",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:d0a2e256c1c6874e02fa7fe504b536851a857cdae53a2f95f94735daad359c60",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
+      "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_native": "7.0.2",
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": false,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": false,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "hit",
+    "unsupported_pattern": [],
+    "dependency_cruiser_available": true,
+    "dependency_cruiser_ran": true,
+    "complete": false,
+    "partial": true,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "framework_detected",
+      "test_runner_detected",
+      "excludes_applied",
+      "type_information_available",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled",
+      "dependency_cruiser_available",
+      "dependency_cruiser_ran"
+    ],
+    "missing_input": [
+      "dependencies_installed"
+    ],
+    "stale_input": []
+  },
+  "summary": {
+    "internal_edges": 23,
+    "external_edges": 0,
+    "cycles": 0,
+    "heuristic_cycles": 0,
+    "dependency_cruiser_cycles": 0,
+    "deep_relative_imports": 16,
+    "barrel_modules": 6,
+    "layer_violations": 0,
+    "unsupported_patterns": 0,
+    "workspaces": 1,
+    "cross_workspace_edges": 0,
+    "incomplete_workspace_projects": 0
+  },
+  "tool_status": {
+    "dependency_cruiser": {
+      "available": true,
+      "ran": true,
+      "reason": null,
+      "summary": {
+        "violations": [],
+        "error": 0,
+        "warn": 0,
+        "info": 0,
+        "ignore": 0,
+        "totalCruised": 141,
+        "totalDependenciesCruised": 151,
+        "optionsUsed": {
+          "baseDir": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+          "combinedDependencies": false,
+          "detectJSDocImports": false,
+          "detectProcessBuiltinModuleCalls": false,
+          "exoticRequireStrings": [],
+          "externalModuleResolutionStrategy": "node_modules",
+          "metrics": false,
+          "moduleSystems": [
+            "es6",
+            "cjs",
+            "tsd",
+            "amd"
+          ],
+          "outputTo": "-",
+          "outputType": "json",
+          "preserveSymlinks": false,
+          "skipAnalysisNotInRules": false,
+          "tsPreCompilationDeps": false,
+          "args": "src"
+        }
+      }
+    }
+  },
+  "records": [
+    {
+      "id": "deep-import:src/airScenes:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/airScenes",
+      "line": 1,
+      "specifier": "../../src/lib/storyAirScenes",
+      "evidence": "export { createAirScenes, airSceneIds } from '../../src/lib/storyAirScenes'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createAirScenes, airSceneIds } from '../../src/lib/storyAirScenes'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/airScenes:1",
+            "kind": "deep_relative_import",
+            "file": "src/airScenes",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/cleaningScene:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/cleaningScene",
+      "line": 1,
+      "specifier": "../../src/lib/storyCleaningScene",
+      "evidence": "export { createCleaningScene } from '../../src/lib/storyCleaningScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createCleaningScene } from '../../src/lib/storyCleaningScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/cleaningScene:1",
+            "kind": "deep_relative_import",
+            "file": "src/cleaningScene",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:3",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 3,
+      "specifier": "../../src/lib/storyPresentation",
+      "evidence": "import { storyPageForKey } from '../../src/lib/storyPresentation'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { storyPageForKey } from '../../src/lib/storyPresentation'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:3",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:4",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 4,
+      "specifier": "../../src/lib/storyPhotoMoment",
+      "evidence": "import { createPhotoMoment } from '../../src/lib/storyPhotoMoment'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createPhotoMoment } from '../../src/lib/storyPhotoMoment'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:4",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:6",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 6,
+      "specifier": "../../src/lib/storyUnderwater",
+      "evidence": "import { createUnderwaterScene } from '../../src/lib/storyUnderwater'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createUnderwaterScene } from '../../src/lib/storyUnderwater'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:6",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:7",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 7,
+      "specifier": "../../src/lib/storyPaper.css",
+      "evidence": "import '../../src/lib/storyPaper.css'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import '../../src/lib/storyPaper.css'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:7",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:12",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 12,
+      "specifier": "../../src/lib/storyIceCreamScene",
+      "evidence": "import { createIceCreamScene } from '../../src/lib/storyIceCreamScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createIceCreamScene } from '../../src/lib/storyIceCreamScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:12",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:13",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 13,
+      "specifier": "../../src/lib/storySpaceFlightScene",
+      "evidence": "import { createSpaceFlightScene } from '../../src/lib/storySpaceFlightScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createSpaceFlightScene } from '../../src/lib/storySpaceFlightScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:13",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:14",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 14,
+      "specifier": "../../src/lib/storyStarSystemScene",
+      "evidence": "import { createStarSystemScene } from '../../src/lib/storyStarSystemScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createStarSystemScene } from '../../src/lib/storyStarSystemScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:14",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:15",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 15,
+      "specifier": "../../src/lib/storyDingdongArrivalScene",
+      "evidence": "import { createDingdongArrivalScene } from '../../src/lib/storyDingdongArrivalScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createDingdongArrivalScene } from '../../src/lib/storyDingdongArrivalScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:15",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:16",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 16,
+      "specifier": "../../src/lib/storySparkles",
+      "evidence": "import { createStorySparkles } from '../../src/lib/storySparkles'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createStorySparkles } from '../../src/lib/storySparkles'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:16",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/main:17",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 17,
+      "specifier": "../../src/lib/storyChapters",
+      "evidence": "import { currentStoryChapter, getStoryChapters, } from '../../src/lib/storyChapters'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { currentStoryChapter, getStoryChapters, } from '../../src/lib/storyChapters'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:17",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/morningRooms:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/morningRooms",
+      "line": 1,
+      "specifier": "../../src/lib/storyMorningRooms",
+      "evidence": "export { createMorningRooms, morningPanelId, } from '../../src/lib/storyMorningRooms'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createMorningRooms, morningPanelId, } from '../../src/lib/storyMorningRooms'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/morningRooms:1",
+            "kind": "deep_relative_import",
+            "file": "src/morningRooms",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/story:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/story",
+      "line": 2,
+      "specifier": "../../src/data/stories/seaFriends",
+      "evidence": "export { story, type Panel } from '../../src/data/stories/seaFriends'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { story, type Panel } from '../../src/data/stories/seaFriends'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/story:2",
+            "kind": "deep_relative_import",
+            "file": "src/story",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/storyTransitions:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/storyTransitions",
+      "line": 1,
+      "specifier": "../../src/lib/storyTransitions",
+      "evidence": "export { createStoryTransitions, storyTransitions, } from '../../src/lib/storyTransitions'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createStoryTransitions, storyTransitions, } from '../../src/lib/storyTransitions'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/storyTransitions:1",
+            "kind": "deep_relative_import",
+            "file": "src/storyTransitions",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep-import:src/tidyingScene:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/tidyingScene",
+      "line": 1,
+      "specifier": "../../src/lib/storyTidyingScene",
+      "evidence": "export { createTidyingScene } from '../../src/lib/storyTidyingScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createTidyingScene } from '../../src/lib/storyTidyingScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/tidyingScene:1",
+            "kind": "deep_relative_import",
+            "file": "src/tidyingScene",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/airScenes",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/airScenes.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/airScenes",
+            "kind": "barrel_fanout",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/cleaningScene",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 4,
+      "file": "src/cleaningScene.ts",
+      "exports": 1,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/cleaningScene",
+            "kind": "barrel_fanout",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/morningRooms",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/morningRooms.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/morningRooms",
+            "kind": "barrel_fanout",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/story",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/story.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/story",
+            "kind": "barrel_fanout",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/storyTransitions",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/storyTransitions.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/storyTransitions",
+            "kind": "barrel_fanout",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "barrel:src/tidyingScene",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 4,
+      "file": "src/tidyingScene.ts",
+      "exports": 1,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/tidyingScene",
+            "kind": "barrel_fanout",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "src/airScenes",
+        "file": "src/airScenes.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/cleaningScene",
+        "file": "src/cleaningScene.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/main",
+        "file": "src/main.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/morningRooms",
+        "file": "src/morningRooms.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/story",
+        "file": "src/story.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/storyTransitions",
+        "file": "src/storyTransitions.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      },
+      {
+        "id": "src/tidyingScene",
+        "file": "src/tidyingScene.ts",
+        "layer": "core",
+        "workspace_id": "sea-friends-comic"
+      }
+    ],
+    "workspaces": [
+      {
+        "id": "sea-friends-comic",
+        "name": "sea-friends-comic",
+        "root": ".",
+        "private": true,
+        "framework": "unknown",
+        "policy_profile": "baseline",
+        "tsconfigs": [
+          "tsconfig.json"
+        ],
+        "source_files": 7,
+        "project_loaded": true,
+        "project_reason": null
+      }
+    ],
+    "workspace_edges": [],
+    "edges": [
+      {
+        "from": "src/airScenes",
+        "to": "../src/lib/storyAirScenes",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/cleaningScene",
+        "to": "../src/lib/storyCleaningScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyChapters",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 17,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyDingdongArrivalScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 15,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyIceCreamScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 12,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyPaper.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 7,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyPhotoMoment",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 4,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyPresentation",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 3,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storySpaceFlightScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 13,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storySparkles",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 16,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyStarSystemScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 14,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "../src/lib/storyUnderwater",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 6,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/airScenes",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 9,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/cleaningScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 10,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/morningRooms",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 8,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/story",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/storyTransitions",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 5,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/style.css",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/main",
+        "to": "src/tidyingScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 11,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/morningRooms",
+        "to": "../src/lib/storyMorningRooms",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/story",
+        "to": "../src/data/stories/seaFriends",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 2,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/storyTransitions",
+        "to": "../src/lib/storyTransitions",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      },
+      {
+        "from": "src/tidyingScene",
+        "to": "../src/lib/storyTidyingScene",
+        "kind": "relative",
+        "import_kind": "static",
+        "line": 1,
+        "source": "dependency-cruiser"
+      }
+    ]
+  }
+}

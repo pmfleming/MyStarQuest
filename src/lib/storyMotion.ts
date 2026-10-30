@@ -1,6 +1,6 @@
 import { uiTokens } from '../tokens'
 
-export const STORY_PAGE_TRANSITION_MS = 1000
+export const STORY_PAGE_TRANSITION_MS = 1600
 export const STORY_OPEN_TRANSITION_MS = 1200
 
 const viewportSize = () => ({
@@ -28,6 +28,7 @@ export type StorySurfaceBounds = {
   opacity?: number
   snapshotOpacity?: number
   shadow?: string
+  stageScale?: number
 }
 export type StorySurfaceTransition = {
   finished: Promise<void>
@@ -96,6 +97,9 @@ export function currentStorySurface(
   const bounds = dialog.getBoundingClientRect()
   const stage = dialog.querySelector<HTMLElement>('.story-stage')
   const snapshot = dialog.querySelector<HTMLElement>('.story-phone-snapshot')
+  const stageTransform = stage
+    ? new DOMMatrixReadOnly(getComputedStyle(stage).transform)
+    : null
   return {
     left: bounds.left,
     top: bounds.top,
@@ -105,6 +109,9 @@ export function currentStorySurface(
     opacity: stage ? Number(getComputedStyle(stage).opacity) : 1,
     snapshotOpacity: snapshot ? Number(getComputedStyle(snapshot).opacity) : 0,
     shadow: getComputedStyle(dialog).boxShadow,
+    stageScale: stageTransform
+      ? Math.hypot(stageTransform.a, stageTransform.b)
+      : 1,
   }
 }
 
@@ -144,12 +151,6 @@ function phoneSnapshot(dialog: HTMLDialogElement, frame: StoryOpeningFrame) {
   return { host, copy }
 }
 
-const fadeKeyframes = (
-  from: number,
-  to: number,
-  offset: number
-): Keyframe[] => [{ opacity: from }, { opacity: to, offset }, { opacity: to }]
-
 export function animateStorySurface(
   dialog: HTMLDialogElement,
   frame: StoryOpeningFrame,
@@ -171,9 +172,37 @@ export function animateStorySurface(
   const opening = direction === 'open'
   const start = opening ? phone : (current ?? book)
   const end = opening ? book : phone
+  const stage = dialog.querySelector<HTMLElement>('.story-stage')
+  const stageStyle = stage?.getAttribute('style') ?? null
+  let stageTransform = (scale: number) =>
+    `translate(-50%, -50%) scale(${scale})`
+  if (stage) {
+    // Lay out the book once at full resolution. Resizing the outer shell must not
+    // reflow its container queries, paper, controls and illustrations every frame.
+    const layout = getComputedStyle(stage)
+    const width = layout.width
+    const height = layout.height
+    const rotation =
+      layout.getPropertyValue('--story-rotated').trim() === '1'
+        ? ' rotate(90deg)'
+        : ''
+    stageTransform = (scale) =>
+      `translate(-50%, -50%)${rotation} scale(${scale})`
+    Object.assign(stage.style, {
+      position: 'absolute',
+      width,
+      height,
+      left: '50%',
+      top: '50%',
+      willChange: 'transform, opacity',
+    })
+  }
+  // Build the app copy before starting any animation, so clone/layout work cannot
+  // consume the first frames of an already-running morph.
+  const snapshot = phoneSnapshot(dialog, frame)
   const options: KeyframeAnimationOptions = {
     duration: STORY_OPEN_TRANSITION_MS,
-    easing: 'cubic-bezier(0.22, 0.68, 0.2, 1)',
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
     fill: 'both',
   }
   const bezel = '0 0 0 12px #1a1a2e, 0 0 0 14px #333'
@@ -200,23 +229,37 @@ export function animateStorySurface(
   )
   surface.id = `story-book-${direction}`
   const animations = [surface]
-  const stage = dialog.querySelector<HTMLElement>('.story-stage')
   if (stage)
     animations.push(
       stage.animate(
-        opening
-          ? fadeKeyframes(0, 1, 0.8)
-          : fadeKeyframes(current?.opacity ?? 1, 0, 0.85),
+        [
+          {
+            opacity: opening ? 0 : (current?.opacity ?? 1),
+            transform: stageTransform(
+              opening
+                ? Math.min(start.width / book.width, start.height / book.height)
+                : (current?.stageScale ?? 1)
+            ),
+          },
+          {
+            opacity: opening ? 1 : 0,
+            transform: stageTransform(
+              opening
+                ? 1
+                : Math.min(end.width / book.width, end.height / book.height)
+            ),
+          },
+        ],
         options
       )
     )
-  const snapshot = phoneSnapshot(dialog, frame)
   if (snapshot) {
     animations.push(
       snapshot.host.animate(
-        opening
-          ? fadeKeyframes(1, 0, 0.7)
-          : fadeKeyframes(current?.snapshotOpacity ?? 0, 1, 0.8),
+        [
+          { opacity: opening ? 1 : (current?.snapshotOpacity ?? 0) },
+          { opacity: opening ? 0 : 1 },
+        ],
         options
       )
     )
@@ -239,6 +282,10 @@ export function animateStorySurface(
     cancel: () => {
       for (const animation of animations) animation.cancel()
       snapshot?.host.remove()
+      if (stage) {
+        if (stageStyle === null) stage.removeAttribute('style')
+        else stage.setAttribute('style', stageStyle)
+      }
     },
   }
 }

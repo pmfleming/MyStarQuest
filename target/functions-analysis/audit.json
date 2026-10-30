@@ -3,7 +3,7 @@
   "task_id": "audit",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "quality review 2026-10-22; whole-project API audit",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:33:50.529Z",
+    "measured_at": "2026-10-30T22:36:38.341Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:7be18164f323dd515cd9dd37c309ecf82cb71459a5ac0a4cd6286f5b1afad2d7"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:06c35274a14acc42fe67fe6f8ca6f87f56122f192d81a8899451a5446170f1a9"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -86,7 +86,7 @@
     "unsupported_pattern": [],
     "confidence_scope": "changed_code_audit",
     "changed_files_available": false,
-    "audit_base": "",
+    "audit_base": null,
     "base_snapshot_available": false,
     "base_snapshot_compatible": null,
     "complete": true,
@@ -117,14 +117,14 @@
     "complete": true,
     "incomplete_reasons": [],
     "gate": "all",
-    "base": "",
+    "base": null,
     "changed_files": 0,
     "changed_hunks": 0,
     "base_snapshot_available": false,
     "base_snapshot_compatible": null,
-    "findings": 137,
+    "findings": 141,
     "active_findings": 0,
-    "introduced_findings": 137,
+    "introduced_findings": 141,
     "inherited_findings": 0,
     "high_risk_findings": 13,
     "blocking_findings": 0,
@@ -143,11 +143,11 @@
       "score": 301,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/sharing/service.ts: 915 lines, 7 branches, 6 imports.",
+      "message": "src/sharing/service.ts: 917 lines, 7 branches, 6 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 915
+          "value": 917
         },
         {
           "kind": "branch_count",
@@ -195,22 +195,22 @@
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "line": 1,
-      "score": 200,
+      "score": 196,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "src/sharing/policy.ts: 254 lines, 60 branches, 2 imports.",
+      "message": "src/sharing/policy.ts: 239 lines, 59 branches, 3 imports.",
       "signals": [
         {
           "kind": "line_count",
-          "value": 254
+          "value": 239
         },
         {
           "kind": "branch_count",
-          "value": 60
+          "value": 59
         },
         {
           "kind": "import_count",
-          "value": 2
+          "value": 3
         }
       ],
       "rule_id": "ts-react-quality-lens/file",
@@ -300,16 +300,16 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:parseOperation:205",
+      "id": "src/sharing/policy.ts:parseOperation:200",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "parseOperation",
-      "line": 205,
-      "score": 129,
+      "line": 200,
+      "score": 126,
       "risk": "high",
       "evidence_kind": "metric",
-      "message": "parseOperation: cyclomatic 13, cognitive 22, nesting 3, Halstead effort 41295.39, 34 lines.",
+      "message": "parseOperation: cyclomatic 13, cognitive 22, nesting 3, Halstead effort 25969.5, 26 lines.",
       "signals": [
         {
           "kind": "cyclomatic_complexity",
@@ -321,7 +321,7 @@
         },
         {
           "kind": "halstead_effort",
-          "value": 41295.39
+          "value": 25969.5
         },
         {
           "kind": "nesting_depth",
@@ -329,7 +329,7 @@
         },
         {
           "kind": "line_count",
-          "value": 34
+          "value": 26
         }
       ],
       "rule_id": "ts-react-quality-lens/function",
@@ -353,7 +353,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:parseOperation:205",
+            "id": "src/sharing/policy.ts:parseOperation:200",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -364,12 +364,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:documentPatch:109",
+      "id": "src/sharing/policy.ts:documentPatch:105",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "documentPatch",
-      "line": 109,
+      "line": 105,
       "score": 110,
       "risk": "high",
       "evidence_kind": "metric",
@@ -417,7 +417,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:documentPatch:109",
+            "id": "src/sharing/policy.ts:documentPatch:105",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -428,12 +428,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:activityValue:155",
+      "id": "src/sharing/policy.ts:activityValue:150",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "activityValue",
-      "line": 155,
+      "line": 150,
       "score": 98,
       "risk": "high",
       "evidence_kind": "metric",
@@ -481,7 +481,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:activityValue:155",
+            "id": "src/sharing/policy.ts:activityValue:150",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -722,64 +722,6 @@
             "id": "file:src/schoolCalendar",
             "kind": "file",
             "file": "src/schoolCalendar.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ],
-      "task_id": "quality.hotspots",
-      "introduced": true
-    },
-    {
-      "id": "src/sharing/policy.ts:awardFor:240",
-      "kind": "function",
-      "module_id": "src/sharing/policy",
-      "file": "src/sharing/policy.ts",
-      "name": "awardFor",
-      "line": 240,
-      "score": 67,
-      "risk": "medium",
-      "evidence_kind": "metric",
-      "message": "awardFor: cyclomatic 8, cognitive 11, nesting 1, Halstead effort 5505.83, 11 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 8
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 11
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 5505.83
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 1
-        },
-        {
-          "kind": "line_count",
-          "value": 11
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/sharing/policy.ts:awardFor:240",
-            "kind": "function",
-            "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1078,12 +1020,70 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:id:15",
+      "id": "src/sharing/policy.ts:awardFor:227",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "awardFor",
+      "line": 227,
+      "score": 40,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "awardFor: cyclomatic 5, cognitive 4, nesting 1, Halstead effort 1634.49, 9 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 5
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1634.49
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 9
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:awardFor:227",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:id:16",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "id",
-      "line": 15,
+      "line": 16,
       "score": 40,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -1125,7 +1125,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:id:15",
+            "id": "src/sharing/policy.ts:id:16",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1136,12 +1136,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:wireValue:63",
+      "id": "src/sharing/service.ts:wireValue:64",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "wireValue",
-      "line": 63,
+      "line": 64,
       "score": 40,
       "risk": "medium",
       "evidence_kind": "metric",
@@ -1183,9 +1183,58 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:wireValue:63",
+            "id": "src/sharing/service.ts:wireValue:64",
             "kind": "function",
             "file": "src/sharing/service.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/sharing/protocol",
+      "kind": "file",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "line": 1,
+      "score": 39,
+      "risk": "medium",
+      "evidence_kind": "metric",
+      "message": "src/sharing/protocol.ts: 103 lines, 4 branches, 0 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 103
+        },
+        {
+          "kind": "branch_count",
+          "value": 4
+        },
+        {
+          "kind": "import_count",
+          "value": 0
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/sharing/protocol",
+            "kind": "file",
+            "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1359,12 +1408,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:email:25",
+      "id": "src/sharing/policy.ts:email:26",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "email",
-      "line": 25,
+      "line": 26,
       "score": 34,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1406,7 +1455,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:email:25",
+            "id": "src/sharing/policy.ts:email:26",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1417,12 +1466,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:record:10",
+      "id": "src/sharing/policy.ts:record:11",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "record",
-      "line": 10,
+      "line": 11,
       "score": 32,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1464,7 +1513,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:record:10",
+            "id": "src/sharing/policy.ts:record:11",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1591,12 +1640,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:activityPatch:176",
+      "id": "src/sharing/policy.ts:activityPatch:171",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "activityPatch",
-      "line": 176,
+      "line": 171,
       "score": 28,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1638,7 +1687,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:activityPatch:176",
+            "id": "src/sharing/policy.ts:activityPatch:171",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1649,12 +1698,70 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:between:51",
+      "id": "src/sharing/protocol.ts:waterToiletStars:21",
+      "kind": "function",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "waterToiletStars",
+      "line": 21,
+      "score": 28,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "waterToiletStars: cyclomatic 4, cognitive 4, nesting 0, Halstead effort 507.65, 2 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 4
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 4
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 507.65
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 2
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/protocol.ts:waterToiletStars:21",
+            "kind": "function",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:between:42",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "between",
-      "line": 51,
+      "line": 42,
       "score": 27,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1696,7 +1803,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:between:51",
+            "id": "src/sharing/policy.ts:between:42",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1765,61 +1872,12 @@
       "introduced": true
     },
     {
-      "id": "file:src/sharing/protocol",
-      "kind": "file",
-      "module_id": "src/sharing/protocol",
-      "file": "src/sharing/protocol.ts",
-      "line": 1,
-      "score": 24,
-      "risk": "low",
-      "evidence_kind": "metric",
-      "message": "src/sharing/protocol.ts: 80 lines, 0 branches, 0 imports.",
-      "signals": [
-        {
-          "kind": "line_count",
-          "value": 80
-        },
-        {
-          "kind": "branch_count",
-          "value": 0
-        },
-        {
-          "kind": "import_count",
-          "value": 0
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/file",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/file",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "file:src/sharing/protocol",
-            "kind": "file",
-            "file": "src/sharing/protocol.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ],
-      "task_id": "quality.hotspots",
-      "introduced": true
-    },
-    {
-      "id": "src/sharing/service.ts:safeInvitation:52",
+      "id": "src/sharing/service.ts:safeInvitation:53",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "safeInvitation",
-      "line": 52,
+      "line": 53,
       "score": 23,
       "risk": "low",
       "evidence_kind": "metric",
@@ -1861,7 +1919,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:safeInvitation:52",
+            "id": "src/sharing/service.ts:safeInvitation:53",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -1988,12 +2046,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:activityNumber:145",
+      "id": "src/sharing/policy.ts:activityNumber:140",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "activityNumber",
-      "line": 145,
+      "line": 140,
       "score": 19,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2035,7 +2093,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:activityNumber:145",
+            "id": "src/sharing/policy.ts:activityNumber:140",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2104,12 +2162,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:secretMatches:45",
+      "id": "src/sharing/service.ts:secretMatches:46",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "secretMatches",
-      "line": 45,
+      "line": 46,
       "score": 16,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2151,7 +2209,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:secretMatches:45",
+            "id": "src/sharing/service.ts:secretMatches:46",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2269,12 +2327,70 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:finiteNumber:137",
+      "id": "src/sharing/policy.ts:activityDate:58",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "activityDate",
+      "line": 58,
+      "score": 13,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "activityDate: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 1241.61, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 1241.61
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:activityDate:58",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:finiteNumber:133",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "finiteNumber",
-      "line": 137,
+      "line": 133,
       "score": 13,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2316,7 +2432,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:finiteNumber:137",
+            "id": "src/sharing/policy.ts:finiteNumber:133",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2327,12 +2443,70 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:text:48",
+      "id": "src/sharing/policy.ts:taskType:53",
+      "kind": "function",
+      "module_id": "src/sharing/policy",
+      "file": "src/sharing/policy.ts",
+      "name": "taskType",
+      "line": 53,
+      "score": 13,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "taskType: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 195.74, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 195.74
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/policy.ts:taskType:53",
+            "kind": "function",
+            "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/policy.ts:text:39",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "text",
-      "line": 48,
+      "line": 39,
       "score": 12,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2374,9 +2548,67 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:text:48",
+            "id": "src/sharing/policy.ts:text:39",
             "kind": "function",
             "file": "src/sharing/policy.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/sharing/protocol.ts:storedNumber:16",
+      "kind": "function",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "name": "storedNumber",
+      "line": 16,
+      "score": 12,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "storedNumber: cyclomatic 2, cognitive 1, nesting 0, Halstead effort 99.66, 1 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 2
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 1
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 99.66
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 0
+        },
+        {
+          "kind": "line_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/sharing/protocol.ts:storedNumber:16",
+            "kind": "function",
+            "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2559,12 +2791,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/protocol.ts:sharedDateKey:70",
+      "id": "src/sharing/protocol.ts:sharedDateKey:93",
       "kind": "function",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "sharedDateKey",
-      "line": 70,
+      "line": 93,
       "score": 10,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2606,7 +2838,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/protocol.ts:sharedDateKey:70",
+            "id": "src/sharing/protocol.ts:sharedDateKey:93",
             "kind": "function",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2733,12 +2965,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:childItems:169",
+      "id": "src/sharing/service.ts:childItems:170",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "childItems",
-      "line": 169,
+      "line": 170,
       "score": 8,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2780,7 +3012,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:childItems:169",
+            "id": "src/sharing/service.ts:childItems:170",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2791,12 +3023,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:deny:7",
+      "id": "src/sharing/policy.ts:deny:8",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "deny",
-      "line": 7,
+      "line": 8,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2838,7 +3070,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:deny:7",
+            "id": "src/sharing/policy.ts:deny:8",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2849,12 +3081,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:fail:4",
+      "id": "src/sharing/policy.ts:fail:5",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "fail",
-      "line": 4,
+      "line": 5,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2896,7 +3128,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:fail:4",
+            "id": "src/sharing/policy.ts:fail:5",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2907,12 +3139,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:oneOf:58",
+      "id": "src/sharing/policy.ts:oneOf:49",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "oneOf",
-      "line": 58,
+      "line": 49,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -2954,7 +3186,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:oneOf:58",
+            "id": "src/sharing/policy.ts:oneOf:49",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -2965,12 +3197,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/protocol.ts:progressKey:78",
+      "id": "src/sharing/protocol.ts:progressKey:101",
       "kind": "function",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "progressKey",
-      "line": 78,
+      "line": 101,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3012,7 +3244,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/protocol.ts:progressKey:78",
+            "id": "src/sharing/protocol.ts:progressKey:101",
             "kind": "function",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3023,12 +3255,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:childPath:41",
+      "id": "src/sharing/service.ts:childPath:42",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "childPath",
-      "line": 41,
+      "line": 42,
       "score": 7,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3070,7 +3302,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:childPath:41",
+            "id": "src/sharing/service.ts:childPath:42",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3139,70 +3371,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:taskType:62",
-      "kind": "function",
-      "module_id": "src/sharing/policy",
-      "file": "src/sharing/policy.ts",
-      "name": "taskType",
-      "line": 62,
-      "score": 6,
-      "risk": "low",
-      "evidence_kind": "metric",
-      "message": "taskType: cyclomatic 1, cognitive 0, nesting 0, Halstead effort 69.74, 1 lines.",
-      "signals": [
-        {
-          "kind": "cyclomatic_complexity",
-          "value": 1
-        },
-        {
-          "kind": "cognitive_complexity",
-          "value": 0
-        },
-        {
-          "kind": "halstead_effort",
-          "value": 69.74
-        },
-        {
-          "kind": "nesting_depth",
-          "value": 0
-        },
-        {
-          "kind": "line_count",
-          "value": 1
-        }
-      ],
-      "rule_id": "ts-react-quality-lens/function",
-      "disposition": "review",
-      "finding_confidence": "high",
-      "reason_code": "ts-react-quality-lens/function",
-      "semantic_decision": "confirmed",
-      "estimated_effort": 15,
-      "workspace_id": "mystarquest-functions",
-      "workspace_name": "mystarquest-functions",
-      "actions": [
-        {
-          "type": "add-to-config",
-          "auto_fixable": true,
-          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
-          "config_key": "suppressions",
-          "value": {
-            "id": "src/sharing/policy.ts:taskType:62",
-            "kind": "function",
-            "file": "src/sharing/policy.ts",
-            "reason": "Intentional finding; document the project-specific reason."
-          }
-        }
-      ],
-      "task_id": "quality.hotspots",
-      "introduced": true
-    },
-    {
-      "id": "src/sharing/service.ts:accessKey:43",
+      "id": "src/sharing/service.ts:accessKey:44",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "accessKey",
-      "line": 43,
+      "line": 44,
       "score": 6,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3244,7 +3418,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:accessKey:43",
+            "id": "src/sharing/service.ts:accessKey:44",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3255,12 +3429,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:dataOf:31",
+      "id": "src/sharing/service.ts:dataOf:32",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "dataOf",
-      "line": 31,
+      "line": 32,
       "score": 6,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3302,7 +3476,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:dataOf:31",
+            "id": "src/sharing/service.ts:dataOf:32",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3313,12 +3487,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/service.ts:hash:40",
+      "id": "src/sharing/service.ts:hash:41",
       "kind": "function",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "hash",
-      "line": 40,
+      "line": 41,
       "score": 6,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3360,7 +3534,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/service.ts:hash:40",
+            "id": "src/sharing/service.ts:hash:41",
             "kind": "function",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3371,12 +3545,12 @@
       "introduced": true
     },
     {
-      "id": "src/sharing/policy.ts:boolean:50",
+      "id": "src/sharing/policy.ts:boolean:41",
       "kind": "function",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "boolean",
-      "line": 50,
+      "line": 41,
       "score": 5,
       "risk": "low",
       "evidence_kind": "metric",
@@ -3418,7 +3592,7 @@
           "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "src/sharing/policy.ts:boolean:50",
+            "id": "src/sharing/policy.ts:boolean:41",
             "kind": "function",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3499,12 +3673,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/policy:type_assertion:13:526",
+      "id": "escape:src/sharing/policy:type_assertion:14:593",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 13,
+      "line": 14,
       "evidence": "value as Record<string, unknown>",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3523,7 +3697,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/policy:type_assertion:13:526",
+            "id": "escape:src/sharing/policy:type_assertion:14:593",
             "kind": "type_assertion",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3534,12 +3708,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/policy:type_assertion:237:7603",
+      "id": "escape:src/sharing/policy:type_assertion:224:7390",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 237,
+      "line": 224,
       "evidence": "op as SharedOperation",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3558,7 +3732,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/policy:type_assertion:237:7603",
+            "id": "escape:src/sharing/policy:type_assertion:224:7390",
             "kind": "type_assertion",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3569,12 +3743,47 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+      "id": "escape:src/sharing/protocol:type_assertion:2:101",
+      "module_id": "src/sharing/protocol",
+      "file": "src/sharing/protocol.ts",
+      "kind": "type_assertion",
+      "severity": "medium",
+      "line": 2,
+      "evidence": "{ standard: 'manageCompletedAt', eating: 'manageDinnerCompletedAt', watertoiletcheck: 'manageWaterToiletCompletedAt', ma",
+      "rule_id": "ts-react-quality-lens/type_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "{ standard: 'manageCompletedAt', eating: 'manageDinnerCompletedAt', watertoiletcheck: 'manageWaterToiletCompletedAt', ma",
+      "reason_code": "ts-react-quality-lens/type_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest-functions",
+      "workspace_name": "mystarquest-functions",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/sharing/protocol:type_assertion:2:101",
+            "kind": "type_assertion",
+            "file": "src/sharing/protocol.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/sharing/service:non_null_assertion:102:2791",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 101,
+      "line": 102,
       "evidence": "dataOf(child)!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
@@ -3593,7 +3802,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:non_null_assertion:101:2775",
+            "id": "escape:src/sharing/service:non_null_assertion:102:2791",
             "kind": "non_null_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3604,12 +3813,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:199:5981",
+      "id": "escape:src/sharing/service:type_assertion:200:6001",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 199,
+      "line": 200,
       "evidence": "[ ['chores', chores], ['tests', tests], ] as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3628,7 +3837,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:199:5981",
+            "id": "escape:src/sharing/service:type_assertion:200:6001",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3639,12 +3848,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:278:8664",
+      "id": "escape:src/sharing/service:type_assertion:279:8684",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 278,
+      "line": 279,
       "evidence": "[ ['starEvents', starEvents], ['redemptions', redemptions], ] as const",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3663,7 +3872,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:278:8664",
+            "id": "escape:src/sharing/service:type_assertion:279:8684",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3674,12 +3883,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:596:19208",
+      "id": "escape:src/sharing/service:type_assertion:597:19234",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 596,
+      "line": 597,
       "evidence": "dataOf(receipt)!.result as SharedReceipt",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3698,7 +3907,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:596:19208",
+            "id": "escape:src/sharing/service:type_assertion:597:19234",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3709,12 +3918,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:non_null_assertion:596:19208",
+      "id": "escape:src/sharing/service:non_null_assertion:597:19234",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "non_null_assertion",
       "severity": "medium",
-      "line": 596,
+      "line": 597,
       "evidence": "dataOf(receipt)!",
       "rule_id": "ts-react-quality-lens/non_null_assertion",
       "evidence_kind": "heuristic",
@@ -3733,7 +3942,7 @@
           "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:non_null_assertion:596:19208",
+            "id": "escape:src/sharing/service:non_null_assertion:597:19234",
             "kind": "non_null_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -3744,12 +3953,12 @@
       "introduced": true
     },
     {
-      "id": "escape:src/sharing/service:type_assertion:871:29522",
+      "id": "escape:src/sharing/service:type_assertion:873:29580",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "kind": "type_assertion",
       "severity": "medium",
-      "line": 871,
+      "line": 873,
       "evidence": "wireValue(result) as SharedReceipt",
       "rule_id": "ts-react-quality-lens/type_assertion",
       "evidence_kind": "heuristic",
@@ -3768,7 +3977,7 @@
           "description": "Keep this type_assertion finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "escape:src/sharing/service:type_assertion:871:29522",
+            "id": "escape:src/sharing/service:type_assertion:873:29580",
             "kind": "type_assertion",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4806,13 +5015,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/policy:Validator:47",
+      "id": "type:src/sharing/policy:Validator:38",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "Validator",
       "kind": "type",
       "exported": false,
-      "line": 47,
+      "line": 38,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -4820,7 +5029,7 @@
       "typed_info": {
         "name": "Validator",
         "kind": "TypeAliasDeclaration",
-        "line": 47,
+        "line": 38,
         "type": "any",
         "exported": false
       },
@@ -4847,7 +5056,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/policy:Validator:47",
+            "id": "type:src/sharing/policy:Validator:38",
             "kind": "type",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4858,13 +5067,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:fail:4",
+      "id": "typed-symbol:src/sharing/policy:fail:5",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "fail",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 4,
+      "line": 5,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -4889,7 +5098,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:fail:4",
+            "id": "typed-symbol:src/sharing/policy:fail:5",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4900,13 +5109,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:deny:7",
+      "id": "typed-symbol:src/sharing/policy:deny:8",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "deny",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 7,
+      "line": 8,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -4931,7 +5140,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:deny:7",
+            "id": "typed-symbol:src/sharing/policy:deny:8",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4942,13 +5151,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:record:10",
+      "id": "typed-symbol:src/sharing/policy:record:11",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "record",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 10,
+      "line": 11,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -4973,7 +5182,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:record:10",
+            "id": "typed-symbol:src/sharing/policy:record:11",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -4984,13 +5193,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:id:15",
+      "id": "typed-symbol:src/sharing/policy:id:16",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "id",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 15,
+      "line": 16,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5015,7 +5224,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:id:15",
+            "id": "typed-symbol:src/sharing/policy:id:16",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5026,13 +5235,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:email:25",
+      "id": "typed-symbol:src/sharing/policy:email:26",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "email",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 25,
+      "line": 26,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5057,7 +5266,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:email:25",
+            "id": "typed-symbol:src/sharing/policy:email:26",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5068,13 +5277,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:documentPatch:109",
+      "id": "typed-symbol:src/sharing/policy:documentPatch:105",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "documentPatch",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 109,
+      "line": 105,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5099,7 +5308,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:documentPatch:109",
+            "id": "typed-symbol:src/sharing/policy:documentPatch:105",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5110,13 +5319,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:activityPatch:176",
+      "id": "typed-symbol:src/sharing/policy:activityPatch:171",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "activityPatch",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 176,
+      "line": 171,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5141,7 +5350,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:activityPatch:176",
+            "id": "typed-symbol:src/sharing/policy:activityPatch:171",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5152,13 +5361,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:parseOperation:205",
+      "id": "typed-symbol:src/sharing/policy:parseOperation:200",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "parseOperation",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 205,
+      "line": 200,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5183,7 +5392,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:parseOperation:205",
+            "id": "typed-symbol:src/sharing/policy:parseOperation:200",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5194,13 +5403,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/policy:awardFor:240",
+      "id": "typed-symbol:src/sharing/policy:awardFor:227",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
       "name": "awardFor",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 240,
+      "line": 227,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5225,7 +5434,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/policy:awardFor:240",
+            "id": "typed-symbol:src/sharing/policy:awardFor:227",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/policy.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5236,13 +5445,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:ChildScope:2",
+      "id": "type:src/sharing/protocol:ChildScope:25",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "ChildScope",
       "kind": "type",
       "exported": true,
-      "line": 2,
+      "line": 25,
       "score": 16,
       "risk": "low",
       "signals": [],
@@ -5250,7 +5459,7 @@
       "typed_info": {
         "name": "ChildScope",
         "kind": "TypeAliasDeclaration",
-        "line": 2,
+        "line": 25,
         "type": "any",
         "exported": true
       },
@@ -5277,7 +5486,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:ChildScope:2",
+            "id": "type:src/sharing/protocol:ChildScope:25",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5288,13 +5497,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:SharedAction:8",
+      "id": "type:src/sharing/protocol:SharedAction:31",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedAction",
       "kind": "type",
       "exported": true,
-      "line": 8,
+      "line": 31,
       "score": 74,
       "risk": "high",
       "signals": [
@@ -5307,7 +5516,7 @@
       "typed_info": {
         "name": "SharedAction",
         "kind": "TypeAliasDeclaration",
-        "line": 8,
+        "line": 31,
         "type": "any",
         "exported": true
       },
@@ -5340,7 +5549,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedAction:8",
+            "id": "type:src/sharing/protocol:SharedAction:31",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5351,13 +5560,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:SharedOperation:38",
+      "id": "type:src/sharing/protocol:SharedOperation:61",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedOperation",
       "kind": "type",
       "exported": true,
-      "line": 38,
+      "line": 61,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -5365,7 +5574,7 @@
       "typed_info": {
         "name": "SharedOperation",
         "kind": "TypeAliasDeclaration",
-        "line": 38,
+        "line": 61,
         "type": "any",
         "exported": true
       },
@@ -5392,7 +5601,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedOperation:38",
+            "id": "type:src/sharing/protocol:SharedOperation:61",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5403,13 +5612,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:SharedReceipt:45",
+      "id": "type:src/sharing/protocol:SharedReceipt:68",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "SharedReceipt",
       "kind": "type",
       "exported": true,
-      "line": 45,
+      "line": 68,
       "score": 132,
       "risk": "high",
       "signals": [
@@ -5426,7 +5635,7 @@
       "typed_info": {
         "name": "SharedReceipt",
         "kind": "TypeAliasDeclaration",
-        "line": 45,
+        "line": 68,
         "type": "any",
         "exported": true
       },
@@ -5459,7 +5668,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:SharedReceipt:45",
+            "id": "type:src/sharing/protocol:SharedReceipt:68",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5470,13 +5679,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:ParentEntry:61",
+      "id": "type:src/sharing/protocol:ParentEntry:84",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "ParentEntry",
       "kind": "type",
       "exported": true,
-      "line": 61,
+      "line": 84,
       "score": 12,
       "risk": "low",
       "signals": [],
@@ -5484,7 +5693,7 @@
       "typed_info": {
         "name": "ParentEntry",
         "kind": "TypeAliasDeclaration",
-        "line": 61,
+        "line": 84,
         "type": "any",
         "exported": true
       },
@@ -5511,7 +5720,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:ParentEntry:61",
+            "id": "type:src/sharing/protocol:ParentEntry:84",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5522,13 +5731,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/protocol:InvitationEntry:62",
+      "id": "type:src/sharing/protocol:InvitationEntry:85",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "InvitationEntry",
       "kind": "type",
       "exported": true,
-      "line": 62,
+      "line": 85,
       "score": 20,
       "risk": "low",
       "signals": [],
@@ -5536,7 +5745,7 @@
       "typed_info": {
         "name": "InvitationEntry",
         "kind": "TypeAliasDeclaration",
-        "line": 62,
+        "line": 85,
         "type": "any",
         "exported": true
       },
@@ -5563,7 +5772,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/protocol:InvitationEntry:62",
+            "id": "type:src/sharing/protocol:InvitationEntry:85",
             "kind": "type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5574,13 +5783,13 @@
       "introduced": true
     },
     {
-      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:70",
+      "id": "typed-symbol:src/sharing/protocol:sharedDateKey:93",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
       "name": "sharedDateKey",
       "kind": "FunctionDeclaration",
       "exported": true,
-      "line": 70,
+      "line": 93,
       "score": 18,
       "risk": "low",
       "source": "typescript-compiler-api",
@@ -5605,7 +5814,7 @@
           "description": "Keep this FunctionDeclaration finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:70",
+            "id": "typed-symbol:src/sharing/protocol:sharedDateKey:93",
             "kind": "FunctionDeclaration",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5616,13 +5825,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/service:DocumentData:30",
+      "id": "type:src/sharing/service:DocumentData:31",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "DocumentData",
       "kind": "type",
       "exported": false,
-      "line": 30,
+      "line": 31,
       "score": 0,
       "risk": "low",
       "signals": [],
@@ -5630,7 +5839,7 @@
       "typed_info": {
         "name": "DocumentData",
         "kind": "TypeAliasDeclaration",
-        "line": 30,
+        "line": 31,
         "type": "any",
         "exported": false
       },
@@ -5657,7 +5866,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:DocumentData:30",
+            "id": "type:src/sharing/service:DocumentData:31",
             "kind": "type",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5668,13 +5877,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/service:Caller:34",
+      "id": "type:src/sharing/service:Caller:35",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "Caller",
       "kind": "type",
       "exported": true,
-      "line": 34,
+      "line": 35,
       "score": 25,
       "risk": "low",
       "signals": [],
@@ -5682,7 +5891,7 @@
       "typed_info": {
         "name": "Caller",
         "kind": "TypeAliasDeclaration",
-        "line": 34,
+        "line": 35,
         "type": "any",
         "exported": true
       },
@@ -5709,7 +5918,7 @@
           "description": "Keep this type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:Caller:34",
+            "id": "type:src/sharing/service:Caller:35",
             "kind": "type",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5720,13 +5929,13 @@
       "introduced": true
     },
     {
-      "id": "type:src/sharing/service:SharingService:73",
+      "id": "type:src/sharing/service:SharingService:74",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
       "name": "SharingService",
       "kind": "class",
       "exported": true,
-      "line": 73,
+      "line": 74,
       "score": 42,
       "risk": "medium",
       "signals": [],
@@ -5734,7 +5943,7 @@
       "typed_info": {
         "name": "SharingService",
         "kind": "ClassDeclaration",
-        "line": 73,
+        "line": 74,
         "type": "typeof SharingService",
         "exported": true
       },
@@ -5761,7 +5970,7 @@
           "description": "Keep this class finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "type:src/sharing/service:SharingService:73",
+            "id": "type:src/sharing/service:SharingService:74",
             "kind": "class",
             "file": "src/sharing/service.ts",
             "reason": "Intentional finding; document the project-specific reason."
@@ -5781,9 +5990,9 @@
       "scope": "file",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
-      "line": 13,
+      "line": 14,
       "column": 10,
-      "end_line": 13,
+      "end_line": 14,
       "end_column": 42,
       "score": 50,
       "severity": "medium",
@@ -5830,9 +6039,9 @@
       "scope": "file",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
-      "line": 237,
+      "line": 224,
       "column": 10,
-      "end_line": 237,
+      "end_line": 224,
       "end_column": 31,
       "score": 50,
       "severity": "medium",
@@ -5879,9 +6088,9 @@
       "scope": "file",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
-      "line": 596,
+      "line": 597,
       "column": 34,
-      "end_line": 596,
+      "end_line": 597,
       "end_column": 74,
       "score": 50,
       "severity": "medium",
@@ -5928,9 +6137,9 @@
       "scope": "file",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
-      "line": 871,
+      "line": 873,
       "column": 16,
-      "end_line": 871,
+      "end_line": 873,
       "end_column": 50,
       "score": 50,
       "severity": "medium",
@@ -6323,7 +6532,7 @@
       "id": "locality:src/sharing/policy",
       "module_id": "src/sharing/policy",
       "file": "src/sharing/policy.ts",
-      "score": 10,
+      "score": 22,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/policy.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -6332,21 +6541,21 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 5,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/sharing/index.ts",
-          "commits": 2
-        },
-        {
           "file": "src/sharing/protocol.ts",
-          "commits": 2
+          "commits": 4
         },
         {
           "file": "src/sharing/service.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/sharing/index.ts",
           "commits": 2
         },
         {
@@ -6361,7 +6570,7 @@
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 4
         }
       ],
       "kind": "locality",
@@ -6394,7 +6603,7 @@
       "id": "locality:src/sharing/protocol",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
-      "score": 10,
+      "score": 20,
       "risk": "low",
       "evidence_kind": "heuristic",
       "message": "src/sharing/protocol.ts: 0 distant imports, 0 hidden-coupling signals; direct test import found. Import associations are not measured coverage.",
@@ -6403,21 +6612,21 @@
       "test_locality": "direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/sharing/index.ts",
-          "commits": 2
-        },
-        {
           "file": "src/sharing/policy.ts",
-          "commits": 2
+          "commits": 4
         },
         {
           "file": "src/sharing/service.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/sharing/index.ts",
           "commits": 2
         },
         {
@@ -6432,7 +6641,7 @@
       "signals": [
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 4
         }
       ],
       "kind": "locality",
@@ -6465,8 +6674,8 @@
       "id": "locality:src/sharing/service",
       "module_id": "src/sharing/service",
       "file": "src/sharing/service.ts",
-      "score": 28,
-      "risk": "low",
+      "score": 38,
+      "risk": "medium",
       "evidence_kind": "heuristic",
       "message": "src/sharing/service.ts: 0 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
       "dependency_distance": 0,
@@ -6474,21 +6683,21 @@
       "test_locality": "no_direct_import_association",
       "coverage_status": "not_collected",
       "churn": {
-        "commits": 2,
+        "commits": 4,
         "contributors": 1
       },
       "defect_commits": 0,
       "cochange_partners": [
         {
-          "file": "src/sharing/index.ts",
-          "commits": 2
-        },
-        {
           "file": "src/sharing/policy.ts",
-          "commits": 2
+          "commits": 4
         },
         {
           "file": "src/sharing/protocol.ts",
+          "commits": 4
+        },
+        {
+          "file": "src/sharing/index.ts",
           "commits": 2
         },
         {
@@ -6506,7 +6715,7 @@
         },
         {
           "kind": "cochange_ripple",
-          "value": 2
+          "value": 4
         }
       ],
       "kind": "locality",
@@ -6800,17 +7009,22 @@
       "id": "leverage:src/sharing/protocol",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
-      "score": 0,
+      "score": 12,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/sharing/protocol.ts: 2 consuming modules, 8 public names, 0 module escape hatches.",
-      "leverage_score": 36,
+      "message": "src/sharing/protocol.ts: 2 consuming modules, 11 public names, 1 module escape hatches.",
+      "leverage_score": 42,
       "inbound_reach": 2,
-      "public_surface": 8,
-      "weak_surface": 0,
+      "public_surface": 11,
+      "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",
@@ -6893,7 +7107,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:ParentEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 61,
+      "line": 84,
       "name": "ParentEntry",
       "score": 45,
       "risk": "medium",
@@ -6908,7 +7122,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:61",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:84",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -6944,7 +7158,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:InvitationEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 62,
+      "line": 85,
       "name": "InvitationEntry",
       "score": 45,
       "risk": "medium",
@@ -6959,7 +7173,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:62",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:85",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -6995,7 +7209,7 @@
       "id": "cleanup:unused-export:src/sharing/service:accessKey",
       "kind": "unused_export",
       "file": "src/sharing/service.ts",
-      "line": 43,
+      "line": 44,
       "name": "accessKey",
       "score": 45,
       "risk": "medium",
@@ -7010,7 +7224,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:exports:src/sharing/service.ts:accessKey:43",
+      "upstream_finding_id": "knip:exports:src/sharing/service.ts:accessKey:44",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -7286,7 +7500,7 @@
       "introduced": true
     },
     {
-      "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+      "id": "knip:types:src/sharing/protocol.ts:SharedAction:31",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -7295,7 +7509,7 @@
       "scope": "file",
       "file": "src/sharing/protocol.ts",
       "name": "SharedAction",
-      "line": 8,
+      "line": 31,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -7326,7 +7540,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+            "id": "knip:types:src/sharing/protocol.ts:SharedAction:31",
             "kind": "unused_type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."

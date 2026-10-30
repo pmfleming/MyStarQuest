@@ -1,0 +1,552 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.locality_dynamic",
+  "project": {
+    "name": "MyStarQuest Comic",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "playwright"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-10-30T22:49:14.071Z",
+    "source_type": "static",
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:8e50d053113b8750ae2f9fc2e40f70e00d93643bd63acd05d4ffd7a32a5ad43c",
+    "input_set_hash": "sha256:65e555fd8faa1bd3c1b5b2ba3af0ea0d424dcdc70497931ad112a80c80244a3b"
+  },
+  "analysis_identity": {
+    "id": "sha256:cafd47d385e9a6c42482edb75c54160ad0e478b6e48cf0c9a7eb08a8563d88e7",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:d0a2e256c1c6874e02fa7fe504b536851a857cdae53a2f95f94735daad359c60",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
+      "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_native": "7.0.2",
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": false,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": false,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "hit",
+    "unsupported_pattern": [],
+    "complete": false,
+    "partial": true,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "framework_detected",
+      "test_runner_detected",
+      "excludes_applied",
+      "type_information_available",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [
+      "dependencies_installed"
+    ],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 7,
+    "high_risk_records": 1
+  },
+  "records": [
+    {
+      "id": "locality:src/airScenes",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/airScenes.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyAirScenes"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/airScenes",
+            "kind": "locality",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/cleaningScene",
+      "module_id": "src/cleaningScene",
+      "file": "src/cleaningScene.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/cleaningScene.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyCleaningScene"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/cleaningScene",
+            "kind": "locality",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/main",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "score": 100,
+      "risk": "high",
+      "evidence_kind": "heuristic",
+      "message": "src/main.ts: 10 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 10,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 2,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/story.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 3,
+          "specifier": "../../src/lib/storyPresentation"
+        },
+        {
+          "kind": "far_import",
+          "line": 4,
+          "specifier": "../../src/lib/storyPhotoMoment"
+        },
+        {
+          "kind": "far_import",
+          "line": 6,
+          "specifier": "../../src/lib/storyUnderwater"
+        },
+        {
+          "kind": "far_import",
+          "line": 7,
+          "specifier": "../../src/lib/storyPaper.css"
+        },
+        {
+          "kind": "far_import",
+          "line": 12,
+          "specifier": "../../src/lib/storyIceCreamScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 13,
+          "specifier": "../../src/lib/storySpaceFlightScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 14,
+          "specifier": "../../src/lib/storyStarSystemScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 15,
+          "specifier": "../../src/lib/storyDingdongArrivalScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 16,
+          "specifier": "../../src/lib/storySparkles"
+        },
+        {
+          "kind": "far_import",
+          "line": 17,
+          "specifier": "../../src/lib/storyChapters"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/main",
+            "kind": "locality",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/morningRooms",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/morningRooms.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyMorningRooms"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/morningRooms",
+            "kind": "locality",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/story",
+      "module_id": "src/story",
+      "file": "src/story.ts",
+      "score": 35,
+      "risk": "medium",
+      "evidence_kind": "heuristic",
+      "message": "src/story.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/main.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../src/data/stories/seaFriends"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/story",
+            "kind": "locality",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/storyTransitions",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/storyTransitions.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyTransitions"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/storyTransitions",
+            "kind": "locality",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "locality:src/tidyingScene",
+      "module_id": "src/tidyingScene",
+      "file": "src/tidyingScene.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/tidyingScene.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyTidyingScene"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/tidyingScene",
+            "kind": "locality",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,827 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "map.architecture",
+  "project": {
+    "name": "MyStarQuest Comic",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "playwright"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-10-30T22:49:21.624Z",
+    "source_type": "static",
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:8e50d053113b8750ae2f9fc2e40f70e00d93643bd63acd05d4ffd7a32a5ad43c",
+    "input_set_hash": "sha256:09f9269c1768c8e211d3166c29fdf53e2300936ce7d8a4e1269efda45810008f"
+  },
+  "analysis_identity": {
+    "id": "sha256:cafd47d385e9a6c42482edb75c54160ad0e478b6e48cf0c9a7eb08a8563d88e7",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:d0a2e256c1c6874e02fa7fe504b536851a857cdae53a2f95f94735daad359c60",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
+      "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_native": "7.0.2",
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": false,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": false,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "hit",
+    "unsupported_pattern": [],
+    "confidence_scope": "architecture_map_inputs",
+    "required_inputs": [
+      "hotspots",
+      "clones",
+      "escape_hatches",
+      "type_health",
+      "lint",
+      "dependency_health",
+      "correctness",
+      "locality",
+      "leverage",
+      "react_health",
+      "cleanup"
+    ],
+    "observed_inputs": [
+      "hotspots",
+      "clones",
+      "escape_hatches",
+      "type_health",
+      "lint",
+      "dependency_health",
+      "correctness",
+      "locality",
+      "leverage",
+      "react_health",
+      "cleanup"
+    ],
+    "missing_input": [],
+    "stale_input": [],
+    "complete": true,
+    "partial": false
+  },
+  "summary": {
+    "nodes": 7,
+    "edges": 23,
+    "workspaces": 1,
+    "cross_workspace_edges": 0,
+    "entrypoint_nodes": 1,
+    "high_risk_nodes": 1,
+    "unknown_metric_nodes": 7,
+    "missing_inputs": 0,
+    "stale_inputs": 0,
+    "artifact_status": {
+      "hotspots": "available",
+      "clones": "available",
+      "escape_hatches": "available",
+      "type_health": "available",
+      "lint": "available",
+      "dependency_health": "available",
+      "correctness": "available",
+      "locality": "available",
+      "leverage": "available",
+      "react_health": "available",
+      "cleanup": "available",
+      "performance": "missing"
+    }
+  },
+  "meta": {
+    "risk_model_id": "tsrqlens.architecture_risk",
+    "risk_model_version": 3,
+    "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+    "risk_model_weights": {
+      "maintainability": 1,
+      "correctness": 1,
+      "architecture": 1,
+      "change": 1,
+      "performance": 0.5,
+      "quality": 1
+    },
+    "risk_model_tool_scores": {
+      "missing_direct_test_evidence": 40,
+      "failing_test_run": 85,
+      "stale_or_missing_input": null
+    },
+    "performance_inputs": {
+      "bundle_stats": null,
+      "render_costs": null
+    }
+  },
+  "groups": [
+    {
+      "id": "src",
+      "label": "src",
+      "node_count": 7,
+      "risk_score": 112,
+      "kind": "src",
+      "rule_id": "ts-react-quality-lens/src",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "src",
+      "reason_code": "ts-react-quality-lens/src",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this src finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src",
+            "kind": "src",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ],
+  "framework": {
+    "framework": "vite",
+    "routes": [],
+    "stories": [],
+    "client_components": [],
+    "server_only_signals": [],
+    "conventions": {
+      "next_app_router": false,
+      "next_pages_router": false,
+      "remix_routes": false,
+      "storybook": false
+    }
+  },
+  "workspaces": [
+    {
+      "id": "sea-friends-comic",
+      "name": "sea-friends-comic",
+      "root": ".",
+      "private": true,
+      "framework": "unknown",
+      "policy_profile": "baseline",
+      "tsconfigs": [
+        "tsconfig.json"
+      ],
+      "source_files": 7,
+      "project_loaded": true,
+      "project_reason": null
+    }
+  ],
+  "nodes": [
+    {
+      "id": "src/airScenes",
+      "label": "airScenes.ts",
+      "file": "src/airScenes.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 3,
+        "correctness": null,
+        "architecture": 20,
+        "change": 30,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 3,
+      "change_risk": 30,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 2,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/cleaningScene",
+      "label": "cleaningScene.ts",
+      "file": "src/cleaningScene.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 3,
+        "correctness": null,
+        "architecture": 20,
+        "change": 30,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 3,
+      "change_risk": 30,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/main",
+      "label": "main.ts",
+      "file": "src/main.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [
+        "html_module"
+      ],
+      "risk_score": 112,
+      "risk": "high",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 112,
+        "correctness": null,
+        "architecture": 48,
+        "change": 100,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 50,
+        "total": null
+      },
+      "maintainability_risk": 112,
+      "change_risk": 100,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 48,
+      "quality_risk": 50,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 17,
+        "exports": 0,
+        "functions": 1,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 1
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/morningRooms",
+      "label": "morningRooms.ts",
+      "file": "src/morningRooms.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 4,
+        "correctness": null,
+        "architecture": 20,
+        "change": 30,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 4,
+      "change_risk": 30,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 2,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/story",
+      "label": "story.ts",
+      "file": "src/story.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 3,
+        "correctness": null,
+        "architecture": 20,
+        "change": 35,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 3,
+      "change_risk": 35,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 2,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/storyTransitions",
+      "label": "storyTransitions.ts",
+      "file": "src/storyTransitions.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 4,
+        "correctness": null,
+        "architecture": 20,
+        "change": 30,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 4,
+      "change_risk": 30,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 2,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    },
+    {
+      "id": "src/tidyingScene",
+      "label": "tidyingScene.ts",
+      "file": "src/tidyingScene.ts",
+      "type": "module",
+      "group": "src",
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "entrypoint_roles": [],
+      "risk_score": 55,
+      "risk": "medium",
+      "classification": "unknown",
+      "category_scores": {
+        "maintainability": 3,
+        "correctness": null,
+        "architecture": 20,
+        "change": 30,
+        "render_performance": 0,
+        "performance": 0,
+        "quality": 55,
+        "total": null
+      },
+      "maintainability_risk": 3,
+      "change_risk": 30,
+      "performance_risk": 0,
+      "correctness_risk": null,
+      "architectural_risk": 20,
+      "quality_risk": 55,
+      "total_score": null,
+      "unknown_metrics": [
+        "correctness:no_measured_evidence"
+      ],
+      "risk_model_id": "tsrqlens.architecture_risk",
+      "risk_model_version": 3,
+      "risk_calibration": "v3-explicit-test-evidence-and-quality-inputs",
+      "evidence": {
+        "imports": 1,
+        "exports": 1,
+        "functions": 0,
+        "components": 0,
+        "types": 0,
+        "entrypoint_roles": 0
+      },
+      "test_evidence": {
+        "direct_import_association": false,
+        "suite_status": "not_run",
+        "coverage_status": "not_collected"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "import:src/airScenes:../src/lib/storyAirScenes:1",
+      "from": "src/airScenes",
+      "to": "../src/lib/storyAirScenes",
+      "type": "static_import",
+      "source": "export { createAirScenes, airSceneIds } from '../../src/lib/storyAirScenes'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/cleaningScene:../src/lib/storyCleaningScene:1",
+      "from": "src/cleaningScene",
+      "to": "../src/lib/storyCleaningScene",
+      "type": "static_import",
+      "source": "export { createCleaningScene } from '../../src/lib/storyCleaningScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/main:src/style.css:1",
+      "from": "src/main",
+      "to": "src/style.css",
+      "type": "static_import",
+      "source": "import './style.css'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/main:src/story:2",
+      "from": "src/main",
+      "to": "src/story",
+      "type": "static_import",
+      "source": "import { story } from './story'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/main:../src/lib/storyPresentation:3",
+      "from": "src/main",
+      "to": "../src/lib/storyPresentation",
+      "type": "static_import",
+      "source": "import { storyPageForKey } from '../../src/lib/storyPresentation'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 3
+    },
+    {
+      "id": "import:src/main:../src/lib/storyPhotoMoment:4",
+      "from": "src/main",
+      "to": "../src/lib/storyPhotoMoment",
+      "type": "static_import",
+      "source": "import { createPhotoMoment } from '../../src/lib/storyPhotoMoment'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 4
+    },
+    {
+      "id": "import:src/main:src/storyTransitions:5",
+      "from": "src/main",
+      "to": "src/storyTransitions",
+      "type": "static_import",
+      "source": "import { createStoryTransitions } from './storyTransitions'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 5
+    },
+    {
+      "id": "import:src/main:../src/lib/storyUnderwater:6",
+      "from": "src/main",
+      "to": "../src/lib/storyUnderwater",
+      "type": "static_import",
+      "source": "import { createUnderwaterScene } from '../../src/lib/storyUnderwater'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 6
+    },
+    {
+      "id": "import:src/main:../src/lib/storyPaper.css:7",
+      "from": "src/main",
+      "to": "../src/lib/storyPaper.css",
+      "type": "static_import",
+      "source": "import '../../src/lib/storyPaper.css'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 7
+    },
+    {
+      "id": "import:src/main:src/morningRooms:8",
+      "from": "src/main",
+      "to": "src/morningRooms",
+      "type": "static_import",
+      "source": "import { createMorningRooms, morningPanelId } from './morningRooms'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 8
+    },
+    {
+      "id": "import:src/main:src/airScenes:9",
+      "from": "src/main",
+      "to": "src/airScenes",
+      "type": "static_import",
+      "source": "import { createAirScenes } from './airScenes'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 9
+    },
+    {
+      "id": "import:src/main:src/cleaningScene:10",
+      "from": "src/main",
+      "to": "src/cleaningScene",
+      "type": "static_import",
+      "source": "import { createCleaningScene } from './cleaningScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 10
+    },
+    {
+      "id": "import:src/main:src/tidyingScene:11",
+      "from": "src/main",
+      "to": "src/tidyingScene",
+      "type": "static_import",
+      "source": "import { createTidyingScene } from './tidyingScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": "sea-friends-comic",
+      "workspace_dependency": false,
+      "line": 11
+    },
+    {
+      "id": "import:src/main:../src/lib/storyIceCreamScene:12",
+      "from": "src/main",
+      "to": "../src/lib/storyIceCreamScene",
+      "type": "static_import",
+      "source": "import { createIceCreamScene } from '../../src/lib/storyIceCreamScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 12
+    },
+    {
+      "id": "import:src/main:../src/lib/storySpaceFlightScene:13",
+      "from": "src/main",
+      "to": "../src/lib/storySpaceFlightScene",
+      "type": "static_import",
+      "source": "import { createSpaceFlightScene } from '../../src/lib/storySpaceFlightScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 13
+    },
+    {
+      "id": "import:src/main:../src/lib/storyStarSystemScene:14",
+      "from": "src/main",
+      "to": "../src/lib/storyStarSystemScene",
+      "type": "static_import",
+      "source": "import { createStarSystemScene } from '../../src/lib/storyStarSystemScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 14
+    },
+    {
+      "id": "import:src/main:../src/lib/storyDingdongArrivalScene:15",
+      "from": "src/main",
+      "to": "../src/lib/storyDingdongArrivalScene",
+      "type": "static_import",
+      "source": "import { createDingdongArrivalScene } from '../../src/lib/storyDingdongArrivalScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 15
+    },
+    {
+      "id": "import:src/main:../src/lib/storySparkles:16",
+      "from": "src/main",
+      "to": "../src/lib/storySparkles",
+      "type": "static_import",
+      "source": "import { createStorySparkles } from '../../src/lib/storySparkles'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 16
+    },
+    {
+      "id": "import:src/main:../src/lib/storyChapters:17",
+      "from": "src/main",
+      "to": "../src/lib/storyChapters",
+      "type": "static_import",
+      "source": "import { currentStoryChapter, getStoryChapters, } from '../../src/lib/storyChapters'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 17
+    },
+    {
+      "id": "import:src/morningRooms:../src/lib/storyMorningRooms:1",
+      "from": "src/morningRooms",
+      "to": "../src/lib/storyMorningRooms",
+      "type": "static_import",
+      "source": "export { createMorningRooms, morningPanelId, } from '../../src/lib/storyMorningRooms'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/story:../src/data/stories/seaFriends:2",
+      "from": "src/story",
+      "to": "../src/data/stories/seaFriends",
+      "type": "static_import",
+      "source": "export { story, type Panel } from '../../src/data/stories/seaFriends'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 2
+    },
+    {
+      "id": "import:src/storyTransitions:../src/lib/storyTransitions:1",
+      "from": "src/storyTransitions",
+      "to": "../src/lib/storyTransitions",
+      "type": "static_import",
+      "source": "export { createStoryTransitions, storyTransitions, } from '../../src/lib/storyTransitions'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    },
+    {
+      "id": "import:src/tidyingScene:../src/lib/storyTidyingScene:1",
+      "from": "src/tidyingScene",
+      "to": "../src/lib/storyTidyingScene",
+      "type": "static_import",
+      "source": "export { createTidyingScene } from '../../src/lib/storyTidyingScene'",
+      "from_workspace": "sea-friends-comic",
+      "to_workspace": null,
+      "workspace_dependency": false,
+      "line": 1
+    }
+  ]
+}

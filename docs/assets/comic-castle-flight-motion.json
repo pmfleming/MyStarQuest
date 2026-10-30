@@ -1,0 +1,23 @@
+{
+  "tool": "built-in image_gen",
+  "references": [
+    "src/assets/comic/opening/50-flight-to-princess-castle.webp",
+    "src/assets/teenie/aurora.webp",
+    "src/assets/teenie/eclipse.webp",
+    "src/assets/teenie/spaceman-odette-ping-v2.webp"
+  ],
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Edit image1 into a clean animation background plate. Remove ONLY all FIVE flying friends (three yellow-suited girls, turquoise long-eared friend, pink round friend) and all their long rocket sparkle/exhaust trails across the left and middle. Reconstruct blue purple starry nebula behind them. Keep exact original 1672:941 landscape composition, distant golden star planet at upper left, floating princess castle island on RIGHT, clouds and rainbow waterfall, surrounding stars. No new objects or characters. Preserve camera and lighting.",
+      "source": "src/assets/comic/layers/castle-flight/background.png",
+      "runtime": "src/assets/comic/layers/castle-flight/background.webp"
+    },
+    {
+      "name": "friends",
+      "prompt": "Extract the exact FIVE flying friends from image1 as ONE faithful transparent sprite group. Preserve their exact arrangement and poses: pink-haired Aurora upper left, lavender-haired Eclipse bottom left, brown-haired blue-eyed Odette middle below, turquoise long-eared friend upper right, pink round friend lower right. Preserve all proportions, faces, colors, yellow cat-eared spacesuits and pink heart backpack rockets ON THEIR BACKS. Preserve turquoise friend's huge turquoise ears with orange insides, blue eyes and flowing turquoise tail; pink friend's round pink body, oval eyes and red feet. Image1 is edit target; images2-4 are project character identity references only. Do not substitute their outfits/poses, do not add anyone. Remove castle, planet, all background, detached stars and long exhaust trails. Genuine transparent background including between figures. All five entire bodies and accessories uncropped, no redesign.",
+      "source": "src/assets/comic/layers/castle-flight/friends.png",
+      "runtime": "src/assets/comic/layers/castle-flight/friends.webp"
+    }
+  ]
+}

@@ -1,0 +1,3886 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "audit",
+  "project": {
+    "name": "MyStarQuest Comic",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "playwright"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-10-30T22:36:33.193Z",
+    "source_type": "static",
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:8e50d053113b8750ae2f9fc2e40f70e00d93643bd63acd05d4ffd7a32a5ad43c",
+    "input_set_hash": "sha256:dfa2dbccc3283ec389399464992ce7cca391116bf8e0b682b00f54497215c29a"
+  },
+  "analysis_identity": {
+    "id": "sha256:cafd47d385e9a6c42482edb75c54160ad0e478b6e48cf0c9a7eb08a8563d88e7",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:d0a2e256c1c6874e02fa7fe504b536851a857cdae53a2f95f94735daad359c60",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
+      "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_native": "7.0.2",
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": false,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": false,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "miss",
+    "unsupported_pattern": [],
+    "confidence_scope": "changed_code_audit",
+    "changed_files_available": false,
+    "audit_base": null,
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "complete": false,
+    "partial": true,
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "framework_detected",
+      "test_runner_detected",
+      "excludes_applied",
+      "type_information_available",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [
+      "dependencies_installed"
+    ],
+    "stale_input": []
+  },
+  "summary": {
+    "verdict": "warn",
+    "complete": true,
+    "incomplete_reasons": [],
+    "gate": "all",
+    "base": null,
+    "changed_files": 0,
+    "changed_hunks": 0,
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "findings": 82,
+    "active_findings": 2,
+    "introduced_findings": 82,
+    "inherited_findings": 0,
+    "high_risk_findings": 5,
+    "blocking_findings": 0,
+    "warning_findings": 2,
+    "baseline_suppressed": 0,
+    "config_suppressed": 0,
+    "stale_suppressions": 0
+  },
+  "findings": [
+    {
+      "id": "file:src/main",
+      "kind": "file",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "line": 1,
+      "score": 112,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "src/main.ts: 179 lines, 12 branches, 17 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 179
+        },
+        {
+          "kind": "branch_count",
+          "value": 12
+        },
+        {
+          "kind": "import_count",
+          "value": 17
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/main",
+            "kind": "file",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "src/main.ts:showPanel:101",
+      "kind": "function",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "name": "showPanel",
+      "line": 101,
+      "score": 111,
+      "risk": "high",
+      "evidence_kind": "metric",
+      "message": "showPanel: cyclomatic 13, cognitive 12, nesting 1, Halstead effort 76992.65, 62 lines.",
+      "signals": [
+        {
+          "kind": "cyclomatic_complexity",
+          "value": 13
+        },
+        {
+          "kind": "cognitive_complexity",
+          "value": 12
+        },
+        {
+          "kind": "halstead_effort",
+          "value": 76992.65
+        },
+        {
+          "kind": "nesting_depth",
+          "value": 1
+        },
+        {
+          "kind": "line_count",
+          "value": 62
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/function",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/function",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this function finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "src/main.ts:showPanel:101",
+            "kind": "function",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/morningRooms",
+      "kind": "file",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "line": 1,
+      "score": 4,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/morningRooms.ts: 5 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 5
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/morningRooms",
+            "kind": "file",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/storyTransitions",
+      "kind": "file",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "line": 1,
+      "score": 4,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/storyTransitions.ts: 5 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 5
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/storyTransitions",
+            "kind": "file",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/airScenes",
+      "kind": "file",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "line": 1,
+      "score": 3,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/airScenes.ts: 2 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 2
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/airScenes",
+            "kind": "file",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/cleaningScene",
+      "kind": "file",
+      "module_id": "src/cleaningScene",
+      "file": "src/cleaningScene.ts",
+      "line": 1,
+      "score": 3,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/cleaningScene.ts: 2 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 2
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/cleaningScene",
+            "kind": "file",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/story",
+      "kind": "file",
+      "module_id": "src/story",
+      "file": "src/story.ts",
+      "line": 1,
+      "score": 3,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/story.ts: 3 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 3
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/story",
+            "kind": "file",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "file:src/tidyingScene",
+      "kind": "file",
+      "module_id": "src/tidyingScene",
+      "file": "src/tidyingScene.ts",
+      "line": 1,
+      "score": 3,
+      "risk": "low",
+      "evidence_kind": "metric",
+      "message": "src/tidyingScene.ts: 2 lines, 0 branches, 1 imports.",
+      "signals": [
+        {
+          "kind": "line_count",
+          "value": 2
+        },
+        {
+          "kind": "branch_count",
+          "value": 0
+        },
+        {
+          "kind": "import_count",
+          "value": 1
+        }
+      ],
+      "rule_id": "ts-react-quality-lens/file",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "reason_code": "ts-react-quality-lens/file",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "file:src/tidyingScene",
+            "kind": "file",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.hotspots",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:22:1050",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 22,
+      "evidence": "document.querySelector<HTMLDivElement>('#app')!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.querySelector<HTMLDivElement>('#app')!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:22:1050",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:direct_dom_mutation:22:1050",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 22,
+      "evidence": "document.querySelector<HTMLDivElement>('#app')",
+      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.querySelector<HTMLDivElement>('#app')",
+      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:direct_dom_mutation:22:1050",
+            "kind": "direct_dom_mutation",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:54:2298",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 54,
+      "evidence": "pictures[photoMomentIndex]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "pictures[photoMomentIndex]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:54:2298",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:module_level_mutable_state:98:4033",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "module_level_mutable_state",
+      "severity": "medium",
+      "line": 98,
+      "evidence": "let current = 0",
+      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "let current = 0",
+      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:module_level_mutable_state:98:4033",
+            "kind": "module_level_mutable_state",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:module_level_mutable_state:99:4049",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "module_level_mutable_state",
+      "severity": "medium",
+      "line": 99,
+      "evidence": "let initialized = false",
+      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "let initialized = false",
+      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:module_level_mutable_state:99:4049",
+            "kind": "module_level_mutable_state",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:104:4254",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 104,
+      "evidence": "story.panels[current]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "story.panels[current]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:104:4254",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:105:4293",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 105,
+      "evidence": "story.panels[destination]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "story.panels[destination]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:105:4293",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.escape_hatches",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/airScenes:createAirScenes",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "name": "createAirScenes",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/airScenes:createAirScenes",
+            "kind": "export",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/airScenes:airSceneIds",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "name": "airSceneIds",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/airScenes:airSceneIds",
+            "kind": "export",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/cleaningScene:createCleaningScene",
+      "module_id": "src/cleaningScene",
+      "file": "src/cleaningScene.ts",
+      "name": "createCleaningScene",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/cleaningScene:createCleaningScene",
+            "kind": "export",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/morningRooms:createMorningRooms",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "name": "createMorningRooms",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/morningRooms:createMorningRooms",
+            "kind": "export",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/morningRooms:morningPanelId",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "name": "morningPanelId",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/morningRooms:morningPanelId",
+            "kind": "export",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/story:story",
+      "module_id": "src/story",
+      "file": "src/story.ts",
+      "name": "story",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/story:story",
+            "kind": "export",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/storyTransitions:createStoryTransitions",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "name": "createStoryTransitions",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/storyTransitions:createStoryTransitions",
+            "kind": "export",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/storyTransitions:storyTransitions",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "name": "storyTransitions",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/storyTransitions:storyTransitions",
+            "kind": "export",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "typed-export:src/tidyingScene:createTidyingScene",
+      "module_id": "src/tidyingScene",
+      "file": "src/tidyingScene.ts",
+      "name": "createTidyingScene",
+      "kind": "export",
+      "exported": true,
+      "line": null,
+      "score": 55,
+      "risk": "medium",
+      "source": "typescript-compiler-api",
+      "signals": [
+        {
+          "kind": "weak_export_type",
+          "value": "any"
+        }
+      ],
+      "metrics": {
+        "inferred_type": "any"
+      },
+      "rule_id": "typescript-compiler-api/export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "message": "export",
+      "reason_code": "typescript-compiler-api/export",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "typed-export:src/tidyingScene:createTidyingScene",
+            "kind": "export",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.type_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/airScenes:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/airScenes",
+      "line": 1,
+      "specifier": "../../src/lib/storyAirScenes",
+      "evidence": "export { createAirScenes, airSceneIds } from '../../src/lib/storyAirScenes'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createAirScenes, airSceneIds } from '../../src/lib/storyAirScenes'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/airScenes:1",
+            "kind": "deep_relative_import",
+            "file": "src/airScenes",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/cleaningScene:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/cleaningScene",
+      "line": 1,
+      "specifier": "../../src/lib/storyCleaningScene",
+      "evidence": "export { createCleaningScene } from '../../src/lib/storyCleaningScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createCleaningScene } from '../../src/lib/storyCleaningScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/cleaningScene:1",
+            "kind": "deep_relative_import",
+            "file": "src/cleaningScene",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:3",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 3,
+      "specifier": "../../src/lib/storyPresentation",
+      "evidence": "import { storyPageForKey } from '../../src/lib/storyPresentation'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { storyPageForKey } from '../../src/lib/storyPresentation'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:3",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:4",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 4,
+      "specifier": "../../src/lib/storyPhotoMoment",
+      "evidence": "import { createPhotoMoment } from '../../src/lib/storyPhotoMoment'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createPhotoMoment } from '../../src/lib/storyPhotoMoment'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:4",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:6",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 6,
+      "specifier": "../../src/lib/storyUnderwater",
+      "evidence": "import { createUnderwaterScene } from '../../src/lib/storyUnderwater'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createUnderwaterScene } from '../../src/lib/storyUnderwater'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:6",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:7",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 7,
+      "specifier": "../../src/lib/storyPaper.css",
+      "evidence": "import '../../src/lib/storyPaper.css'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import '../../src/lib/storyPaper.css'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:7",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:12",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 12,
+      "specifier": "../../src/lib/storyIceCreamScene",
+      "evidence": "import { createIceCreamScene } from '../../src/lib/storyIceCreamScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createIceCreamScene } from '../../src/lib/storyIceCreamScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:12",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:13",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 13,
+      "specifier": "../../src/lib/storySpaceFlightScene",
+      "evidence": "import { createSpaceFlightScene } from '../../src/lib/storySpaceFlightScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createSpaceFlightScene } from '../../src/lib/storySpaceFlightScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:13",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:14",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 14,
+      "specifier": "../../src/lib/storyStarSystemScene",
+      "evidence": "import { createStarSystemScene } from '../../src/lib/storyStarSystemScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createStarSystemScene } from '../../src/lib/storyStarSystemScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:14",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:15",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 15,
+      "specifier": "../../src/lib/storyDingdongArrivalScene",
+      "evidence": "import { createDingdongArrivalScene } from '../../src/lib/storyDingdongArrivalScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createDingdongArrivalScene } from '../../src/lib/storyDingdongArrivalScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:15",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:16",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 16,
+      "specifier": "../../src/lib/storySparkles",
+      "evidence": "import { createStorySparkles } from '../../src/lib/storySparkles'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { createStorySparkles } from '../../src/lib/storySparkles'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:16",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/main:17",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/main",
+      "line": 17,
+      "specifier": "../../src/lib/storyChapters",
+      "evidence": "import { currentStoryChapter, getStoryChapters, } from '../../src/lib/storyChapters'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "import { currentStoryChapter, getStoryChapters, } from '../../src/lib/storyChapters'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/main:17",
+            "kind": "deep_relative_import",
+            "file": "src/main",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/morningRooms:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/morningRooms",
+      "line": 1,
+      "specifier": "../../src/lib/storyMorningRooms",
+      "evidence": "export { createMorningRooms, morningPanelId, } from '../../src/lib/storyMorningRooms'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createMorningRooms, morningPanelId, } from '../../src/lib/storyMorningRooms'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/morningRooms:1",
+            "kind": "deep_relative_import",
+            "file": "src/morningRooms",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/story:2",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/story",
+      "line": 2,
+      "specifier": "../../src/data/stories/seaFriends",
+      "evidence": "export { story, type Panel } from '../../src/data/stories/seaFriends'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { story, type Panel } from '../../src/data/stories/seaFriends'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/story:2",
+            "kind": "deep_relative_import",
+            "file": "src/story",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/storyTransitions:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/storyTransitions",
+      "line": 1,
+      "specifier": "../../src/lib/storyTransitions",
+      "evidence": "export { createStoryTransitions, storyTransitions, } from '../../src/lib/storyTransitions'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createStoryTransitions, storyTransitions, } from '../../src/lib/storyTransitions'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/storyTransitions:1",
+            "kind": "deep_relative_import",
+            "file": "src/storyTransitions",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "deep-import:src/tidyingScene:1",
+      "kind": "deep_relative_import",
+      "severity": "medium",
+      "score": 35,
+      "file": "src/tidyingScene",
+      "line": 1,
+      "specifier": "../../src/lib/storyTidyingScene",
+      "evidence": "export { createTidyingScene } from '../../src/lib/storyTidyingScene'",
+      "rule_id": "ts-react-quality-lens/deep_relative_import",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "export { createTidyingScene } from '../../src/lib/storyTidyingScene'",
+      "reason_code": "ts-react-quality-lens/deep_relative_import",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this deep_relative_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "deep-import:src/tidyingScene:1",
+            "kind": "deep_relative_import",
+            "file": "src/tidyingScene",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/airScenes",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/airScenes.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/airScenes",
+            "kind": "barrel_fanout",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/cleaningScene",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 4,
+      "file": "src/cleaningScene.ts",
+      "exports": 1,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/cleaningScene",
+            "kind": "barrel_fanout",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/morningRooms",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/morningRooms.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/morningRooms",
+            "kind": "barrel_fanout",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/story",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/story.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/story",
+            "kind": "barrel_fanout",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/storyTransitions",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 8,
+      "file": "src/storyTransitions.ts",
+      "exports": 2,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/storyTransitions",
+            "kind": "barrel_fanout",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "barrel:src/tidyingScene",
+      "kind": "barrel_fanout",
+      "severity": "low",
+      "score": 4,
+      "file": "src/tidyingScene.ts",
+      "exports": 1,
+      "evidence": "Module is mostly re-export statements.",
+      "rule_id": "ts-react-quality-lens/barrel_fanout",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "Module is mostly re-export statements.",
+      "reason_code": "ts-react-quality-lens/barrel_fanout",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this barrel_fanout finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "barrel:src/tidyingScene",
+            "kind": "barrel_fanout",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.dependency_health",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/airScenes",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/airScenes.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyAirScenes"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/airScenes",
+            "kind": "locality",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/cleaningScene",
+      "module_id": "src/cleaningScene",
+      "file": "src/cleaningScene.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/cleaningScene.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyCleaningScene"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/cleaningScene",
+            "kind": "locality",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/main",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "score": 100,
+      "risk": "high",
+      "evidence_kind": "heuristic",
+      "message": "src/main.ts: 10 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 10,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 2,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/story.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 3,
+          "specifier": "../../src/lib/storyPresentation"
+        },
+        {
+          "kind": "far_import",
+          "line": 4,
+          "specifier": "../../src/lib/storyPhotoMoment"
+        },
+        {
+          "kind": "far_import",
+          "line": 6,
+          "specifier": "../../src/lib/storyUnderwater"
+        },
+        {
+          "kind": "far_import",
+          "line": 7,
+          "specifier": "../../src/lib/storyPaper.css"
+        },
+        {
+          "kind": "far_import",
+          "line": 12,
+          "specifier": "../../src/lib/storyIceCreamScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 13,
+          "specifier": "../../src/lib/storySpaceFlightScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 14,
+          "specifier": "../../src/lib/storyStarSystemScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 15,
+          "specifier": "../../src/lib/storyDingdongArrivalScene"
+        },
+        {
+          "kind": "far_import",
+          "line": 16,
+          "specifier": "../../src/lib/storySparkles"
+        },
+        {
+          "kind": "far_import",
+          "line": 17,
+          "specifier": "../../src/lib/storyChapters"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Reduce the high-risk signal or split the risky unit into clearer parts.",
+          "fix": "reduce-risk"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/main",
+            "kind": "locality",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/morningRooms",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/morningRooms.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyMorningRooms"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/morningRooms",
+            "kind": "locality",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/story",
+      "module_id": "src/story",
+      "file": "src/story.ts",
+      "score": 35,
+      "risk": "medium",
+      "evidence_kind": "heuristic",
+      "message": "src/story.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 1,
+        "contributors": 1
+      },
+      "defect_commits": 0,
+      "cochange_partners": [
+        {
+          "file": "src/main.ts",
+          "commits": 1
+        }
+      ],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 2,
+          "specifier": "../../src/data/stories/seaFriends"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        },
+        {
+          "kind": "cochange_ripple",
+          "value": 1
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/story",
+            "kind": "locality",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/storyTransitions",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/storyTransitions.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyTransitions"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/storyTransitions",
+            "kind": "locality",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "locality:src/tidyingScene",
+      "module_id": "src/tidyingScene",
+      "file": "src/tidyingScene.ts",
+      "score": 30,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/tidyingScene.ts: 1 distant imports, 0 hidden-coupling signals; no direct test import found. Import associations are not measured coverage.",
+      "dependency_distance": 1,
+      "hidden_coupling": [],
+      "test_locality": "no_direct_import_association",
+      "coverage_status": "not_collected",
+      "churn": {
+        "commits": 0,
+        "contributors": 0
+      },
+      "defect_commits": 0,
+      "cochange_partners": [],
+      "signals": [
+        {
+          "kind": "far_import",
+          "line": 1,
+          "specifier": "../../src/lib/storyTidyingScene"
+        },
+        {
+          "kind": "missing_direct_test_evidence"
+        }
+      ],
+      "kind": "locality",
+      "rule_id": "ts-react-quality-lens/locality",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/locality",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this locality finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "locality:src/tidyingScene",
+            "kind": "locality",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_dynamic",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/airScenes",
+      "module_id": "src/airScenes",
+      "file": "src/airScenes.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/airScenes.ts: 1 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/airScenes",
+            "kind": "leverage",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/cleaningScene",
+      "module_id": "src/cleaningScene",
+      "file": "src/cleaningScene.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/cleaningScene.ts: 1 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/cleaningScene",
+            "kind": "leverage",
+            "file": "src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/main",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "score": 48,
+      "risk": "medium",
+      "evidence_kind": "heuristic",
+      "message": "src/main.ts: 0 consuming modules, 0 public names, 4 module escape hatches.",
+      "leverage_score": 0,
+      "inbound_reach": 0,
+      "public_surface": 0,
+      "weak_surface": 4,
+      "dead_export_surface": 0,
+      "classification": "leaf",
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 4
+        }
+      ],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/main",
+            "kind": "leverage",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/morningRooms",
+      "module_id": "src/morningRooms",
+      "file": "src/morningRooms.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/morningRooms.ts: 1 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/morningRooms",
+            "kind": "leverage",
+            "file": "src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/story",
+      "module_id": "src/story",
+      "file": "src/story.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/story.ts: 1 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/story",
+            "kind": "leverage",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/storyTransitions",
+      "module_id": "src/storyTransitions",
+      "file": "src/storyTransitions.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/storyTransitions.ts: 1 consuming modules, 2 public names, 0 module escape hatches.",
+      "leverage_score": 14,
+      "inbound_reach": 1,
+      "public_surface": 2,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/storyTransitions",
+            "kind": "leverage",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "leverage:src/tidyingScene",
+      "module_id": "src/tidyingScene",
+      "file": "src/tidyingScene.ts",
+      "score": 0,
+      "risk": "low",
+      "evidence_kind": "heuristic",
+      "message": "src/tidyingScene.ts: 1 consuming modules, 1 public names, 0 module escape hatches.",
+      "leverage_score": 12,
+      "inbound_reach": 1,
+      "public_surface": 1,
+      "weak_surface": 0,
+      "dead_export_surface": 0,
+      "classification": "local_dependency",
+      "signals": [],
+      "kind": "leverage",
+      "rule_id": "ts-react-quality-lens/leverage",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "reason_code": "ts-react-quality-lens/leverage",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this leverage finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "leverage:src/tidyingScene",
+            "kind": "leverage",
+            "file": "src/tidyingScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.locality_leverage",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/airScenes:airSceneIds",
+      "kind": "unused_export",
+      "file": "src/airScenes.ts",
+      "line": 1,
+      "name": "airSceneIds",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "airSceneIds"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/airScenes.ts:airSceneIds:1",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/airScenes:airSceneIds",
+            "kind": "unused_export",
+            "file": "src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/story:Panel",
+      "kind": "unused_export",
+      "file": "src/story.ts",
+      "line": 2,
+      "name": "Panel",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "Panel"
+        }
+      ],
+      "rule_id": "knip/types",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:types:src/story.ts:Panel:2",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/types",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/story:Panel",
+            "kind": "unused_export",
+            "file": "src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "cleanup:unused-export:src/storyTransitions:storyTransitions",
+      "kind": "unused_export",
+      "file": "src/storyTransitions.ts",
+      "line": 3,
+      "name": "storyTransitions",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "storyTransitions"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/storyTransitions.ts:storyTransitions:3",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/storyTransitions:storyTransitions",
+            "kind": "unused_export",
+            "file": "src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:playwright.config.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "playwright.config.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:playwright.config.ts:0:0",
+            "kind": "unused_file",
+            "file": "playwright.config.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/air-scenes.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/air-scenes.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/air-scenes.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/air-scenes.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/chapters.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/chapters.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/chapters.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/chapters.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/cleaning-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/cleaning-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/cleaning-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/cleaning-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/dingdong-arrival-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/dingdong-arrival-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/dingdong-arrival-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/dingdong-arrival-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/ice-cream-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/ice-cream-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/ice-cream-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/ice-cream-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/morning-rooms.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/morning-rooms.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/morning-rooms.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/morning-rooms.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/normal-transition.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/normal-transition.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/normal-transition.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/normal-transition.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/photo-moment.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/photo-moment.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/photo-moment.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/photo-moment.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/space-flight-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/space-flight-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/space-flight-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/space-flight-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/star-system-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/star-system-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/star-system-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/star-system-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/story-sparkles.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/story-sparkles.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/story-sparkles.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/story-sparkles.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/story-transitions.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/story-transitions.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/story-transitions.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/story-transitions.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/tidying-scene.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/tidying-scene.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/tidying-scene.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/tidying-scene.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:files:tests/underwater.spec.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/underwater.spec.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/underwater.spec.ts:0:0",
+            "kind": "unused_file",
+            "file": "tests/underwater.spec.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:unlisted:vite.config.ts:vite:2",
+      "rule_id": "knip/unlisted",
+      "kind": "unlisted_dependency",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "vite.config.ts",
+      "name": "vite",
+      "line": 2,
+      "column": 30,
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unlisted dependency: vite.",
+      "issue_type": "unlisted",
+      "signals": [
+        {
+          "kind": "knip_unlisted",
+          "value": "vite"
+        }
+      ],
+      "reason_code": "knip/unlisted",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unlisted:vite.config.ts:vite:2",
+            "kind": "unlisted_dependency",
+            "file": "vite.config.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:binaries:package.json:vite:0",
+      "rule_id": "knip/binaries",
+      "kind": "unlisted_binary",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "project",
+      "file": "package.json",
+      "name": "vite",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unlisted binary: vite.",
+      "issue_type": "binaries",
+      "signals": [
+        {
+          "kind": "knip_binaries",
+          "value": "vite"
+        }
+      ],
+      "reason_code": "knip/binaries",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_binary finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:binaries:package.json:vite:0",
+            "kind": "unlisted_binary",
+            "file": "package.json",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:binaries:package.json:tsc:0",
+      "rule_id": "knip/binaries",
+      "kind": "unlisted_binary",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "project",
+      "file": "package.json",
+      "name": "tsc",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unlisted binary: tsc.",
+      "issue_type": "binaries",
+      "signals": [
+        {
+          "kind": "knip_binaries",
+          "value": "tsc"
+        }
+      ],
+      "reason_code": "knip/binaries",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_binary finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:binaries:package.json:tsc:0",
+            "kind": "unlisted_binary",
+            "file": "package.json",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    },
+    {
+      "id": "knip:unresolved:tsconfig.json:vite/client:0",
+      "rule_id": "knip/unresolved",
+      "kind": "unresolved_import",
+      "evidence_kind": "tool-rule",
+      "disposition": "warn",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tsconfig.json",
+      "name": "vite/client",
+      "score": 75,
+      "risk": "high",
+      "source": "knip",
+      "message": "Knip reported unresolved import: vite/client.",
+      "issue_type": "unresolved",
+      "signals": [
+        {
+          "kind": "knip_unresolved",
+          "value": "vite/client"
+        }
+      ],
+      "reason_code": "knip/unresolved",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 30,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unresolved_import finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:unresolved:tsconfig.json:vite/client:0",
+            "kind": "unresolved_import",
+            "file": "tsconfig.json",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ],
+      "task_id": "quality.cleanup",
+      "introduced": true
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import type { Theme } from '../contexts/ThemeContext'
 import { getThemeAsset } from '../ui/themeAssets'
 import type { StoryOpeningFrame } from '../lib/storyMotion'
 import { storyPageForKey } from '../lib/storyPresentation'
+import { currentStoryChapter, getStoryChapters } from '../lib/storyChapters'
 import './StoryReader.css'
 
 export default function StoryReader({
@@ -36,6 +37,8 @@ export default function StoryReader({
   const gesture = useRef<{ x: number; y: number; bottom: boolean } | null>(null)
   const lastPage = story.panels.length - 1
   const panel = story.panels[page]!
+  const chapters = getStoryChapters(story)
+  const activeChapter = currentStoryChapter(chapters, page)
   const turn = (delta: number) =>
     setPage((current) => Math.max(0, Math.min(lastPage, current + delta)))
   const progressStyle: CSSProperties & Record<'--story-progress', string> = {
@@ -78,6 +81,7 @@ export default function StoryReader({
       ref={dialogRef}
       className="story-reader"
       data-story-theme={theme.id}
+      data-has-chapters={chapters.length > 0}
       aria-label={`${story.title} story reader`}
       onCancel={(event) => {
         event.preventDefault()
@@ -132,7 +136,11 @@ export default function StoryReader({
           gesture.current = null
         }}
       >
-        <StoryPageArtwork panels={story.panels} page={page} />
+        <StoryPageArtwork
+          panels={story.panels}
+          page={page}
+          active={!isClosing}
+        />
         <button
           className="story-turn story-turn-previous"
           type="button"
@@ -176,6 +184,31 @@ export default function StoryReader({
           <span />
         </button>
         <div id="story-controls" className="story-controls">
+          {chapters.length > 0 && (
+            <nav className="story-chapters" aria-label="Story chapters">
+              {chapters.map((chapter) => (
+                <button
+                  key={chapter.panelId}
+                  type="button"
+                  aria-label={chapter.label}
+                  title={chapter.label}
+                  aria-current={
+                    chapter === activeChapter ? 'location' : undefined
+                  }
+                  onClick={() => setPage(chapter.page)}
+                >
+                  <img
+                    src={chapter.image}
+                    alt=""
+                    aria-hidden="true"
+                    draggable={false}
+                    decoding="async"
+                    fetchPriority="low"
+                  />
+                </button>
+              ))}
+            </nav>
+          )}
           <button
             type="button"
             className="story-return"

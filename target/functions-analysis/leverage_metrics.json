@@ -3,7 +3,7 @@
   "task_id": "quality.locality_leverage",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:42.332Z",
+    "measured_at": "2026-10-30T22:49:17.431Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:fb3970282e7529fc261b485dbc198caeeda94f6b1d7c6497b9ac3f69527bb983"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:d655070e33c367f8d0f174dc583ae119da73bfcc468e2ac25feefc7837b50f4f"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -366,17 +366,22 @@
       "id": "leverage:src/sharing/protocol",
       "module_id": "src/sharing/protocol",
       "file": "src/sharing/protocol.ts",
-      "score": 0,
+      "score": 12,
       "risk": "low",
       "evidence_kind": "heuristic",
-      "message": "src/sharing/protocol.ts: 2 consuming modules, 8 public names, 0 module escape hatches.",
-      "leverage_score": 36,
+      "message": "src/sharing/protocol.ts: 2 consuming modules, 11 public names, 1 module escape hatches.",
+      "leverage_score": 42,
       "inbound_reach": 2,
-      "public_surface": 8,
-      "weak_surface": 0,
+      "public_surface": 11,
+      "weak_surface": 1,
       "dead_export_surface": 0,
       "classification": "local_dependency",
-      "signals": [],
+      "signals": [
+        {
+          "kind": "module_escape_hatches",
+          "value": 1
+        }
+      ],
       "kind": "leverage",
       "rule_id": "ts-react-quality-lens/leverage",
       "disposition": "review",

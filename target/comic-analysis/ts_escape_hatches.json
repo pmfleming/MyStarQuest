@@ -1,0 +1,355 @@
+{
+  "schema_version": "0.3.0",
+  "task_id": "quality.escape_hatches",
+  "project": {
+    "name": "MyStarQuest Comic",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic",
+    "framework": "vite",
+    "package_manager": "npm",
+    "test_runner": "playwright"
+  },
+  "provenance": {
+    "lens": "ts-react-quality-lens",
+    "schema_version": "0.3.0",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\comic\\ts-react-quality-lens.config.json",
+    "host": "Ghost_S1",
+    "measured_at": "2026-10-30T22:49:06.853Z",
+    "source_type": "static",
+    "compilers": {
+      "analysis": {
+        "engine": "typescript-compiler-api",
+        "package": "typescript",
+        "version": "6.0.3"
+      },
+      "native": {
+        "package": "@typescript/native",
+        "version": "7.0.2",
+        "role": "lens-build-tool",
+        "analysis_executed": false
+      }
+    },
+    "source_set_hash": "sha256:8e50d053113b8750ae2f9fc2e40f70e00d93643bd63acd05d4ffd7a32a5ad43c",
+    "input_set_hash": "sha256:0dd409454a92e3c5006a2a0a21e37292cda72fa497d23e0b42ffebcba7248c6c"
+  },
+  "analysis_identity": {
+    "id": "sha256:cafd47d385e9a6c42482edb75c54160ad0e478b6e48cf0c9a7eb08a8563d88e7",
+    "schema_version": "0.3.0",
+    "compiler_api_version": "6.0.3",
+    "config_closure_hash": "sha256:d0a2e256c1c6874e02fa7fe504b536851a857cdae53a2f95f94735daad359c60",
+    "rulesets": {
+      "builtin": "tsrqlens-analysis-v2",
+      "finding_identity": "semantic-occurrence-v1",
+      "sarif": "namespaced-fingerprint-occurrence-v2",
+      "test_mapping": "compiler-imports-v1",
+      "import_resolution": "path-aliases-v2",
+      "file_discovery": "project-relative-test-paths-v2",
+      "architecture": "risk-model-v3",
+      "typed_lint": "tsrqlens-typescript-recommended-v1",
+      "typed_lint_projects": "project-service-auto-v1",
+      "react": "recommended-v2",
+      "react_support": "declared-range-capabilities-v1",
+      "react_classification": "correctness-optimization-v1",
+      "accessibility": "jsx-a11y-recommended-v1",
+      "cleanup": "knip-normalized-v1"
+    },
+    "integration_versions": {
+      "typescript_native": "7.0.2",
+      "typescript_eslint": "8.67.0",
+      "react_hooks": "7.1.1",
+      "jsx_a11y": "6.10.2",
+      "knip": "6.32.2",
+      "publint": "0.3.24",
+      "are_the_types_wrong": "0.18.5",
+      "dependency_cruiser": null,
+      "jscpd": null
+    }
+  },
+  "confidence": {
+    "source_roots_exist": true,
+    "tsconfig_found": true,
+    "package_json_found": true,
+    "package_manager_detected": false,
+    "framework_detected": true,
+    "test_runner_detected": true,
+    "git_history_available": false,
+    "excludes_applied": true,
+    "type_information_available": true,
+    "dependencies_installed": false,
+    "typescript_compiler_api_available": true,
+    "typescript_program_loaded": true,
+    "typescript_program_reason": null,
+    "framework_conventions_detected": false,
+    "workspaces_detected": 1,
+    "workspace_projects_complete": true,
+    "analysis_cache_enabled": true,
+    "analysis_cache_status": "hit",
+    "unsupported_pattern": [],
+    "complete": false,
+    "partial": true,
+    "confidence_scope": "project_static_analysis",
+    "required_inputs": [
+      "source_roots_exist",
+      "package_json_found",
+      "dependencies_installed"
+    ],
+    "observed_inputs": [
+      "source_roots_exist",
+      "tsconfig_found",
+      "package_json_found",
+      "framework_detected",
+      "test_runner_detected",
+      "excludes_applied",
+      "type_information_available",
+      "typescript_compiler_api_available",
+      "typescript_program_loaded",
+      "workspace_projects_complete",
+      "analysis_cache_enabled"
+    ],
+    "missing_input": [
+      "dependencies_installed"
+    ],
+    "stale_input": []
+  },
+  "summary": {
+    "records": 7,
+    "files_with_escape_hatches": 1,
+    "by_kind": {
+      "non_null_assertion": 4,
+      "direct_dom_mutation": 1,
+      "module_level_mutable_state": 2
+    }
+  },
+  "records": [
+    {
+      "id": "escape:src/main:non_null_assertion:22:1050",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 22,
+      "evidence": "document.querySelector<HTMLDivElement>('#app')!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.querySelector<HTMLDivElement>('#app')!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:22:1050",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:direct_dom_mutation:22:1050",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "direct_dom_mutation",
+      "severity": "medium",
+      "line": 22,
+      "evidence": "document.querySelector<HTMLDivElement>('#app')",
+      "rule_id": "ts-react-quality-lens/direct_dom_mutation",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "document.querySelector<HTMLDivElement>('#app')",
+      "reason_code": "ts-react-quality-lens/direct_dom_mutation",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this direct_dom_mutation finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:direct_dom_mutation:22:1050",
+            "kind": "direct_dom_mutation",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:54:2298",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 54,
+      "evidence": "pictures[photoMomentIndex]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "pictures[photoMomentIndex]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:54:2298",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:module_level_mutable_state:98:4033",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "module_level_mutable_state",
+      "severity": "medium",
+      "line": 98,
+      "evidence": "let current = 0",
+      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "let current = 0",
+      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:module_level_mutable_state:98:4033",
+            "kind": "module_level_mutable_state",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:module_level_mutable_state:99:4049",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "module_level_mutable_state",
+      "severity": "medium",
+      "line": 99,
+      "evidence": "let initialized = false",
+      "rule_id": "ts-react-quality-lens/module_level_mutable_state",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "let initialized = false",
+      "reason_code": "ts-react-quality-lens/module_level_mutable_state",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this module_level_mutable_state finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:module_level_mutable_state:99:4049",
+            "kind": "module_level_mutable_state",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:104:4254",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 104,
+      "evidence": "story.panels[current]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "story.panels[current]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:104:4254",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "escape:src/main:non_null_assertion:105:4293",
+      "module_id": "src/main",
+      "file": "src/main.ts",
+      "kind": "non_null_assertion",
+      "severity": "medium",
+      "line": 105,
+      "evidence": "story.panels[destination]!",
+      "rule_id": "ts-react-quality-lens/non_null_assertion",
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "medium",
+      "message": "story.panels[destination]!",
+      "reason_code": "ts-react-quality-lens/non_null_assertion",
+      "semantic_decision": "unresolved",
+      "estimated_effort": 15,
+      "workspace_id": "sea-friends-comic",
+      "workspace_name": "sea-friends-comic",
+      "actions": [
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this non_null_assertion finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "escape:src/main:non_null_assertion:105:4293",
+            "kind": "non_null_assertion",
+            "file": "src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "tool": "Built-in image_gen",
+  "reference": "src/assets/comic/opening/17-tidying.webp",
+  "assets": [
+    {
+      "name": "background",
+      "prompt": "Use case: precise-object-edit. Create an empty BACKGROUND animation plate of the supplied scene, retaining the large purple foreground helper tidying books and the entire foreground toy basket EXACTLY unchanged. Remove only the SIX SMALL BACKGROUND HELPERS: coral and crystal at ice cream counter left, yellow duster helper and mint curl mop helper at centre, cyan and pink heart-faced painters right. Remove the cleaning tools and their motion trails/splashes, and remove the painters' handheld palettes/brushes. Keep the ice cream display and food, easels and pictures, stools, columns, gold shell decorations, windows, staircase, floor, lighting and camera framing. Seamlessly reconstruct scenery behind removed small helpers. Keep the entire foreground purple helper, all books, toys, basket and rug unchanged. No new characters or objects. No text. Exact original wide aspect ratio.",
+      "source": "src/assets/comic/layers/tidying/background.png",
+      "runtime": "src/assets/comic/layers/tidying/background.webp"
+    },
+    {
+      "name": "ice-cream-helpers",
+      "prompt": "Use case: background-extraction. The provided image is the edit target. Extract only the specified background helpers as one group animation layer on true transparent background. Preserve their exact identity, expressions, proportions, colors, poses, accessories and spacing relative to one another from this image. Include their entire visible bodies with no clipping. Exclude the large purple foreground tidying helper, all furniture, all castle architecture, floor, motion trails, bubbles, sparkles and cast shadows. Do not redesign. No text. Tightly frame the specified group. Specified group: only the two small coral-pink dark-brown-faced and lilac crystal helpers at the upper left making ice cream, with anything they HOLD in their hands. Do NOT include the counter, food sitting on the counter, dishes or background. Preserve coral on left, crystal on right and their same spacing.",
+      "source": "src/assets/comic/layers/tidying/ice-cream-helpers.png",
+      "runtime": "src/assets/comic/layers/tidying/ice-cream-helpers.webp"
+    },
+    {
+      "name": "cleaning-helpers",
+      "prompt": "Use case: background-extraction. The provided image is the edit target. Extract only the specified background helpers as one group animation layer on true transparent background. Preserve their exact identity, expressions, proportions, colors, poses, accessories and spacing relative to one another from this image. Include their entire visible bodies with no clipping. Exclude the large purple foreground tidying helper, all furniture, all castle architecture, floor, motion trails, bubbles, sparkles and cast shadows. Do not redesign. No text. Tightly frame the specified group. Specified group: only the yellow dusting helper above and the mint helper with forehead curl below/right, INCLUDING the white fluffy gold-handled feather duster and the complete gold-handled mop with white mop head. Preserve yellow above-left and mint below-right and their same relative spacing and scale. No other helpers. No floor or splashes.",
+      "source": "src/assets/comic/layers/tidying/cleaning-helpers.png",
+      "runtime": "src/assets/comic/layers/tidying/cleaning-helpers.webp"
+    },
+    {
+      "name": "painting-helpers",
+      "prompt": "Use case: background-extraction. The provided image is the edit target. Extract only the specified background helpers as one group animation layer on true transparent background. Preserve their exact identity, expressions, proportions, colors, poses, accessories and spacing relative to one another from this image. Include their entire visible bodies with no clipping. Exclude the large purple foreground tidying helper, all furniture, all castle architecture, floor, motion trails, bubbles, sparkles and cast shadows. Do not redesign. No text. Tightly frame the specified group. Specified group: only the small cyan helper with dark navy eye patches and pink helper with dark magenta heart-shaped facial patch, INCLUDING the palette and brushes they HOLD. Preserve cyan on left and pink on right and their same relative spacing. Do NOT include easels, paintings, stools, bottles or furniture. No other helpers.",
+      "source": "src/assets/comic/layers/tidying/painting-helpers.png",
+      "runtime": "src/assets/comic/layers/tidying/painting-helpers.webp"
+    }
+  ]
+}

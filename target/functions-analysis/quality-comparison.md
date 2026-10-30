@@ -1,14 +1,14 @@
-# Working-tree refactor comparison — 22 October 2026
-
-Same latest Lens revision and unchanged measurement scopes. Baseline includes pre-existing work. Scores are static estimates; locality and leverage are summed risk scores, lower is better.
+# Quality review — 30 October 2026 (functions)
 
 | Metric | Before | After | Change |
 | --- | ---: | ---: | ---: |
-| source_lines | 2085 | 2077 | -8 |
-| cognitive_complexity | 162 | 150 | -12 |
-| cyclomatic_complexity | 174 | 171 | -3 |
-| halstead_effort | 233149 | 219827 | -13322 |
-| clone_groups | 0 | 0 | +0 |
-| locality_risk | 173 | 173 | +0 |
-| leverage_risk | 120 | 120 | +0 |
-| lint_blockers | 0 | 0 | +0 |
+| source_lines | 2087 | 2087 | 0 |
+| cognitive_complexity | 150 | 150 | 0 |
+| cyclomatic_complexity | 177 | 177 | 0 |
+| halstead_effort | 202605 | 202605 | 0 |
+| clone_groups | 0 | 0 | 0 |
+| locality_risk | 205 | 205 | 0 |
+| leverage_risk | 132 | 132 | 0 |
+| lint_blockers | 0 | 0 | 0 |
+
+See docs/quality-review/2026-10-30-refactor.md for scope and limitations.

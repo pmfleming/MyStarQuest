@@ -1,0 +1,107 @@
+.cleaning-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  overflow: hidden;
+  isolation: isolate;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: 2;
+}
+.cleaning-scene.ready {
+  visibility: visible;
+}
+.cleaning-scene .cleaning-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+.cleaner {
+  position: absolute;
+}
+.cleaning-scene .cleaner-sprite {
+  position: static;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 3px 3px #83603720);
+}
+.cleaner-yellow {
+  left: 7%;
+  top: 8%;
+  width: 42%;
+  transform-origin: 20% 40%;
+}
+.cleaner-mint {
+  left: 58%;
+  bottom: 9%;
+  width: 32%;
+  transform-origin: 26% 96%;
+}
+.cleaner-reflection {
+  position: absolute;
+  top: 99%;
+  width: 100%;
+  height: 60%;
+  opacity: 0.16;
+  filter: blur(2px);
+  mask-image: linear-gradient(to bottom, #000, transparent 65%);
+}
+.cleaning-scene .cleaner-reflection-image {
+  width: 100%;
+  height: 100%;
+  transform: scaleY(-1);
+}
+.cleaner-glint {
+  position: absolute;
+  width: 2%;
+  aspect-ratio: 1;
+  background: #fffce1;
+  clip-path: polygon(
+    50% 0,
+    59% 40%,
+    100% 50%,
+    59% 59%,
+    50% 100%,
+    41% 59%,
+    0 50%,
+    41% 40%
+  );
+  opacity: 0;
+}
+.cleaner-yellow .cleaner-glint {
+  left: calc(5% + var(--i) * 4%);
+  top: calc(23% + var(--i) * 5%);
+}
+.cleaner-mint .cleaner-glint {
+  left: calc(12% + var(--i) * 9%);
+  bottom: calc(2% + var(--i) * 1.6%);
+  background: #e4ffff;
+}
+.ready .cleaner-glint {
+  animation: cleaning-glint 2.2s calc(var(--i) * -0.43s) ease-in-out infinite;
+}
+@keyframes cleaning-glint {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  40% {
+    opacity: 0.85;
+    transform: translateY(-8px) scale(1.2);
+  }
+  80% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.8);
+  }
+}
+.cleaning-scene.paused * {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ready .cleaner-glint {
+    animation: none;
+  }
+}

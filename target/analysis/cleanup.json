@@ -3,7 +3,7 @@
   "task_id": "quality.cleanup",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T21:49:37.029Z",
+    "measured_at": "2026-10-30T22:52:59.193Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
-    "input_set_hash": "sha256:4f781c7fcb20c16a1fe0e58488d61d1a2f07f61e21e92abee03e9a6c7b862c33"
+    "source_set_hash": "sha256:61d6cdfa0d81f5d521514104c6ca6ac280a2fb4444bd2312314f42104361bb6b",
+    "input_set_hash": "sha256:01fcf669238d7a03f97c8cff1c4da4b1cb452bcf1d00e10028634acdec9c9f8f"
   },
   "analysis_identity": {
-    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
+    "id": "sha256:93f9fbdb301799130ce1248fd07ff693bf4aff1b9bda2788f6f425a51e44f090",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
+    "config_closure_hash": "sha256:5a6b0f43a79b9c3642138b3f91ee5e9af7be08aafcff7485f6d07a38e090afa0",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -119,20 +119,20 @@
     "stale_input": []
   },
   "summary": {
-    "records": 64,
-    "unused_files": 9,
-    "unused_exports": 35,
-    "unused_dependencies": 0,
+    "records": 109,
+    "unused_files": 46,
+    "unused_exports": 42,
+    "unused_dependencies": 1,
     "unused_dev_dependencies": 1,
     "unlisted_dependencies": 11,
     "type_only_production_dependencies": 0,
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
     "entrypoint_files": 3,
-    "knip_findings": 64,
-    "tool_confirmed": 7,
-    "tool_disagreed": 2,
-    "tool_not_comparable": 3,
+    "knip_findings": 109,
+    "tool_confirmed": 19,
+    "tool_disagreed": 9,
+    "tool_not_comparable": 5,
     "tool_excluded": 0
   },
   "tool_status": {
@@ -244,6 +244,331 @@
           }
         }
       ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyDingdongArrivalScene:createDingdongArrivalScene",
+      "kind": "unused_export",
+      "file": "src/lib/storyDingdongArrivalScene.ts",
+      "line": 7,
+      "name": "createDingdongArrivalScene",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyDingdongArrivalScene:createDingdongArrivalScene",
+            "kind": "unused_export",
+            "file": "src/lib/storyDingdongArrivalScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyIceCreamScene:createIceCreamScene",
+      "kind": "unused_export",
+      "file": "src/lib/storyIceCreamScene.ts",
+      "line": 8,
+      "name": "createIceCreamScene",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyIceCreamScene:createIceCreamScene",
+            "kind": "unused_export",
+            "file": "src/lib/storyIceCreamScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storySpaceFlightScene:createSpaceFlightScene",
+      "kind": "unused_export",
+      "file": "src/lib/storySpaceFlightScene.ts",
+      "line": 8,
+      "name": "createSpaceFlightScene",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storySpaceFlightScene:createSpaceFlightScene",
+            "kind": "unused_export",
+            "file": "src/lib/storySpaceFlightScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storySparkles:storySparkleSites",
+      "kind": "unused_export",
+      "file": "src/lib/storySparkles.ts",
+      "line": 6,
+      "name": "storySparkleSites",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storySparkles:storySparkleSites",
+            "kind": "unused_export",
+            "file": "src/lib/storySparkles.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storySparkles:createStorySparkles",
+      "kind": "unused_export",
+      "file": "src/lib/storySparkles.ts",
+      "line": 420,
+      "name": "createStorySparkles",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storySparkles:createStorySparkles",
+            "kind": "unused_export",
+            "file": "src/lib/storySparkles.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyStarSystemScene:createStarSystemScene",
+      "kind": "unused_export",
+      "file": "src/lib/storyStarSystemScene.ts",
+      "line": 33,
+      "name": "createStarSystemScene",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "module_has_no_internal_importers"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unused_export",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_export",
+      "message": "unused export",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_export",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyStarSystemScene:createStarSystemScene",
+            "kind": "unused_export",
+            "file": "src/lib/storyStarSystemScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unlisted-dependency:@types/vite/client",
+      "kind": "unlisted_dependency",
+      "name": "@types/vite/client",
+      "score": 75,
+      "risk": "high",
+      "signals": [
+        {
+          "kind": "observed_but_not_declared",
+          "value": "@types/vite/client"
+        }
+      ],
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "disagreed",
+      "validation_scope": "knip/unlisted_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unlisted_dependency",
+      "message": "unlisted dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unlisted_dependency",
+      "semantic_decision": "disagreed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Update the import or dependency declaration so the graph matches runtime intent.",
+          "fix": "repair-dependency-edge"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unlisted_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unlisted-dependency:@types/vite/client",
+            "kind": "unlisted_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
     }
   ],
   "unconfirmed": [
@@ -285,6 +610,94 @@
           "config_key": "suppressions",
           "value": {
             "id": "cleanup:unused-dev-dependency:@types/canvas-confetti",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dev-dependency:@types/node",
+      "kind": "unused_dev_dependency",
+      "name": "@types/node",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/node"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/node",
+            "kind": "unused_dev_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dev-dependency:@types/react",
+      "kind": "unused_dev_dependency",
+      "name": "@types/react",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "dev_dependency_not_observed",
+          "value": "@types/react"
+        }
+      ],
+      "validation_scope_complete": false,
+      "evidence_kind": "heuristic",
+      "disposition": "review",
+      "finding_confidence": "low",
+      "source": "ts-react-quality-lens-cleanup",
+      "tool_validation": "not_comparable",
+      "validation_scope": "knip/unused_dev_dependency",
+      "rule_id": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "message": "unused dev dependency",
+      "reason_code": "ts-react-quality-lens-cleanup/unused_dev_dependency",
+      "semantic_decision": "not-comparable",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dev_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dev-dependency:@types/react",
             "kind": "unused_dev_dependency",
             "reason": "Intentional finding; document the project-specific reason."
           }
@@ -382,6 +795,256 @@
   ],
   "records": [
     {
+      "id": "cleanup:unused-file:src/lib/storyDingdongArrivalScene",
+      "kind": "unused_file",
+      "file": "src/lib/storyDingdongArrivalScene.ts",
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "no_internal_importers"
+        },
+        {
+          "kind": "exports",
+          "value": 1
+        }
+      ],
+      "rule_id": "knip/files",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:files:src/lib/storyDingdongArrivalScene.ts:0:0",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_file",
+      "message": "unused file",
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-file:src/lib/storyDingdongArrivalScene",
+            "kind": "unused_file",
+            "file": "src/lib/storyDingdongArrivalScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-file:src/lib/storyIceCreamScene",
+      "kind": "unused_file",
+      "file": "src/lib/storyIceCreamScene.ts",
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "no_internal_importers"
+        },
+        {
+          "kind": "exports",
+          "value": 1
+        }
+      ],
+      "rule_id": "knip/files",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:files:src/lib/storyIceCreamScene.ts:0:0",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_file",
+      "message": "unused file",
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-file:src/lib/storyIceCreamScene",
+            "kind": "unused_file",
+            "file": "src/lib/storyIceCreamScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-file:src/lib/storySpaceFlightScene",
+      "kind": "unused_file",
+      "file": "src/lib/storySpaceFlightScene.ts",
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "no_internal_importers"
+        },
+        {
+          "kind": "exports",
+          "value": 1
+        }
+      ],
+      "rule_id": "knip/files",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:files:src/lib/storySpaceFlightScene.ts:0:0",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_file",
+      "message": "unused file",
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-file:src/lib/storySpaceFlightScene",
+            "kind": "unused_file",
+            "file": "src/lib/storySpaceFlightScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-file:src/lib/storySparkles",
+      "kind": "unused_file",
+      "file": "src/lib/storySparkles.ts",
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "no_internal_importers"
+        },
+        {
+          "kind": "exports",
+          "value": 2
+        }
+      ],
+      "rule_id": "knip/files",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:files:src/lib/storySparkles.ts:0:0",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_file",
+      "message": "unused file",
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-file:src/lib/storySparkles",
+            "kind": "unused_file",
+            "file": "src/lib/storySparkles.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-file:src/lib/storyStarSystemScene",
+      "kind": "unused_file",
+      "file": "src/lib/storyStarSystemScene.ts",
+      "score": 60,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "no_internal_importers"
+        },
+        {
+          "kind": "exports",
+          "value": 1
+        }
+      ],
+      "rule_id": "knip/files",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:files:src/lib/storyStarSystemScene.ts:0:0",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_file",
+      "message": "unused file",
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-file:src/lib/storyStarSystemScene",
+            "kind": "unused_file",
+            "file": "src/lib/storyStarSystemScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-export:src/features/dayNightExplorer/currentExplorerCity:getNearbyExplorerCity",
       "kind": "unused_export",
       "file": "src/features/dayNightExplorer/currentExplorerCity.ts",
@@ -474,6 +1137,251 @@
             "id": "cleanup:unused-export:src/features/dayNightExplorer/timeExplorerStorage:TIME_EXPLORER_STORAGE_KEY",
             "kind": "unused_export",
             "file": "src/features/dayNightExplorer/timeExplorerStorage.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyAirScenes:airSceneIds",
+      "kind": "unused_export",
+      "file": "src/lib/storyAirScenes.ts",
+      "line": 13,
+      "name": "airSceneIds",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "airSceneIds"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/storyAirScenes.ts:airSceneIds:13",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyAirScenes:airSceneIds",
+            "kind": "unused_export",
+            "file": "src/lib/storyAirScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyMorningRooms:morningPanelId",
+      "kind": "unused_export",
+      "file": "src/lib/storyMorningRooms.ts",
+      "line": 9,
+      "name": "morningPanelId",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "morningPanelId"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/storyMorningRooms.ts:morningPanelId:9",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyMorningRooms:morningPanelId",
+            "kind": "unused_export",
+            "file": "src/lib/storyMorningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyMotion:STORY_OPEN_TRANSITION_MS",
+      "kind": "unused_export",
+      "file": "src/lib/storyMotion.ts",
+      "line": 4,
+      "name": "STORY_OPEN_TRANSITION_MS",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "STORY_OPEN_TRANSITION_MS"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/storyMotion.ts:STORY_OPEN_TRANSITION_MS:4",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyMotion:STORY_OPEN_TRANSITION_MS",
+            "kind": "unused_export",
+            "file": "src/lib/storyMotion.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyTransitions:storyTransitions",
+      "kind": "unused_export",
+      "file": "src/lib/storyTransitions.ts",
+      "line": 26,
+      "name": "storyTransitions",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "storyTransitions"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/storyTransitions.ts:storyTransitions:26",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyTransitions:storyTransitions",
+            "kind": "unused_export",
+            "file": "src/lib/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-export:src/lib/storyTransitions:storyTransitionFor",
+      "kind": "unused_export",
+      "file": "src/lib/storyTransitions.ts",
+      "line": 93,
+      "name": "storyTransitionFor",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "storyTransitionFor"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/lib/storyTransitions.ts:storyTransitionFor:93",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/lib/storyTransitions:storyTransitionFor",
+            "kind": "unused_export",
+            "file": "src/lib/storyTransitions.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -676,6 +1584,99 @@
       ]
     },
     {
+      "id": "cleanup:unused-export:src/ui/themeOptions:isThemeId",
+      "kind": "unused_export",
+      "file": "src/ui/themeOptions.ts",
+      "line": 5,
+      "name": "isThemeId",
+      "score": 45,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "export_not_named_by_internal_imports",
+          "value": "isThemeId"
+        }
+      ],
+      "rule_id": "knip/exports",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:exports:src/ui/themeOptions.ts:isThemeId:5",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_export",
+      "message": "unused export",
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-export:src/ui/themeOptions:isThemeId",
+            "kind": "unused_export",
+            "file": "src/ui/themeOptions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cleanup:unused-dependency:@capacitor/android",
+      "kind": "unused_dependency",
+      "name": "@capacitor/android",
+      "score": 55,
+      "risk": "medium",
+      "signals": [
+        {
+          "kind": "declared_but_not_observed",
+          "value": "@capacitor/android"
+        }
+      ],
+      "rule_id": "knip/dependencies",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "source": "knip",
+      "upstream_finding_id": "knip:dependencies:package.json:@capacitor/android:32",
+      "tool_validation": "confirmed",
+      "validation_scope": "knip/unused_dependency",
+      "message": "unused dependency",
+      "reason_code": "knip/dependencies",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_dependency finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "cleanup:unused-dependency:@capacitor/android",
+            "kind": "unused_dependency",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "cleanup:unused-dev-dependency:lint-staged",
       "kind": "unused_dev_dependency",
       "name": "lint-staged",
@@ -693,7 +1694,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:64",
+      "upstream_finding_id": "knip:devDependencies:package.json:lint-staged:67",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_dev_dependency",
       "message": "unused dev dependency",
@@ -811,6 +1812,456 @@
       ]
     },
     {
+      "id": "knip:files:comic/playwright.config.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/playwright.config.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/playwright.config.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/playwright.config.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/vite.config.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/vite.config.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/vite.config.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/vite.config.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-air-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-air-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-air-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-air-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-castle-flight-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-castle-flight-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-castle-flight-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-castle-flight-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-cleaning-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-cleaning-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-cleaning-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-cleaning-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-dingdong-arrival-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-dingdong-arrival-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-dingdong-arrival-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-dingdong-arrival-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-ice-cream-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-ice-cream-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-ice-cream-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-ice-cream-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-space-flight-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-space-flight-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-space-flight-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-space-flight-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-star-system-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-star-system-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-star-system-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-star-system-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/prepare-tidying-layers.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/prepare-tidying-layers.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/prepare-tidying-layers.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/prepare-tidying-layers.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:files:scripts/prepare-weather-artwork.mjs:0:0",
       "rule_id": "knip/files",
       "kind": "unused_file",
@@ -856,6 +2307,141 @@
       ]
     },
     {
+      "id": "knip:files:scripts/quality-gate.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-gate.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/quality-gate.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/quality-gate.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/review-comic-sparkles.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/review-comic-sparkles.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/review-comic-sparkles.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/review-comic-sparkles.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:scripts/split-morning-rooms.mjs:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/split-morning-rooms.mjs",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:scripts/split-morning-rooms.mjs:0:0",
+            "kind": "unused_file",
+            "file": "scripts/split-morning-rooms.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
       "rule_id": "knip/files",
       "kind": "unused_file",
@@ -895,6 +2481,591 @@
             "id": "knip:files:scripts/weatherCharacterComposite.ts:0:0",
             "kind": "unused_file",
             "file": "scripts/weatherCharacterComposite.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/airScenes.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/airScenes.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/airScenes.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/airScenes.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/airScenes.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/airScenes.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/airScenes.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/airScenes.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/cleaningScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/cleaningScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/cleaningScene.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/cleaningScene.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/cleaningScene.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/cleaningScene.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/cleaningScene.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/cleaningScene.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/main.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/main.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/main.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/main.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/morningRooms.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/morningRooms.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/morningRooms.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/morningRooms.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/morningRooms.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/morningRooms.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/morningRooms.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/morningRooms.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/story.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/story.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/story.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/story.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/storyTransitions.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/storyTransitions.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/storyTransitions.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/storyTransitions.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/storyTransitions.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/storyTransitions.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/storyTransitions.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/storyTransitions.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/style.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/style.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/style.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/style.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/tidyingScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/tidyingScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/tidyingScene.css:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/tidyingScene.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:comic/src/tidyingScene.ts:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "comic/src/tidyingScene.ts",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:comic/src/tidyingScene.ts:0:0",
+            "kind": "unused_file",
+            "file": "comic/src/tidyingScene.ts",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -985,6 +3156,231 @@
             "id": "knip:files:functions/scripts/migrate-separate-chores-tests.ts:0:0",
             "kind": "unused_file",
             "file": "functions/scripts/migrate-separate-chores-tests.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:src/lib/storyDingdongArrivalScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/storyDingdongArrivalScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:src/lib/storyDingdongArrivalScene.css:0:0",
+            "kind": "unused_file",
+            "file": "src/lib/storyDingdongArrivalScene.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:src/lib/storyIceCreamScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/storyIceCreamScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:src/lib/storyIceCreamScene.css:0:0",
+            "kind": "unused_file",
+            "file": "src/lib/storyIceCreamScene.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:src/lib/storySpaceFlightScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/storySpaceFlightScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:src/lib/storySpaceFlightScene.css:0:0",
+            "kind": "unused_file",
+            "file": "src/lib/storySpaceFlightScene.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:src/lib/storySparkles.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/storySparkles.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:src/lib/storySparkles.css:0:0",
+            "kind": "unused_file",
+            "file": "src/lib/storySparkles.css",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:src/lib/storyStarSystemScene.css:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "src/lib/storyStarSystemScene.css",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:src/lib/storyStarSystemScene.css:0:0",
+            "kind": "unused_file",
+            "file": "src/lib/storyStarSystemScene.css",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -1120,6 +3516,51 @@
             "id": "knip:files:tests/fixtures/offline.ts:0:0",
             "kind": "unused_file",
             "file": "tests/fixtures/offline.ts",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
+      "id": "knip:files:tests/fixtures/story-reader.tsx:0:0",
+      "rule_id": "knip/files",
+      "kind": "unused_file",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "tests/fixtures/story-reader.tsx",
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused file.",
+      "issue_type": "files",
+      "signals": [
+        {
+          "kind": "knip_files"
+        }
+      ],
+      "reason_code": "knip/files",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_file finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:files:tests/fixtures/story-reader.tsx:0:0",
+            "kind": "unused_file",
+            "file": "tests/fixtures/story-reader.tsx",
             "reason": "Intentional finding; document the project-specific reason."
           }
         }
@@ -2890,6 +5331,55 @@
       ]
     },
     {
+      "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
+      "rule_id": "knip/exports",
+      "kind": "unused_export",
+      "evidence_kind": "tool-rule",
+      "disposition": "review",
+      "finding_confidence": "high",
+      "scope": "file",
+      "file": "scripts/quality-summary.mjs",
+      "name": "writeComparison",
+      "line": 42,
+      "column": 17,
+      "score": 50,
+      "risk": "medium",
+      "source": "knip",
+      "message": "Knip reported unused export: writeComparison.",
+      "issue_type": "exports",
+      "signals": [
+        {
+          "kind": "knip_exports",
+          "value": "writeComparison"
+        }
+      ],
+      "reason_code": "knip/exports",
+      "semantic_decision": "confirmed",
+      "estimated_effort": 15,
+      "workspace_id": "mystarquest",
+      "workspace_name": "mystarquest",
+      "actions": [
+        {
+          "type": "fix",
+          "auto_fixable": false,
+          "description": "Remove the unused code or mark it as intentional public surface.",
+          "fix": "remove-unused-code"
+        },
+        {
+          "type": "add-to-config",
+          "auto_fixable": true,
+          "description": "Keep this unused_export finding intentionally by adding a narrow configured suppression.",
+          "config_key": "suppressions",
+          "value": {
+            "id": "knip:exports:scripts/quality-summary.mjs:writeComparison:42",
+            "kind": "unused_export",
+            "file": "scripts/quality-summary.mjs",
+            "reason": "Intentional finding; document the project-specific reason."
+          }
+        }
+      ]
+    },
+    {
       "id": "knip:exports:src/lib/calendarSchedule.ts:calendarActivitySchema:7",
       "rule_id": "knip/exports",
       "kind": "unused_export",
@@ -3282,7 +5772,7 @@
       ]
     },
     {
-      "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:8",
+      "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:31",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -3291,7 +5781,7 @@
       "scope": "file",
       "file": "functions/src/sharing/protocol.ts",
       "name": "SharedAction",
-      "line": 8,
+      "line": 31,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -3322,7 +5812,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:8",
+            "id": "knip:types:functions/src/sharing/protocol.ts:SharedAction:31",
             "kind": "unused_type",
             "file": "functions/src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."

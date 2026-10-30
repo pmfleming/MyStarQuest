@@ -1,0 +1,90 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Layered underwater introductions; Odette remains stable while reef scenery and friends animate independently.",
+  "export": "Full-resolution lossless WebP; visible RGBA pixels verified against generated PNGs. Original source artwork is untouched.",
+  "layers": [
+    {
+      "id": "reef-garden",
+      "transparent": false,
+      "refs": ["src/assets/comic/opening/05-rainbow.webp"],
+      "prompt": "Use case: background-extraction. EDIT TARGET image 1: retain the existing polished underwater coral-garden scenery, rendering detail, palette, sunbeams and sandy seabed. Remove ALL characters (Odette, Rainbow), fish and bubbles that overlap them, reconstruct clean continuous coral, open blue water and sand behind them. This is an EMPTY BACKGROUND PLATE for layered animation, with generous clear open water through the centre and coral around the edges. Absolutely no people, fairies, mermaids, creatures, silhouettes, lettering or border. Wide landscape 16:9, full bleed, high-resolution detail. Keep the original scene's identity and visual quality.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-d9f94613-c3c4-4fb7-b33e-390501012173.png",
+      "output": "src/assets/comic/layers/underwater/reef-garden.webp"
+    },
+    {
+      "id": "reef-palace",
+      "transparent": false,
+      "refs": ["src/assets/comic/opening/08-eclipse-diana.webp"],
+      "prompt": "Use case: background-extraction. EDIT TARGET image 1: extract only the beautiful underwater scenery. Remove Odette, Eclipse, Diana, ALL characters and all fish; reconstruct continuous clean coral, blue water and sandy path where they stood. Preserve original pink/lavender coral, sunbeams, distant little pearly castle and underwater architecture. EMPTY BACKGROUND PLATE, wide landscape 16:9, full bleed, high resolution, no words, no border. Clear space across middle for separate foreground characters. Same polished dimensional children's-book rendering.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-b739edad-93bf-4f55-90e0-7610e0a61dbd.png",
+      "output": "src/assets/comic/layers/underwater/reef-palace.webp"
+    },
+    {
+      "id": "odette",
+      "transparent": true,
+      "refs": ["src/assets/teenie/mermaid-odette-ping.webp"],
+      "prompt": "Use case: background-removal. EDIT TARGET image 1 is the exact existing Odette asset. Preserve this SAME character artwork, face, pose, brown hair, lavender clip, blue eyes, fully covering pearly seashell bodice, curled lavender/aqua tail, pink hearts and fins. Clean ONLY the background/alpha: remove stray white/grey/coloured matte blocks, fringe streaks and background pixels outside her silhouette and through gaps. Do not redesign or re-pose her. One complete full-body mermaid Odette, head and entire tail fully visible, centred with 6% transparent margin. TRUE transparent alpha background; no floor, shadows, bubbles, environment, words or other characters. Preserve crisp original rendering detail.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-dd074754-959a-42d6-8796-f5046733a48a.png",
+      "output": "src/assets/comic/layers/underwater/odette.webp"
+    },
+    {
+      "id": "rainbow",
+      "transparent": true,
+      "refs": [
+        "src/assets/comic/opening/05-rainbow.webp",
+        "src/assets/teenie/rainbow.webp"
+      ],
+      "prompt": "Use case: background-removal. Image 1 is EDIT TARGET; image 2 is the canonical Teenieping identity reference ONLY. Extract ONLY Rainbow Ping from the RIGHT side of image 1 as an isolated full-body transparent sprite. Keep the exact comic pose, multicoloured hair, gold heart-jewel crown, violet eyes, pink-and-turquoise robe, purple shoes and heart-topped wand; reconstruct the hand that touched Odette naturally as a friendly greeting. NO cat (the cat in identity reference is not part of this scene). Remove Odette and every part of the background, fish, coral and bubbles. Only Rainbow. Genuine clean transparent alpha through all gaps, no matte blocks or shadows. Fill the canvas generously with the full character, crown and wand completely visible with 6% margin. Portrait composition and high-resolution original-quality detail.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-d36b2b98-4262-4b65-a0c1-99518a3ee869.png",
+      "output": "src/assets/comic/layers/underwater/rainbow.webp"
+    },
+    {
+      "id": "primarina-aqua",
+      "transparent": true,
+      "refs": [
+        "src/assets/comic/opening/06-primarina-aqua.webp",
+        "src/assets/teenie/primarina-ping.webp",
+        "src/assets/teenie/aquafox-ping.webp"
+      ],
+      "prompt": "Use case: background-removal. Image 1 is EDIT TARGET; images 2 and 3 are canonical identity references. Extract ONLY the TWO friends PrimarinaPing and Aquafox from the centre and right of image 1, preserving their existing comic poses, proportions, faces, colours, mermaid tails, gold trident and accessories exactly. Remove Odette entirely. Remove ALL background, coral, fish, sand and bubbles, including between limbs and fins. Genuine clean transparent alpha, no fringe/matte streaks. Both complete characters together, Primarina slightly higher left holding her trident and Aquafox lower right, same friendly floating arrangement. Fill a landscape canvas generously; both characters and all fins/trident fully visible with 6% margin. No new props, no lettering, no floor or external shadows. High-resolution detail.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-b20402f4-0ffd-4ecb-a589-352c6cbcff01.png",
+      "output": "src/assets/comic/layers/underwater/primarina-aqua.webp"
+    },
+    {
+      "id": "tangy-sweet",
+      "transparent": true,
+      "refs": [
+        "src/assets/comic/opening/07-tangy-sweet.webp",
+        "src/assets/teenie/tangy.webp",
+        "src/assets/teenie/sweet.webp"
+      ],
+      "prompt": "Use case: background-removal. Image 1 is EDIT TARGET; images 2 and 3 are canonical Teenieping identity references. Isolate ONLY Tangy Ping and Sweet Ping, the two friends from the centre/right of image 1. Preserve their exact comic poses, yellow hair/blue eyes/green yellow citrus dress for Tangy, cream-pink hair/red eyes/pink orange sweet dress for Sweet, and all their crowns, wands and accessories. They retain legs, NOT mermaid tails. Remove Odette and every piece of scenery, coral, fish, water and bubbles. Clean genuine transparent alpha through every gap, no matte blocks or white background. Two complete full-body friends together floating in the same arrangement, Tangy higher left and Sweet lower right. Centre the duo tightly on landscape canvas with 6% clear margin and every crown, wand and shoe visible. Original-quality rendering, no words or shadows outside the figures.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-ce75fc84-1fde-434f-8a31-edd36aa9d543.png",
+      "output": "src/assets/comic/layers/underwater/tangy-sweet.webp"
+    },
+    {
+      "id": "eclipse-diana",
+      "transparent": true,
+      "refs": [
+        "src/assets/comic/opening/08-eclipse-diana.webp",
+        "src/assets/teenie/eclipse.webp",
+        "src/assets/teenie/diana.webp"
+      ],
+      "prompt": "Use case: background-removal. Image 1 is EDIT TARGET; images 2 and 3 are exact canonical Teenieping identity references. Extract ONLY Eclipse Ping and Diana Ping from the centre/right of image 1. Preserve the comic poses, proportions, faces and original outfits: Eclipse's dark purple crystal crown and dark purple dress, Diana's tall gold crown and pale blue pearl-trimmed dress. Keep all crowns, hands and feet fully visible. They have legs, not mermaid tails. Remove Odette and all backgrounds, scenery, fish, coral and bubbles. Genuine transparent alpha, clean edges and all gaps transparent; no background streaks, cast shadows or text. Duo together in the same friendly floating arrangement, Eclipse higher left and Diana lower right, filling landscape canvas generously with 6% clear margin. Preserve original high-resolution detail.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-fac72b24-eb3c-411d-bc4d-22740b771388.png",
+      "output": "src/assets/comic/layers/underwater/eclipse-diana.webp"
+    },
+    {
+      "id": "hop-doremi",
+      "transparent": true,
+      "refs": [
+        "src/assets/comic/opening/09-hop-doremi.webp",
+        "src/assets/teenie/hop.webp",
+        "src/assets/teenie/doremi.webp"
+      ],
+      "prompt": "Use case: background-removal. Image 1 is EDIT TARGET; images 2 and 3 are canonical Teenieping identity references. Extract ONLY Hopping and Doremi Ping from the centre/right of image 1. Preserve their exact comic poses and identities: white bunny-eared Hopping with pink heart, white/pink dress and skipping rope; pink-haired Doremi with yellow bow, green star hair ornament, yellow/pink outfit and pink star guitar. Both have legs, no mermaid tails. Remove Odette and ALL backgrounds, fish, coral, water, sand and bubbles. Clean genuine transparent alpha through all gaps, no matte streaks or external shadows. Both full-body friends together with all ears, bow, rope, guitar and feet visible. Centre tightly as a landscape duo with 6% transparent margin. Keep original-quality detail; no writing.",
+      "source": "C:\\Users\\Paul_\\.codex\\generated_images\\01a18905-73af-75a1-a642-63fff241f880\\exec-c2604a14-89c3-4335-8ba6-68579544b5ce.png",
+      "output": "src/assets/comic/layers/underwater/hop-doremi.webp"
+    }
+  ]
+}

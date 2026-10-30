@@ -5,7 +5,7 @@ An adult signs in, creates child profiles, sets up chores, learning checks, and 
 There are 4 areas:
 
 - **Chores**: daily routines such as standard chores, eating timers, and water/toilet checks.
-- **Tests**: lightweight learning activities for maths, place value, alphabet practice, and spelling.
+- **Tests**: lightweight learning activities for maths, place value, alphabet practice, and spelling, plus the Sea friends comic in **Stories**.
 - **Rewards**: a star shop where stars can be redeemed for configured rewards.
 - **Time Explorer**: an interactive clock, school calendar, and day/night planet view for learning about time.
 
@@ -78,6 +78,17 @@ Run the app locally:
 ```bash
 npm run dev
 ```
+
+Open `http://localhost:5173/tabs/tests`, choose **Stories**, then **Sea friends**.
+The main app contains the complete 64-page comic, including character movement,
+sparkles, the six waking-up rooms, cinematic transitions and the Polaroid sequence.
+The former standalone `comic/` website and its port 5174 launch commands have
+been retired. Only the main app server is needed.
+
+Story order and chapter metadata live in `src/data/stories/seaFriends.ts`;
+artwork stays in `src/assets/comic/` and animation players in `src/lib/story*.ts`.
+Keep new layered effects in the `storyScenes.ts` registry. The story animation
+catalog tests check that all players and layer folders remain connected.
 
 Build for production:
 

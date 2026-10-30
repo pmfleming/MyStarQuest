@@ -16,6 +16,8 @@ vi.mock('../../src/sharing/ChildAccessContext', () => ({
 }))
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('../../src/offline/platform', () => ({ isOfflineEnabled: () => false }))
+// This online-subscription test must not initialize the unused native transport.
+vi.mock('../../src/offline/runtime', () => ({ offlineRuntime: vi.fn() }))
 vi.mock('firebase/firestore', () => ({
   collection: (_db: unknown, ...parts: string[]) => parts.join('/'),
   query: (source: string, constraint: string) => `${source}/${constraint}`,

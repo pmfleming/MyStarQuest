@@ -1,0 +1,131 @@
+.story-underwater-host,
+.underwater-scene {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.underwater-scene {
+  z-index: 2;
+  overflow: hidden;
+  isolation: isolate;
+  visibility: hidden;
+  background: #73d9ef;
+}
+.underwater-scene.ready {
+  visibility: visible;
+}
+.underwater-scene .underwater-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation:
+    underwater-reef 18s ease-in-out infinite alternate,
+    underwater-arrive 1600ms ease both;
+}
+.underwater-scene .underwater-odette {
+  position: absolute;
+  inset: 9% auto auto 3%;
+  width: 38%;
+  height: 82%;
+  object-fit: contain;
+  z-index: 1;
+  animation: none;
+  transform: none;
+}
+.underwater-scene .underwater-friends {
+  position: absolute;
+  inset: 6% 2% auto auto;
+  width: 57%;
+  height: 88%;
+  object-fit: contain;
+  z-index: 1;
+  animation:
+    underwater-swim-in 2200ms cubic-bezier(0.22, 0.68, 0.2, 1) both,
+    underwater-float 6s 2200ms ease-in-out infinite alternate;
+}
+.underwater-scene [data-outgoing] {
+  animation: underwater-depart 1600ms ease both;
+}
+.underwater-bubble {
+  position: absolute;
+  z-index: 2;
+  bottom: -8%;
+  width: 1.2%;
+  aspect-ratio: 1;
+  border: 1px solid #ffffff9c;
+  border-radius: 50%;
+  background: #ffffff15;
+  animation: underwater-bubbles 11s linear infinite;
+}
+.underwater-scene.paused *,
+.underwater-scene:not(.ready) * {
+  animation-play-state: paused;
+}
+@keyframes underwater-reef {
+  from {
+    transform: scale(1.06) translateX(-1%);
+  }
+  to {
+    transform: scale(1.06) translateX(1%);
+  }
+}
+@keyframes underwater-arrive {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes underwater-swim-in {
+  from {
+    transform: translateX(85%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes underwater-float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-1.2%);
+  }
+}
+@keyframes underwater-depart {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes underwater-bubbles {
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.5;
+  }
+  to {
+    transform: translateY(-950px);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .underwater-scene {
+    display: none;
+  }
+  .underwater-scene * {
+    animation: none;
+  }
+}

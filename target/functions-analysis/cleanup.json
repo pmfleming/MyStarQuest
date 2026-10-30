@@ -3,7 +3,7 @@
   "task_id": "quality.cleanup",
   "project": {
     "name": "MyStarQuest Functions",
-    "root": "C:\\Code\\MyStarQuest\\functions",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions",
     "framework": "unknown",
     "package_manager": "npm",
     "test_runner": "unknown"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\functions\\ts-react-quality-lens.config.json",
+    "command": "ts-react-quality-lens measure map.architecture --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\functions\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T20:36:48.221Z",
+    "measured_at": "2026-10-30T22:49:25.015Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,8 +28,8 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:dddb2a6996096744517ebc4f51c3bf750d67f1e3059e3ae6a675b980aa14e525",
-    "input_set_hash": "sha256:98f2a7a2561ce8b4df71915f2766eb87405e9eeae8ad8e560a155b4ba2318be2"
+    "source_set_hash": "sha256:d443d71740ba72688d8ca740831c830e304b91c32f0fe4ea06beaff503c75bd8",
+    "input_set_hash": "sha256:ce6711ae9eecc15893fb7e399441fa1ad2b2bc3e698450e8deaddfecb836cbad"
   },
   "analysis_identity": {
     "id": "sha256:26996ea2dbccabb79950563b0417bb7ffa68136a1ac9e4390f979c35ec01a829",
@@ -124,7 +124,7 @@
     "type_only_production_dependencies": 0,
     "test_only_production_dependencies": 0,
     "duplicate_exports": 0,
-    "entrypoint_files": 3,
+    "entrypoint_files": 2,
     "knip_findings": 9,
     "tool_confirmed": 3,
     "tool_disagreed": 2,
@@ -237,7 +237,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:ParentEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 61,
+      "line": 84,
       "name": "ParentEntry",
       "score": 45,
       "risk": "medium",
@@ -252,7 +252,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:61",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:ParentEntry:84",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -286,7 +286,7 @@
       "id": "cleanup:unused-export:src/sharing/protocol:InvitationEntry",
       "kind": "unused_export",
       "file": "src/sharing/protocol.ts",
-      "line": 62,
+      "line": 85,
       "name": "InvitationEntry",
       "score": 45,
       "risk": "medium",
@@ -301,7 +301,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:62",
+      "upstream_finding_id": "knip:types:src/sharing/protocol.ts:InvitationEntry:85",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -335,7 +335,7 @@
       "id": "cleanup:unused-export:src/sharing/service:accessKey",
       "kind": "unused_export",
       "file": "src/sharing/service.ts",
-      "line": 43,
+      "line": 44,
       "name": "accessKey",
       "score": 45,
       "risk": "medium",
@@ -350,7 +350,7 @@
       "disposition": "review",
       "finding_confidence": "high",
       "source": "knip",
-      "upstream_finding_id": "knip:exports:src/sharing/service.ts:accessKey:43",
+      "upstream_finding_id": "knip:exports:src/sharing/service.ts:accessKey:44",
       "tool_validation": "confirmed",
       "validation_scope": "knip/unused_export",
       "message": "unused export",
@@ -614,7 +614,7 @@
       ]
     },
     {
-      "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+      "id": "knip:types:src/sharing/protocol.ts:SharedAction:31",
       "rule_id": "knip/types",
       "kind": "unused_type",
       "evidence_kind": "tool-rule",
@@ -623,7 +623,7 @@
       "scope": "file",
       "file": "src/sharing/protocol.ts",
       "name": "SharedAction",
-      "line": 8,
+      "line": 31,
       "column": 13,
       "score": 50,
       "risk": "medium",
@@ -654,7 +654,7 @@
           "description": "Keep this unused_type finding intentionally by adding a narrow configured suppression.",
           "config_key": "suppressions",
           "value": {
-            "id": "knip:types:src/sharing/protocol.ts:SharedAction:8",
+            "id": "knip:types:src/sharing/protocol.ts:SharedAction:31",
             "kind": "unused_type",
             "file": "src/sharing/protocol.ts",
             "reason": "Intentional finding; document the project-specific reason."

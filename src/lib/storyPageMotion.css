@@ -1,0 +1,32 @@
+:is(.comic-page-motion, .story-page-surface)[data-framing='character']:where(
+    :not(.story-transition-frame):not(:has(.story-transition-frame))
+  ) {
+  animation: story-gentle-drift 14s ease-in-out infinite alternate;
+}
+:is(.comic-page-motion, .story-page-surface)[data-motion='slow-zoom']:where(
+    :not(.story-transition-frame):not(:has(.story-transition-frame))
+  ) {
+  animation: story-scene-breathe 18s ease-in-out infinite alternate;
+}
+@keyframes story-gentle-drift {
+  from {
+    transform: translateY(2px);
+  }
+  to {
+    transform: translateY(-3px);
+  }
+}
+@keyframes story-scene-breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.012);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.comic-page-motion, .story-page-surface)[data-motion],
+  :is(.comic-page-motion, .story-page-surface)[data-framing] {
+    animation: none;
+  }
+}

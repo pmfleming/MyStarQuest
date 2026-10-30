@@ -1,0 +1,329 @@
+{
+  "date": "2026-10-30",
+  "tool": {
+    "name": "ts-react-quality-lens",
+    "version": "0.3.0",
+    "upstream_main": "233239b623b67df9c772d7ac3602740fb9de3f12"
+  },
+  "methodology": "Fresh pre-edit working-tree baseline, preserving existing uncommitted work. Complexity/effort sum callable signals; lines sum source-file signals; locality/leverage sum module risk. Separate comic source counted without double-counting shared frontend modules. Same config/tool on both sides; no exclusions or thresholds relaxed.",
+  "totals": {
+    "before": {
+      "source_lines": 41629,
+      "cognitive_complexity": 2282,
+      "cyclomatic_complexity": 2980,
+      "halstead_effort": 13380656,
+      "clone_groups": 14,
+      "locality_risk": 14127,
+      "leverage_risk": 976,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 41318,
+      "cognitive_complexity": 2171,
+      "cyclomatic_complexity": 2927,
+      "halstead_effort": 13135001,
+      "clone_groups": 4,
+      "locality_risk": 14109,
+      "leverage_risk": 952,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -311,
+      "cognitive_complexity": -111,
+      "cyclomatic_complexity": -53,
+      "halstead_effort": -245655,
+      "clone_groups": -10,
+      "locality_risk": -18,
+      "leverage_risk": -24,
+      "lint_blockers": 0
+    }
+  },
+  "scopes": {
+    "app": {
+      "before": {
+        "source_lines": 39344,
+        "cognitive_complexity": 2120,
+        "cyclomatic_complexity": 2790,
+        "halstead_effort": 13101058,
+        "clone_groups": 14,
+        "locality_risk": 13637,
+        "leverage_risk": 796,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 39033,
+        "cognitive_complexity": 2009,
+        "cyclomatic_complexity": 2737,
+        "halstead_effort": 12855403,
+        "clone_groups": 4,
+        "locality_risk": 13619,
+        "leverage_risk": 772,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -311,
+        "cognitive_complexity": -111,
+        "cyclomatic_complexity": -53,
+        "halstead_effort": -245655,
+        "clone_groups": -10,
+        "locality_risk": -18,
+        "leverage_risk": -24,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 3225,
+        "active_findings": 59,
+        "introduced_findings": 3225,
+        "inherited_findings": 0,
+        "high_risk_findings": 388,
+        "blocking_findings": 0,
+        "warning_findings": 59,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "execution": {
+        "status": "passed",
+        "command": "npm run test"
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 2087,
+        "cognitive_complexity": 150,
+        "cyclomatic_complexity": 177,
+        "halstead_effort": 202605,
+        "clone_groups": 0,
+        "locality_risk": 205,
+        "leverage_risk": 132,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 2087,
+        "cognitive_complexity": 150,
+        "cyclomatic_complexity": 177,
+        "halstead_effort": 202605,
+        "clone_groups": 0,
+        "locality_risk": 205,
+        "leverage_risk": 132,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 0,
+        "cognitive_complexity": 0,
+        "cyclomatic_complexity": 0,
+        "halstead_effort": 0,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 141,
+        "active_findings": 0,
+        "introduced_findings": 141,
+        "inherited_findings": 0,
+        "high_risk_findings": 13,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "execution": {
+        "status": "not_run",
+        "command": null
+      }
+    },
+    "comic": {
+      "before": {
+        "source_lines": 198,
+        "cognitive_complexity": 12,
+        "cyclomatic_complexity": 13,
+        "halstead_effort": 76993,
+        "clone_groups": 0,
+        "locality_risk": 285,
+        "leverage_risk": 48,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 198,
+        "cognitive_complexity": 12,
+        "cyclomatic_complexity": 13,
+        "halstead_effort": 76993,
+        "clone_groups": 0,
+        "locality_risk": 285,
+        "leverage_risk": 48,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 0,
+        "cognitive_complexity": 0,
+        "cyclomatic_complexity": 0,
+        "halstead_effort": 0,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 82,
+        "active_findings": 2,
+        "introduced_findings": 82,
+        "inherited_findings": 0,
+        "high_risk_findings": 5,
+        "blocking_findings": 0,
+        "warning_findings": 2,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "execution": {
+        "status": "not_run",
+        "command": null
+      }
+    }
+  },
+  "physical": {
+    "before": 58775,
+    "after": 58575,
+    "delta": -200,
+    "changes": [
+      {
+        "file": "src/lib/storyAirScenes.ts",
+        "before": 438,
+        "after": 434,
+        "before_sha256": "b7f1309e3d97480514fd5e74b1744c3c32be6f37a28c45ae891e0af543026765",
+        "after_sha256": "55b767384e88104b8114196b5e962422653c2b48dd1355db8ba135b52a01e641"
+      },
+      {
+        "file": "src/lib/storyCleaningScene.ts",
+        "before": 152,
+        "after": 144,
+        "before_sha256": "a608d234cc71de2abddefb8e6ca9ce1728ae97d03c7cd5389a9fc67b662ce981",
+        "after_sha256": "47b0bc78fb52799f76314362946791e076dcff6f47c24c43ce192ae9eec98354"
+      },
+      {
+        "file": "src/lib/storyDingdongArrivalScene.ts",
+        "before": 79,
+        "after": 21,
+        "before_sha256": "7aa192b7f7b7a179f5a3c2c00a492acdf409f4edf4712c28490f13a66913a2c9",
+        "after_sha256": "2d706cf64f8428ed6a5af31136807b6e0c8db5cdd46f897808755427b45edee8"
+      },
+      {
+        "file": "src/lib/storyIceCreamScene.ts",
+        "before": 74,
+        "after": 32,
+        "before_sha256": "e5e2bc4c8858d8a13242a6845e8393b0828be33a17bdc03e1c054720d8cf52b5",
+        "after_sha256": "6b974e64b8bf01ec62ae9bae419dc4236aae0eb52c030a6441853f6ca3863502"
+      },
+      {
+        "file": "src/lib/storyLayerScene.ts",
+        "before": 0,
+        "after": 84,
+        "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "after_sha256": "72e0f69b57fb5100201eb16eb609ad2e35cce8e46d34384a535e8e46aa330ddf"
+      },
+      {
+        "file": "src/lib/storySpaceFlightScene.ts",
+        "before": 95,
+        "after": 37,
+        "before_sha256": "6e1786ff9b0e2001af889ede5a1e7ea755dd88ea662c713abdf74db0ec58852a",
+        "after_sha256": "770158467745ff282e0844966d92d9c27621780ceafaa6d1f4d220debff9eb56"
+      },
+      {
+        "file": "src/lib/storyStarSystemScene.ts",
+        "before": 109,
+        "after": 70,
+        "before_sha256": "4ee2b7f4834d38ab55a399873f0a440f7473fc031f2a615bd4c253937886af41",
+        "after_sha256": "5b7c9cc9ba7a3f803b74b934d5a4778850dd38eba433724d5d1a074b67d799c3"
+      },
+      {
+        "file": "src/lib/storyTidyingScene.ts",
+        "before": 94,
+        "after": 51,
+        "before_sha256": "2e9572ffc2932542176eb9cb406950b8711e111f5ea3def05b66d3326fdb32e2",
+        "after_sha256": "3ab08d61e940b0fef0c4c987be22ad876f297f72b43b8ea93316aa73a06259ed"
+      },
+      {
+        "file": "src/lib/storyTransitions.ts",
+        "before": 580,
+        "after": 645,
+        "before_sha256": "b3f528e7ec3029ef4b5385317892670f2d3a238923fe6f813108dcdbffe1553d",
+        "after_sha256": "e8f4c0dfb2a4176848e4fa7eadb0e0345ab6e4f22982fbe6df97fcace4bbbe7c"
+      },
+      {
+        "file": "tests/unit/storyLayerScene.test.ts",
+        "before": 0,
+        "after": 109,
+        "before_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "after_sha256": "7ed1b577fd009ed7e695bd59ec8aba09ba9d8a379eaf0b7d7f9d36f60e1dd7ab"
+      },
+      {
+        "file": "src/components/StoryPageArtwork.tsx",
+        "before": 250,
+        "after": 245,
+        "before_sha256": "ab1083bdc2aa88e61330aab7fd6f21128109ac5a088b8cfd2abaf9d59fc69fb4",
+        "after_sha256": "de53b090f8c565a4ac204368ccfcfb167521e071aba51dae0cfc852f5818e442"
+      },
+      {
+        "file": "src/data/stories/seaFriends.ts",
+        "before": 820,
+        "after": 670,
+        "before_sha256": "cea898f547227018f7f232b1ec618536f5d5ed478f75bf9ad77ba89380a441cb",
+        "after_sha256": "5cba41a5fee81d4f88c1a1c3591fd8c412664cd0a8eab0dc5ea2dc4956df2fbe"
+      },
+      {
+        "file": "tests/component/useCalendarHistory.test.tsx",
+        "before": 103,
+        "after": 105,
+        "before_sha256": "5e7b84e5794d09ca7079f74237183af73a7d2372fcc6ec7f3d611c459e8920b9",
+        "after_sha256": "7583604b45908695de76e875807076a4adbd5f3f4717e51c8ca5556fb7a27568"
+      },
+      {
+        "file": "src/lib/storyNormalTransition.ts",
+        "before": 53,
+        "after": 0,
+        "before_sha256": "12c7f217c7671c443342a199f0d44f05919064767a1aa75feda738661040d1d3",
+        "after_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "validation": {
+    "unit_tests": 183,
+    "unit_files": 70,
+    "chromium_app": 31,
+    "chromium_comic": 37,
+    "comic_affected_rerun": 14,
+    "quality_summary_tests": 2,
+    "unchanged_story_panels": 64,
+    "final_audit_workers": 4
+  }
+}

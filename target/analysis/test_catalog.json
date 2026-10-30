@@ -3,7 +3,7 @@
   "task_id": "correctness.catalog",
   "project": {
     "name": "MyStarQuest",
-    "root": "C:\\Code\\MyStarQuest",
+    "root": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project",
     "framework": "vite",
     "package_manager": "npm",
     "test_runner": "vitest"
@@ -11,9 +11,9 @@
   "provenance": {
     "lens": "ts-react-quality-lens",
     "schema_version": "0.3.0",
-    "command": "quality review 2026-10-22; whole-project API audit",
+    "command": "ts-react-quality-lens audit --config C:\\Code\\MyStarQuest\\output\\quality-review-2026-10-30\\audit-project\\ts-react-quality-lens.config.json",
     "host": "Ghost_S1",
-    "measured_at": "2026-10-22T21:46:51.818Z",
+    "measured_at": "2026-10-30T22:52:38.746Z",
     "source_type": "static",
     "compilers": {
       "analysis": {
@@ -28,14 +28,14 @@
         "analysis_executed": false
       }
     },
-    "source_set_hash": "sha256:e00e16ec1676a8be06e83888416b9ab9ae196bc2e4fe684f934befdb413d7e3c",
-    "input_set_hash": "sha256:b3991b8bd42e8f8af2f49e96f010441e676d57e3cc918f51bec3ef25dd56cc4a"
+    "source_set_hash": "sha256:61d6cdfa0d81f5d521514104c6ca6ac280a2fb4444bd2312314f42104361bb6b",
+    "input_set_hash": "sha256:1e03525858d9c046c8268e1a397d1ce0f180289f0629723022a5c3061bd5126f"
   },
   "analysis_identity": {
-    "id": "sha256:6f338965253664c5515953162e532575af21fa67a59b74fb668a8ec64f1cc7f7",
+    "id": "sha256:93f9fbdb301799130ce1248fd07ff693bf4aff1b9bda2788f6f425a51e44f090",
     "schema_version": "0.3.0",
     "compiler_api_version": "6.0.3",
-    "config_closure_hash": "sha256:3fcdac0bc007022e470e3ac2decc7a79b9fd6da05430b4890869c4ef162e39df",
+    "config_closure_hash": "sha256:5a6b0f43a79b9c3642138b3f91ee5e9af7be08aafcff7485f6d07a38e090afa0",
     "rulesets": {
       "builtin": "tsrqlens-analysis-v2",
       "finding_identity": "semantic-occurrence-v1",
@@ -82,7 +82,7 @@
     "workspaces_detected": 1,
     "workspace_projects_complete": true,
     "analysis_cache_enabled": true,
-    "analysis_cache_status": "miss",
+    "analysis_cache_status": "hit",
     "unsupported_pattern": [],
     "complete": true,
     "partial": false,
@@ -113,9 +113,9 @@
     "stale_input": []
   },
   "summary": {
-    "tests": 72,
+    "tests": 86,
     "colocated_tests": 0,
-    "external_tests": 72,
+    "external_tests": 86,
     "execution_status": "passed",
     "execution_scope": "suite",
     "coverage_status": "not_collected"
@@ -402,7 +402,8 @@
       "framework": "vitest",
       "source_mapping": [
         "src/components/LargeNumbersTester.tsx",
-        "src/contexts/ThemeContext.tsx"
+        "src/contexts/ThemeContext.tsx",
+        "src/lib/largeNumbersProblems.ts"
       ],
       "source_associations": [
         {
@@ -412,6 +413,11 @@
         },
         {
           "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/largeNumbersProblems.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -618,6 +624,49 @@
         },
         {
           "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/component/StoryPageArtwork.test.tsx",
+      "name": "StoryPageArtwork.test.tsx",
+      "path": "tests/component/StoryPageArtwork.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/components/StoryPageArtwork.tsx",
+        "src/lib/storyMotion.ts",
+        "src/lib/storyPhotoMoment.ts",
+        "src/lib/storyUnderwater.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/components/StoryPageArtwork.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/stories/index.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/storyMotion.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/storyPhotoMoment.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/lib/storyUnderwater.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -1011,7 +1060,8 @@
         "src/routes/AnimatedTabLayout.tsx",
         "src/pages/DashboardPage.tsx",
         "src/pages/TestsPage.tsx",
-        "src/data/taskDocuments.ts"
+        "src/data/taskDocuments.ts",
+        "src/data/testCategories.ts"
       ],
       "source_associations": [
         {
@@ -1042,6 +1092,11 @@
         {
           "file": "src/data/types.ts",
           "kind": "type-only-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/testCategories.ts",
+          "kind": "direct-import",
           "confidence": "high"
         }
       ],
@@ -1317,6 +1372,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/component/useDismissibleLayer.test.tsx",
+      "name": "useDismissibleLayer.test.tsx",
+      "path": "tests/component/useDismissibleLayer.test.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/hooks/useDismissibleLayer.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/hooks/useDismissibleLayer.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/component/useTestsReset.test.tsx",
       "name": "useTestsReset.test.tsx",
       "path": "tests/component/useTestsReset.test.tsx",
@@ -1422,6 +1497,66 @@
           "confidence": "high"
         }
       ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/story-new-animations.spec.ts",
+      "name": "story-new-animations.spec.ts",
+      "path": "tests/e2e/story-new-animations.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/story-paper.spec.ts",
+      "name": "story-paper.spec.ts",
+      "path": "tests/e2e/story-paper.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/story-reader.spec.ts",
+      "name": "story-reader.spec.ts",
+      "path": "tests/e2e/story-reader.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/story-surface-motion.spec.ts",
+      "name": "story-surface-motion.spec.ts",
+      "path": "tests/e2e/story-surface-motion.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/e2e/story-underwater.spec.ts",
+      "name": "story-underwater.spec.ts",
+      "path": "tests/e2e/story-underwater.spec.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1571,6 +1706,55 @@
           "confidence": "high"
         }
       ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/fixtures/story-reader.tsx",
+      "name": "story-reader.tsx",
+      "path": "tests/fixtures/story-reader.tsx",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/contexts/ThemeContext.tsx",
+        "src/components/TestCategoryPicker.tsx",
+        "src/components/StoryLibrary.tsx"
+      ],
+      "source_associations": [
+        {
+          "file": "src/contexts/ThemeContext.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/TestCategoryPicker.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/components/StoryLibrary.tsx",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/testCategories.ts",
+          "kind": "type-only-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/helpers/storyNormalTransition.ts",
+      "name": "storyNormalTransition.ts",
+      "path": "tests/helpers/storyNormalTransition.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -1777,6 +1961,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/unit/lib/largeNumbersProblems.test.ts",
+      "name": "largeNumbersProblems.test.ts",
+      "path": "tests/unit/lib/largeNumbersProblems.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/largeNumbersProblems.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/largeNumbersProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/unit/lib/orbitCalendar.test.ts",
       "name": "orbitCalendar.test.ts",
       "path": "tests/unit/lib/orbitCalendar.test.ts",
@@ -1819,6 +2023,26 @@
       "source_associations": [
         {
           "file": "src/lib/positionalNotationProblems.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/lib/shuffle.test.ts",
+      "name": "shuffle.test.ts",
+      "path": "tests/unit/lib/shuffle.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/shuffle.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/shuffle.ts",
           "kind": "direct-import",
           "confidence": "high"
         }
@@ -2106,12 +2330,32 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/unit/sharedOperationValidation.test.ts",
+      "name": "sharedOperationValidation.test.ts",
+      "path": "tests/unit/sharedOperationValidation.test.ts",
+      "framework": "vitest",
+      "source_mapping": [],
+      "source_associations": [],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/unit/sharingPolicy.test.ts",
       "name": "sharingPolicy.test.ts",
       "path": "tests/unit/sharingPolicy.test.ts",
       "framework": "vitest",
-      "source_mapping": [],
-      "source_associations": [],
+      "source_mapping": [
+        "src/lib/choreLogic.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/choreLogic.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
       "coverage_status": "not_collected",
       "status": "not_run",
       "suite_status": "passed",
@@ -2138,6 +2382,26 @@
       "command_hint": "npm run test"
     },
     {
+      "id": "test:tests/unit/storyLayerScene.test.ts",
+      "name": "storyLayerScene.test.ts",
+      "path": "tests/unit/storyLayerScene.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/lib/storyLayerScene.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/lib/storyLayerScene.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
       "id": "test:tests/unit/taskLimits.test.ts",
       "name": "taskLimits.test.ts",
       "path": "tests/unit/taskLimits.test.ts",
@@ -2148,6 +2412,32 @@
       "source_associations": [
         {
           "file": "src/data/taskLimits.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        }
+      ],
+      "coverage_status": "not_collected",
+      "status": "not_run",
+      "suite_status": "passed",
+      "command_hint": "npm run test"
+    },
+    {
+      "id": "test:tests/unit/themeIds.test.ts",
+      "name": "themeIds.test.ts",
+      "path": "tests/unit/themeIds.test.ts",
+      "framework": "vitest",
+      "source_mapping": [
+        "src/data/themeIds.ts",
+        "src/data/types.ts"
+      ],
+      "source_associations": [
+        {
+          "file": "src/data/themeIds.ts",
+          "kind": "direct-import",
+          "confidence": "high"
+        },
+        {
+          "file": "src/data/types.ts",
           "kind": "direct-import",
           "confidence": "high"
         }

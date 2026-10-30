@@ -1,0 +1,80 @@
+.story-sparkles {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+  contain: layout paint;
+}
+.story-sparkle {
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2);
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: story-object-twinkle var(--duration) var(--delay) ease-in-out
+    infinite;
+}
+.story-sparkle::before,
+.story-sparkle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.story-sparkle::before {
+  background: radial-gradient(
+    circle,
+    #fff 0 20%,
+    var(--sparkle-colour) 55%,
+    transparent 75%
+  );
+  clip-path: polygon(
+    50% 0,
+    60% 38%,
+    100% 50%,
+    60% 60%,
+    50% 100%,
+    40% 60%,
+    0 50%,
+    40% 38%
+  );
+}
+.story-sparkle::after {
+  inset: -35%;
+  background: radial-gradient(circle, #fff8, transparent 65%);
+}
+@keyframes story-object-twinkle {
+  0%,
+  12%,
+  48%,
+  100% {
+    opacity: 0;
+    transform: scale(0.35) rotate(-10deg);
+  }
+  27% {
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
+  }
+  36% {
+    opacity: 0.35;
+    transform: scale(0.7) rotate(10deg);
+  }
+}
+.story-sparkles.quiet {
+  opacity: 0.4;
+}
+.story-sparkles.paused .story-sparkle {
+  animation-play-state: paused;
+}
+.story-transition-frame .story-sparkles {
+  visibility: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  .story-sparkles {
+    display: none;
+  }
+  .story-sparkle {
+    animation: none;
+  }
+}
