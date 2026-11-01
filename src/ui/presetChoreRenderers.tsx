@@ -14,6 +14,9 @@ export const renderDinnerChore = createRenderer(
 export const renderArithmeticChore = createRenderer(
   lazy(() => import('../components/ArithmeticTester'))
 )
+export const renderSharingChore = createRenderer(
+  lazy(() => import('../components/SharingTester'))
+)
 export const renderLargeNumbersChore = createRenderer(
   lazy(() => import('../components/LargeNumbersTester'))
 )

@@ -36,6 +36,7 @@ export const taskTypeSchema = z.enum([
   'eating',
   'math',
   'large-numbers',
+  'sharing',
   'fractions',
   'positional-notation',
   'alphabet',
@@ -47,6 +48,7 @@ export const taskTypeSchema = z.enum([
 const testTypeSchema = z.enum([
   'math',
   'large-numbers',
+  'sharing',
   'fractions',
   'positional-notation',
   'alphabet',
@@ -133,6 +135,8 @@ export const taskSnapshotDataSchema = z
     dinnerTotalBites: dinnerSliceSnapshotValue(2),
     mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
+    sharingTotalProblems: taskSnapshotValue(5),
+    sharingDifficulty: mathDifficultySchema.catch('easy'),
     largeNumbersTotalProblems: taskSnapshotValue(5),
     fractionsTotalProblems: taskSnapshotValue(5),
     fractionsMaxDenominator: z.number().int().min(2).max(9).catch(4),
@@ -198,6 +202,7 @@ export type MathDifficulty = 'easy' | 'hard'
 
 type TestSettings = {
   math: { mathTotalProblems: number; mathDifficulty?: MathDifficulty }
+  sharing: { sharingTotalProblems: number; sharingDifficulty?: MathDifficulty }
   'large-numbers': { largeNumbersTotalProblems: number }
   fractions: {
     fractionsTotalProblems: number
@@ -222,6 +227,7 @@ export type TaskRecord = ChoreRecord | TestRecord
 // Quiz variants share a state shape while preserving their stored field names.
 type TestStatePrefixes = {
   math: 'Math'
+  sharing: 'Sharing'
   'large-numbers': 'LargeNumbers'
   fractions: 'Fractions'
   'positional-notation': 'PV'
@@ -288,6 +294,7 @@ export const DEFAULT_DINNER_DURATION_SECONDS = 10 * 60
 export const DEFAULT_DINNER_BITES = 2
 export const DEFAULT_DINNER_STARS = 3
 export const DEFAULT_MATH_PROBLEMS = 5
+export const DEFAULT_SHARING_PROBLEMS = 5
 export const DEFAULT_LARGE_NUMBERS_PROBLEMS = 5
 export const DEFAULT_FRACTIONS_PROBLEMS = 5
 export const DEFAULT_PV_PROBLEMS = 5
@@ -337,6 +344,7 @@ export const manageCompletedAtFieldByType = taskCompletedFields satisfies {
 
 export const manageOutcomeFieldByType = {
   math: 'manageMathLastOutcome',
+  sharing: 'manageSharingLastOutcome',
   'large-numbers': 'manageLargeNumbersLastOutcome',
   fractions: 'manageFractionsLastOutcome',
   alphabet: 'manageAlphabetLastOutcome',

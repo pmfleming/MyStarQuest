@@ -4,6 +4,7 @@ export const taskCompletedFields = {
   eating: 'manageDinnerCompletedAt',
   watertoiletcheck: 'manageWaterToiletCompletedAt',
   math: 'manageMathCompletedAt',
+  sharing: 'manageSharingCompletedAt',
   'large-numbers': 'manageLargeNumbersCompletedAt',
   fractions: 'manageFractionsCompletedAt',
   'positional-notation': 'managePVCompletedAt',

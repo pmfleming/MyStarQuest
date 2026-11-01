@@ -12,6 +12,7 @@ export const getTaskTypeIcon = (
     eating: assets.eatingDinnerIcon,
     watertoiletcheck: assets.flaskFullImage,
     math: assets.mathsIcon,
+    sharing: assets.mathsIcon,
     'large-numbers': assets.mathsIcon,
     fractions: assets.mathsIcon,
     'positional-notation': assets.mathsIcon,

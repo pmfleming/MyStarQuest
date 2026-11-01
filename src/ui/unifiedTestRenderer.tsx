@@ -6,6 +6,7 @@ import {
   DEFAULT_LARGE_NUMBERS_PROBLEMS,
   DEFAULT_FRACTIONS_PROBLEMS,
   DEFAULT_MATH_PROBLEMS,
+  DEFAULT_SHARING_PROBLEMS,
   DEFAULT_PV_PROBLEMS,
   DEFAULT_SPELLING_PROBLEMS,
   isTestType,
@@ -19,6 +20,7 @@ import {
   renderAlphabetChore,
   renderAnimalsChore,
   renderArithmeticChore,
+  renderSharingChore,
   renderLargeNumbersChore,
   renderFractionsChore,
   renderPositionalNotationChore,
@@ -33,6 +35,11 @@ type ActivityRenderer = (props: ActivityChoreProps) => ReactNode
 
 // Each activity keeps its field names, defaults, and renderer together.
 const testActivities = {
+  sharing: {
+    problemField: 'sharingTotalProblems',
+    defaultProblems: DEFAULT_SHARING_PROBLEMS,
+    render: renderSharingChore,
+  },
   fractions: {
     problemField: 'fractionsTotalProblems',
     defaultProblems: DEFAULT_FRACTIONS_PROBLEMS,
@@ -121,6 +128,12 @@ export const renderTestContent = (
     completionImage: outcomeImages.completionImage,
     failureImage: failureModeEnabled ? outcomeImages.failureImage : undefined,
   }
+  if (item.taskType === 'sharing')
+    return renderSharingChore({
+      ...props,
+      difficulty: item.sharingDifficulty ?? 'easy',
+      onDifficultyChange: (sharingDifficulty) => update({ sharingDifficulty }),
+    })
   if (item.taskType === 'math')
     return renderArithmeticChore({
       ...props,

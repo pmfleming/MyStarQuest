@@ -196,6 +196,7 @@ export const useEphemeralExpiry = <T extends { id: string }>(
 
 export const getTestLastActive = (state: TaskEphemeralState) =>
   state.manageMathCompletedAt ||
+  state.manageSharingCompletedAt ||
   state.manageLargeNumbersCompletedAt ||
   state.manageFractionsCompletedAt ||
   state.managePVCompletedAt ||

@@ -1,4 +1,11 @@
 export const TEST_TEMPLATES = {
+  sharing: {
+    title: 'Share Equally',
+    starValue: 3,
+    taskType: 'sharing',
+    sharingTotalProblems: 5,
+    sharingDifficulty: 'easy',
+  },
   fractions: {
     title: 'Fractions',
     starValue: 3,

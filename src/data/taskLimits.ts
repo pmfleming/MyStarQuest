@@ -10,6 +10,7 @@ const TASK_BOUNDS: readonly [number, number] = [MIN_TASK_VALUE, MAX_TASK_VALUE]
 const LIMITED_TASK_FIELDS = new Map<string, readonly [number, number]>([
   ['starValue', TASK_BOUNDS],
   ['mathTotalProblems', TASK_BOUNDS],
+  ['sharingTotalProblems', TASK_BOUNDS],
   ['largeNumbersTotalProblems', TASK_BOUNDS],
   ['fractionsTotalProblems', TASK_BOUNDS],
   ['pvTotalProblems', TASK_BOUNDS],

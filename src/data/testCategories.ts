@@ -18,6 +18,7 @@ export const categoryLabels: Record<TestCategory, string> = {
 
 export const testCategory: Record<TestType, ExerciseCategory> = {
   math: 'numbers',
+  sharing: 'numbers',
   'large-numbers': 'numbers',
   fractions: 'numbers',
   'positional-notation': 'numbers',

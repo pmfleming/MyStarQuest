@@ -10,6 +10,7 @@ const hidePrimaryButtonInChore: Record<
 > = {
   eating: false,
   math: false,
+  sharing: false,
   'large-numbers': false,
   fractions: true,
   'positional-notation': false,

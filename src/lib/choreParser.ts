@@ -36,6 +36,11 @@ function taskVariant(taskType: TaskType, data: TaskData) {
       mathTotalProblems: data.mathTotalProblems,
       mathDifficulty: data.mathDifficulty,
     },
+    sharing: {
+      taskType: 'sharing',
+      sharingTotalProblems: data.sharingTotalProblems,
+      sharingDifficulty: data.sharingDifficulty,
+    },
     'large-numbers': {
       taskType: 'large-numbers',
       largeNumbersTotalProblems: data.largeNumbersTotalProblems,
