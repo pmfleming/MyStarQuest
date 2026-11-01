@@ -146,22 +146,27 @@ it('advances with empty containers and resets pending completion when stopped', 
   )
 })
 
-it('uses the saved difficulty and existing setup control', () => {
-  const props = {
-    ...makeProps(),
-    difficulty: 'hard' as const,
-    onDifficultyChange: vi.fn(),
+it.each(['hard', 'mixed'] as const)(
+  'uses the saved %s difficulty and existing setup control',
+  (difficulty) => {
+    const props = {
+      ...makeProps(),
+      difficulty,
+      onDifficultyChange: vi.fn(),
+    }
+    const view = render(<SharingTester {...props} isRunning={false} />)
+    expect(screen.getAllByRole('radio')).toHaveLength(3)
+    expect(
+      screen.getByRole('radio', {
+        name: difficulty === 'hard' ? 'Hard' : 'Mixed: 2, 3 or 4 containers',
+      })
+    ).toHaveAttribute('aria-checked', 'true')
+    fireEvent.click(screen.getByRole('radio', { name: 'Easy' }))
+    expect(props.onDifficultyChange).toHaveBeenCalledWith('easy')
+    view.rerender(<SharingTester {...props} />)
+    expect(problems.generateSharingProblem).toHaveBeenCalledWith(
+      difficulty,
+      expect.any(Set)
+    )
   }
-  const view = render(<SharingTester {...props} isRunning={false} />)
-  expect(screen.getByRole('radio', { name: 'Hard' })).toHaveAttribute(
-    'aria-checked',
-    'true'
-  )
-  fireEvent.click(screen.getByRole('radio', { name: 'Easy' }))
-  expect(props.onDifficultyChange).toHaveBeenCalledWith('easy')
-  view.rerender(<SharingTester {...props} />)
-  expect(problems.generateSharingProblem).toHaveBeenCalledWith(
-    'hard',
-    expect.any(Set)
-  )
-})
+)

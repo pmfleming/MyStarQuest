@@ -136,7 +136,7 @@ export const taskSnapshotDataSchema = z
     mathTotalProblems: taskSnapshotValue(5),
     mathDifficulty: mathDifficultySchema.catch('easy'),
     sharingTotalProblems: taskSnapshotValue(5),
-    sharingDifficulty: mathDifficultySchema.catch('easy'),
+    sharingDifficulty: z.enum(['easy', 'hard', 'mixed']).catch('easy'),
     largeNumbersTotalProblems: taskSnapshotValue(5),
     fractionsTotalProblems: taskSnapshotValue(5),
     fractionsMaxDenominator: z.number().int().min(2).max(9).catch(4),
@@ -199,10 +199,14 @@ type EatingTask = TaskBase &
     dinnerTotalBites: number
   }
 export type MathDifficulty = 'easy' | 'hard'
+export type SharingDifficulty = 'easy' | 'hard' | 'mixed'
 
 type TestSettings = {
   math: { mathTotalProblems: number; mathDifficulty?: MathDifficulty }
-  sharing: { sharingTotalProblems: number; sharingDifficulty?: MathDifficulty }
+  sharing: {
+    sharingTotalProblems: number
+    sharingDifficulty?: SharingDifficulty
+  }
   'large-numbers': { largeNumbersTotalProblems: number }
   fractions: {
     fractionsTotalProblems: number

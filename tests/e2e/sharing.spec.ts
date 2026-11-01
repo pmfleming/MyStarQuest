@@ -25,7 +25,9 @@ for (const theme of ['princess', 'teenie']) {
             await page.keyboard.press('Enter')
           }
         }
-        await page.getByRole('radio', { name: 'Hard' }).click()
+        await page
+          .getByRole('radio', { name: 'Mixed: 2, 3 or 4 containers' })
+          .click()
         await activate('Run Share Equally')
         const noun = theme === 'teenie' ? 'symbols' : 'crowns'
         const board = page.getByRole('group', {
@@ -94,7 +96,7 @@ for (const theme of ['princess', 'teenie']) {
         await activate('Run Share Equally')
         await expect(
           page.getByRole('group', {
-            name: `Share 12 ${noun} equally between 3 containers`,
+            name: `Share 12 ${noun} equally between 2 containers`,
             exact: true,
           })
         ).toBeVisible()

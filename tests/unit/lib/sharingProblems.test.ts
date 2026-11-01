@@ -19,22 +19,36 @@ import {
 } from '../../../src/data/dailyTaskState'
 import { testCategory } from '../../../src/data/testCategories'
 
-it.each(['easy', 'hard'] as const)(
-  'generates distinct divisible %s questions for a full nine-question session',
-  (difficulty) => {
+it.each([
+  { difficulty: 'easy' as const, containers: [2], maxTotal: 12, poolSize: 6 },
+  { difficulty: 'hard' as const, containers: [3], maxTotal: 24, poolSize: 8 },
+  {
+    difficulty: 'mixed' as const,
+    containers: [2, 3, 4],
+    maxTotal: 24,
+    poolSize: 26,
+  },
+])(
+  'generates divisible $difficulty questions across the allowed containers without immediate repeats',
+  ({ difficulty, containers, maxTotal, poolSize }) => {
     const seen = new Set<string>()
-    for (let i = 0; i < 9; i++) {
+    const containerCounts = new Set<number>()
+    let previousKey = ''
+    for (let i = 0; i < poolSize + 3; i++) {
       const problem = generateSharingProblem(difficulty, seen)
-      expect(problem.containers).toBeGreaterThanOrEqual(2)
-      expect(problem.containers).toBeLessThanOrEqual(
-        difficulty === 'easy' ? 3 : 4
-      )
+      const key = sharingProblemKey(problem)
+      expect(containers).toContain(problem.containers)
+      containerCounts.add(problem.containers)
       expect(problem.total).toBeGreaterThan(0)
-      expect(problem.total).toBeLessThanOrEqual(difficulty === 'easy' ? 12 : 24)
+      expect(problem.total).toBeLessThanOrEqual(maxTotal)
       expect(problem.total % problem.containers).toBe(0)
-      expect(seen.has(sharingProblemKey(problem))).toBe(false)
-      seen.add(sharingProblemKey(problem))
+      if (i < poolSize) expect(seen.has(key)).toBe(false)
+      expect(key).not.toBe(previousKey)
+      seen.delete(key)
+      seen.add(key)
+      previousKey = key
     }
+    expect([...containerCounts].sort()).toEqual(containers)
   }
 )
 
@@ -76,14 +90,13 @@ it('creates, parses, validates and resets sharing tests through the shared persi
       sharingTotalProblems: 100,
     })
   ).toMatchObject({ sharingDifficulty: 'easy', sharingTotalProblems: 5 })
-  expect(
-    documentPatch(
-      'tests',
-      { sharingDifficulty: 'hard', sharingTotalProblems: 9 },
-      'child',
-      true
+  for (const sharingDifficulty of ['easy', 'hard', 'mixed']) {
+    const settings = { sharingDifficulty, sharingTotalProblems: 9 }
+    expect(documentPatch('tests', settings, 'child', true)).toEqual(settings)
+    expect(parseTestSnapshot('share', { ...clean, ...settings })).toMatchObject(
+      settings
     )
-  ).toEqual({ sharingDifficulty: 'hard', sharingTotalProblems: 9 })
+  }
   for (const invalid of [
     { sharingDifficulty: 'invalid' },
     { sharingTotalProblems: 0 },

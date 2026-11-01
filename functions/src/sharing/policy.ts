@@ -69,7 +69,7 @@ const taskRules: Record<string, Validator> = {
   schoolDayEnabled: boolean,
   nonSchoolDayEnabled: boolean,
   mathDifficulty: oneOf('easy', 'hard'),
-  sharingDifficulty: oneOf('easy', 'hard'),
+  sharingDifficulty: oneOf('easy', 'hard', 'mixed'),
   sharingTotalProblems: problemCount,
   taskType,
   testType: taskType,

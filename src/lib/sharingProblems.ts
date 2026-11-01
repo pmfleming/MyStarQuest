@@ -1,4 +1,4 @@
-import type { MathDifficulty } from '../data/types'
+import type { SharingDifficulty } from '../data/types'
 
 export type SharingProblem = { total: number; containers: number }
 
@@ -8,13 +8,14 @@ export const sharingProblemKey = ({ total, containers }: SharingProblem) =>
 // Pick from a finite pool so every question divides exactly and a session
 // never repeats a question until all available questions have been used.
 export function generateSharingProblem(
-  difficulty: MathDifficulty,
+  difficulty: SharingDifficulty,
   seen: ReadonlySet<string> = new Set()
 ): SharingProblem {
-  const maxContainers = difficulty === 'easy' ? 3 : 4
+  const containerCounts =
+    difficulty === 'easy' ? [2] : difficulty === 'hard' ? [3] : [2, 3, 4]
   const maxTotal = difficulty === 'easy' ? 12 : 24
   const problems: SharingProblem[] = []
-  for (let containers = 2; containers <= maxContainers; containers++) {
+  for (const containers of containerCounts) {
     for (let each = 1; each <= Math.floor(maxTotal / containers); each++) {
       problems.push({ total: each * containers, containers })
     }
@@ -22,7 +23,10 @@ export function generateSharingProblem(
   const unseen = problems.filter(
     (problem) => !seen.has(sharingProblemKey(problem))
   )
-  const pool = unseen.length ? unseen : problems
+  const previousKey = Array.from(seen).at(-1)
+  const pool = unseen.length
+    ? unseen
+    : problems.filter((problem) => sharingProblemKey(problem) !== previousKey)
   return pool[Math.floor(Math.random() * pool.length)]!
 }
 

@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, type CSSProperties } from 'react'
-import type { MathDifficulty } from '../data/types'
+import type { SharingDifficulty } from '../data/types'
 import { useCheckedActivityChallenge } from '../hooks/useActivityChallenge'
 import {
   generateSharingProblem,
@@ -18,14 +18,15 @@ import { getActivityFeedbackAnimationStyles } from './ui/activityAnimationStyles
 import './SharingTester.css'
 
 export interface SharingTesterProps extends ActivityChoreProps {
-  difficulty?: MathDifficulty
-  onDifficultyChange?: (difficulty: MathDifficulty) => void | Promise<void>
+  difficulty?: SharingDifficulty
+  onDifficultyChange?: (difficulty: SharingDifficulty) => void | Promise<void>
 }
 
 const EMPTY_PROBLEM: SharingProblem = { total: 0, containers: 0 }
 const DIFFICULTIES = [
   { value: 'easy' as const, label: 'Easy', crowns: 1 },
   { value: 'hard' as const, label: 'Hard', crowns: 2 },
+  { value: 'mixed' as const, label: 'Mixed: 2, 3 or 4 containers', crowns: 3 },
 ]
 
 export default function SharingTester(props: SharingTesterProps) {
@@ -35,6 +36,8 @@ export default function SharingTester(props: SharingTesterProps) {
   const seen = useRef(new Set<string>())
   const nextProblem = useCallback(() => {
     const next = generateSharingProblem(difficulty, seen.current)
+    // Keep insertion order in recency order when the small question pool cycles.
+    seen.current.delete(sharingProblemKey(next))
     seen.current.add(sharingProblemKey(next))
     setProblem(next)
     setCounts(Array(next.containers).fill(0))
