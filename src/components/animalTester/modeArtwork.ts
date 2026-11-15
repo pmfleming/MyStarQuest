@@ -15,6 +15,9 @@ import dinosaurImage from '../../assets/dinosaurs/cartoon/tyrannosaurus.png'
 import insectImage from '../../assets/animals/butterfly.webp'
 import animalImage from '../../assets/animals/lion.webp'
 import teenieImage from '../../assets/teenie/heart.webp'
+import puniruneImage from '../../assets/punirunes/Airun.png'
+import puniruneLearn from '../../assets/punirunes/Pikarun.png'
+import puniruneTogether from '../../assets/punirunes/Ranrun.png'
 import type { AnimalMode } from './useAnimalSession'
 
 export const CREATURE_MODE_IMAGES: Record<
@@ -24,6 +27,11 @@ export const CREATURE_MODE_IMAGES: Record<
   animals: { learn: animalLearn, solo: animalSolo, together: animalTogether },
   dinosaurs: { learn: animalLearn, solo: animalSolo, together: animalTogether },
   insects: { learn: insectLearn, solo: insectSolo, together: insectTogether },
+  punirunes: {
+    learn: puniruneLearn,
+    solo: puniruneImage,
+    together: puniruneTogether,
+  },
   teeniepings: {
     learn: teenieLearn,
     solo: teenieSolo,
@@ -70,6 +78,13 @@ export const CREATURE_COLLECTIONS: Record<
     singular: 'Teenieping',
     icon: teenieImage,
     actionImage: teenieImage,
+  },
+  punirunes: {
+    value: 'punirunes',
+    label: 'Punirunes',
+    singular: 'Punirune',
+    icon: puniruneImage,
+    actionImage: puniruneImage,
   },
 }
 

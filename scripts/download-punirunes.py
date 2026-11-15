@@ -110,6 +110,8 @@ def download(job):
 
 
 def main():
+    existing_manifest = OUT / 'manifest.json'
+    previous = json.loads(existing_manifest.read_text(encoding='utf-8')) if existing_manifest.exists() else {}
     cards = {}
     for img in Images(fetch(TOY).decode('utf-8')).images:
         if not re.match(r'img/img_index\d+\.png', img.get('src', '')):
@@ -140,10 +142,11 @@ def main():
     for jp, e in cards.items():
         e['stage'] = 'baby' if jp == 'べびるん' else 'child' if jp in ['あかるん', 'きいるん', 'あおるん'] else 'adult'
         e['card'] = f"references/{e['name']}.png"
-        e['image'] = f"{e['name']}.png" if jp in standalone else None
+        e['image'] = f"{e['name']}.png" if (OUT / f"{e['name']}.png").exists() else None
         roster.append(e)
     roster.append(dict(name='Yuka', japaneseName='ゆか', stage='human', image='Yuka.png'))
     manifest = dict(researchedOn='2026-11-15', scope='All 52 distinct characters on the official Takara Tomy character catalog, plus Yuka from the anime. Color variants are not separate characters. Sanrio crossover characters and anime-only guest/supporting characters outside these official character pages are not included.', naming='English names where verified in official English material; otherwise romanizations of the Japanese name. Romanizations are not claimed to be official localized names.', characters=roster, assets=assets)
+    manifest['assets'].extend(a for a in previous.get('assets', []) if a['kind'] == 'ai-assisted-cutout')
     (OUT / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
     print(json.dumps(dict(characters=len(roster), downloaded=len(assets), standalone=len(standalone), needsExtraction=[e['name'] for e in roster if not e.get('image')]), indent=2))
 

@@ -27,7 +27,8 @@ function learningPicture(animal: CatalogAnimal): LearningPicture | undefined {
         ? 'The illustration could not load.'
         : 'The reconstruction could not load.',
     }
-  if (animal.kind === 'teenieping') return undefined
+  if (animal.kind === 'teenieping' || animal.kind === 'punirune')
+    return undefined
   const photo = getCreaturePhoto(animal.name)
   if (!photo) return undefined
   const name = photo.name.toLowerCase()
