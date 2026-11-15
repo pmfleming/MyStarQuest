@@ -1,0 +1,125 @@
+.rainbowasaurus-arrival-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  overflow: hidden;
+  isolation: isolate;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.rainbowasaurus-arrival-scene.ready {
+  visibility: visible;
+}
+.rainbowasaurus-arrival-scene .rainbowasaurus-arrival-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.rainbowasaurus-arrival-actor {
+  position: absolute;
+  width: 60%;
+  left: 54%;
+  top: 37%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform-origin: 50% 55%;
+}
+.rainbowasaurus-arrival-scene .rainbowasaurus-arrival-sprite {
+  display: block;
+  position: static;
+  width: 100%;
+  height: auto;
+}
+.rainbowasaurus-arrival-shadow {
+  position: absolute;
+  left: 54%;
+  top: 81%;
+  width: 28%;
+  height: 4%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #64507755, transparent 70%);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-actor {
+  animation: rainbowasaurus-sky-descent 7s cubic-bezier(0.24, 0.5, 0.32, 1) both;
+}
+.rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-sprite {
+  animation: rainbowasaurus-low-hover 3.6s 7s ease-in-out infinite;
+}
+.rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-shadow {
+  animation: rainbowasaurus-approaching-shadow 7s ease-out both;
+}
+@keyframes rainbowasaurus-sky-descent {
+  0% {
+    left: 91%;
+    top: -12%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.08) rotate(-14deg);
+  }
+  12% {
+    opacity: 1;
+  }
+  30% {
+    left: 82%;
+    top: 9%;
+    transform: translate(-50%, -50%) scale(0.24) rotate(-10deg);
+  }
+  62% {
+    left: 70%;
+    top: 24%;
+    transform: translate(-50%, -50%) scale(0.68) rotate(-5deg);
+  }
+  85% {
+    left: 53%;
+    top: 38%;
+    transform: translate(-50%, -50%) scale(1.01) rotate(1deg);
+  }
+  100% {
+    left: 54%;
+    top: 37%;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+}
+@keyframes rainbowasaurus-low-hover {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-1.2%) rotate(-0.6deg);
+  }
+}
+@keyframes rainbowasaurus-approaching-shadow {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translate(-30%, -50%) scale(0.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.rainbowasaurus-arrival-scene.paused * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rainbowasaurus-arrival-scene .rainbowasaurus-arrival-actor,
+  .rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-actor {
+    animation: none;
+    opacity: 1;
+    left: 54%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+  }
+  .rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-sprite,
+  .rainbowasaurus-arrival-scene.flying .rainbowasaurus-arrival-shadow {
+    animation: none;
+  }
+  .rainbowasaurus-arrival-scene .rainbowasaurus-arrival-shadow {
+    opacity: 1;
+  }
+}

@@ -8,11 +8,34 @@ export type DinosaurClues = {
   ability: string
   abilityText: string
   genericAbility: string
+  secondAbility?: {
+    ability: string
+    abilityText: string
+    genericAbility: string
+  }
 }
 
 // Broad habitat reconstructions, not claims that an animal lived only here.
 // "Ability" includes distinctive anatomy where behavior remains uncertain.
 export const DINOSAUR_CLUES = {
+  digosaurus: {
+    foodCategory: 'plants',
+    foodWord: 'Roots & leaves',
+    habitatCategory: 'woodland',
+    habitatWord: 'Forest burrows',
+    habitatText:
+      'In my imaginary world, I dig a cosy burrow beneath the forest trees.',
+    ability: 'Strong digging',
+    abilityText:
+      'My strong legs and big claws help me dig deep tunnels and uncover tasty roots.',
+    genericAbility: 'dig',
+    secondAbility: {
+      ability: 'Powerful flying',
+      abilityText:
+        'My strong, colourful wings carry me high above the trees and over the hills.',
+      genericAbility: 'fly',
+    },
+  },
   brachiosaurus: {
     foodCategory: 'plants',
     foodWord: 'Plants',

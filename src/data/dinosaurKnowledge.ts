@@ -8,11 +8,18 @@ type DinosaurProfile = {
   pronunciation: string
   character: string
   tentativeMatch?: boolean
+  fictional?: boolean
   group:
-    'Dinosaur' | 'Pterosaur' | 'Synapsid' | 'Ammonite' | 'Shark' | 'Squamate'
+    | 'Dinosaur'
+    | 'Pterosaur'
+    | 'Synapsid'
+    | 'Ammonite'
+    | 'Shark'
+    | 'Squamate'
+    | 'Imaginary dinosaur'
   feature: string
   food: string
-  period:
+  period?:
     | 'Early Permian'
     | 'Late Jurassic'
     | 'Early Cretaceous'
@@ -104,6 +111,22 @@ const profiles: DinosaurProfile[] = [
       'The cartoon has a banana-shaped body. Find the long neck in the reconstruction.',
     source:
       'https://www.nhm.ac.uk/discover/brontosaurus-reinstating-a-prehistoric-icon.html',
+  },
+  {
+    name: 'digosaurus',
+    assetId: 'digosaurus',
+    displayName: 'Digosaurus',
+    pronunciation: 'DIG-oh-SORE-us',
+    character: 'An original dinosaur from your drawing',
+    fictional: true,
+    group: 'Imaginary dinosaur',
+    feature:
+      'A red crest, colourful wings, strong blue legs and a heart on my pink belly.',
+    food: 'Roots and leaves. I dig up tasty roots and nibble fresh forest leaves.',
+    family:
+      'An imaginary dinosaur created from your drawing, with strong digging feet and colourful wings.',
+    compare: 'Find my big digging claws and the colourful bands on my wings.',
+    source: 'Original character created from the supplied drawing.',
   },
   {
     name: 'dimetrodon',
@@ -333,24 +356,27 @@ export type DinosaurKnowledge = DinosaurProfile &
     realisticImage: string
     foodImage: string
     habitatImage: string
-    periodImage: string
+    periodImage?: string
     abilityImage: string
   }
 
 export const DINOSAUR_KNOWLEDGE: DinosaurKnowledge[] = profiles.map(
   (profile) => {
-    const clues = DINOSAUR_CLUES[profile.assetId]
+    const clues: DinosaurClues = DINOSAUR_CLUES[profile.assetId]
+    const image = requiredImage(`cartoon/${profile.assetId}`)
     return {
       ...profile,
       ...clues,
       kind: 'prehistoric',
-      image: requiredImage(`cartoon/${profile.assetId}`),
+      image,
       realisticImage: requiredImage(`realistic/${profile.assetId}`),
       foodImage: requiredImage(`food/${clues.foodCategory}`),
       habitatImage: requiredImage(`habitat/${clues.habitatCategory}`),
-      periodImage: requiredImage(
-        `period/${profile.period.toLowerCase().replace(/ /g, '-')}`
-      ),
+      periodImage: profile.period
+        ? requiredImage(
+            `period/${profile.period.toLowerCase().replace(/ /g, '-')}`
+          )
+        : undefined,
       abilityImage: requiredImage(`abilities/${profile.assetId}`),
     }
   }

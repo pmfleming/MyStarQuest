@@ -63,6 +63,14 @@ import scene59 from '../../assets/comic/opening/59-goodbye-space-friends.webp'
 import scene60 from '../../assets/comic/opening/60-flying-home-to-earth.webp'
 // Back on Earth: Odette, Eclipse and Diana in their original outfits.
 import scene61 from '../../assets/comic/opening/61-fossil-dig.webp'
+import scene62 from '../../assets/comic/opening/62-rainbowasaurus-arrival.webp'
+import dinosaurFlightLayout from './dinosaurFlightLayout.json'
+
+const flightArtwork = import.meta.glob('../../assets/comic/opening/*.webp', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}) as Record<string, string>
 
 export type Chapter = { label: string; panelId: string; image?: string }
 
@@ -87,6 +95,8 @@ export type Panel = {
     | 'space-flight-scene'
     | 'star-system-scene'
     | 'dingdong-arrival-scene'
+    | 'rainbowasaurus-arrival-scene'
+    | 'dinosaur-flight-scene'
 }
 
 // Most pages share one layout; keep exceptions beside their artwork.
@@ -675,5 +685,23 @@ export const story: { title: string; chapters: Chapter[]; panels: Panel[] } = {
       tone: 'lavender',
       motion: 'still',
     },
+    {
+      id: '62-rainbowasaurus-arrival',
+      label: 'Princess Rainbowasaurus flies down to the dig',
+      image: scene62,
+      alt: 'Princess Rainbowasaurus swoops down from the blue sky on enormous rainbow wings and hovers above the fossil dig. Her gold crown, rainbow unicorn horn and pink heart marking shine in the sun. She is much larger than Odette, with a broad, sturdy back that could easily carry her. Odette, Diana and Eclipse look up from their fossils to welcome the friendly dinosaur princess.',
+      tone: 'lavender',
+      motion: 'still',
+      effect: 'rainbowasaurus-arrival-scene',
+    },
+    ...dinosaurFlightLayout.map((scene) => ({
+      id: scene.id,
+      label: scene.label,
+      image: flightArtwork[`../../assets/comic/opening/${scene.id}.webp`]!,
+      alt: scene.alt,
+      tone: 'lavender' as const,
+      motion: 'still' as const,
+      effect: 'dinosaur-flight-scene' as const,
+    })),
   ]),
 }

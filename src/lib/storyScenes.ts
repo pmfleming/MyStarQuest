@@ -8,6 +8,8 @@ import { createIceCreamScene } from './storyIceCreamScene'
 import { createSpaceFlightScene } from './storySpaceFlightScene'
 import { createStarSystemScene } from './storyStarSystemScene'
 import { createDingdongArrivalScene } from './storyDingdongArrivalScene'
+import { createRainbowasaurusArrivalScene } from './storyRainbowasaurusArrivalScene'
+import { createDinosaurFlightScene } from './storyDinosaurFlightScene'
 
 type SceneEffect = Exclude<
   NonNullable<Panel['effect']>,
@@ -29,6 +31,8 @@ export function getStorySceneFactories(): Record<
     'space-flight-scene': createSpaceFlightScene,
     'star-system-scene': createStarSystemScene,
     'dingdong-arrival-scene': createDingdongArrivalScene,
+    'rainbowasaurus-arrival-scene': createRainbowasaurusArrivalScene,
+    'dinosaur-flight-scene': createDinosaurFlightScene,
   }
 }
 

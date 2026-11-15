@@ -1,24 +1,33 @@
 .sharing-board {
+  --sharing-gold: #c69a53;
+  --sharing-bowl-light: #fff9ef;
+  --sharing-bowl-shade: #f5d6e5;
   width: 100%;
   container-type: inline-size;
+}
+
+.sharing-board[data-theme='teenie'] {
+  --sharing-gold: #b989cb;
+  --sharing-bowl-light: #fff5fc;
+  --sharing-bowl-shade: #e7d8fa;
 }
 
 .sharing-pool {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  min-height: 100px;
-  border: 3px dashed var(--sharing-primary);
-  border-radius: 16px;
-  background: var(--sharing-surface);
-}
-
-.sharing-pool-count {
-  font-size: 32px;
-  font-weight: bold;
-  min-width: 1.3em;
-  text-align: center;
+  gap: 8px;
+  padding: 8px;
+  height: 100px;
+  border: 2px solid var(--sharing-gold);
+  border-radius: 24px;
+  background: linear-gradient(
+    160deg,
+    var(--sharing-bowl-light),
+    var(--sharing-bowl-shade)
+  );
+  box-shadow:
+    inset 0 0 0 4px #ffffffb3,
+    0 4px 0 #55305c0d;
 }
 
 .sharing-counters {
@@ -26,46 +35,286 @@
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  gap: 3px;
+  gap: 2px;
   flex: 1;
   min-width: 0;
 }
 
-.sharing-direction {
-  text-align: center;
-  font-size: 28px;
-  line-height: 1.2;
-  color: var(--sharing-primary);
+/* Keep one row, allowing overlap so crowded trays still show larger artwork. */
+.sharing-pool .sharing-counters {
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+}
+
+.sharing-pool .sharing-token {
+  flex: 0 1 80px;
+  width: 80px;
+  height: 80px;
+  min-width: 0;
+}
+
+.sharing-pool .sharing-token + .sharing-token {
+  margin-left: -12px;
 }
 
 .sharing-containers {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 14px 12px;
+  gap: 6px 14px;
+  margin-top: 6px;
 }
 
 .sharing-container {
+  --sharing-stage: clamp(90px, calc((100svh - 550px) / 2), 140px);
   min-width: 0;
 }
 
 .sharing-container:last-child:nth-child(odd) {
   grid-column: 1 / -1;
-  width: calc((100% - 12px) / 2);
+  width: calc((100% - 14px) / 2);
   justify-self: center;
 }
 
-.sharing-bowl {
+.sharing-holder {
   position: relative;
+}
+
+.sharing-friend {
   display: flex;
-  align-items: flex-end;
-  min-height: 94px;
-  padding: 8px 5px;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.sharing-friend-stage {
+  position: relative;
+  width: var(--sharing-stage);
+  height: var(--sharing-stage);
+  max-width: 100%;
+}
+
+.sharing-friend-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Stand every character on the floor so the bowl hides only their feet. */
+  object-position: 50% 100%;
+  transform-origin: 50% 100%;
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.sharing-container[data-mood='sad'] .sharing-friend-art {
+  transform: rotate(-7deg) translateY(1px) scaleY(0.94);
+  animation: sharing-sulk 1.6s ease-in-out infinite;
+}
+
+.sharing-container[data-mood='happy'] .sharing-friend-art {
+  animation: sharing-hop 0.7s ease-in-out infinite alternate;
+}
+
+.sharing-tear {
+  animation: sharing-drip 1.2s ease-in infinite;
+}
+
+.sharing-teardrops i {
+  position: absolute;
+  top: 38%;
+  width: 7px;
+  height: 10px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: #69c3ff;
+  animation: sharing-drip 1.2s ease-in infinite;
+}
+
+.sharing-teardrops i:first-child {
+  left: 30%;
+}
+
+.sharing-teardrops i:last-child {
+  right: 30%;
+  animation-delay: 0.6s;
+}
+
+.sharing-sparkles i {
+  position: absolute;
+  top: 0;
+  font-size: 15px;
+  font-style: normal;
+  animation: sharing-twinkle 0.9s ease-in-out infinite alternate;
+}
+
+.sharing-sparkles i:first-child {
+  left: -6px;
+}
+
+.sharing-sparkles i:last-child {
+  right: -6px;
+  animation-delay: 0.45s;
+}
+
+.sharing-speech {
+  position: absolute;
+  z-index: 1;
+  bottom: calc(100% - 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border: 2px solid var(--sharing-primary);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--sharing-primary);
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: share-pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.sharing-speech::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top-color: var(--sharing-primary);
+}
+
+.sharing-bowl {
+  --sharing-token-size: 36px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  height: 76px;
   margin-bottom: 8px;
-  border: 3px solid var(--sharing-accent);
-  border-top-style: dashed;
-  border-radius: 8px 8px 24px 24px;
-  background: var(--sharing-surface);
+  padding: 8px 4px 16px;
+  margin-top: calc(var(--sharing-stage) * -0.13);
+  border: 2px solid var(--sharing-gold);
+  border-radius: 14px 14px 42% 42% / 14px 14px 24px 24px;
+  background: linear-gradient(
+    155deg,
+    var(--sharing-bowl-light) 15%,
+    var(--sharing-bowl-shade)
+  );
+  box-shadow:
+    inset 0 5px 0 #fff9,
+    inset 0 -6px 0 #b686a318,
+    0 5px 0 #55305c0d;
+}
+
+.sharing-bowl::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -3px;
+  right: -3px;
+  height: 10px;
+  border: 2px solid var(--sharing-gold);
+  border-radius: 50%;
+  background: var(--sharing-bowl-light);
+}
+
+.sharing-bowl-crest {
+  position: absolute;
+  left: calc(50% - 20px);
+  bottom: -7px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 30px;
+  border: 2px solid var(--sharing-gold);
+  border-radius: 50%;
+  background: #fff8e9;
+  box-shadow: 0 2px 0 #55305c14;
+}
+
+.sharing-bowl-crest svg {
+  width: 23px;
+  height: 19px;
+  fill: #f0bb67;
+  stroke: #b88139;
+  stroke-width: 1.5px;
+  stroke-linejoin: round;
+}
+
+.sharing-board[data-theme='teenie'] .sharing-bowl {
+  border-radius: 20px 20px 36px 36px;
+}
+
+.sharing-board[data-theme='teenie'] .sharing-bowl-crest {
+  background: #fff0fa;
+}
+
+.sharing-board[data-theme='teenie'] .sharing-bowl-crest svg {
+  fill: #ef9bc7;
+  stroke: #b96a9f;
+}
+
+.sharing-token {
+  display: block;
+  pointer-events: none;
+  flex: 0 0 var(--sharing-token-size, 28px);
+  width: var(--sharing-token-size, 28px);
+  height: var(--sharing-token-size, 28px);
+  object-fit: contain;
+  filter: drop-shadow(0 2px 1px #79436a1c);
+  animation: share-pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.sharing-bowl .sharing-counters {
+  position: relative;
+  height: 38px;
+  margin: 0 5px;
+}
+
+.sharing-bowl .sharing-token-dropped {
+  position: absolute;
+  transform: translate(
+      calc(-50% + var(--sharing-scatter-x)),
+      calc(-50% + var(--sharing-scatter-y))
+    )
+    rotate(var(--sharing-tilt));
+  animation: sharing-token-drop 380ms ease-out both;
+  transition:
+    left 180ms ease-out,
+    top 180ms ease-out,
+    width 180ms ease-out,
+    height 180ms ease-out;
+}
+
+@keyframes sharing-token-drop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 42px))
+      rotate(calc(var(--sharing-tilt) - 35deg));
+  }
+  65% {
+    opacity: 1;
+    transform: translate(
+        calc(-50% + var(--sharing-scatter-x)),
+        calc(-50% + var(--sharing-scatter-y) + 3px)
+      )
+      rotate(calc(var(--sharing-tilt) + 9deg));
+  }
+  82% {
+    transform: translate(
+        calc(-50% + var(--sharing-scatter-x)),
+        calc(-50% + var(--sharing-scatter-y) - 3px)
+      )
+      rotate(calc(var(--sharing-tilt) - 4deg));
+  }
+  100% {
+    opacity: 1;
+    transform: translate(
+        calc(-50% + var(--sharing-scatter-x)),
+        calc(-50% + var(--sharing-scatter-y))
+      )
+      rotate(var(--sharing-tilt));
+  }
 }
 
 .sharing-container[data-unequal] .sharing-bowl {
@@ -73,20 +322,58 @@
   outline-offset: 2px;
 }
 
-.sharing-unequal {
-  position: absolute;
-  right: 3px;
-  top: -12px;
-  background: var(--sharing-surface);
-  color: var(--sharing-primary);
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 1;
+@keyframes sharing-sulk {
+  0%,
+  100% {
+    transform: rotate(-7deg) translateY(1px) scaleY(0.94);
+  }
+  50% {
+    transform: rotate(-4deg) translateY(2px) scaleY(0.92);
+  }
+}
+
+@keyframes sharing-hop {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-6px) scale(1.04);
+  }
+}
+
+@keyframes sharing-drip {
+  0% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+@keyframes sharing-twinkle {
+  from {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
 }
 
 .sharing-board button:focus-visible {
   outline: 3px solid var(--sharing-accent);
   outline-offset: 3px;
+}
+
+/* Two friends get the largest portraits; extra friends keep ample room. */
+.sharing-board[data-friends='2'] .sharing-container {
+  --sharing-stage: min(240px, 47cqw);
 }
 
 @container (max-width: 235px) {
@@ -97,10 +384,43 @@
   .sharing-container:last-child:nth-child(odd) {
     width: 100%;
   }
+
+  .sharing-container {
+    --sharing-stage: min(210px, 85cqw);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sharing-board img {
+  .sharing-board img,
+  .sharing-board .sharing-friend-art,
+  .sharing-board .sharing-token,
+  .sharing-board .sharing-speech,
+  .sharing-board .sharing-sparkles i,
+  .sharing-board .sharing-teardrops i,
+  .sharing-board .sharing-tear {
     animation: none !important;
+    transition: none !important;
+  }
+}
+
+.sharing-bowl[data-density='full'] {
+  --sharing-token-size: 28px;
+}
+
+.sharing-bowl[data-density='packed'] {
+  --sharing-token-size: 18px;
+}
+
+@container (max-width: 300px) {
+  .sharing-bowl {
+    --sharing-token-size: 32px;
+  }
+
+  .sharing-bowl[data-density='full'] {
+    --sharing-token-size: 24px;
+  }
+
+  .sharing-bowl[data-density='packed'] {
+    --sharing-token-size: 16px;
   }
 }

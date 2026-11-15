@@ -3,6 +3,7 @@ import {
   clampStars,
   enqueue,
   projectDocuments,
+  redeemedNonRepeatingRewardIds,
   starBalance,
   type CollectionName,
   type LocalDocument,
@@ -179,6 +180,8 @@ export async function offlineRedemption(
     const definition = projectDocuments(state, 'rewards')[reward.id]
     if (!child || !definition)
       throw new Error('Load this child and reward online first.')
+    if (redeemedNonRepeatingRewardIds(state).has(reward.id))
+      throw new Error('This reward has already been awarded.')
     const cost = Number(definition.costStars ?? reward.costStars)
     const starsBefore = starBalance(child)
     if (state.shared && starsBefore < cost)

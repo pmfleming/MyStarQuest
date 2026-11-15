@@ -1,0 +1,223 @@
+.dinosaur-flight-scene {
+  position: absolute;
+  inset: var(--paper-inset, 0px);
+  overflow: hidden;
+  isolation: isolate;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+.dinosaur-flight-scene.ready {
+  visibility: visible;
+}
+.dinosaur-flight-world,
+.dinosaur-flight-scene .dinosaur-flight-background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.dinosaur-flight-rider,
+.dinosaur-flight-visitor {
+  position: absolute;
+  transform: translateX(-50%);
+  transform-origin: center 60%;
+}
+.dinosaur-flight-scene .dinosaur-flight-rider-sprite,
+.dinosaur-flight-scene .dinosaur-flight-dinosaur,
+.story-transition .dinosaur-flight-rider-sprite {
+  display: block;
+  position: static;
+  width: 100%;
+  height: auto;
+}
+.dinosaur-flight-dinosaur {
+  filter: drop-shadow(0 5px 3px #36342b22);
+}
+.dinosaur-flight-scene.flying[data-mode='tour'] .dinosaur-flight-world {
+  animation: dinosaur-world-parallax 20s ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying[data-mode='takeoff'] .dinosaur-flight-rider {
+  animation: dinosaur-party-takeoff 6s cubic-bezier(0.3, 0.1, 0.25, 1) both;
+}
+.dinosaur-flight-scene.flying[data-mode='boarding']
+  .dinosaur-flight-rider[data-rider='odette'] {
+  animation: dinosaur-boarding-settle 2.8s ease-out both;
+}
+.dinosaur-flight-scene.flying .dinosaur-flight-rider-sprite {
+  animation: dinosaur-rider-bank 11s var(--flight-delay) ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying[data-mode='takeoff']
+  .dinosaur-flight-rider-sprite {
+  animation-delay: 6s;
+}
+.dinosaur-flight-scene[data-mode='boarding']
+  .dinosaur-flight-rider[data-rider='odette']
+  .dinosaur-flight-rider-sprite {
+  animation: none;
+}
+.dinosaur-flight-scene.flying .visitor-browse .dinosaur-flight-dinosaur {
+  animation: dinosaur-browse 6s var(--visitor-delay) ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying .visitor-walk .dinosaur-flight-dinosaur {
+  animation: dinosaur-stroll 9s var(--visitor-delay) ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying .visitor-slither .dinosaur-flight-dinosaur {
+  animation: dinosaur-slither 7s ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying
+  :is(.visitor-float, .visitor-fly)
+  .dinosaur-flight-dinosaur {
+  animation: dinosaur-soar 8s var(--visitor-delay) ease-in-out infinite;
+}
+.dinosaur-flight-scene.flying .visitor-swim .dinosaur-flight-dinosaur {
+  animation: dinosaur-swim 12s ease-in-out infinite;
+}
+.dinosaur-flight-scene[data-habitat='lagoon'] .dinosaur-flight-dinosaur {
+  opacity: 0.9;
+  filter: drop-shadow(0 12px 10px #067a9555);
+}
+.dinosaur-flight-mist {
+  position: absolute;
+  left: -35%;
+  top: 39%;
+  width: 30%;
+  height: 11%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #ffffff55,
+    #ffffff12 50%,
+    transparent 70%
+  );
+}
+.dinosaur-flight-scene.flying .dinosaur-flight-mist {
+  animation: dinosaur-cloud-drift 19s linear infinite;
+}
+.dinosaur-flight-scene[data-mode='boarding'] .dinosaur-flight-mist {
+  display: none;
+}
+@keyframes dinosaur-party-takeoff {
+  0%,
+  8% {
+    left: var(--launch-x);
+    bottom: var(--launch-bottom);
+    width: var(--launch-width);
+    transform: translateX(-50%) rotate(0deg);
+  }
+  35% {
+    transform: translateX(-50%) rotate(-7deg);
+  }
+  75% {
+    transform: translateX(-50%) rotate(-3deg);
+  }
+  100% {
+    left: var(--home-x);
+    bottom: var(--home-bottom);
+    width: var(--home-width);
+    transform: translateX(-50%) rotate(0deg);
+  }
+}
+@keyframes dinosaur-boarding-settle {
+  from {
+    transform: translate(-50%, 3%) rotate(-1.5deg);
+  }
+  to {
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+}
+@keyframes dinosaur-rider-bank {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  28% {
+    transform: translate(-3%, 2%) rotate(-3deg);
+  }
+  62% {
+    transform: translate(2%, -3%) rotate(2.4deg);
+  }
+  82% {
+    transform: translate(1%, 1%) rotate(0.5deg);
+  }
+}
+@keyframes dinosaur-world-parallax {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.025) translate(0.4%, 0.3%);
+  }
+}
+@keyframes dinosaur-browse {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: translateY(0.7%) rotate(1deg);
+  }
+}
+@keyframes dinosaur-stroll {
+  0%,
+  100% {
+    transform: translateX(-3%) rotate(-0.5deg);
+  }
+  25%,
+  75% {
+    transform: translateY(-1%);
+  }
+  50% {
+    transform: translateX(3%) rotate(0.5deg);
+  }
+}
+@keyframes dinosaur-slither {
+  0%,
+  100% {
+    transform: translateX(-4%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(4%) rotate(2deg);
+  }
+}
+@keyframes dinosaur-soar {
+  0%,
+  100% {
+    transform: translate(-3%, 1%) rotate(-2deg);
+  }
+  50% {
+    transform: translate(3%, -5%) rotate(3deg);
+  }
+}
+@keyframes dinosaur-swim {
+  0%,
+  100% {
+    transform: translateX(-7%) rotate(-2deg);
+  }
+  50% {
+    transform: translateX(7%) rotate(2deg);
+  }
+}
+@keyframes dinosaur-cloud-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(460%);
+  }
+}
+.dinosaur-flight-scene.paused * {
+  animation-play-state: paused !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dinosaur-flight-scene.flying *,
+  .dinosaur-flight-scene.flying[data-mode] .dinosaur-flight-rider,
+  .dinosaur-flight-scene.flying[data-mode] .dinosaur-flight-rider-sprite,
+  .dinosaur-flight-scene.flying[data-mode] .dinosaur-flight-world {
+    animation: none !important;
+  }
+  .dinosaur-flight-mist {
+    display: none;
+  }
+}

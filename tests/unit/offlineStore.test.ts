@@ -193,3 +193,39 @@ it('leaves projections and sequence unchanged when preparation or validation fai
   expect(() => enqueue(state, { ...completion(), delta: NaN })).toThrow()
   expect(state).toEqual(before)
 })
+
+it.each(['history-first', 'rewards-first'])(
+  'hides previously awarded one-time rewards across reloads (%s)',
+  async (order) => {
+    const disk = new MemoryPersistence()
+    const store = new OfflineStore('parent', disk)
+    const rewards = {
+      toy: { title: 'Old one-time reward', isRepeating: false },
+      repeat: { title: 'Repeat reward', isRepeating: true },
+      unused: { title: 'New reward', isRepeating: false },
+      changed: { title: 'Previously repeating', isRepeating: false },
+    }
+    const history = {
+      old: { rewardId: 'toy', childId: 'child', costStars: 2 },
+      repeat: { rewardId: 'repeat', childId: 'child', costStars: 2 },
+      changed: { rewardId: 'changed', childId: 'child', consume: false },
+    }
+    if (order === 'history-first')
+      await store.mergeHistory('redemptions', history)
+    await store.mergeCollection('rewards', rewards)
+    await store.mergeHistory('redemptions', history)
+    expect(
+      Object.keys(
+        deviceDocuments(store.getSnapshot()!, 'rewards', '2026-11-15')
+      )
+    ).toEqual(['repeat', 'unused', 'changed'])
+    const reopened = new OfflineStore('parent', disk)
+    await reopened.open()
+    expect(
+      deviceDocuments(reopened.getSnapshot()!, 'rewards', '2026-11-15').toy
+    ).toBeUndefined()
+    expect(
+      historyDocuments(reopened.getSnapshot()!, 'redemptions').old
+    ).toEqual(history.old)
+  }
+)

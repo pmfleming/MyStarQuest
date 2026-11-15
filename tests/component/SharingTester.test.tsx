@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import SharingTester from '../../src/components/SharingTester'
 import { themes } from '../../src/contexts/ThemeContext'
+import * as friends from '../../src/data/sharingFriends'
 import * as problems from '../../src/lib/sharingProblems'
 import { getThemeAsset } from '../../src/ui/themeAssets'
 
@@ -11,6 +12,13 @@ beforeEach(() => {
     total: 6,
     containers: 2,
   })
+  vi.spyOn(friends, 'pickSharingFriends').mockImplementation((themeId, count) =>
+    friends.getSharingFriends(themeId).slice(0, count)
+  )
+  // Default to the theme's own counter so assertions stay deterministic.
+  vi.spyOn(friends, 'pickSharingTreat').mockImplementation(
+    (themeId) => friends.getSharingTreats(themeId)[0]!
+  )
 })
 afterEach(() => {
   cleanup()
@@ -29,12 +37,22 @@ const makeProps = () => ({
   onAdjustProblems: vi.fn(),
   onStarsChange: vi.fn(),
 })
-const add = (container: number, count = 1) => {
+const name = (container: number, theme = 'princess') =>
+  (theme === 'teenie' ? ['Heartsping', 'Happying'] : ['Rosa', 'Lily'])[
+    container - 1
+  ]
+const add = (container: number, count = 1, theme = 'princess') => {
   for (let i = 0; i < count; i++)
     fireEvent.click(
-      screen.getByRole('button', { name: `Add one to container ${container}` })
+      screen.getByRole('button', {
+        name: `Give one to ${name(container, theme)}`,
+      })
     )
 }
+const takeBack = (container: number, theme = 'princess') =>
+  screen.getByRole('button', {
+    name: `Take one back from ${name(container, theme)}`,
+  })
 
 it.each(['princess', 'teenie'] as const)(
   'conserves symbols when moving and returning them in %s',
@@ -42,27 +60,25 @@ it.each(['princess', 'teenie'] as const)(
     const { container } = render(
       <SharingTester {...makeProps()} theme={themes[theme]} />
     )
+    expect(takeBack(1, theme)).toBeDisabled()
+    add(1, 6, theme)
     expect(
-      screen.getByRole('button', { name: 'Return one from container 1' })
-    ).toBeDisabled()
-    add(1, 6)
-    expect(
-      screen.getByRole('button', { name: 'Add one to container 2' })
+      screen.getByRole('button', { name: `Give one to ${name(2, theme)}` })
     ).toBeDisabled()
     expect(
       screen.getByRole('group', { name: /0 .* left to share/ })
     ).toBeInTheDocument()
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Return one from container 1' })
-    )
-    add(2)
+    fireEvent.click(takeBack(1, theme))
+    add(2, 1, theme)
     expect(
-      screen.getByRole('group', { name: /Container 1: 5/ })
+      screen.getByRole('group', { name: new RegExp(`^${name(1, theme)}: 5`) })
     ).toBeInTheDocument()
     expect(
-      screen.getByRole('group', { name: /Container 2: 1/ })
+      screen.getByRole('group', {
+        name: new RegExp(`^${name(2, theme)}: 1 .*, feeling sad$`),
+      })
     ).toBeInTheDocument()
-    const images = container.querySelectorAll('.sharing-board img')
+    const images = container.querySelectorAll('.sharing-counters img')
     expect(images).toHaveLength(6)
     for (const image of images)
       expect(image).toHaveAttribute('src', getThemeAsset(theme, 'mathsCounter'))
@@ -80,14 +96,10 @@ it('rejects an unequal full distribution, permits correction and completes only 
     vi.advanceTimersByTime(600)
   })
   expect(props.onComplete).not.toHaveBeenCalled()
-  fireEvent.click(
-    screen.getByRole('button', { name: 'Return one from container 1' })
-  )
+  fireEvent.click(takeBack(1))
   add(2)
   view.rerender(<SharingTester {...props} checkTrigger={2} />)
-  expect(
-    screen.getByRole('button', { name: 'Return one from container 1' })
-  ).toBeDisabled()
+  expect(takeBack(1)).toBeDisabled()
   view.rerender(<SharingTester {...props} checkTrigger={3} />)
   await act(async () => {
     vi.advanceTimersByTime(1600)
@@ -107,7 +119,7 @@ it('rejects equal containers with symbols remaining and honours failure mode', a
     })
   }
   expect(
-    screen.getByRole('button', { name: 'Add one to container 1' })
+    screen.getByRole('button', { name: 'Give one to Rosa' })
   ).toBeDisabled()
   await act(async () => {
     vi.advanceTimersByTime(3000)
@@ -158,7 +170,7 @@ it.each(['hard', 'mixed'] as const)(
     expect(screen.getAllByRole('radio')).toHaveLength(3)
     expect(
       screen.getByRole('radio', {
-        name: difficulty === 'hard' ? 'Hard' : 'Mixed: 2, 3 or 4 containers',
+        name: difficulty === 'hard' ? 'Hard' : 'Mixed: 2, 3 or 4 friends',
       })
     ).toHaveAttribute('aria-checked', 'true')
     fireEvent.click(screen.getByRole('radio', { name: 'Easy' }))
@@ -170,3 +182,43 @@ it.each(['hard', 'mixed'] as const)(
     )
   }
 )
+
+it('shows friends feeling sad when sharing is unfair and happy when it is fair', async () => {
+  const props = makeProps()
+  const view = render(<SharingTester {...props} />)
+  const moods = () =>
+    Array.from(view.container.querySelectorAll('[data-mood]')).map((node) =>
+      node.getAttribute('data-mood')
+    )
+  expect(moods()).toEqual(['waiting', 'waiting'])
+  add(1, 4)
+  add(2, 2)
+  expect(moods()).toEqual(['waiting', 'sad'])
+  view.rerender(<SharingTester {...props} checkTrigger={1} />)
+  expect(screen.getByText('Not fair!')).toBeInTheDocument()
+  expect(screen.getByText('Too many!')).toBeInTheDocument()
+  await act(async () => {
+    vi.advanceTimersByTime(600)
+  })
+  fireEvent.click(takeBack(1))
+  add(2)
+  expect(moods()).toEqual(['happy', 'happy'])
+})
+
+it('shares themed treats such as Teenieping sweets', () => {
+  vi.mocked(friends.pickSharingTreat).mockImplementation(
+    (themeId) => friends.getSharingTreats(themeId)[1]!
+  )
+  const { container } = render(
+    <SharingTester {...makeProps()} theme={themes.teenie} />
+  )
+  expect(
+    screen.getByRole('group', { name: '6 sweets left to share' })
+  ).toBeInTheDocument()
+  add(1, 1, 'teenie')
+  expect(
+    screen.getByRole('group', { name: /^Heartsping: 1 sweet$/ })
+  ).toBeInTheDocument()
+  expect(container.querySelectorAll('.sharing-token')).toHaveLength(6)
+  expect(container.querySelectorAll('.sharing-friend-art')).toHaveLength(2)
+})

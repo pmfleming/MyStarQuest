@@ -290,9 +290,10 @@ const AnimalPlayContent = ({
           teachingFacts.filter((fact) => fact.label === label)
         )
       : animal.kind === 'prehistoric'
-        ? ['FOOD', 'HABITAT', 'GEOLOGICAL PERIOD', 'ABILITY'].flatMap((label) =>
-            teachingFacts.filter((fact) => fact.label === label)
-          )
+        ? [
+            ...teachingFacts.filter((fact) => !fact.isAbility),
+            ...teachingFacts.filter((fact) => fact.isAbility),
+          ]
         : teachingFacts
   if (mode === 'learn') {
     return (

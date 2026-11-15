@@ -73,7 +73,7 @@ for (const viewport of [
     await expect(scene).toHaveCount(0)
     await expect(page.locator('.story-page-current')).toHaveAttribute(
       'src',
-      /61-fossil-dig\.webp/
+      /70-dinosaur-cloud-flight\.webp/
     )
     expect(errors).toEqual([])
   })

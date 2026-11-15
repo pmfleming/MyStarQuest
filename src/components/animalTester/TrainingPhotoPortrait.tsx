@@ -17,11 +17,15 @@ function learningPicture(animal: CatalogAnimal): LearningPicture | undefined {
   if (animal.kind === 'prehistoric')
     return {
       src: animal.realisticImage,
-      alt: `${animal.displayName} reconstruction`,
+      alt: `${animal.displayName} ${animal.fictional ? 'realistic illustration' : 'reconstruction'}`,
       name: animal.displayName,
-      realLabel: 'realistic reconstruction',
+      realLabel: animal.fictional
+        ? 'realistic illustration'
+        : 'realistic reconstruction',
       cartoonLabel: 'cartoon',
-      error: 'The reconstruction could not load.',
+      error: animal.fictional
+        ? 'The illustration could not load.'
+        : 'The reconstruction could not load.',
     }
   if (animal.kind === 'teenieping') return undefined
   const photo = getCreaturePhoto(animal.name)

@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import photoLayout from '../../src/assets/comic/references/birthday/polaroid-layout.json' with { type: 'json' }
+import flightLayout from '../../src/data/stories/dinosaurFlightLayout.json' with { type: 'json' }
 
 const newPanels = [
   '52-dark-castle-entry',
@@ -12,6 +13,8 @@ const newPanels = [
   '59-goodbye-space-friends',
   '60-flying-home-to-earth',
   '61-fossil-dig',
+  '62-rainbowasaurus-arrival',
+  ...flightLayout.map((scene) => scene.id),
 ]
 
 for (const theme of ['princess', 'teenie']) {
@@ -106,7 +109,11 @@ test('plays the birthday photo animation in the app, replays it, and cleans up o
   const reader = page.getByRole('dialog')
   await expect(reader).toHaveAttribute('data-story-opening', 'false')
   const slider = reader.getByRole('slider')
-  const photoPage = Number(await slider.getAttribute('max')) - 3
+  const photoPage =
+    Number(await slider.getAttribute('max')) -
+    newPanels.length +
+    1 +
+    newPanels.indexOf('58-odette-polaroid')
   await slider.fill(String(photoPage))
   const moment = reader.locator('.photo-moment')
   await expect(moment).toHaveClass(/playing/)
@@ -379,7 +386,16 @@ for (const viewport of [
       /01-poffertjes\.webp/
     )
     const lastPage = await reader.getByRole('slider').getAttribute('max')
-    await reader.getByRole('slider').fill(String(Number(lastPage) - 3))
+    await reader
+      .getByRole('slider')
+      .fill(
+        String(
+          Number(lastPage) -
+            newPanels.length +
+            1 +
+            newPanels.indexOf('58-odette-polaroid')
+        )
+      )
     await expect(reader.locator('.photo-moment')).toHaveClass(/playing/)
     await reader.locator('.photo-moment').evaluate((element) =>
       element.getAnimations({ subtree: true }).forEach((animation) => {

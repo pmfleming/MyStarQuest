@@ -415,6 +415,15 @@ export const storySparkleSites: Record<string, readonly Point[]> = {
     [57, 9],
     [82, 14],
   ], // Only crown facets, never the fossils or dirt.
+  '62': [], // Her original artwork already includes sparkles around the tail.
+  '63': [],
+  '64': [],
+  '65': [],
+  '66': [],
+  '67': [],
+  '68': [],
+  '69': [],
+  '70': [], // The flight scenes supply their own moving characters and clouds.
 }
 
 export function createStorySparkles(host: HTMLElement) {

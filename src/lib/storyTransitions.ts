@@ -3,6 +3,8 @@ import type { Panel } from '../data/stories/seaFriends'
 import './storyTransitions.css'
 import './storyPaper.css'
 import { STORY_PAGE_TRANSITION_MS } from './storyMotion'
+import { dinosaurFlightLayouts } from './storyDinosaurFlightAssets'
+import { buildDinosaurFlightBridge } from './storyDinosaurFlightBridge'
 
 type Kind =
   | 'normal'
@@ -15,6 +17,7 @@ type Kind =
   | 'emerge'
   | 'doors'
   | 'birthday'
+  | 'dinosaur-flight'
 type Transition = {
   from: string
   to: string
@@ -87,6 +90,18 @@ export const storyTransitions: Transition[] = [
     duration: 4800,
     focus: [50, 18],
   },
+  ...dinosaurFlightLayouts.slice(1).flatMap((scene, index) => {
+    const previous = dinosaurFlightLayouts[index]!
+    return [
+      { from: previous.id, to: scene.id },
+      { from: scene.id, to: previous.id },
+    ].map((pair) => ({
+      ...pair,
+      kind: 'dinosaur-flight' as const,
+      duration: 2800,
+      focus: [50, 35] as [number, number],
+    }))
+  }),
 ]
 
 /** Artwork stays intact: animate camera, light, masks and copies of the existing door image. */
@@ -176,6 +191,14 @@ export function createStoryTransitions(
     const artwork = document.createElement('div')
     artwork.className = 'story-paper-illustration'
     artwork.append(source, target)
+    const flightBridge =
+      spec.kind === 'dinosaur-flight'
+        ? buildDinosaurFlightBridge(artwork, from.id, to.id)
+        : undefined
+    if (flightBridge) {
+      source.src = flightBridge.source
+      target.src = flightBridge.target
+    }
     layer.append(artwork)
     book.append(layer)
     stage = layer
@@ -191,7 +214,9 @@ export function createStoryTransitions(
       }
     }
     try {
-      await Promise.all([source.decode(), target.decode()])
+      await Promise.all(
+        [...artwork.querySelectorAll('img')].map((image) => image.decode())
+      )
     } catch {
       if (run === generation) stop()
       return
@@ -236,7 +261,8 @@ export function createStoryTransitions(
         ],
         { easing: 'ease-in-out' }
       )
-      animateStoryEffect(spec, source, target, artwork, animate, audio)
+      if (flightBridge) flightBridge.play(source, target, animate)
+      else animateStoryEffect(spec, source, target, artwork, animate, audio)
     }
     layer.dataset.ready = 'true'
     try {

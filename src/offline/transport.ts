@@ -43,6 +43,7 @@ const receiptSchema = z.object({
 })
 export type SyncReceipt = z.infer<typeof receiptSchema>
 export class SyncConflict extends Error {}
+export class RewardUnavailable extends SyncConflict {}
 
 function stampBalance(
   document: LocalDocument,
@@ -111,13 +112,25 @@ async function applyActivity(
     createdAt: new Date(),
   }
   let history: SyncReceipt['history']
+  let removed: SyncReceipt['removed']
   if (action.kind === 'redeem') {
+    const rewardPath = `${root}/rewards/${action.entityId}`
+    const reward = await transaction.get(rewardPath)
+    if (!reward)
+      throw new RewardUnavailable(
+        'This reward was already awarded or removed on another device. No stars were charged.'
+      )
+    if (action.consume) {
+      transaction.delete(rewardPath)
+      removed = { collection: 'rewards', entityId: action.entityId }
+    }
     const data = {
       ...audit,
       rewardId: action.entityId,
       rewardTitle: action.title,
       costStars: action.cost,
       chargedStars: before - after,
+      consume: action.consume,
     }
     transaction.set(`${root}/redemptions/${operation.id}`, data)
     history = { collection: 'redemptions', id: operation.id, data }
@@ -155,6 +168,7 @@ async function applyActivity(
     document,
     appliedDelta: after - before,
     ...(history ? { history } : {}),
+    ...(removed ? { removed } : {}),
   }
 }
 

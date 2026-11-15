@@ -1,6 +1,7 @@
 import {
   activityKey,
   projectDocuments,
+  redeemedNonRepeatingRewardIds,
   type CollectionName,
   type LocalDocument,
   type OfflineState,
@@ -12,8 +13,11 @@ export function deviceDocuments(
   dateKey: string
 ) {
   const documents = projectDocuments(state, collection)
+  const redeemed =
+    collection === 'rewards' ? redeemedNonRepeatingRewardIds(state) : undefined
   const result: Record<string, LocalDocument> = {}
   for (const [id, document] of Object.entries(documents)) {
+    if (redeemed?.has(id)) continue
     if (collection !== 'tests' && state.consumed[`${collection}/${id}`])
       continue
     if (collection !== 'chores' && collection !== 'tests') {

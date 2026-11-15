@@ -5,6 +5,7 @@ import yoshiEggImage from './YoshiEgg.webp'
 import teeniepingImage from './teenieping.webp'
 import clawGameTeenieImage from './claw-game-teenie.png'
 import clawGamePrincessImage from './claw-game-princess.png'
+import stickerBookImage from '../teenie/prop/sticker.webp'
 import { getSpellingImage } from '../../data/spellingAssets'
 import type { ThemeId } from '../../ui/themeOptions'
 
@@ -20,6 +21,7 @@ const rewardImageOptions = [
   },
   { id: 'legoPokemon', label: 'LEGO Pokémon', image: legoPokemonImage },
   { id: 'clawGame', label: 'Claw game', image: clawGamePrincessImage },
+  { id: 'stickerBook', label: 'Sticker book', image: stickerBookImage },
 ]
 
 const rewardImages = new Map(

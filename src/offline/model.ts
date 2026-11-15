@@ -105,6 +105,7 @@ export function operationHistory(
             rewardId: action.entityId,
             rewardTitle: action.title,
             costStars: action.cost,
+            consume: action.consume,
           }
         : {
             taskId: action.entityId,
@@ -222,6 +223,23 @@ export function projectDocuments(
     projectOperation(documents, collection, operation)
   )
   return documents
+}
+
+// Older offline clients recorded redemptions without deleting one-time reward
+// definitions. Reconcile those records on every device, including fresh installs.
+export function redeemedNonRepeatingRewardIds(state: OfflineState) {
+  const rewards = projectDocuments(state, 'rewards')
+  return new Set(
+    Object.values(state.history?.redemptions ?? {}).flatMap((redemption) => {
+      const id = String(redemption.rewardId ?? '')
+      const reward = rewards[id]
+      return reward &&
+        reward.isRepeating !== true &&
+        redemption.consume !== false
+        ? [id]
+        : []
+    })
+  )
 }
 
 // Resolve all input and snapshot data before changing the local projection.

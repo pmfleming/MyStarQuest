@@ -1,7 +1,7 @@
 import { withDeadline } from '../lib/withDeadline'
 import type { PendingAction } from './model'
 import { OfflineStore } from './store'
-import { SyncConflict, type SyncReceipt } from './transport'
+import { RewardUnavailable, SyncConflict, type SyncReceipt } from './transport'
 import { snapshotStore } from '../lib/snapshotStore'
 import { parseChildScope } from '../sharing/scope'
 
@@ -82,6 +82,10 @@ export class OfflineSync {
             SYNC_TIMEOUT_MS
           )
         } catch (error) {
+          if (error instanceof RewardUnavailable) {
+            await this.store.reject(operation.id, error.message)
+            continue
+          }
           const code =
             error && typeof error === 'object' && 'code' in error
               ? String(error.code)

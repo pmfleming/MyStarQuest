@@ -1,6 +1,6 @@
 # Dinosaur picture clues
 
-The Who am I dinosaur collection uses the same square illustrated cards and short captions as animals and insects. Its four categories are **Food, Habitat, Ability, Geological period**. The ability clue includes distinctive anatomy when its exact behavior is uncertain.
+The Who am I dinosaur collection uses the same square illustrated cards and short captions as animals and insects. Real prehistoric creatures use four categories: **Food, Habitat, Ability, Geological period**. The ability clue includes distinctive anatomy when its exact behavior is uncertain. The imaginary **Digosaurus** instead has **Food, Habitat, Digging, Flight** cards: roots and leaves, forest burrows, strong digging and powerful flying. It has no geological period. Its two abilities both support the theme mascot toggle and appear after food and habitat in solo play; see [the Digosaurus manifest](2026-11-01-digosaurus.json).
 
 | Creature           | Food            | Habitat        | Ability            | Geological period |
 | ------------------ | --------------- | -------------- | ------------------ | ----------------- |

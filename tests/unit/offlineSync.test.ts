@@ -91,7 +91,13 @@ describe('offline Firebase transaction protocol', () => {
       cost: 10,
       consume: true,
     })
-    await cloud.run(buy)
+    cloud.documents.set('users/parent/rewards/toy', {
+      costStars: 12,
+      isRepeating: false,
+    })
+    const receipt = await cloud.run(buy)
+    expect(receipt.removed).toEqual({ collection: 'rewards', entityId: 'toy' })
+    expect(cloud.documents.has('users/parent/rewards/toy')).toBe(false)
     expect(cloud.documents.get('users/parent/children/child')?.totalStars).toBe(
       0
     )
@@ -103,6 +109,54 @@ describe('offline Firebase transaction protocol', () => {
     expect(
       cloud.documents.get(`users/parent/redemptions/${buy.id}`)?.chargedStars
     ).toBe(5)
+  })
+  it('does not charge another device for a one-time reward already awarded', async () => {
+    const cloud = server()
+    cloud.documents.set('users/parent/rewards/toy', {
+      costStars: 2,
+      isRepeating: false,
+    })
+    const action: Action = {
+      kind: 'redeem',
+      entityId: 'toy',
+      childId: 'child',
+      title: 'Toy',
+      cost: 2,
+      consume: true,
+    }
+    await cloud.run(operation(action))
+    await expect(cloud.run(operation(action))).rejects.toThrow(
+      'already awarded or removed'
+    )
+    expect(cloud.documents.get('users/parent/children/child')?.totalStars).toBe(
+      3
+    )
+    expect(
+      [...cloud.documents.keys()].filter((key) => key.includes('/redemptions/'))
+    ).toHaveLength(1)
+  })
+  it('keeps repeating rewards available across devices', async () => {
+    const cloud = server()
+    cloud.documents.set('users/parent/rewards/toy', {
+      costStars: 2,
+      isRepeating: true,
+    })
+    const action: Action = {
+      kind: 'redeem',
+      entityId: 'toy',
+      childId: 'child',
+      title: 'Toy',
+      cost: 2,
+      consume: false,
+    }
+    const first = await cloud.run(operation(action))
+    await cloud.run(operation(action))
+    expect(first.removed).toBeUndefined()
+    expect(first.history?.data.consume).toBe(false)
+    expect(cloud.documents.has('users/parent/rewards/toy')).toBe(true)
+    expect(cloud.documents.get('users/parent/children/child')?.totalStars).toBe(
+      1
+    )
   })
   it('preserves conflicts instead of silently recreating a deleted child or definition', async () => {
     const cloud = server()
