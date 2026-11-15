@@ -1,10 +1,26 @@
 import { useAsyncFeedback } from '../hooks/useAsyncFeedback'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { isThemeId } from '../data/themeIds'
 import { sharingCall } from './api'
+import { PARENT_SHARING_ENABLED } from './availability'
+import SharingInDevelopment from './SharingInDevelopment'
 export default function InvitationPage() {
+  if (PARENT_SHARING_ENABLED) return <ActiveInvitationPage />
+  return (
+    <main className="flex min-h-dvh items-center justify-center bg-pink-50 p-6 text-purple-950">
+      <section className="flex w-full max-w-lg flex-col gap-5 rounded-3xl bg-white p-6 shadow-lg">
+        <SharingInDevelopment />
+        <Link className="underline" to="/tabs/chores">
+          Back to MyStarQuest
+        </Link>
+      </section>
+    </main>
+  )
+}
+
+function ActiveInvitationPage() {
   const { inviteId } = useParams()
   const { user, loading, loginWithGoogle, logout } = useAuth()
   const { setActiveChild } = useActiveChild()

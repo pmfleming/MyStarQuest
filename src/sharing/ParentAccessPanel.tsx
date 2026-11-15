@@ -7,7 +7,23 @@ import { offlineRuntime } from '../offline/runtime'
 import { isOfflineEnabled } from '../offline/platform'
 import { useTheme } from '../contexts/ThemeContext'
 import { getSchoolEventImage } from '../ui/schoolEventAssets'
+import { PARENT_SHARING_ENABLED } from './availability'
+import SharingInDevelopment from './SharingInDevelopment'
 export default function ParentAccessPanel({ child }: { child: ChildProfile }) {
+  const { canAdmin } = useDataScope()
+  if (!canAdmin) return null
+  if (PARENT_SHARING_ENABLED) return <ActiveParentAccessPanel child={child} />
+  return (
+    <section
+      className="mt-4 rounded-2xl border border-current/20 p-4"
+      aria-label={`Parents for ${child.displayName}`}
+    >
+      <SharingInDevelopment />
+    </section>
+  )
+}
+
+function ActiveParentAccessPanel({ child }: { child: ChildProfile }) {
   const { theme } = useTheme()
   const { actorUid, actorEmail, canAdmin, access } = useDataScope()
   const [loading, setLoading] = useState(true)

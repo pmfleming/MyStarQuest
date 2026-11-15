@@ -1,4 +1,7 @@
 vi.mock('../../src/offline/runtime', () => ({ offlineRuntime: vi.fn() }))
+vi.mock('../../src/sharing/availability', () => ({
+  PARENT_SHARING_ENABLED: true,
+}))
 import TestsPage from '../../src/pages/TestsPage'
 import {
   fireEvent,
