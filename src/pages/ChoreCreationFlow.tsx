@@ -1,4 +1,8 @@
 import { getThemeAsset } from '../ui/themeAssets'
+import { useMealPeriod } from '../hooks/useMealPeriod'
+import { mealTitles } from '../lib/mealTime'
+import { getMealImage } from '../ui/choreOverviewAssets'
+import { getStandardActionHeadingStyle } from '../components/ui/standardActionStyles'
 import { useState, type CSSProperties } from 'react'
 import type { Theme } from '../contexts/ThemeContext'
 import ActionTextInput from '../components/ui/ActionTextInput'
@@ -47,6 +51,7 @@ type ChoreCreationFlowProps = {
   ) => void | Promise<void>
   onCancel: () => void
   initialChore?: ChoreWithEphemeral
+  timeZone?: string
 }
 
 const DRAFT_DINNER_MIN_MINUTES = 5
@@ -136,7 +141,10 @@ const ChoreCreationFlow = ({
   onSave,
   onCancel,
   initialChore,
+  timeZone,
 }: ChoreCreationFlowProps) => {
+  const mealPeriod = useMealPeriod(timeZone)
+  const mealTitle = mealTitles[mealPeriod]
   const isEditing = Boolean(initialChore)
   const [selectedType, setSelectedType] = useState<ChoreType | null>(
     initialChore?.taskType ?? null
@@ -159,7 +167,8 @@ const ChoreCreationFlow = ({
   const save = () => {
     if (!selectedType || isSaving) return
 
-    const trimmedTitle = draft.title.trim()
+    const trimmedTitle =
+      selectedType === 'eating' ? mealTitle : draft.title.trim()
     if (trimmedTitle.length === 0) return
 
     const settings: ChoreDocumentSettings = {
@@ -202,10 +211,12 @@ const ChoreCreationFlow = ({
           theme={theme}
           choices={typeOptions.map((option) => ({
             key: option.defaultDraft.imageKey || option.type,
-            label: option.label,
+            label: option.type === 'eating' ? mealTitle : option.label,
             icon:
-              getChoreImage(option.defaultDraft.imageKey, theme.id) ??
-              getTaskTypeIcon(option.type, theme.id),
+              option.type === 'eating'
+                ? getMealImage(theme.id, mealPeriod)
+                : (getChoreImage(option.defaultDraft.imageKey, theme.id) ??
+                  getTaskTypeIcon(option.type, theme.id)),
             disabled: isSaving,
             onSelect: () => selectType(option),
           }))}
@@ -217,16 +228,20 @@ const ChoreCreationFlow = ({
 
   return (
     <div style={panelStyle}>
-      <ActionTextInput
-        theme={theme}
-        label="Name"
-        value={draft.title}
-        onChange={(title) => updateDraft({ title })}
-        maxLength={80}
-        baseColor={theme.colors.primary}
-        inputAriaLabel="Chore name"
-        transparent
-      />
+      {selectedType === 'eating' ? (
+        <h2 style={getStandardActionHeadingStyle(theme)}>{mealTitle}</h2>
+      ) : (
+        <ActionTextInput
+          theme={theme}
+          label="Name"
+          value={draft.title}
+          onChange={(title) => updateDraft({ title })}
+          maxLength={80}
+          baseColor={theme.colors.primary}
+          inputAriaLabel="Chore name"
+          transparent
+        />
+      )}
 
       {selectedType === 'standard' && (
         <ImageOptionCarousel
@@ -263,6 +278,7 @@ const ChoreCreationFlow = ({
             bitesLeft: draft.dinnerTotalBites,
             isTimerRunning: false,
             plateImage: getThemeAsset(theme.id, 'plateImage'),
+            biteIcon: getMealImage(theme.id, mealPeriod),
             onAdjustTime: (delta) =>
               updateDraft({
                 dinnerDurationMinutes: clamp(
@@ -289,7 +305,10 @@ const ChoreCreationFlow = ({
         )}
         primaryAriaLabel="Save"
         onPrimaryClick={save}
-        primaryDisabled={isSaving || draft.title.trim().length === 0}
+        primaryDisabled={
+          isSaving ||
+          (selectedType !== 'eating' && draft.title.trim().length === 0)
+        }
         primaryIconOpacity={isSaving ? 0.55 : 1}
         utilityIcon={getThemeAsset(theme.id, 'exitIcon')}
         utilityAriaLabel="Back"

@@ -117,13 +117,14 @@ test('plays the birthday photo animation in the app, replays it, and cleans up o
   await slider.fill(String(photoPage))
   const moment = reader.locator('.photo-moment')
   await expect(moment).toHaveClass(/playing/)
+  await expect(reader.locator('.story-transition')).toHaveCount(0)
   await expect
     .poll(() =>
       moment.evaluate(
         (element) => element.getAnimations({ subtree: true }).length
       )
     )
-    .toBe(5)
+    .toBe(6)
   await moment.evaluate((element) =>
     element.getAnimations({ subtree: true }).forEach((animation) => {
       animation.pause()
@@ -137,6 +138,8 @@ test('plays the birthday photo animation in the app, replays it, and cleans up o
     })
   )
   const stage = (await moment.boundingBox())!
+  await expect(moment.locator('.photo-moment-hands')).toHaveCSS('opacity', '1')
+  await page.screenshot({ path: testInfo.outputPath('app-photo-held.png') })
   const print = (await reader.locator('.instant-print img').boundingBox())!
   expect(print.x).toBeCloseTo(
     stage.x + (stage.width * photoLayout.photo.x) / photoLayout.canvas.width,

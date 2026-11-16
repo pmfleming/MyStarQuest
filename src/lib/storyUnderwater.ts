@@ -8,6 +8,7 @@ import eclipseDiana from '../assets/comic/layers/underwater/eclipse-diana.webp'
 import hopDoremi from '../assets/comic/layers/underwater/hop-doremi.webp'
 import './storyUnderwater.css'
 import { storyImage as image } from './storyLayerScene'
+import { createStoryScenery } from './storySceneryDepth'
 
 const scenes: Record<string, { background: string; friends: string }> = {
   '05-rainbow': { background: garden, friends: rainbow },
@@ -21,6 +22,7 @@ const scenes: Record<string, { background: string; friends: string }> = {
 export function createUnderwaterScene(host: HTMLElement) {
   const stage = document.createElement('div')
   stage.className = 'underwater-scene'
+  stage.dataset.storyScene = 'true'
   stage.setAttribute('aria-hidden', 'true')
   const odette = image('', 'underwater-odette')
   stage.append(odette)
@@ -39,6 +41,7 @@ export function createUnderwaterScene(host: HTMLElement) {
   let currentFriends: HTMLImageElement | undefined
   let cleanupTimer: ReturnType<typeof setTimeout> | undefined
   let disposed = false
+  let depth: ReturnType<typeof createStoryScenery> | undefined
 
   function stop(clearRequest = true) {
     if (clearRequest) requested = undefined
@@ -62,6 +65,10 @@ export function createUnderwaterScene(host: HTMLElement) {
       return
     }
     const run = ++generation
+    if (!depth) {
+      depth = createStoryScenery('underwater')
+      stage.append(depth.midground, depth.foreground)
+    }
     if (!odette.getAttribute('src')) odette.src = odetteUrl
     const background =
       currentBackground?.getAttribute('src') === scene.background
@@ -77,6 +84,10 @@ export function createUnderwaterScene(host: HTMLElement) {
           ? Promise.resolve()
           : background.decode(),
         friends.decode(),
+        ...[
+          ...depth.midground.querySelectorAll('img'),
+          ...depth.foreground.querySelectorAll('img'),
+        ].map((image) => image.decode()),
       ])
     } catch {
       if (run === generation) stop()

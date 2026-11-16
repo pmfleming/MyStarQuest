@@ -1,6 +1,7 @@
 import { createStoryLayerScene, storyImage as image } from './storyLayerScene'
 import background from '../assets/comic/layers/star-system/background.webp'
 import './storyStarSystemScene.css'
+import { createStoryScenery } from './storySceneryDepth'
 
 const assets = import.meta.glob<string>(
   '../assets/comic/layers/star-system/*.webp',
@@ -36,6 +37,8 @@ export function createStarSystemScene(host: HTMLElement) {
     panelIds: ['49-pop-star-system'],
     build(stage) {
       stage.append(image(background, 'star-system-background'))
+      const scenery = createStoryScenery('space')
+      stage.append(scenery.midground)
       satellites.forEach(([name, x, y, width], i) => {
         const anchor = document.createElement('div')
         anchor.className = 'star-system-satellite'
@@ -65,6 +68,7 @@ export function createStarSystemScene(host: HTMLElement) {
         rainbow.append(glint)
       }
       stage.append(rainbow)
+      stage.append(scenery.foreground)
     },
   })
 }

@@ -5,11 +5,18 @@ import { getFloatingSurfaceStyle, uiTokens } from '../tokens'
 interface PageHeaderProps {
   theme: Theme
   title: string
+  leading?: ReactNode
   right?: ReactNode
   fontFamily?: string
 }
 
-const PageHeader = ({ theme, title, right, fontFamily }: PageHeaderProps) => {
+const PageHeader = ({
+  theme,
+  title,
+  leading,
+  right,
+  fontFamily,
+}: PageHeaderProps) => {
   return (
     <header
       className="flex items-center gap-3"
@@ -18,6 +25,7 @@ const PageHeader = ({ theme, title, right, fontFamily }: PageHeaderProps) => {
         padding: '0 16px',
       }}
     >
+      {leading}
       <h1
         className="font-bold tracking-wide"
         style={{

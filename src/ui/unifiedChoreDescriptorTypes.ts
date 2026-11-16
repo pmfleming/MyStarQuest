@@ -31,6 +31,7 @@ export type UnifiedChoreDeps = {
   biteCooldownSeconds: number
   biteCooldowns?: Readonly<Record<string, number>>
   activeMealIcon?: string
+  mealPeriod?: import('../lib/mealTime').MealPeriod
   testFailureModeEnabled?: boolean
   canReset?: boolean
   hideDeleteUtility?: boolean

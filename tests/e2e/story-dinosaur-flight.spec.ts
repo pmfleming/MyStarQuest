@@ -29,6 +29,34 @@ async function finishBridge(page: Page) {
   await expect(bridge).toHaveAttribute('data-ready', 'true')
   await expect(bridge.locator('.dinosaur-flight-bridge-rider')).toHaveCount(3)
   await bridge.evaluate((element) =>
+    element.getAnimations({ subtree: true }).forEach((animation) => {
+      animation.pause()
+      animation.currentTime = Number(animation.effect!.getTiming().duration) - 1
+    })
+  )
+  const landing = await bridge
+    .locator('.dinosaur-flight-bridge-rider > img:first-child')
+    .evaluateAll((images) =>
+      images.map((image) => {
+        const rect = image.getBoundingClientRect()
+        return {
+          id: (image.parentElement as HTMLElement).dataset.rider,
+          x: rect.x,
+          y: rect.y,
+          width: rect.width,
+          height: rect.height,
+        }
+      })
+    )
+  const checkComposition = /dinosaur-meadow|dinosaur-cloud-flight/.test(
+    (await bridge.getAttribute('data-destination'))!
+  )
+  const lastFrame = checkComposition
+    ? await bridge
+        .locator('.story-paper-illustration')
+        .screenshot({ path: test.info().outputPath('handoff-before.png') })
+    : null
+  await bridge.evaluate((element) =>
     element
       .getAnimations({ subtree: true })
       .forEach((animation) => animation.finish())
@@ -37,6 +65,70 @@ async function finishBridge(page: Page) {
   await expect(page.locator('.dinosaur-flight-scene.ready.flying')).toHaveCount(
     1
   )
+  const scene = page.locator('.dinosaur-flight-scene.ready.flying')
+  await scene.evaluate((element) =>
+    element.getAnimations({ subtree: true }).forEach((animation) => {
+      animation.pause()
+      animation.currentTime = 0
+    })
+  )
+  for (const pose of landing) {
+    const settled = await scene
+      .locator(`[data-rider="${pose.id}"] img`)
+      .boundingBox()
+    for (const axis of ['x', 'y', 'width', 'height'] as const)
+      expect(
+        Math.abs(settled![axis] - pose[axis]),
+        `${pose.id} ${axis} at the handoff`
+      ).toBeLessThan(1)
+  }
+  if (lastFrame) {
+    const settledFrame = await page
+      .locator('.story-page-surface > .story-paper-illustration')
+      .screenshot({ path: test.info().outputPath('handoff-after.png') })
+    const difference = await page.evaluate(
+      async ([before, after]) => {
+        async function pixels(base64: string) {
+          const image = new Image()
+          image.src = `data:image/png;base64,${base64}`
+          await image.decode()
+          const canvas = document.createElement('canvas')
+          // Ignore fractional device-pixel resampling at the paper edge.
+          canvas.width = 320
+          canvas.height = Math.round((320 * image.height) / image.width)
+          const context = canvas.getContext('2d')!
+          context.drawImage(image, 0, 0, canvas.width, canvas.height)
+          return context.getImageData(0, 0, canvas.width, canvas.height).data
+        }
+        const [a, b] = await Promise.all([pixels(before!), pixels(after!)])
+        if (a.length !== b.length) return Infinity
+        let error = 0
+        // Match within one sample pixel to tolerate fractional CSS/GPU rasterization.
+        for (let i = 0; i < a.length; i += 4) {
+          let closest = Infinity
+          const x = (i / 4) % 320
+          for (let dy = -1; dy <= 1; dy++)
+            for (let dx = -1; dx <= 1; dx++) {
+              const j = i + (dy * 320 + dx) * 4
+              if (x + dx < 0 || x + dx >= 320 || j < 0 || j + 2 >= b.length)
+                continue
+              let pixelError = 0
+              for (let channel = 0; channel < 3; channel++)
+                pixelError += Math.abs(a[i + channel]! - b[j + channel]!)
+              closest = Math.min(closest, pixelError)
+            }
+          error += closest
+        }
+        return error / (a.length * 0.75)
+      },
+      [lastFrame.toString('base64'), settledFrame.toString('base64')]
+    )
+    expect(
+      difference,
+      'the foreground, characters and landscape must survive the handoff together'
+      // Less than 1% RGB error allows browser resampling while catching a missing plane.
+    ).toBeLessThan(2.5)
+  }
 }
 
 for (const width of [1280, 390]) {
@@ -50,12 +142,33 @@ for (const width of [1280, 390]) {
     await openFlight(page)
     const scene = page.locator('.dinosaur-flight-scene.ready.flying')
     await expect(scene).toHaveAttribute('data-mode', 'boarding')
+    await scene.evaluate((element) =>
+      element
+        .getAnimations({ subtree: true })
+        .forEach((animation) => animation.pause())
+    )
+    const boardingPose = await scene
+      .locator('[data-rider="odette"] img')
+      .boundingBox()
     await page.screenshot({ path: testInfo.outputPath('boarding.png') })
     await page.keyboard.press('ArrowRight')
     const bridge = page.locator(
       '.story-transition[data-transition="dinosaur-flight"]'
     )
     await expect(bridge).toHaveAttribute('data-ready', 'true')
+    await bridge.evaluate((element) =>
+      element.getAnimations({ subtree: true }).forEach((animation) => {
+        animation.pause()
+        animation.currentTime = 0
+      })
+    )
+    const boardingDeparture = await bridge
+      .locator('[data-rider="odette"] img:last-child')
+      .boundingBox()
+    for (const axis of ['x', 'y', 'width', 'height'] as const)
+      expect(
+        Math.abs(boardingDeparture![axis] - boardingPose![axis])
+      ).toBeLessThan(1)
     await bridge.evaluate((element) =>
       element.getAnimations({ subtree: true }).forEach((animation) => {
         animation.pause()
@@ -83,8 +196,30 @@ for (const width of [1280, 390]) {
     expect(climb[1]!.bottom).toBeGreaterThan(climb[0]!.bottom)
     expect(climb[1]!.width).toBeLessThan(climb[0]!.width)
     await page.screenshot({ path: testInfo.outputPath('takeoff.png') })
+    // Turn before the climb is finished: the bridge must retain this exact pose.
+    await scene.locator('[data-rider="odette"]').evaluate((element) => {
+      element.getAnimations()[0]!.currentTime = 2400
+    })
     for (const destination of layout.slice(2)) {
+      const departing = await scene
+        .locator('[data-rider="odette"] img')
+        .boundingBox()
       await page.keyboard.press('ArrowRight')
+      await expect(bridge).toHaveAttribute('data-ready', 'true')
+      await bridge.evaluate((element) =>
+        element.getAnimations({ subtree: true }).forEach((animation) => {
+          animation.pause()
+          animation.currentTime = 0
+        })
+      )
+      const carried = await bridge
+        .locator('[data-rider="odette"] img:last-child')
+        .boundingBox()
+      for (const axis of ['x', 'y', 'width', 'height'] as const)
+        expect(
+          Math.abs(carried![axis] - departing![axis]),
+          `departure ${axis}`
+        ).toBeLessThan(1)
       await finishBridge(page)
       await expect(scene).toHaveAttribute('data-panel-id', destination.id)
       await expect(scene.locator('.dinosaur-flight-rider')).toHaveCount(3)

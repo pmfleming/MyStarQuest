@@ -8,7 +8,7 @@ The service retains event IDs, titles, all-day flags and start/end timestamps. D
 
 ## Offline calendar and background updates
 
-`src/data/calendar/school-calendar.json` is the shared bundled fallback. The 21 September 2026 snapshot contains 144 dates from 6 July 2026 to 20 August 2027. It loads synchronously even on the first offline launch. Calendar artwork is packaged with the Android web assets. Run `npm run calendar:snapshot` before a release to refresh the seed from the service; the command validates the response before writing and refuses an empty seed. Gradle packages this same source file as an Android asset.
+`src/data/calendar/school-calendar.json` is the shared bundled fallback. The 16 November 2026 snapshot contains 149 dates from 6 July 2026 to 20 August 2027. It loads synchronously even on the first offline launch. Calendar artwork is packaged with the Android web assets. Run `npm run calendar:snapshot` before a release to refresh the seed from the service; the command validates the response before writing and refuses an empty seed. Gradle packages this same source file as an Android asset.
 
 The app displays the newest saved or bundled copy immediately, then checks for updates without blocking the UI. Successful responses replace the full calendar, including changed or removed events, and are saved with their check timestamp in one storage operation. HTTP errors, malformed JSON, invalid event data and timeouts leave the last valid copy untouched. Saved data has no offline expiry. A failed foreground update shows **Saved calendar** and **Try again** while keeping the entries visible.
 
@@ -48,10 +48,16 @@ Early finishes cap the configured school blocks and move the journey home earlie
 | Good Friday      | Heartsping               | Love and a peaceful lily      |
 | Easter Monday    | Artping                  | Painting Easter eggs          |
 | Whit Monday      | Flitterping              | Wings and a white dove        |
+| Cookie Baking    | Fluffyping               | Dough and round kruidnoten    |
+| Gift Wrapping    | Giftping                 | Wrapping paper and ribbons    |
+| Lantern Making   | Artping                  | Paper crafts and paintbrush   |
+| Church Visit     | Heartsping               | Welcoming church visit        |
 
-`docs/assets/school-events-artwork.json` records the built-in image generator prompts, identity references, source masters and output paths. Alpha was preserved during WebP export; no local background removal was used. The superseded repeated-character drafts are not included in the application.
+`docs/assets/school-events-artwork.json` and `docs/assets/school-events-2026-11-16.json` record the built-in image generator prompts, identity references, source masters and output paths. Alpha was preserved during WebP export; no local background removal was used. The superseded repeated-character drafts are not included in the application.
 
 ## Review scope
+
+The 16 November 2026 review checked all 30 distinct source titles in the live feed through 20 August 2027. Four previously unrecognised activities now have English labels and artwork in both themes: **Bezoek Kruiskerk** (30 October), **lampionnen maken groep 1/2 A** (4 November), **Kruidnoten bakken groep 1/ 2 A** (16 November, 08:30–10:00), and **inpakouders gezocht 1/ 2 A** (24 November). The latter is a request for parent gift-wrapping volunteers. None closes school. The refreshed offline snapshot retains source event IDs and times. A coverage test checks that every bundled source title resolves to an existing image in both themes.
 
 The initial review contained 33 entries. The subsequent live-feed snapshot on 21 September 2026 contained 38, adding five **MR vergadering** events; those now use **Council Meeting**. MR refers to the school's participation council ([Dutch government background](https://www.rijksoverheid.nl/binaries/rijksoverheid/documenten/kamerstukken/2023/07/06/eindrapport-breed-gesprek-governance-en-mede-zeggenschap-regioplan/eindrapport-breed-gesprek-governance-en-mede-zeggenschap-regioplan.pdf)). Good Friday follows the reviewed day-off classification; the feed does not provide a separate closure description.
 

@@ -231,10 +231,6 @@ it('uses three bottom buttons and preserves the period while Calendar stays on t
     screen.queryByRole('button', { name: /^Piano,/ })
   ).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: /^Cards,/ })).toBeVisible()
-  fireEvent.click(
-    screen.getByRole('button', { name: 'Previous calendar month' })
-  )
-  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith('2026-09-22')
 })
 it('distinguishes no child, loading, failed loading, and an empty period', () => {
   const { rerender } = render(<Harness childId={null} />)
@@ -258,13 +254,16 @@ it('distinguishes no child, loading, failed loading, and an empty period', () =>
   selection.selectedDateKey = '2026-10-22'
 })
 
-it('uses artwork and numbers with no visible label longer than one word', () => {
+it('keeps history filters image-led alongside the illustrated date control', () => {
   const { container } = render(<Harness />)
   for (const name of ['Calendar', 'Chores/Tasks', 'Rewards']) {
     fireEvent.click(screen.getByRole('button', { name, exact: true }))
     const month = screen.queryByRole('radio', { name: 'Month' })
     if (month) fireEvent.click(month)
-    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT)
+    const walker = document.createTreeWalker(
+      container.querySelector('.calendar-history__views')!,
+      NodeFilter.SHOW_TEXT
+    )
     const longLabels: string[] = []
     while (walker.nextNode()) {
       const text = walker.currentNode.textContent?.trim() ?? ''

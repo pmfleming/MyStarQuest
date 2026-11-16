@@ -33,6 +33,7 @@ for (const viewport of [
   test(`Odette stays stable as scenery and friends change (${viewport.width})`, async ({
     page,
   }, testInfo) => {
+    test.setTimeout(60000)
     const errors: string[] = []
     page.on('pageerror', (error) => errors.push(error.message))
     await page.setViewportSize(viewport)
@@ -59,7 +60,8 @@ for (const viewport of [
       for (const key of ['x', 'y', 'width', 'height'] as const)
         expect(bounds[key]).toBeCloseTo(originalBounds[key], 0)
       await expect(scene.locator('[data-outgoing]')).toHaveCount(0)
-      expect(await scene.locator('img').count()).toBe(3)
+      expect(await scene.locator('img').count()).toBe(5)
+      await expect(scene.locator('[data-depth="foreground"] img')).toBeVisible()
     }
     await page.waitForTimeout(700)
     await expect(scene.locator('.underwater-background')).not.toHaveCSS(

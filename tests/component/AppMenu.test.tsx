@@ -10,6 +10,7 @@ import { StrictMode } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AppMenu from '../../src/components/AppMenu'
+import ChildStarHeader from '../../src/components/ChildStarHeader'
 import { themes } from '../../src/contexts/ThemeContext'
 import {
   ChildAccessContext,
@@ -74,7 +75,8 @@ afterEach(() => {
 
 const renderMenu = (
   onResetToday?: () => Promise<void>,
-  access: ChildAccess | null = null
+  access: ChildAccess | null = null,
+  avatarHeader = false
 ) =>
   render(
     <StrictMode>
@@ -84,7 +86,24 @@ const renderMenu = (
             <Route
               path="/"
               element={
-                <AppMenu theme={themes.princess} onResetToday={onResetToday} />
+                avatarHeader ? (
+                  <ChildStarHeader
+                    theme={themes.princess}
+                    onResetToday={onResetToday}
+                    child={{
+                      id: 'child',
+                      displayName: 'Odette',
+                      avatarToken: 'angel-odette-ping',
+                      totalStars: 0,
+                      testFailureModeEnabled: true,
+                    }}
+                  />
+                ) : (
+                  <AppMenu
+                    theme={themes.princess}
+                    onResetToday={onResetToday}
+                  />
+                )
               }
             />
             <Route
@@ -101,6 +120,28 @@ const openMenu = () =>
   fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
 
 describe('shared app menu', () => {
+  it('opens from the avatar independently of the star replay and restores avatar focus', async () => {
+    const reset = vi.fn().mockResolvedValue(undefined)
+    renderMenu(reset, null, true)
+    const replay = screen.getByRole('button', { name: 'Replay star animation' })
+    expect(
+      screen.queryByRole('heading', { name: 'Odette' })
+    ).not.toBeInTheDocument()
+    expect(screen.getByRole('banner', { name: "Odette's stars" })).toBeVisible()
+    fireEvent.click(replay)
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await act(async () => openMenu())
+    expect(screen.getByRole('button', { name: 'Children' })).toBeVisible()
+    expect(screen.getByRole('button', { name: 'Sign out' })).toBeVisible()
+    fireEvent.click(screen.getByRole('button', { name: 'Reset today' }))
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    )
+    expect(reset).toHaveBeenCalledTimes(1)
+    expect(screen.getByRole('button', { name: 'Open menu' })).toHaveFocus()
+    expect(screen.getByRole('status')).toBeInTheDocument()
+    expect(screen.queryByText('···')).not.toBeInTheDocument()
+  })
   it.each(['Reset today', 'Sign out'])(
     'keeps the selected child stable during %s and restores switching after failure',
     async (actionName) => {

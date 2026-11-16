@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
   type CSSProperties,
+  type ReactNode,
 } from 'react'
 import { ResetChoresContext } from '../contexts/ActivityTabContext'
 import { createPortal } from 'react-dom'
@@ -20,9 +21,12 @@ import { getThemeAsset } from '../ui/themeAssets'
 import { getThemeActionIcon } from '../ui/themeActionAssets'
 import { AsyncButton } from './ui/AsyncButton'
 import './AppMenu.css'
+import ChildAvatar from './ChildAvatar'
 type AppMenuProps = {
   theme: Theme
   onResetToday?: () => Promise<void>
+  trigger?: ReactNode
+  triggerClassName?: string
 }
 type ResetButtonProps = {
   disabled: boolean
@@ -208,6 +212,7 @@ const MenuSheet = ({
                   void navigate('/tabs/chores')
                 }}
               >
+                <ChildAvatar child={child} size={44} />
                 {child.displayName}
                 {child.ownerUid !== access.actorUid ? ' · Shared' : ''}
               </button>
@@ -286,24 +291,33 @@ const AppMenu = (props: AppMenuProps) => {
         aria-expanded={open}
         aria-controls={open ? id : undefined}
         onClick={() => setOpen(true)}
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition active:scale-95"
-        style={{
-          background: `${props.theme.colors.primary}20`,
-          color: props.theme.colors.primary,
-        }}
+        className={
+          props.triggerClassName ??
+          'flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition active:scale-95'
+        }
+        style={
+          props.trigger
+            ? undefined
+            : {
+                background: `${props.theme.colors.primary}20`,
+                color: props.theme.colors.primary,
+              }
+        }
       >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          aria-hidden="true"
-        >
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        {props.trigger ?? (
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        )}
       </AsyncButton>
       {open && (
         <MenuSheet {...props} id={id} onDismiss={() => setOpen(false)} />

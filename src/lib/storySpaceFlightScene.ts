@@ -4,6 +4,7 @@ import friends from '../assets/comic/layers/space-flight/friends.webp'
 import castleBackground from '../assets/comic/layers/castle-flight/background.webp'
 import castleFriends from '../assets/comic/layers/castle-flight/friends.webp'
 import './storySpaceFlightScene.css'
+import { createStoryScenery } from './storySceneryDepth'
 
 export function createSpaceFlightScene(host: HTMLElement) {
   return createStoryLayerScene(host, {
@@ -12,10 +13,12 @@ export function createSpaceFlightScene(host: HTMLElement) {
     entrance: 'flying',
     build(stage, id) {
       const castle = id === '50-flight-to-princess-castle'
+      const scenery = createStoryScenery('space')
       stage.classList.toggle('castle-flight', castle)
       stage.append(
         image(castle ? castleBackground : background, 'space-flight-background')
       )
+      stage.append(scenery.midground)
       const arrival = document.createElement('div')
       arrival.className = 'space-flight-arrival'
       const formation = document.createElement('div')
@@ -32,6 +35,7 @@ export function createSpaceFlightScene(host: HTMLElement) {
       )
       arrival.append(formation)
       stage.append(arrival)
+      stage.append(scenery.foreground)
     },
   })
 }

@@ -31,6 +31,7 @@ type LayerScene = {
 export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
   const stage = document.createElement('div')
   stage.className = scene.className
+  stage.dataset.storyScene = 'true'
   stage.setAttribute('aria-hidden', 'true')
   host.append(stage)
   let generation = 0

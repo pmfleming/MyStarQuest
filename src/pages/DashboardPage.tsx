@@ -1,12 +1,16 @@
 import { useDataScope } from '../sharing/ChildAccessContext'
-import { getThemeAsset } from '../ui/themeAssets'
+import { getMealImage } from '../ui/choreOverviewAssets'
+import { getMealChoreTitle } from '../lib/mealTime'
+import { useMealPeriod } from '../hooks/useMealPeriod'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { ResetChoresContext } from '../contexts/ActivityTabContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
+import ChildStarHeader, {
+  CHILD_STAR_HEADER_HEIGHT,
+} from '../components/ChildStarHeader'
 import StandardActionList from '../components/ui/StandardActionList'
-import StarInfoBox from '../components/ui/StarInfoBox'
 import {
   createUnifiedChoreDescriptor,
   type UnifiedChoreDeps,
@@ -32,12 +36,6 @@ import { useTaskCelebration } from '../hooks/useTaskCelebration'
 
 type ChorePanelMode = 'create' | null
 
-const getMealIconForHour = (hour: number, themeId: string) => {
-  if (hour < 10) return getThemeAsset(themeId, 'eatingBreakfastIcon')
-  if (hour < 16) return getThemeAsset(themeId, 'eatingLunchIcon')
-  return getThemeAsset(themeId, 'eatingDinnerIcon')
-}
-
 const withTaskItem = <Result,>(
   item: UnifiedChoreItem,
   action: (task: ChoreWithEphemeral) => Result
@@ -60,7 +58,8 @@ const DashboardPage = () => {
   const resetChoresRef = useContext(ResetChoresContext)
   const { activeChildId } = useActiveChild()
   const { theme } = useTheme()
-  const { canAdmin } = useDataScope()
+  const { canAdmin, timeZone } = useDataScope()
+  const mealPeriod = useMealPeriod(timeZone)
   const { children } = useChildren()
 
   const {
@@ -104,7 +103,7 @@ const DashboardPage = () => {
 
   const { clearCheckTriggers, ...testCheckTriggers } = useTestCheckTriggers()
 
-  const activeMealIcon = getMealIconForHour(new Date().getHours(), theme.id)
+  const activeMealIcon = getMealImage(theme.id, mealPeriod)
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -270,6 +269,7 @@ const DashboardPage = () => {
     biteCooldownSeconds,
     biteCooldowns,
     activeMealIcon,
+    mealPeriod,
   }
 
   const choreState = createUnifiedChoreState(unifiedChoreDeps)
@@ -285,6 +285,7 @@ const DashboardPage = () => {
     return (
       <ChoreCreationFlow
         theme={theme}
+        timeZone={timeZone}
         isSaving={savingEditedChoreId === chore.id}
         initialChore={chore}
         onSave={(_, settings) => handleUpdateChore(chore.id, settings)}
@@ -296,8 +297,14 @@ const DashboardPage = () => {
   return (
     <TabContent
       theme={theme}
-      title={selectedChild?.displayName || 'Explorer'}
-      onResetToday={handleResetToday}
+      headerHeight={CHILD_STAR_HEADER_HEIGHT}
+      header={
+        <ChildStarHeader
+          child={selectedChild}
+          theme={theme}
+          onResetToday={handleResetToday}
+        />
+      }
     >
       <div
         className="mx-auto flex w-full flex-col"
@@ -307,9 +314,6 @@ const DashboardPage = () => {
           paddingBottom: '96px',
         }}
       >
-        {selectedChild && (
-          <StarInfoBox theme={theme} totalStars={selectedChild.totalStars} />
-        )}
         {createChoreError && (
           <InlineNotice theme={theme}>{createChoreError}</InlineNotice>
         )}
@@ -328,7 +332,7 @@ const DashboardPage = () => {
             theme={theme}
             items={celebration.retainItems(todayChores)}
             getKey={(chore) => chore.id}
-            getItemLabel={(chore) => chore.title}
+            getItemLabel={(chore) => getMealChoreTitle(chore, mealPeriod)}
             {...descriptor}
             editingId={editingChoreId ?? undefined}
             renderInlineEdit={renderTodayChoreEdit}
@@ -347,6 +351,7 @@ const DashboardPage = () => {
                 >
                   <ChoreCreationFlow
                     theme={theme}
+                    timeZone={timeZone}
                     isSaving={isCreatingChore}
                     onSave={handleCreateChore}
                     onCancel={() => setChorePanelMode(null)}

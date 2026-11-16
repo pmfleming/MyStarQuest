@@ -7,6 +7,7 @@ import background from '../assets/comic/layers/cleaning/background.webp'
 import yellow from '../assets/comic/layers/cleaning/yellow-duster.webp'
 import mint from '../assets/comic/layers/cleaning/mint-mop.webp'
 import './storyCleaningScene.css'
+import { createStoryScenery } from './storySceneryDepth'
 
 export function createCleaningScene(host: HTMLElement) {
   const reduced = matchMedia('(prefers-reduced-motion: reduce)')
@@ -18,8 +19,11 @@ export function createCleaningScene(host: HTMLElement) {
     panelIds: ['15-speed-cleaning'],
     build(stage) {
       stage.append(img(background, 'cleaning-background'))
+      const scenery = createStoryScenery('palace', background)
+      stage.append(scenery.midground)
       actor(yellow, 'yellow')
       actor(mint, 'mint')
+      stage.append(scenery.foreground)
     },
     onReady: animate,
     onStop: cancelMotion,

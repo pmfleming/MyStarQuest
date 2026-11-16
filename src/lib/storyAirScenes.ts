@@ -5,6 +5,7 @@ import {
 } from './storyLayerScene'
 import sizes from '../assets/comic/layers/air/sizes.json'
 import './storyAirScenes.css'
+import { createStoryScenery } from './storySceneryDepth'
 
 const assets = import.meta.glob<string>('../assets/comic/layers/air/*.webp', {
   eager: true,
@@ -57,6 +58,8 @@ export function createAirScenes(host: HTMLElement) {
       width = size.width
       height = size.height
       stage.append(image(id, 'air-background'))
+      const scenery = createStoryScenery('clouds')
+      stage.append(scenery.midground)
       const builders = [
         playground,
         slide,
@@ -67,6 +70,7 @@ export function createAirScenes(host: HTMLElement) {
         bridge,
       ]
       builders[airSceneIds.indexOf(id)]!()
+      stage.append(scenery.foreground)
     },
     onReady: startMotion,
     onVisibilityChange: () => syncStoryAnimationVisibility(animations),

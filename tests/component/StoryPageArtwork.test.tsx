@@ -109,7 +109,7 @@ it('keeps the previous artwork on a failed load and recovers on another page', a
   expect(screen.getByRole('img', { name: 'Story two' })).toBeVisible()
 })
 
-it('plays the photo once after decoding and disposes it immediately when scrubbing away', async () => {
+it('preserves the photo until the next page decodes, then disposes it', async () => {
   vi.useFakeTimers()
   const play = vi.fn().mockResolvedValue(undefined)
   const dispose = vi.fn()
@@ -129,9 +129,12 @@ it('plays the photo once after decoding and disposes it immediately when scrubbi
   act(() => vi.advanceTimersByTime(STORY_PAGE_TRANSITION_MS))
   expect(play).toHaveBeenCalledTimes(1)
   view.rerender(<StoryPageArtwork panels={scenes} page={2} />)
-  expect(dispose).toHaveBeenCalledTimes(1)
+  expect(dispose).not.toHaveBeenCalled()
   expect(screen.getByRole('img', { name: 'Story one' })).toBeVisible()
+  await act(async () => requests.at(-1)!.onload!())
+  expect(dispose).toHaveBeenCalledTimes(1)
   view.rerender(<StoryPageArtwork panels={scenes} page={1} />)
+  await act(async () => requests.at(-1)!.onload!())
   expect(play).toHaveBeenCalledTimes(2)
   view.unmount()
   expect(dispose).toHaveBeenCalledTimes(2)
@@ -153,5 +156,7 @@ it('retains one underwater scene between introductions and disposes it when leav
   expect(create).toHaveBeenCalledTimes(1)
   expect(show).toHaveBeenLastCalledWith('one')
   view.rerender(<StoryPageArtwork panels={scenes} page={2} />)
+  expect(dispose).not.toHaveBeenCalled()
+  await act(async () => requests.at(-1)!.onload!())
   expect(dispose).toHaveBeenCalledTimes(1)
 })

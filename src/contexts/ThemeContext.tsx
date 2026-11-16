@@ -1,12 +1,14 @@
-import { getTeenieActivities, getTeenieBackgrounds } from '../ui/themeAssets'
+import {
+  getTeenieActivities,
+  getTeenieBackgrounds,
+  getThemeAsset,
+} from '../ui/themeAssets'
 import React, { createContext } from 'react'
 import { type ThemeId } from '../ui/themeOptions'
 import bedtimeImg from '../assets/themes/princess/bedtime.svg'
-import eatingBreakfastImg from '../assets/themes/princess/eating-breakfast.svg'
 import commuteImg from '../assets/themes/princess/commute.svg'
 import schooltimeImg from '../assets/themes/princess/schooltime.svg'
 import playingImg from '../assets/themes/princess/playing.svg'
-import eatingDinnerImg from '../assets/themes/princess/eating-dinner.svg'
 import computergamesImg from '../assets/themes/princess/computergames.svg'
 import bathtimeImg from '../assets/themes/princess/bathtime.svg'
 import cookingImg from '../assets/themes/princess/cooking.svg'
@@ -20,7 +22,6 @@ import circleTimeImg from '../assets/themes/princess/agenda/circle-time.webp'
 import outdoorPlayImg from '../assets/themes/princess/agenda/outdoor-play.webp'
 import fruitSnackImg from '../assets/themes/princess/agenda/fruit-snack.webp'
 import choiceTimeImg from '../assets/themes/princess/agenda/choice-time.webp'
-import schoolLunchImg from '../assets/themes/princess/agenda/school-lunch.webp'
 import goingHomeImg from '../assets/themes/princess/agenda/going-home.webp'
 import type { CalendarActivity } from '../lib/calendarSchedule'
 import springSunriseImg from '../assets/themes/princess/seasons/spring-sunrise.webp'
@@ -135,7 +136,7 @@ export const themes: Record<ThemeId, Theme> = {
     confetti: ['👑', '✨', '💖', '🌸'],
     activityImages: {
       bedtime: bedtimeImg,
-      eatingBreakfast: eatingBreakfastImg,
+      eatingBreakfast: getThemeAsset('princess', 'eatingBreakfastIcon'),
       commute: commuteImg,
       schooltime: schooltimeImg,
       tableWork: tableWorkImg,
@@ -143,10 +144,10 @@ export const themes: Record<ThemeId, Theme> = {
       outdoorPlay: outdoorPlayImg,
       fruitSnack: fruitSnackImg,
       choiceTime: choiceTimeImg,
-      schoolLunch: schoolLunchImg,
+      schoolLunch: getThemeAsset('princess', 'eatingLunchIcon'),
       goingHome: goingHomeImg,
       playing: playingImg,
-      eatingDinner: eatingDinnerImg,
+      eatingDinner: getThemeAsset('princess', 'eatingDinnerIcon'),
       computergames: computergamesImg,
       bathtime: bathtimeImg,
       cooking: cookingImg,

@@ -1,4 +1,5 @@
 import { ActionImage } from '../components/ui/ActionArtwork'
+import { getMealChoreTitle } from '../lib/mealTime'
 import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from './choreOverviewAssets'
@@ -120,8 +121,8 @@ export function createUnifiedChoreDescriptor(
 
       return createPresetUtilityAction<UnifiedChoreItem>({
         stage,
-        resetAriaLabel: `Reset ${item.title}`,
-        deleteAriaLabel: `Delete ${item.title}`,
+        resetAriaLabel: `Reset ${getMealChoreTitle(item, deps.mealPeriod)}`,
+        deleteAriaLabel: `Delete ${getMealChoreTitle(item, deps.mealPeriod)}`,
         onReset: (selected) => deps.onReset?.(selected),
         onDelete: (selected) => deps.onDeleteTask?.(selected.id),
       })
@@ -147,7 +148,10 @@ const createEatingPrimaryAction = (
     onBite: (selected) => deps.onApplyBite?.(selected),
     onStart: (selected) => deps.onStartDinner?.(selected),
   })
-  return { ...action, ariaLabel: `${action.label} ${item.title}` }
+  return {
+    ...action,
+    ariaLabel: `${action.label} ${getMealChoreTitle(item, deps.mealPeriod)}`,
+  }
 }
 
 const eatingActionIcon = (
@@ -159,7 +163,7 @@ const eatingActionIcon = (
   if (hasIllustratedTheme(deps.theme.id) && isActive) {
     return deps.activeMealIcon ?? getThemeAsset(deps.theme.id, 'biteIcon')
   }
-  return getPresetChoreOverviewImage('eating', deps.theme.id)
+  return getPresetChoreOverviewImage('eating', deps.theme.id, deps.mealPeriod)
 }
 
 const enterOrComplete = (deps: UnifiedChoreDeps, item: UnifiedChoreItem) => {

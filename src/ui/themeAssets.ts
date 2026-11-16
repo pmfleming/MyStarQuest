@@ -12,7 +12,9 @@ import tidyingUp from '../assets/themes/princess/tidying-up.webp'
 import writing from '../assets/themes/princess/writing.svg'
 import brave from '../assets/themes/princess/brave-princess.png'
 import gettingDressed from '../assets/themes/princess/getting-dressed-quickly.png'
-import dinnerOverview from '../assets/themes/princess/dinner-overview.webp'
+import dinnerOverview from '../assets/themes/princess/meal-dinner.webp'
+import breakfastOverview from '../assets/themes/princess/meal-breakfast.webp'
+import lunchOverview from '../assets/themes/princess/meal-lunch.webp'
 import waterToiletOverview from '../assets/themes/princess/water-toilet-check-overview.webp'
 import mathsCounter from '../assets/themes/princess/maths-counter.svg'
 import practicePiano from '../assets/themes/princess/practice-piano.png'
@@ -51,9 +53,9 @@ const princessAssets = {
   eatingFullImage: princess.princessEatingFullImage,
   eatingHungryImage: princess.princessEatingDinnerIcon,
   eatingFailImage: princess.princessEatingFailImage,
-  eatingBreakfastIcon: princess.princessEatingBreakfastIcon,
-  eatingLunchIcon: princess.princessEatingLunchIcon,
-  eatingDinnerIcon: princess.princessEatingDinnerIcon,
+  eatingBreakfastIcon: breakfastOverview,
+  eatingLunchIcon: lunchOverview,
+  eatingDinnerIcon: dinnerOverview,
   plateImage: princess.princessPlateImage,
   biteIcon: princess.princessBiteIcon,
   flaskFullImage: princess.princessFlaskFullImage,
@@ -131,8 +133,8 @@ const teenieRoles = {
   eatingHungryImage: 'eating-hungry.png',
   eatingFailImage: 'eating-fail.webp',
   eatingBreakfastIcon: 'eating-breakfast.webp',
-  eatingLunchIcon: 'eating-lunch.webp',
-  eatingDinnerIcon: 'dinner-overview.webp',
+  eatingLunchIcon: 'meal-lunch.webp',
+  eatingDinnerIcon: 'meal-dinner.webp',
   plateImage: 'plate.webp',
   biteIcon: 'dinner-overview.webp',
   flaskFullImage: 'flask-full.webp',
@@ -155,7 +157,7 @@ const teenieRoles = {
   practiceJudo: 'practice-judo.png',
   brave: 'brave.webp',
   gettingDressed: 'getting-dressed.webp',
-  dinnerOverview: 'dinner-overview.webp',
+  dinnerOverview: 'meal-dinner.webp',
   waterToiletOverview: 'water-toilet-check-overview.webp',
   mathsCounter: 'royal-symbol.webp',
   difficultyIcon: 'royal-symbol.webp',
@@ -194,7 +196,7 @@ export const getThemeAsset = (id: ThemeId | string, role: ThemeAssetRole) =>
 
 const createTeenieActivities = () => ({
   bedtime: teenieImage('bedtime.webp'),
-  eatingBreakfast: teenieImage('eating-breakfast.webp'),
+  eatingBreakfast: getThemeAsset('teenie', 'eatingBreakfastIcon'),
   commute: teenieImage('commute.webp'),
   schooltime: teenieImage('schooltime.webp'),
   tableWork: teenieImage('agenda/table-work.webp'),
@@ -202,10 +204,10 @@ const createTeenieActivities = () => ({
   outdoorPlay: teenieImage('agenda/outdoor-play.webp'),
   fruitSnack: teenieImage('agenda/fruit-snack.webp'),
   choiceTime: teenieImage('agenda/choice-time.webp'),
-  schoolLunch: teenieImage('agenda/school-lunch.webp'),
+  schoolLunch: getThemeAsset('teenie', 'eatingLunchIcon'),
   goingHome: teenieImage('agenda/going-home.webp'),
   playing: teenieImage('playing.webp'),
-  eatingDinner: teenieImage('dinner-overview.webp'),
+  eatingDinner: getThemeAsset('teenie', 'eatingDinnerIcon'),
   computergames: teenieImage('computergames.webp'),
   bathtime: teenieImage('bathtime.webp'),
   cooking: teenieImage('cooking.webp'),

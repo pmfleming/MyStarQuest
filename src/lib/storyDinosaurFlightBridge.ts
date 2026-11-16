@@ -1,11 +1,5 @@
-import { storyImage } from './storyLayerScene'
-import {
-  dinosaurFlightAsset,
-  dinosaurFlightLayoutFor,
-  dinosaurFlightLayouts,
-  placeFlightActor,
-  type FlightPlacement,
-} from './storyDinosaurFlightAssets'
+import { buildDinosaurFlightStage } from './storyDinosaurFlightScene'
+import { snapshotStoryScene } from './storySceneSnapshot'
 
 type Animate = (
   element: Element,
@@ -13,95 +7,135 @@ type Animate = (
   options?: KeyframeAnimationOptions
 ) => Animation
 
-/** Carry all three mounted friends across the changing landscape between pages. */
+/** Fly the visible party into the exact scene that will remain after the turn. */
 export function buildDinosaurFlightBridge(
   artwork: HTMLElement,
   fromId: string,
-  toId: string
+  toId: string,
+  previous?: HTMLElement
 ) {
-  const from = dinosaurFlightLayoutFor(fromId)!
-  const to = dinosaurFlightLayoutFor(toId)!
-  const destination = to.mode === 'takeoff' ? dinosaurFlightLayouts[0]! : to
-  const members = [
-    { id: 'odette', start: from.rider, end: destination.rider },
-    ...from.companions.map((companion) => ({
-      id: companion.id,
-      start: companion,
-      end: destination.companions.find((member) => member.id === companion.id)!,
-    })),
-  ].map((member) => {
-    const actor = document.createElement('div')
-    actor.className = 'dinosaur-flight-rider dinosaur-flight-bridge-rider'
-    actor.dataset.rider = member.id
-    placeFlightActor(actor, member.start)
-    actor.append(
-      storyImage(
-        dinosaurFlightAsset(
-          member.id === 'odette'
-            ? to.mode === 'boarding'
-              ? 'boarding'
-              : to.mode === 'tour'
-                ? 'riding-lookdown'
-                : 'riding'
-            : `${member.id}-riding`
-        ),
-        'dinosaur-flight-rider-sprite'
-      )
-    )
-    artwork.append(actor)
-    return { ...member, actor }
-  })
-  const cloud = document.createElement('div')
-  cloud.className = 'dinosaur-flight-transition-cloud'
-  artwork.append(cloud)
-  const position = (place: FlightPlacement) => ({
-    left: `${place.x}%`,
-    bottom: `${100 - place.bottom}%`,
-    width: `${place.width}%`,
-  })
+  const scene = (id: string) => {
+    const stage = document.createElement('div')
+    stage.className = 'dinosaur-flight-scene ready dinosaur-flight-bridge-scene'
+    buildDinosaurFlightStage(stage, id)
+    return stage
+  }
+  const source = (previous && snapshotStoryScene(previous)) || scene(fromId)
+  source.classList.add('dinosaur-flight-bridge-scene')
+  const target = scene(toId)
+  target.style.opacity = '0'
+  artwork.append(source, target)
+
   return {
-    source: dinosaurFlightAsset(`${from.id}-landscape`),
-    target: dinosaurFlightAsset(`${to.id}-landscape`),
-    play(source: HTMLImageElement, target: HTMLImageElement, animate: Animate) {
-      animate(source, [
-        { opacity: 1, transform: 'scale(1)' },
-        { opacity: 0, transform: 'scale(1.08) translate(2%, 2%)' },
-      ])
+    play(animate: Animate) {
+      // Keep the scenery in front of the carried actors, not flattened below them.
+      for (const depth of ['air', 'foreground']) {
+        const outgoing = source.querySelector<HTMLElement>(
+          `:scope > .dinosaur-depth-${depth}`
+        )
+        const incoming = target.querySelector<HTMLElement>(
+          `:scope > .dinosaur-depth-${depth}`
+        )
+        if (outgoing) {
+          artwork.append(outgoing)
+          animate(outgoing, [
+            { opacity: 1 },
+            { opacity: 0, offset: 0.8 },
+            { opacity: 0 },
+          ])
+        }
+        if (incoming) {
+          artwork.append(incoming)
+          animate(incoming, [
+            { opacity: 0 },
+            { opacity: 1, offset: 0.8 },
+            { opacity: 1 },
+          ])
+        }
+      }
+      // Keep an opaque landscape underneath the incoming one throughout the dissolve.
       animate(target, [
-        { opacity: 0, transform: 'scale(1.06) translate(-2%, -1%)' },
-        { opacity: 1, transform: 'none', offset: 0.85 },
-        { opacity: 1, transform: 'none' },
+        { opacity: 0 },
+        { opacity: 1, offset: 0.8 },
+        { opacity: 1 },
       ])
-      for (const member of members) {
+      const startRiders = [
+        ...source.querySelectorAll<HTMLElement>('.dinosaur-flight-rider'),
+      ]
+      for (const start of startRiders) {
+        const end = target.querySelector<HTMLElement>(
+          `[data-rider="${start.dataset.rider}"]`
+        )!
+        const startStyle = getComputedStyle(start)
+        const endStyle = getComputedStyle(end)
+        const startPose = {
+          left: startStyle.left,
+          bottom: startStyle.bottom,
+          width: startStyle.width,
+          height: startStyle.height,
+          transform: startStyle.transform,
+        }
+        const endPose = {
+          left: endStyle.left,
+          bottom: endStyle.bottom,
+          width: endStyle.width,
+          height: endStyle.height,
+          transform: endStyle.transform,
+        }
+        // Extract the current pose before fading the scenery; both poses travel together.
+        const carrier = document.createElement('div')
+        carrier.className = 'dinosaur-flight-rider dinosaur-flight-bridge-rider'
+        carrier.dataset.rider = start.dataset.rider
+        carrier.style.zIndex = start.dataset.rider === 'odette' ? '5' : '3'
+        Object.assign(carrier.style, startPose)
+        const oldSprite = start.firstElementChild as HTMLElement
+        const newSprite = end.firstElementChild as HTMLElement
+        const oldTransform = getComputedStyle(oldSprite).transform
+        carrier.append(newSprite, oldSprite)
+        newSprite.style.position = 'absolute'
+        newSprite.style.inset = 'auto 0 0'
+        oldSprite.style.position = 'absolute'
+        oldSprite.style.inset = 'auto 0 0'
+        oldSprite.style.width = '100%'
+        oldSprite.style.height = 'auto'
+        oldSprite.style.animation = 'none'
+        oldSprite.style.transform = oldTransform
+        start.remove()
+        end.remove()
+        artwork.append(carrier)
+        const middle = Object.fromEntries(
+          (['left', 'bottom', 'width', 'height'] as const).map((key) => [
+            key,
+            `${
+              (parseFloat(startPose[key]) + parseFloat(endPose[key])) / 2 +
+              (key === 'bottom' ? artwork.clientHeight * 0.025 : 0)
+            }px`,
+          ])
+        )
         animate(
-          member.actor,
+          carrier,
           [
+            startPose,
             {
-              ...position(member.start),
-              transform: 'translateX(-50%) rotate(0deg)',
-            },
-            {
-              ...position({
-                x: (member.start.x + member.end.x) / 2 - 3,
-                bottom: (member.start.bottom + member.end.bottom) / 2 - 4,
-                width: (member.start.width + member.end.width) / 2,
-              }),
-              transform: 'translateX(-50%) rotate(-8deg)',
+              ...middle,
+              transform: 'translateX(-50%) rotate(-3deg)',
               offset: 0.5,
             },
-            {
-              ...position(member.end),
-              transform: 'translateX(-50%) rotate(0deg)',
-            },
+            endPose,
           ],
           { easing: 'ease-in-out' }
         )
+        animate(newSprite, [
+          { opacity: 0 },
+          { opacity: 1, offset: 0.8 },
+          { opacity: 1 },
+        ])
+        animate(oldSprite, [
+          { opacity: 1, transform: oldTransform },
+          { opacity: 0, transform: 'none', offset: 0.8 },
+          { opacity: 0, transform: 'none' },
+        ])
       }
-      animate(cloud, [
-        { transform: 'translateX(120%)', opacity: 0 },
-        { transform: 'translateX(5%)', opacity: 0.6, offset: 0.5 },
-        { transform: 'translateX(-120%)', opacity: 0 },
-      ])
     },
   }
 }

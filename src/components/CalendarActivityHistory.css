@@ -3,25 +3,6 @@
   gap: 10px;
   margin-block: 0 16px;
 }
-.calendar-history__navigation {
-  display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) 44px;
-  align-items: center;
-  gap: 4px;
-}
-.calendar-history__navigation button {
-  min-height: 44px;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-}
-.calendar-history__navigation time {
-  min-width: 0;
-  text-align: center;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
 .calendar-history__views {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -67,8 +48,41 @@
   object-fit: contain;
 }
 .calendar-history__day {
-  margin: 4px 0 8px;
-  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 100%;
+  margin: 6px 0 10px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--agenda-accent);
+  border-radius: 16px 24px 18px 24px;
+  background: linear-gradient(
+    120deg,
+    var(--history-tint),
+    var(--history-reward)
+  );
+  color: var(--history-primary);
+  box-shadow: 0 2px 0 var(--agenda-accent);
+  font-family: var(--agenda-heading-font);
+  font-size: 1.125rem;
+  font-weight: 900;
+  line-height: 1.3;
+}
+.calendar-history__day > img {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  transform: rotate(-8deg);
+}
+.calendar-history__day time {
+  min-width: 0;
+}
+.calendar-history__day-sparkle {
+  flex: 0 0 auto;
+  color: var(--history-secondary);
+  font-size: 1rem;
+  align-self: flex-start;
 }
 .calendar-history__item .day-agenda__content {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 0.8fr);

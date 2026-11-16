@@ -10,12 +10,22 @@
 .dinosaur-flight-scene.ready {
   visibility: visible;
 }
+.dinosaur-flight-bridge-scene {
+  --paper-inset: 0px;
+}
+.dinosaur-flight-bridge-rider {
+  z-index: 3;
+}
 .dinosaur-flight-world,
 .dinosaur-flight-scene .dinosaur-flight-background {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+.dinosaur-flight-world {
+  z-index: 0;
+  isolation: isolate;
 }
 .dinosaur-flight-rider,
 .dinosaur-flight-visitor {
@@ -32,7 +42,70 @@
   height: auto;
 }
 .dinosaur-flight-dinosaur {
-  filter: drop-shadow(0 5px 3px #36342b22);
+  filter: saturate(0.92) brightness(0.98);
+}
+/* A shadow belongs on the terrain, rather than around the cutout's outline. */
+.dinosaur-flight-visitor:is(
+    .visitor-browse,
+    .visitor-walk,
+    .visitor-slither
+  )::before {
+  content: '';
+  position: absolute;
+  left: 12%;
+  bottom: -1.5%;
+  width: 76%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #33432c66,
+    #48533728 42%,
+    transparent 72%
+  );
+  transform: scaleX(1.12);
+}
+.dinosaur-flight-rider-sprite {
+  filter: saturate(0.94) brightness(1.02);
+}
+.dinosaur-flight-rider:is([data-rider='diana'], [data-rider='eclipse'])
+  .dinosaur-flight-rider-sprite {
+  filter: saturate(0.9) contrast(0.96) brightness(1.03);
+}
+.dinosaur-flight-launch-shadow {
+  position: absolute;
+  height: 4%;
+  transform: translate(-50%, 30%);
+  background: radial-gradient(
+    ellipse,
+    #51443855,
+    #51443818 45%,
+    transparent 70%
+  );
+}
+.dinosaur-flight-scene.flying[data-mode='takeoff']
+  .dinosaur-flight-launch-shadow {
+  animation: dinosaur-launch-shadow 6s ease-out both;
+}
+@keyframes dinosaur-launch-shadow {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 30%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, 30%) scale(0.45);
+  }
+}
+.dinosaur-flight-scene[data-habitat='canyon'] .dinosaur-flight-dinosaur {
+  filter: saturate(0.9) sepia(0.08) brightness(1.02);
+}
+/* The bridge ends at the entrance pose; takeoff starts at that same pose. */
+.dinosaur-flight-scene[data-mode='takeoff']:not(.flying):not([data-snapshot])
+  .dinosaur-flight-rider {
+  left: var(--launch-x) !important;
+  bottom: var(--launch-bottom) !important;
+  width: var(--launch-width) !important;
 }
 .dinosaur-flight-scene.flying[data-mode='tour'] .dinosaur-flight-world {
   animation: dinosaur-world-parallax 20s ease-in-out infinite;
@@ -74,8 +147,16 @@
   animation: dinosaur-swim 12s ease-in-out infinite;
 }
 .dinosaur-flight-scene[data-habitat='lagoon'] .dinosaur-flight-dinosaur {
-  opacity: 0.9;
-  filter: drop-shadow(0 12px 10px #067a9555);
+  opacity: 0.96;
+  filter: saturate(0.78) drop-shadow(0 8px 8px #067a9522);
+}
+.dinosaur-flight-scene[data-habitat='lagoon'] .dinosaur-flight-world::after {
+  content: '';
+  position: absolute;
+  inset: 61% 0 0;
+  background: linear-gradient(transparent, #56cbd126 40%, #169eae38);
+  pointer-events: none;
+  z-index: 4;
 }
 .dinosaur-flight-mist {
   position: absolute;
@@ -120,7 +201,10 @@
 }
 @keyframes dinosaur-boarding-settle {
   from {
-    transform: translate(-50%, 3%) rotate(-1.5deg);
+    transform: translate(-50%, 0) rotate(0deg);
+  }
+  45% {
+    transform: translate(-50%, 1%) rotate(-0.5deg);
   }
   to {
     transform: translate(-50%, 0) rotate(0deg);
@@ -162,41 +246,41 @@
 @keyframes dinosaur-stroll {
   0%,
   100% {
-    transform: translateX(-3%) rotate(-0.5deg);
+    transform: translateX(0) rotate(0deg);
   }
   25%,
   75% {
     transform: translateY(-1%);
   }
   50% {
-    transform: translateX(3%) rotate(0.5deg);
+    transform: translateX(1.5%) rotate(0.5deg);
   }
 }
 @keyframes dinosaur-slither {
   0%,
   100% {
-    transform: translateX(-4%) rotate(-2deg);
+    transform: translateX(0) rotate(0deg);
   }
   50% {
-    transform: translateX(4%) rotate(2deg);
+    transform: translateX(2%) rotate(1deg);
   }
 }
 @keyframes dinosaur-soar {
   0%,
   100% {
-    transform: translate(-3%, 1%) rotate(-2deg);
+    transform: translate(0, 0) rotate(0deg);
   }
   50% {
-    transform: translate(3%, -5%) rotate(3deg);
+    transform: translate(2%, -3%) rotate(2deg);
   }
 }
 @keyframes dinosaur-swim {
   0%,
   100% {
-    transform: translateX(-7%) rotate(-2deg);
+    transform: translateX(0) rotate(0deg);
   }
   50% {
-    transform: translateX(7%) rotate(2deg);
+    transform: translateX(4%) rotate(1deg);
   }
 }
 @keyframes dinosaur-cloud-drift {
@@ -219,5 +303,8 @@
   }
   .dinosaur-flight-mist {
     display: none;
+  }
+  .dinosaur-flight-scene[data-mode='takeoff'] .dinosaur-flight-launch-shadow {
+    opacity: 0;
   }
 }

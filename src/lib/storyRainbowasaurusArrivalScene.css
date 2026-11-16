@@ -10,6 +10,9 @@
 .rainbowasaurus-arrival-scene.ready {
   visibility: visible;
 }
+.rainbowasaurus-arrival-scene .dinosaur-depth-midground .dinosaur-depth-art {
+  top: 0;
+}
 .rainbowasaurus-arrival-scene .rainbowasaurus-arrival-background {
   position: absolute;
   inset: 0;
@@ -17,6 +20,7 @@
   height: 100%;
 }
 .rainbowasaurus-arrival-actor {
+  z-index: 5;
   position: absolute;
   width: 60%;
   left: 54%;
@@ -30,8 +34,10 @@
   position: static;
   width: 100%;
   height: auto;
+  filter: saturate(0.94) brightness(1.02);
 }
 .rainbowasaurus-arrival-shadow {
+  z-index: 3;
   position: absolute;
   left: 54%;
   top: 81%;

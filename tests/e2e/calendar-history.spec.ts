@@ -13,13 +13,19 @@ for (const theme of ['princess', 'teenie']) {
     await expect(views.getByRole('button')).toHaveCount(3)
     await expect(
       page.getByRole('group', { name: 'Calendar navigation' })
-    ).toHaveCount(1)
+    ).toHaveCount(0)
     await expect(page.getByLabel('Calendar date')).toHaveCount(1)
     await expect(page.locator('input[type="date"]')).toHaveCount(0)
-    await expect(page.locator('.calendar-weekday')).toHaveCount(7)
+    await expect(page.locator('.calendar-weekday:visible')).toHaveCount(0)
     const rows = page.locator('.calendar-history__item')
     for (const period of ['Day', 'Week', 'Month']) {
       await page.getByRole('radio', { name: period, exact: true }).click()
+      await expect(
+        page.getByRole('group', { name: 'Calendar navigation' })
+      ).toHaveCount(0)
+      await expect(
+        page.getByRole('button', { name: /^(Previous|Next) calendar/ })
+      ).toHaveCount(0)
       await views.getByRole('button', { name: 'Calendar', exact: true }).click()
       await expect(rows).toHaveCount(3)
       await expect(
@@ -77,27 +83,19 @@ for (const theme of ['princess', 'teenie']) {
       fullPage: true,
       animations: 'disabled',
     })
-    await page.getByRole('button', { name: 'Previous calendar month' }).click()
-    await expect(
-      page.getByRole('status', { name: 'No rewards received this month' })
-    ).toHaveCount(1)
-    await page.getByRole('button', { name: 'Next calendar month' }).click()
-    await expect(rows).toHaveCount(1)
-    await views.getByRole('button', { name: 'Calendar', exact: true }).click()
-    await expect(rows).toHaveCount(3)
-    await views.getByRole('button', { name: 'Chores/Tasks' }).click()
     await page.getByRole('radio', { name: 'Day', exact: true }).click()
-    await page.getByRole('button', { name: 'Previous calendar day' }).click()
-    await expect(rows).toHaveCount(0)
-    await page.getByRole('button', { name: 'Previous calendar day' }).click()
     await expect(
-      page.getByRole('button', { name: /^Practice piano,/ })
-    ).toBeVisible()
+      page.getByRole('button', { name: 'Previous calendar day' })
+    ).toHaveCount(0)
+    await expect(
+      page.getByRole('button', { name: 'Back to today' })
+    ).toHaveCount(0)
+    await expect(page.locator('.character-calendar__calendar')).toBeHidden()
     await views.getByRole('button', { name: 'Calendar', exact: true }).click()
     await expect(page.getByLabel('Calendar date')).toHaveAttribute(
       'datetime',
-      '2026-10-20'
+      '2026-10-22'
     )
-    await expect(rows).toHaveCount(1)
+    await expect(rows).toHaveCount(3)
   })
 }

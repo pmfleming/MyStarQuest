@@ -193,11 +193,20 @@ export function createStoryTransitions(
     artwork.append(source, target)
     const flightBridge =
       spec.kind === 'dinosaur-flight'
-        ? buildDinosaurFlightBridge(artwork, from.id, to.id)
+        ? buildDinosaurFlightBridge(artwork, from.id, to.id, options.previous)
         : undefined
     if (flightBridge) {
-      source.src = flightBridge.source
-      target.src = flightBridge.target
+      source.remove()
+      target.remove()
+    } else if (spec.kind === 'normal') {
+      const snapshot = options.previous?.querySelector<HTMLElement>(
+        '[data-snapshot="true"]'
+      )
+      if (snapshot) {
+        const copy = snapshot.cloneNode(true) as HTMLElement
+        copy.classList.add('transition-scene-source')
+        artwork.append(copy)
+      }
     }
     layer.append(artwork)
     book.append(layer)
@@ -261,7 +270,7 @@ export function createStoryTransitions(
         ],
         { easing: 'ease-in-out' }
       )
-      if (flightBridge) flightBridge.play(source, target, animate)
+      if (flightBridge) flightBridge.play(animate)
       else animateStoryEffect(spec, source, target, artwork, animate, audio)
     }
     layer.dataset.ready = 'true'
@@ -657,6 +666,23 @@ function animateNormalStoryPage(
     { transform: transform(scale), offset: 1 },
   ])
   // The live destination includes its own paper and any layered scene animation.
+  const snapshot = illustration.querySelector<HTMLElement>(
+    '.transition-scene-source'
+  )
+  if (snapshot) {
+    Object.assign(snapshot.style, {
+      inset: 'auto',
+      left: '50%',
+      top: '50%',
+      width: `${width}px`,
+      height: `${height}px`,
+    })
+    animate(snapshot, [
+      { transform: transform(1), offset: 0, easing: expansion },
+      { transform: transform(scale), offset: coverAt },
+      { transform: transform(scale), offset: 1 },
+    ])
+  }
   // A step keeps it hidden for the entire expansion, including between frames.
   animate(frame, [
     { visibility: 'hidden', offset: 0, easing: 'steps(1, end)' },

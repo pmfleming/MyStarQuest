@@ -4,18 +4,17 @@ import { useSelectedDate } from '../contexts/SelectedDateContext'
 import { parseDateKey } from '../lib/today'
 import {
   selectCalendarHistory,
-  shiftHistoryDate,
   type CalendarHistoryEntry,
   type HistoryPeriod,
   type HistoryView,
 } from '../lib/calendarHistory'
-import { historyIcon, historyPeriodIcons } from '../ui/calendarHistoryAssets'
+import { historyIcon } from '../ui/calendarHistoryAssets'
 import { getThemeAsset } from '../ui/themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
 import { getPresetChoreOverviewImage } from '../ui/choreOverviewAssets'
 import { getRewardImage } from '../assets/rewards/assets'
 import starImage from '../assets/global/star.svg'
-import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import CalendarDateControl from './CalendarDateControl'
 import ResourceLoadingIcon from './ui/ResourceLoadingIcon'
 import ExpandableAgendaItem from './ExpandableAgendaItem'
 import AgendaTime from './AgendaTime'
@@ -33,9 +32,8 @@ const labels = {
 }
 const formatDay = (key: string) =>
   parseDateKey(key).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
+    day: 'numeric',
+    month: 'long',
   })
 function HistoryCount({
   image,
@@ -150,7 +148,7 @@ export default function CalendarActivityHistory({
   children?: ReactNode
   agenda?: ReactNode
 }) {
-  const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
+  const { selectedDateKey } = useSelectedDate()
   const resultPeriod = view === 'all' ? 'day' : period
   const filtered = selectCalendarHistory(
     entries,
@@ -178,6 +176,8 @@ export default function CalendarActivityHistory({
     '--agenda-accent': theme.colors.accent,
     '--agenda-heading-font': theme.fonts.heading,
     '--history-tint': `${theme.colors.primary}08`,
+    '--history-primary': theme.colors.primary,
+    '--history-secondary': theme.colors.secondary,
     '--history-reward': `${theme.colors.accent}30`,
     '--history-radius': `${uiTokens.listActionRadius}px`,
   }
@@ -187,49 +187,13 @@ export default function CalendarActivityHistory({
       aria-label="Activity history"
       style={style}
     >
-      <SegmentedChoiceControl<HistoryPeriod>
+      <CalendarDateControl
         theme={theme}
-        value={period}
-        ariaLabel="History period"
-        onChange={onPeriodChange}
-        options={(['day', 'week', 'month'] as const).map((value) => ({
-          value,
-          label: value.charAt(0).toUpperCase() + value.slice(1),
-          icon: historyPeriodIcons[value],
-        }))}
-      />
-      <div
-        className="calendar-history__navigation"
-        role="group"
-        aria-label="Calendar navigation"
+        period={period}
+        onPeriodChange={onPeriodChange}
       >
-        <button
-          type="button"
-          aria-label={`Previous calendar ${period}`}
-          onClick={() =>
-            setSelectedDateKey(shiftHistoryDate(selectedDateKey, period, -1))
-          }
-        >
-          ◀
-        </button>
-        <time
-          dateTime={selectedDateKey}
-          aria-label="Calendar date"
-          aria-live="polite"
-        >
-          {formatDay(selectedDateKey)}
-        </time>
-        <button
-          type="button"
-          aria-label={`Next calendar ${period}`}
-          onClick={() =>
-            setSelectedDateKey(shiftHistoryDate(selectedDateKey, period, 1))
-          }
-        >
-          ▶
-        </button>
-      </div>
-      {children}
+        {children}
+      </CalendarDateControl>
       <div
         className="calendar-history__views"
         role="group"
@@ -311,7 +275,18 @@ export default function CalendarActivityHistory({
             <section key={day} aria-label={`${labels[view]} for ${day}`}>
               {resultPeriod !== 'day' && (
                 <h4 className="calendar-history__day">
+                  <img
+                    src={getThemeAsset(theme.id, 'storyProgressIcon')}
+                    alt=""
+                    aria-hidden="true"
+                  />
                   <time dateTime={day}>{formatDay(day)}</time>
+                  <span
+                    className="calendar-history__day-sparkle"
+                    aria-hidden="true"
+                  >
+                    ✦
+                  </span>
                 </h4>
               )}
               <ul className="day-agenda__list">

@@ -35,6 +35,7 @@ const getRequiredItem = (items: CarouselItem[], index: number) => {
 
 const Carousel = ({
   items,
+  title,
   initialIndex = 0,
   onChange,
   className,
@@ -154,7 +155,23 @@ const Carousel = ({
   }
 
   return (
-    <div className={className} style={{ ...rootStyle, ...style }}>
+    <div
+      className={className}
+      style={{ ...rootStyle, ...style }}
+      role="group"
+      aria-label={title}
+    >
+      {title && (
+        <div
+          style={{
+            color: theme.colors.text,
+            fontSize: '1.2rem',
+            fontWeight: 800,
+          }}
+        >
+          {title}
+        </div>
+      )}
       <ActionFeedback {...action} />
       <div style={stageStyle}>
         <div

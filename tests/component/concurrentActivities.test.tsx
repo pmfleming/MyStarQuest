@@ -110,6 +110,7 @@ beforeEach(() => {
   state.date = '2026-10-03'
   state.native = false
   vi.useFakeTimers()
+  vi.setSystemTime(new Date('2026-11-16T18:00:00Z'))
   Object.defineProperty(HTMLDialogElement.prototype, 'showModal', {
     configurable: true,
     value: function (this: HTMLDialogElement) {
@@ -131,12 +132,31 @@ afterEach(() => {
   Reflect.deleteProperty(HTMLDialogElement.prototype, 'close')
 })
 
+// Both eating records now display the current meal. Scope actions to their cards
+// so this test continues to verify independent timers and cooldowns.
+const button = (name: string) => {
+  const match = /^(Run|Bite|Reset) (Breakfast|Dinner)$/.exec(name)
+  if (!match) return screen.getByRole('button', { name, exact: true })
+  const index = match[2] === 'Breakfast' ? 0 : 1
+  const card = screen
+    .getAllByRole('button', { name: /^(Run|Bite) Dinner$/ })
+    [index].closest('article')!
+  return within(card).getByRole('button', {
+    name: `${match[1]} Dinner`,
+    exact: true,
+  })
+}
+
 const click = async (name: string) => {
   await act(async () => {
     const role = Object.values(categoryLabels).includes(name)
       ? 'radio'
       : 'button'
-    fireEvent.click(screen.getByRole(role, { name, exact: true }))
+    fireEvent.click(
+      role === 'button'
+        ? button(name)
+        : screen.getByRole(role, { name, exact: true })
+    )
   })
 }
 const tree = () => (
@@ -217,10 +237,7 @@ it('resets chores from their menu without stopping retained tests', async () => 
   await click('Tests tab')
   expect(screen.getByRole('button', { name: 'Reset Arithmetic' })).toBeVisible()
   await click('Chores tab')
-  for (const chore of chores)
-    expect(
-      screen.getByRole('button', { name: `Run ${chore.title}` })
-    ).toBeVisible()
+  for (const chore of chores) expect(button(`Run ${chore.title}`)).toBeVisible()
 })
 
 it.each([true])(
@@ -263,16 +280,14 @@ it.each([true])(
     expect(fraction).not.toBeVisible()
     for (const chore of chores) await click(`Run ${chore.title}`)
     await click('Bite Breakfast')
-    expect(
-      screen.getByRole('button', { name: 'Bite Breakfast' })
-    ).toBeDisabled()
-    expect(screen.getByRole('button', { name: 'Bite Dinner' })).toBeEnabled()
+    expect(button('Bite Breakfast')).toBeDisabled()
+    expect(button('Bite Dinner')).toBeEnabled()
     await click('Bite Dinner')
     expect(state.applyBite).toHaveBeenCalledTimes(2)
     await click('Reset Breakfast')
     await click('Yes, reset')
     expect(state.resetDinner).toHaveBeenCalledWith(chores[0])
-    expect(screen.getByRole('button', { name: 'Bite Dinner' })).toBeDisabled()
+    expect(button('Bite Dinner')).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Finish Water' })).toBeVisible()
 
     await click('Rewards tab')
@@ -300,15 +315,15 @@ it.each([true])(
     expect(fraction).toBeVisible()
 
     await click('Chores tab')
-    expect(screen.getByRole('button', { name: 'Bite Dinner' })).toBeDisabled()
+    expect(button('Bite Dinner')).toBeDisabled()
     await act(async () => {
       vi.advanceTimersByTime(15000)
     })
-    expect(screen.getByRole('button', { name: 'Bite Dinner' })).toBeEnabled()
+    expect(button('Bite Dinner')).toBeEnabled()
     // The date rollover resets both the visible page and the retained hidden page.
     state.date = '2026-10-04'
     view.rerender(tree())
-    expect(screen.getByRole('button', { name: 'Run Dinner' })).toBeVisible()
+    expect(button('Run Dinner')).toBeVisible()
     await click('Tests tab')
     for (const test of allTests) {
       await click(categoryLabels[testCategory[test.taskType]])

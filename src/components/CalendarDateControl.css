@@ -1,0 +1,251 @@
+@font-face {
+  font-family: 'MSQ Calendar Fredoka';
+  src: url('../assets/fonts/Fredoka/Fredoka-VariableFont_wdth,wght.woff2')
+    format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+.character-calendar {
+  --calendar-month-rows: 5;
+  --calendar-stage-height: calc(
+    min(72px, (100cqw - 18px) / 7) + 13px + (100cqw - 18px) / 7 *
+      var(--calendar-month-rows) + (var(--calendar-month-rows) - 1) * 3px
+  );
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.character-calendar button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.character-calendar button:focus-visible {
+  outline: 3px solid var(--character-secondary);
+  outline-offset: 3px;
+}
+
+.character-calendar__hero {
+  box-sizing: border-box;
+  height: var(--calendar-stage-height);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: center;
+  gap: 8px 0;
+  padding: 12px 8px 22px;
+  border-radius: 28px;
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    var(--character-tint) 0%,
+    var(--character-surface) 75%
+  );
+}
+
+.character-calendar__portrait {
+  grid-area: 1 / 2;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.character-calendar__sticker {
+  position: relative;
+  isolation: isolate;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  max-width: 90%;
+  padding: 22px 32px 14px;
+  transform: rotate(-3deg);
+}
+
+.character-calendar__month-frame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 4px 0 var(--character-accent));
+}
+
+.character-calendar__month-panel {
+  fill: #fff0f8;
+  stroke: var(--character-accent);
+  stroke-width: 3;
+}
+
+.character-calendar__month-heart {
+  fill: var(--character-primary);
+  stroke: var(--character-surface);
+  stroke-width: 2;
+}
+
+.character-calendar__month-sparkles {
+  fill: var(--character-secondary);
+}
+
+.character-calendar[data-theme='princess'] .character-calendar__sticker {
+  transform: rotate(0);
+}
+
+.character-calendar[data-theme='princess'] .character-calendar__month-panel {
+  fill: #fff8e7;
+  stroke: #dba54a;
+}
+
+.character-calendar__month-ribbon {
+  fill: var(--character-accent);
+  stroke: var(--character-primary);
+  stroke-width: 2;
+}
+
+.character-calendar__month-crown {
+  fill: #f6cc62;
+  stroke: #b77b28;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.character-calendar__day-number {
+  grid-area: 1 / 1;
+  font-family: 'MSQ Calendar Fredoka', var(--app-fallback-font), sans-serif;
+  color: var(--character-primary);
+  font-size: clamp(5rem, 36cqw, 14rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  transform: rotate(-6deg);
+  -webkit-text-stroke: 5px var(--character-surface);
+  paint-order: stroke fill;
+  text-shadow:
+    0 5px 0 var(--character-accent),
+    0 8px 0 var(--character-tint);
+}
+
+.character-calendar__sticker > span {
+  font-family: 'MSQ Calendar Fredoka', var(--app-fallback-font), sans-serif;
+  color: var(--character-primary);
+  font-size: clamp(1.6rem, 9cqw, 3.75rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+
+.character-calendar__sticker small {
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.character-calendar__calendar {
+  min-width: 0;
+}
+
+.character-calendar__calendar[hidden] {
+  display: none;
+}
+
+.character-calendar__periods {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 5px;
+  border: 2px solid var(--character-accent);
+  border-radius: 26px;
+  background: var(--character-tint);
+}
+
+.character-calendar__periods > button {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 94px;
+  gap: 4px;
+  padding: 4px 2px 8px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.character-calendar__periods > button[aria-checked='true'] {
+  background: var(--character-surface);
+  border-color: var(--character-primary);
+  box-shadow: 0 3px 0 var(--character-accent);
+}
+
+.character-calendar__preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  pointer-events: none;
+}
+
+.character-calendar__preview img {
+  display: block;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.character-calendar__preview--week img {
+  width: 22%;
+  height: 45px;
+  margin-inline: -4%;
+  filter: drop-shadow(0 1px 0 var(--character-surface));
+}
+
+.character-calendar__preview--week img:nth-child(even) {
+  transform: translateY(-5px);
+}
+
+.character-calendar__preview--month > img {
+  position: absolute;
+  width: 45%;
+  height: 48px;
+  left: 1%;
+  bottom: 0;
+  z-index: 1;
+}
+
+.character-calendar__mini-month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  width: 56%;
+  max-width: 54px;
+  padding: 4px;
+  border: 2px solid var(--character-secondary);
+  border-top: 8px solid var(--character-accent);
+  border-radius: 8px;
+  background: var(--character-surface);
+  transform: translateX(17%) rotate(5deg);
+}
+
+.character-calendar__mini-month b {
+  height: 4px;
+  border-radius: 1px;
+  background: var(--character-accent);
+}
+
+.character-calendar__mini-month b[data-selected='true'] {
+  background: var(--character-primary);
+}

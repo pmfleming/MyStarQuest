@@ -6,7 +6,7 @@ import yellow from '../assets/comic/layers/tidying/yellow.webp'
 import mint from '../assets/comic/layers/tidying/mint.webp'
 import cyan from '../assets/comic/layers/tidying/cyan.webp'
 import heart from '../assets/comic/layers/tidying/heart.webp'
-import original from '../assets/comic/opening/17-tidying.webp'
+import original from '../assets/comic/layers/tidying/foreground.webp'
 import './storyTidyingScene.css'
 
 /** Only the distant helpers and window atmosphere move; foreground artwork stays fixed. */

@@ -2,6 +2,8 @@ import { ActionImage } from '../components/ui/ActionArtwork'
 import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
 import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
+import ChildAvatar from '../components/ChildAvatar'
+import ChildAvatarPicker from '../components/ChildAvatarPicker'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import StarDisplay from '../components/ui/StarDisplay'
 import ImageStarFrame from '../components/ui/ImageStarFrame'
@@ -98,20 +100,23 @@ export const createChildDefinitionListRowDescriptor = (
 ): ListRowDescriptor<ChildProfile> => ({
   renderHeader: (child) => (
     <div
-      className="flex flex-col"
+      className="flex items-center"
       style={{ gap: `${uiTokens.controlColumnGap}px` }}
     >
-      <ActionTextInput
-        theme={deps.theme}
-        label="Name"
-        value={deps.nameDrafts[child.id] ?? child.displayName}
-        onChange={(value) => deps.setNameDraft(child.id, value)}
-        onCommit={(value) => deps.commitDisplayName(child.id, value)}
-        maxLength={40}
-        baseColor={deps.theme.colors.primary}
-        inputAriaLabel="Child name"
-        transparent
-      />
+      <ChildAvatar child={child} size={64} />
+      <div className="min-w-0 flex-1">
+        <ActionTextInput
+          theme={deps.theme}
+          label="Name"
+          value={deps.nameDrafts[child.id] ?? child.displayName}
+          onChange={(value) => deps.setNameDraft(child.id, value)}
+          onCommit={(value) => deps.commitDisplayName(child.id, value)}
+          maxLength={40}
+          baseColor={deps.theme.colors.primary}
+          inputAriaLabel="Child name"
+          transparent
+        />
+      </div>
     </div>
   ),
   renderItem: (child) => {
@@ -136,6 +141,13 @@ export const createChildDefinitionListRowDescriptor = (
             if (!selected) return
             return deps.changeTheme(child, selected.id)
           }}
+        />
+
+        <ChildAvatarPicker
+          child={child}
+          onChange={(avatarToken) =>
+            deps.updateChildField(child.id, { avatarToken })
+          }
         />
 
         <StarDisplay

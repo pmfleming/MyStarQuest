@@ -3,6 +3,7 @@ import background from '../assets/comic/layers/ice-cream/background.webp'
 import coral from '../assets/comic/layers/ice-cream/coral.webp'
 import crystal from '../assets/comic/layers/ice-cream/crystal.webp'
 import './storyIceCreamScene.css'
+import { createStoryScenery } from './storySceneryDepth'
 
 /** Independent, subtle helper motion over a stationary kitchen plate. */
 export function createIceCreamScene(host: HTMLElement) {
@@ -11,6 +12,8 @@ export function createIceCreamScene(host: HTMLElement) {
     panelIds: ['14-ice-creams'],
     build(stage) {
       stage.append(image(background, 'ice-cream-background'))
+      const scenery = createStoryScenery('kitchen', background)
+      stage.append(scenery.midground)
       stage.append(image(coral, 'ice-cream-helper ice-cream-coral'))
       stage.append(image(crystal, 'ice-cream-helper ice-cream-crystal'))
       const sprinkles = document.createElement('div')
@@ -27,6 +30,7 @@ export function createIceCreamScene(host: HTMLElement) {
         sprinkles.append(sprinkle)
       }
       stage.append(sprinkles)
+      stage.append(scenery.foreground)
     },
   })
 }

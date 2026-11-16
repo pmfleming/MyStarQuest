@@ -32,7 +32,16 @@ export function createPhotoMoment(picture: HTMLElement) {
     height: `${(edge.height / bounds.height) * 100}%`,
   })
   print.append(paper, photo)
-  stage.append(backdrop, print, flash)
+  const hands = document.createElement('div')
+  hands.className = 'photo-moment-hands'
+  for (const side of ['left', 'right']) {
+    const glove = document.createElement('img')
+    glove.src = backdropUrl
+    glove.alt = ''
+    glove.className = `photo-moment-hand-${side}`
+    hands.append(glove)
+  }
+  stage.append(backdrop, print, hands, flash)
   picture.append(stage)
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
   let generation = 0
@@ -86,7 +95,9 @@ export function createPhotoMoment(picture: HTMLElement) {
       /* Silent playback is supported. */
     }
     try {
-      await Promise.all([photo.decode(), backdrop.decode()])
+      await Promise.all(
+        Array.from(stage.querySelectorAll('img'), (image) => image.decode())
+      )
     } catch {
       if (run === generation) stop()
       return
@@ -144,6 +155,15 @@ export function createPhotoMoment(picture: HTMLElement) {
           { opacity: 0, offset: 0 },
           { opacity: 0, offset: 0.34 },
           { opacity: 1, offset: 0.67 },
+          { opacity: 1, offset: 1 },
+        ],
+        timing
+      ),
+      hands.animate(
+        [
+          { opacity: 0, offset: 0 },
+          { opacity: 0, offset: 0.72 },
+          { opacity: 1, offset: 0.94 },
           { opacity: 1, offset: 1 },
         ],
         timing

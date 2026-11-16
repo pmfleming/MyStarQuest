@@ -1,6 +1,32 @@
+.calendar-transition-frame {
+  position: relative;
+}
+
+.calendar-transition-previous {
+  position: absolute;
+  inset: 0 0 auto;
+  pointer-events: none;
+}
+
+.calendar-transition-frame[data-transitioning='true'] .calendar-date-grid,
+.calendar-transition-frame[data-transitioning='true'] .calendar-weekday-row,
+.calendar-transition-frame[data-transitioning='true'] .calendar-weekday > img {
+  transition: none;
+}
+
 .school-calendar-grid {
+  height: var(--calendar-stage-height);
+  grid-template-rows: auto minmax(0, 1fr);
   --calendar-weekday-size: min(72px, calc((100cqw - 18px) / 7));
   --calendar-weekday-growth: 0px;
+}
+
+.calendar-date-grid {
+  min-height: 0;
+}
+
+.school-calendar-grid[data-period='week'] {
+  grid-template-rows: minmax(0, 1fr);
 }
 
 .school-calendar-grid[data-period='day'],
@@ -51,10 +77,29 @@
 }
 
 .calendar-date-number {
-  font-size: 1.2rem;
+  font-size: clamp(1.1rem, 5.5cqw, 2rem);
+  pointer-events: none;
+}
+
+.calendar-date-number-sticker {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  color: var(--calendar-number-primary);
+  font-variant-numeric: lining-nums;
+  letter-spacing: -0.06em;
+  -webkit-text-stroke: 3px white;
+  paint-order: stroke fill;
   text-shadow:
-    0 0 3px #fff,
-    0 0 3px #fff;
+    0 2px 0 white,
+    0 3px 0 var(--calendar-number-accent),
+    0 4px 3px #3c285626;
+  transform: rotate(-5deg);
+}
+
+.calendar-date:nth-child(even) .calendar-date-number-sticker {
+  color: var(--calendar-number-secondary);
+  transform: rotate(5deg);
 }
 
 .calendar-date[data-illustrated='true'] .calendar-date-artwork {
@@ -64,8 +109,8 @@
 .calendar-date[data-illustrated='true'] .calendar-date-number {
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 2px;
-  font-size: 0.85rem;
+  padding: 4px;
+  font-size: clamp(0.95rem, 4cqw, 1.35rem);
 }
 
 .school-calendar-grid:not([data-period='month']) .calendar-date {
@@ -78,17 +123,118 @@
 
 .school-calendar-grid:not([data-period='month']) .calendar-date-number {
   align-items: flex-start;
-  padding: 6px 2px;
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .school-calendar-grid[data-period='day'] .calendar-date-number {
-  font-size: 2rem;
+  font-size: clamp(3.5rem, 20cqw, 8rem);
+}
+
+.school-calendar-grid[data-period='week'] .calendar-date-number {
+  font-size: clamp(1.75rem, 8.5cqw, 3.5rem);
 }
 
 .school-calendar-grid[data-period='week']
   .calendar-date:not([aria-pressed='true'])
   .calendar-date-number {
-  font-size: clamp(0.85rem, 4cqw, 1.2rem);
+  font-size: clamp(1rem, 5.4cqw, 2rem);
+}
+
+.school-calendar-grid:not([data-period='month'])
+  .calendar-date[aria-pressed='true'] {
+  display: grid;
+  grid-template-columns: minmax(0, 40fr) minmax(0, 60fr);
+  grid-template-rows: minmax(0, 1fr);
+  align-items: center;
+}
+
+.school-calendar-grid:not([data-period='month'])
+  .calendar-date[aria-pressed='true']
+  .calendar-date-artwork {
+  position: relative;
+  inset: auto;
+  grid-area: 1 / 2;
+  min-width: 0;
+  min-height: 0;
+  opacity: 1;
+}
+
+.school-calendar-grid:not([data-period='month'])
+  .calendar-date[aria-pressed='true']
+  .calendar-date-number {
+  position: relative;
+  inset: auto;
+  grid-area: 1 / 1;
+  align-items: center;
+  padding: 0 0 6px 4px;
+}
+
+.school-calendar-grid[data-period='week'] .calendar-date[aria-pressed] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows:
+    clamp(44px, 16cqw, 90px)
+    minmax(min-content, 1fr) minmax(0, 3fr);
+  align-items: center;
+}
+
+.calendar-date-weekday {
+  grid-area: 1 / 1;
+  justify-self: center;
+  width: min(100%, 72px);
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  padding-top: 6px;
+}
+
+.calendar-date[aria-pressed='true'] .calendar-date-weekday {
+  width: 90%;
+}
+
+.school-calendar-grid[data-period='week'] .calendar-date[aria-pressed='true'] {
+  grid-template-rows:
+    minmax(0, 1.2fr)
+    minmax(min-content, 0.9fr) minmax(0, 1.9fr);
+}
+
+.school-calendar-grid[data-period='week']
+  .calendar-date[aria-pressed]
+  .calendar-date-number {
+  position: relative;
+  inset: auto;
+  grid-area: 2 / 1;
+  align-items: flex-start;
+  padding: 4px 0 0;
+}
+
+.school-calendar-grid[data-period='week']
+  .calendar-date[aria-pressed='true']
+  .calendar-date-number {
+  font-size: clamp(3rem, 20cqw, 7rem);
+}
+
+.school-calendar-grid[data-period='week']
+  .calendar-date[aria-pressed]
+  .calendar-date-artwork {
+  position: relative;
+  inset: auto;
+  grid-area: 3 / 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 4px 4px 14px;
+  align-self: start;
+}
+
+@container (max-width: 320px) {
+  .school-calendar-grid[data-period='week']
+    .calendar-date:not([aria-pressed='true'])
+    .calendar-date-number-sticker {
+    letter-spacing: -0.09em;
+    -webkit-text-stroke-width: 2px;
+    transform: scaleX(0.9);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

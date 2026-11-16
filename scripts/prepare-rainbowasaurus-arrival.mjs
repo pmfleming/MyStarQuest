@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test'
 import { readFile, writeFile } from 'node:fs/promises'
+import { renderDinosaurDepth } from './render-dinosaur-depth.mjs'
 
 const assets = new URL('../src/assets/', import.meta.url)
 const background = await readFile(
@@ -74,3 +75,4 @@ try {
 } finally {
   await browser.close()
 }
+await renderDinosaurDepth(['62-rainbowasaurus-arrival'])

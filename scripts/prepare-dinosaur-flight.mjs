@@ -1,5 +1,6 @@
 import { chromium } from '@playwright/test'
 import { copyFile, mkdir, readFile, writeFile } from 'node:fs/promises'
+import { renderDinosaurDepth } from './render-dinosaur-depth.mjs'
 
 const root = new URL('../', import.meta.url)
 const references = new URL('src/assets/comic/references/dinosaur-flight/', root)
@@ -170,3 +171,5 @@ try {
 } finally {
   await browser.close()
 }
+// Keep the final illustrations in sync with the runtime depth layers.
+await renderDinosaurDepth(layout.map((scene) => scene.id))

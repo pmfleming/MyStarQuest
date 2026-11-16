@@ -1,10 +1,58 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, expect, it, vi } from 'vitest'
 import ChoreCreationFlow from '../../src/pages/ChoreCreationFlow'
 import { ThemeContext, themes } from '../../src/contexts/ThemeContext'
 import { getChoreImage } from '../../src/assets/chores/assets'
+import { getMealImage } from '../../src/ui/choreOverviewAssets'
 
-afterEach(cleanup)
+afterEach(() => {
+  cleanup()
+  vi.useRealTimers()
+})
+
+it.each([
+  ['breakfast', 'Breakfast', 8],
+  ['lunch', 'Lunch', 12],
+  ['dinner', 'Dinner', 18],
+] as const)(
+  'creates a %s chore with its current title and plate image',
+  async (meal, title, hour) => {
+    vi.useFakeTimers()
+    vi.setSystemTime(
+      new Date(`2026-11-16T${String(hour).padStart(2, '0')}:00:00Z`)
+    )
+    const onSave = vi.fn()
+    const theme = themes.teenie
+    render(
+      <ThemeContext.Provider
+        value={{ theme, currentTheme: 'teenie', setTheme: vi.fn() }}
+      >
+        <ChoreCreationFlow
+          theme={theme}
+          timeZone="UTC"
+          isSaving={false}
+          onSave={onSave}
+          onCancel={vi.fn()}
+        />
+      </ThemeContext.Provider>
+    )
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: title, exact: true }))
+      await vi.dynamicImportSettled()
+    })
+    expect(screen.getByRole('heading', { name: title })).toBeVisible()
+    expect(
+      screen
+        .getByLabelText('Dinner plate portions')
+        .querySelector(`image[href="${getMealImage('teenie', meal)}"]`)
+    ).not.toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: 'Save', exact: true }))
+    expect(onSave).toHaveBeenCalledExactlyOnceWith(
+      'eating',
+      expect.objectContaining({ title })
+    )
+  }
+)
 
 it.each([
   { themeId: 'princess', title: 'Practice piano', imageKey: 'practicePiano' },

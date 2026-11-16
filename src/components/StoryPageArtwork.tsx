@@ -6,6 +6,7 @@ import {
   type CSSProperties,
 } from 'react'
 import type { Story } from '../data/stories'
+import { snapshotStoryScene } from '../lib/storySceneSnapshot'
 import { STORY_PAGE_TRANSITION_MS } from '../lib/storyMotion'
 import { createPhotoMoment } from '../lib/storyPhotoMoment'
 import {
@@ -45,12 +46,19 @@ export default function StoryPageArtwork({
   const surface = useRef<HTMLDivElement>(null)
   const previousSurface = useRef<HTMLDivElement>(null)
   const transitionHost = useRef<HTMLDivElement>(null)
+  const outgoingScene = useRef<HTMLElement | undefined>(undefined)
   useLayoutEffect(() => {
     const from = frame.fromPage === null ? null : panels[frame.fromPage]!
     const to = panels[frame.page]!
     const host = transitionHost.current
     const current = surface.current
     const previous = previousSurface.current
+    if (previous && outgoingScene.current) {
+      previous
+        .querySelector('.story-paper-illustration')
+        ?.append(outgoingScene.current)
+      outgoingScene.current = undefined
+    }
     const dialog = host?.closest('dialog')
     if (
       !active ||
@@ -84,6 +92,8 @@ export default function StoryPageArtwork({
         .then(() => {
           if (disposed) return
           setFailedPage(null)
+          if (surface.current)
+            outgoingScene.current = snapshotStoryScene(surface.current)
           setFrame((current) =>
             current.page === page
               ? current
@@ -124,11 +134,8 @@ export default function StoryPageArtwork({
     panel.effect === 'underwater-meeting' &&
     previous?.effect === 'underwater-meeting'
   const createScene = getStorySceneFactory(panel.effect)
-  const sceneVisible =
-    active &&
-    (panel.effect === 'underwater-meeting'
-      ? panels[page]?.effect === 'underwater-meeting'
-      : frame.page === page)
+  // Keep painted layers alive until the next page is decoded and snapshotted.
+  const sceneVisible = active
   const style: CSSProperties &
     Record<'--story-page-duration' | '--story-page-ratio', string> = {
     '--story-page-duration': `${STORY_PAGE_TRANSITION_MS}ms`,
@@ -170,15 +177,13 @@ export default function StoryPageArtwork({
             alt={panel.alt}
             draggable={false}
           />
-          {active && panel.effect === 'photo-moment' && frame.page === page && (
+          {active && panel.effect === 'photo-moment' && (
             <StoryPhotoMoment key={panel.id} />
           )}
           {sceneVisible && createScene && (
             <StoryLayeredScene panelId={panel.id} create={createScene} />
           )}
-          {active &&
-            panel.effect === 'morning-rooms' &&
-            frame.page === page && <StoryMorningRooms />}
+          {active && panel.effect === 'morning-rooms' && <StoryMorningRooms />}
           {active && <StorySparkles panelId={panel.id} />}
         </div>
       </div>

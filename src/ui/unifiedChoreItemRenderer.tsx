@@ -1,4 +1,5 @@
 import { getTaskSuccessImage } from './taskSuccessImage'
+import { getMealChoreTitle } from '../lib/mealTime'
 import type { ReactNode } from 'react'
 import ChoreOutcomeView from '../components/ChoreOutcomeView'
 import ImageStarFrame from '../components/ui/ImageStarFrame'
@@ -53,7 +54,7 @@ export const renderUnifiedChoreHeader = (
         margin: 0,
       }}
     >
-      {item.title}
+      {getMealChoreTitle(item, deps.mealPeriod)}
     </h2>
   )
 }
@@ -65,13 +66,17 @@ const renderChoreContent = (
   stage: ChoreStage
 ) => {
   const type = item.taskType
-  const overviewImage = getPresetChoreOverviewImage(type, deps.theme.id)
+  const overviewImage = getPresetChoreOverviewImage(
+    type,
+    deps.theme.id,
+    deps.mealPeriod
+  )
   if (stage === 'setup' && overviewImage) {
     return (
       <ImageStarFrame
         theme={deps.theme}
         image={overviewImage}
-        imageAlt={`${item.title} chore`}
+        imageAlt={`${getMealChoreTitle(item, deps.mealPeriod)} chore`}
         starCount={
           type === 'watertoiletcheck'
             ? state.getWaterToiletDelta(item)

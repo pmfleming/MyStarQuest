@@ -1,11 +1,20 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  type ReactNode,
+  type CSSProperties,
+} from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
-import { uiTokens } from '../../tokens'
 import starSvgUrl from '../../assets/global/star.svg'
+import './StarInfoBox.css'
 
 type StarInfoBoxProps = {
   theme: Theme
   totalStars: number
+  childName?: string
+  avatarControl?: ReactNode
 }
 
 // Animation timing constants
@@ -116,7 +125,7 @@ const starPositions = Array.from({ length: 50 }, (_, i) => {
   // Smaller radius to fit within the component frame
   const baseRadius = 30 + i * 1.2
   const radiusVariation = Math.sin(i * 0.7) * 8 + Math.cos(i * 1.3) * 5
-  const radius = Math.min(baseRadius + radiusVariation, 70) // Cap the radius
+  const radius = Math.min(baseRadius + radiusVariation, 48)
   const rot = (i * 47 + Math.sin(i * 2.1) * 180) % 360
 
   return {
@@ -132,20 +141,21 @@ function useStarAnimation(totalStars: number) {
     spawned: 0,
     count: totalStars,
   })
-  const running = useRef(false)
   const spawnTimer = useRef<ReturnType<typeof setInterval>>(undefined)
   const phaseTimers = useRef(new Set<ReturnType<typeof setTimeout>>())
   const cancel = useCallback(() => {
     clearInterval(spawnTimer.current)
     phaseTimers.current.forEach(clearTimeout)
     phaseTimers.current.clear()
-    running.current = false
   }, [])
 
   const replay = useCallback(() => {
-    if (running.current) return
-    running.current = true
-    const visualCount = Math.max(0, Math.min(totalStars, 50))
+    cancel()
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setAnimation({ phase: 'gathered', spawned: 0, count: totalStars })
+      return
+    }
+    const visualCount = Math.max(1, Math.min(totalStars, 50))
     setAnimation({ phase: 'hidden', spawned: 0, count: totalStars })
     let spawned = 0
     spawnTimer.current = setInterval(() => {
@@ -162,22 +172,15 @@ function useStarAnimation(totalStars: number) {
       for (const [phase, delay] of phases) {
         const timer = setTimeout(() => {
           phaseTimers.current.delete(timer)
-          running.current = phase !== 'gathered'
           setAnimation({ phase, spawned, count: totalStars })
         }, delay)
         phaseTimers.current.add(timer)
       }
     }, 35)
-  }, [totalStars])
+  }, [totalStars, cancel])
 
   useEffect(() => {
-    if (totalStars !== 0) {
-      replay()
-      return cancel
-    }
-    const frame = requestAnimationFrame(() =>
-      setAnimation({ phase: 'gathered', spawned: 0, count: 0 })
-    )
+    const frame = requestAnimationFrame(replay)
     return () => {
       cancelAnimationFrame(frame)
       cancel()
@@ -187,41 +190,71 @@ function useStarAnimation(totalStars: number) {
   return { ...animation, replay }
 }
 
-const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
+const StarInfoBox = ({
+  theme,
+  totalStars,
+  childName,
+  avatarControl,
+}: StarInfoBoxProps) => {
   const { phase, spawned, count, replay } = useStarAnimation(totalStars)
   const heroState = STAR_TRANSITIONS[phase].hero
-  const visualCount = Math.max(0, Math.min(count, 50))
+  const visualCount = Math.max(1, Math.min(count, 50))
+  const countReady = phase === 'gathered' && count === totalStars
 
   return (
-    <>
+    <header
+      className="star-info"
+      aria-label={childName ? `${childName}'s stars` : 'Stars'}
+      style={
+        {
+          '--star-primary': theme.colors.primary,
+          '--star-secondary': theme.colors.secondary,
+          '--star-accent': theme.colors.accent,
+          '--star-surface': theme.colors.surface,
+          '--star-heading-font': theme.fonts.heading,
+          color: theme.colors.text,
+          fontFamily: theme.fonts.body,
+        } as CSSProperties
+      }
+    >
+      {avatarControl}
+      <div className="star-info__identity" data-visible={countReady}>
+        {childName && (
+          <h1
+            className="star-info__name"
+            title={childName}
+            aria-hidden={!countReady}
+          >
+            {childName}
+          </h1>
+        )}
+        <div
+          className="star-info__total"
+          role="status"
+          aria-label={countReady ? `${totalStars} stars` : undefined}
+        >
+          <span
+            className="star-info__count"
+            data-visible={countReady}
+            aria-hidden={!countReady}
+          >
+            {totalStars}
+          </span>
+        </div>
+        <span className="star-info__text-sparkles" aria-hidden="true">
+          <span>✦</span>
+          <span>✧</span>
+          <span>✦</span>
+        </span>
+      </div>
       <button
         type="button"
-        className="relative z-10 w-full transform p-0 text-center transition-transform hover:scale-[1.02]"
-        style={{
-          backgroundColor: theme.colors.surface,
-          boxShadow: `0 8px 0 ${theme.colors.accent}, 0 10px 30px -10px ${theme.colors.primary}40`,
-          border: `5px solid ${theme.colors.primary}`,
-          borderRadius: `${uiTokens.surfaceRadius}px`,
-          height: '180px',
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}
+        className="star-info__replay"
         aria-label="Replay star animation"
         onClick={replay}
+        data-phase={phase}
       >
-        {/* Animation Container */}
-        <span
-          style={{
-            position: 'relative',
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: `${uiTokens.actionRowGap}px`,
-          }}
-        >
-          {/* Mini Stars */}
+        <span className="star-info__constellation" aria-hidden="true">
           {starPositions.slice(0, visualCount).map((position, i) => (
             <MiniStar
               key={i}
@@ -230,68 +263,34 @@ const StarInfoBox = ({ theme, totalStars }: StarInfoBoxProps) => {
               starState={i < spawned ? phase : 'hidden'}
             />
           ))}
-
-          {/* Hero Star - grows during gathering */}
           <span
+            className="star-info__hero"
+            data-state={heroState}
             style={{
-              position: 'relative',
-              width: '100px',
-              height: '100px',
-              flexShrink: 0,
-              zIndex: 10,
               opacity: heroState === 'hidden' ? 0 : 1,
-              transform: heroState === 'hidden' ? 'scale(0)' : 'scale(1)',
+              transform:
+                heroState === 'hidden'
+                  ? 'scale(0) rotate(-25deg)'
+                  : 'scale(1) rotate(0deg)',
               transition:
                 heroState === 'growing'
                   ? `opacity ${PHASE_DURATION * 0.3}ms ease-out, transform ${PHASE_DURATION}ms cubic-bezier(0.55, 0, 1, 0.45)`
-                  : 'none',
-              animation:
-                heroState === 'pulsing'
-                  ? 'pulse-soft 3s infinite ease-in-out'
-                  : 'none',
+                  : 'transform 180ms ease, opacity 180ms ease',
             }}
           >
-            <img
-              src={starSvgUrl}
-              alt=""
-              style={{ width: '100%', height: '100%', display: 'block' }}
-              aria-hidden="true"
-            />
+            <img src={starSvgUrl} alt="" />
           </span>
-
-          {/* Result Number - to the right of the star */}
-          {phase === 'gathered' && (
-            <span
-              style={{
-                position: 'relative',
-                zIndex: 20,
-                fontSize: '52px',
-                fontWeight: 900,
-                color: theme.colors.primary,
-                textShadow: `2px 2px 0px ${theme.colors.accent}`,
-                animation:
-                  'reveal-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
-                fontFamily: theme.fonts.heading,
-              }}
-            >
-              {count}
-            </span>
-          )}
+          <span
+            className="star-info__twinkles"
+            data-active={phase === 'gathered'}
+          >
+            <span>✦</span>
+            <span>✦</span>
+            <span>✦</span>
+          </span>
         </span>
       </button>
-      {/* Keyframe animations injected via style tag */}
-      <style>{`
-        @keyframes reveal-pop {
-          0% { transform: scale(0); opacity: 0; }
-          60% { transform: scale(1.5); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
-        }
-        @keyframes pulse-soft {
-          0%, 100% { filter: drop-shadow(0 0 10px #fbbf2480); transform: scale(1); }
-          50% { filter: drop-shadow(0 0 25px #fbbf24cc); transform: scale(1.05); }
-        }
-      `}</style>
-    </>
+    </header>
   )
 }
 

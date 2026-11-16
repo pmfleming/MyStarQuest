@@ -22,6 +22,10 @@ export const schoolEventArtworks = [
   'good-friday',
   'easter-monday',
   'whit-monday',
+  'kruidnoten-baking',
+  'gift-wrapping',
+  'lantern-making',
+  'church-visit',
 ] as const
 export type SchoolEventArtwork = (typeof schoolEventArtworks)[number]
 export type SchoolEventKind = 'activity' | 'day-off' | 'early-finish'
@@ -72,6 +76,10 @@ const eventRules: EventRule[] = [
   [/^koningsspelen$/, 'King’s Games', 'kings-games'],
   [/^eindfeest$/, 'School Party', 'end-party'],
   [/^mr vergadering$/, 'Council Meeting', 'council-meeting'],
+  [/^kruidnoten bakken\b/, 'Cookie Baking', 'kruidnoten-baking'],
+  [/^inpakouders gezocht\b/, 'Gift Wrapping', 'gift-wrapping'],
+  [/^lampionnen maken\b/, 'Lantern Making', 'lantern-making'],
+  [/^bezoek kruiskerk$/, 'Church Visit', 'church-visit'],
 ]
 
 export const classifySchoolEvent = (summary: string): SchoolEventDetails => {

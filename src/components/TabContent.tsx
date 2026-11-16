@@ -11,6 +11,7 @@ import { useScrollHeader } from '../hooks/useScrollHeader'
 interface TabContentProps {
   theme: Theme
   title?: string
+  headerLeading?: ReactNode
   header?: ReactNode
   headerHeight?: number
   onResetToday?: () => Promise<void>
@@ -20,6 +21,7 @@ interface TabContentProps {
 const TabContent = ({
   theme,
   title,
+  headerLeading,
   header,
   headerHeight = uiTokens.floatingNavHeight,
   onResetToday,
@@ -39,6 +41,7 @@ const TabContent = ({
               <PageHeader
                 theme={theme}
                 title={title}
+                leading={headerLeading}
                 right={
                   <AppMenu
                     key={String(isVisible)}

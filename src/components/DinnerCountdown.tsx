@@ -389,7 +389,7 @@ const renderCountdownPlateDisplay = ({
     >
       {hasIllustratedTheme(theme.id) ? (
         <MealPlateReveal
-          hungryImage={getThemeAsset(theme.id, 'eatingHungryImage')}
+          hungryImage={biteIcon ?? getThemeAsset(theme.id, 'eatingHungryImage')}
           fullImage={getThemeAsset(theme.id, 'eatingFullImage')}
           successColors={[theme.colors.primary, theme.colors.secondary]}
           dividerColor={
@@ -605,7 +605,7 @@ export interface DinnerCountdownProps {
   biteCooldownEndsAt?: number | null
   /** Absolute timestamp when the main timer was started */
   timerStartedAt?: number | null
-  /** Icon shown during bite cooldown (themed) */
+  /** Current meal artwork shown on the plate and during bite cooldown. */
   biteIcon?: string
   /** Hide the +/- setup controls around the timer and plate */
   showSetupControls?: boolean

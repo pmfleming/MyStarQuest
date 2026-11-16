@@ -1,0 +1,297 @@
+.star-info {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
+  height: 156px;
+  padding: 8px;
+  border: 3px solid #fff;
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      ellipse at 92% 15%,
+      color-mix(in srgb, var(--star-accent) 45%, transparent),
+      transparent 64%
+    ),
+    linear-gradient(
+      120deg,
+      var(--star-surface) 20%,
+      color-mix(in srgb, var(--star-accent) 24%, white)
+    );
+  box-shadow:
+    0 5px 0 color-mix(in srgb, var(--star-accent) 60%, white),
+    0 12px 28px color-mix(in srgb, var(--star-primary) 15%, transparent);
+}
+
+.star-info__avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  height: 136px;
+  padding: 0;
+  border-radius: 20px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 160ms ease;
+  animation: star-info-avatar-in 700ms 100ms cubic-bezier(0.22, 1, 0.36, 1)
+    backwards;
+}
+
+.star-info__avatar img {
+  max-width: calc(100% + 16px);
+  transform: translateX(-4px);
+  filter: drop-shadow(
+    0 3px 5px color-mix(in srgb, var(--star-secondary) 20%, transparent)
+  );
+}
+
+.star-info__identity {
+  position: relative;
+  min-width: 0;
+  z-index: 1;
+  text-align: center;
+  font-family: var(--star-heading-font);
+}
+
+.star-info__identity[data-visible='false'] {
+  visibility: hidden;
+}
+
+.star-info__name {
+  margin: 0 0 4px;
+  font-size: clamp(16px, 4.8vw, 21px);
+  font-weight: 800;
+  line-height: 1.4;
+  color: var(--star-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.star-info__identity[data-visible='true'] .star-info__name {
+  animation: star-info-count-in 500ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+.star-info__count {
+  display: inline-block;
+  font-size: clamp(32px, 10vw, 46px);
+  font-weight: 900;
+  line-height: 1.25;
+  color: var(--star-primary);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  text-shadow:
+    0 2px 0 var(--star-surface),
+    0 0 14px color-mix(in srgb, var(--star-accent) 65%, transparent);
+}
+
+.star-info__count[data-visible='false'] {
+  visibility: hidden;
+}
+
+.star-info__count[data-visible='true'] {
+  animation: star-info-count-in 550ms 100ms cubic-bezier(0.22, 1, 0.36, 1)
+    backwards;
+}
+
+.star-info__text-sparkles {
+  position: absolute;
+  inset: -9px -3px;
+  pointer-events: none;
+  color: var(--star-accent);
+}
+.star-info__text-sparkles span {
+  position: absolute;
+  font-size: 13px;
+  opacity: 0;
+}
+.star-info__text-sparkles span:nth-child(1) {
+  top: 0;
+  left: 4%;
+  color: var(--star-secondary);
+}
+.star-info__text-sparkles span:nth-child(2) {
+  top: 38%;
+  right: 0;
+  font-size: 17px;
+}
+.star-info__text-sparkles span:nth-child(3) {
+  bottom: 0;
+  left: 12%;
+}
+.star-info__identity[data-visible='true'] .star-info__text-sparkles span {
+  animation: star-info-twinkle 3200ms 500ms ease-in-out infinite;
+}
+.star-info__identity[data-visible='true']
+  .star-info__text-sparkles
+  span:nth-child(2) {
+  animation-delay: 1500ms;
+}
+.star-info__identity[data-visible='true']
+  .star-info__text-sparkles
+  span:nth-child(3) {
+  animation-delay: 2500ms;
+}
+
+.star-info__replay {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 136px;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--star-accent) 35%, transparent),
+    color-mix(in srgb, var(--star-surface) 20%, transparent) 60%,
+    transparent 72%
+  );
+  cursor: pointer;
+  overflow: visible;
+}
+
+.star-info__constellation {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transform: translateX(4px);
+}
+
+.star-info__hero {
+  display: block;
+  width: clamp(108px, calc(100% + 16px), 132px);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 5px 8px #e0a12940);
+}
+
+.star-info__hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.star-info__hero[data-state='pulsing'] {
+  animation: star-info-glow 3s ease-in-out infinite;
+}
+
+.star-info__twinkles {
+  position: absolute;
+  inset: 0;
+  color: #e7a638;
+  opacity: 0;
+}
+
+.star-info__twinkles[data-active='true'] {
+  opacity: 1;
+}
+
+.star-info__twinkles span {
+  position: absolute;
+  font-size: 17px;
+  line-height: 1;
+  opacity: 0;
+}
+
+.star-info__twinkles span:nth-child(1) {
+  top: 18%;
+  right: 12%;
+}
+.star-info__twinkles span:nth-child(2) {
+  top: 56%;
+  left: 5%;
+  font-size: 12px;
+}
+.star-info__twinkles span:nth-child(3) {
+  bottom: 16%;
+  right: 22%;
+  font-size: 13px;
+}
+.star-info__twinkles[data-active='true'] span {
+  animation: star-info-twinkle 2400ms ease-in-out infinite;
+}
+.star-info__twinkles[data-active='true'] span:nth-child(2) {
+  animation-delay: 800ms;
+}
+.star-info__twinkles[data-active='true'] span:nth-child(3) {
+  animation-delay: 1600ms;
+}
+
+@keyframes star-info-twinkle {
+  0%,
+  65%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(-15deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.15) rotate(15deg);
+  }
+}
+
+.star-info__avatar:hover {
+  transform: translateY(-2px);
+}
+.star-info__avatar:active {
+  transform: scale(0.95);
+}
+.star-info__replay:active {
+  background-color: color-mix(in srgb, var(--star-accent) 20%, transparent);
+}
+.star-info button:focus-visible {
+  outline: 3px solid var(--star-primary);
+  outline-offset: 3px;
+}
+
+@keyframes star-info-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 3px 6px #e0a12940);
+  }
+  50% {
+    filter: drop-shadow(0 3px 14px #f5be4299);
+  }
+}
+
+@keyframes star-info-avatar-in {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.6) rotate(-12deg);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.04) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes star-info-count-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-info *,
+  .star-info *::before,
+  .star-info *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

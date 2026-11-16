@@ -111,7 +111,7 @@ it('keeps the itinerary on the selected day and uses the shared period for chore
     <SchoolCalendar theme={themes.princess} />
   )
   for (const [period, expectedDates, days] of [
-    ['Day', ['2026-09-30'], 1],
+    ['Day', ['2026-09-30'], 0],
     ['Week', ['2026-09-30', '2026-10-01'], 7],
     ['Month', ['2026-09-01', '2026-09-30'], 30],
   ] as const) {
@@ -119,7 +119,7 @@ it('keeps the itinerary on the selected day and uses the shared period for chore
     fireEvent.click(
       screen.getByRole('button', { name: 'Calendar', exact: true })
     )
-    expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(
+    expect(screen.queryAllByRole('button', { name: /^Select / })).toHaveLength(
       days
     )
     expect(
@@ -187,7 +187,7 @@ it('keeps the itinerary on the selected day and uses the shared period for chore
 })
 
 it.each([['2026-01-31', 31, '2026-02-28']])(
-  'selects %s and clamps month navigation',
+  'selects %s and follows shared date changes across months',
   async (dateKey, days, next) => {
     selection.selectedDateKey = dateKey
     saveCalendarSchedule({ version: 1, events: [] })
@@ -205,19 +205,11 @@ it.each([['2026-01-31', 31, '2026-02-28']])(
     fireEvent.click(selected)
     expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(dateKey)
     expect(
-      screen.getAllByRole('group', { name: 'Calendar navigation' })
-    ).toHaveLength(1)
+      screen.queryAllByRole('group', { name: 'Calendar navigation' })
+    ).toHaveLength(0)
     expect(screen.getAllByLabelText('Calendar date')).toHaveLength(1)
     expect(document.querySelector('input[type="date"]')).toBeNull()
     fireEvent.click(screen.getByRole('radio', { name: 'Month' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Next calendar month' }))
-    expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith(next)
-    expect(
-      screen.getAllByRole('button', { name: /^Previous calendar/ })
-    ).toHaveLength(1)
-    expect(
-      screen.getAllByRole('button', { name: /^Next calendar/ })
-    ).toHaveLength(1)
     selection.selectedDateKey = next
     rerender(<SchoolCalendar theme={themes.princess} />)
     expect(screen.getAllByRole('button', { name: /^Select / })).toHaveLength(28)
@@ -229,10 +221,6 @@ it.each([['2026-01-31', 31, '2026-02-28']])(
       screen.getByRole('button', { name: 'Rewards', exact: true })
     )
     fireEvent.click(screen.getByRole('radio', { name: 'Week' }))
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Previous calendar week' })
-    )
-    expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith('2026-02-21')
     expect(screen.getAllByLabelText('Calendar date')).toHaveLength(1)
     await waitFor(() => expect(fetch).toHaveBeenCalled())
   }
@@ -293,16 +281,18 @@ it.each(['teenie'] as const)(
         'Table work'
       )
     ).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('radio', { name: 'Week' }))
     const cell = screen.getByRole('button', { name: 'Select 2026-09-23' })
     expect(within(cell).getByRole('img')).toHaveAttribute(
       'src',
       getSchoolEventImage(themeId, 'school-photo')
     )
     expect(cell).not.toHaveTextContent('+1')
-    expect(cell.querySelector('img[alt=""]')).toHaveAttribute(
-      'src',
-      getThemeAsset(themeId, 'calendarMoreIcon')
-    )
+    expect(
+      Array.from(cell.querySelectorAll('img[alt=""]'), (image) =>
+        image.getAttribute('src')
+      )
+    ).toContain(getThemeAsset(themeId, 'calendarMoreIcon'))
     expect(cell).toHaveAttribute(
       'aria-description',
       expect.stringContaining('School day')

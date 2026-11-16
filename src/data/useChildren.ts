@@ -10,7 +10,8 @@ import {
 } from 'react'
 import { useAuth } from '../auth/AuthContext'
 import { useActiveChild } from '../contexts/ActiveChildContext'
-import { THEME_ID_LOOKUP, type ThemeId } from '../ui/themeOptions'
+import type { ThemeId } from '../ui/themeOptions'
+import { DEFAULT_AVATAR_TOKEN } from '../ui/avatarOptions'
 import {
   parseChildProfile,
   type ChildProfile,
@@ -120,8 +121,7 @@ const useChildrenState = () => {
   const changeTheme = (child: ChildProfile, nextThemeId: ThemeId) => {
     if ((child.themeId || 'princess') === nextThemeId) return
 
-    const avatarToken = THEME_ID_LOOKUP.get(nextThemeId)?.emoji || '👤'
-    updateChildField(child.id, { themeId: nextThemeId, avatarToken })
+    updateChildField(child.id, { themeId: nextThemeId })
   }
 
   // ── Create ──
@@ -129,7 +129,7 @@ const useChildrenState = () => {
     if (!user || !canAdmin) return
     return createUserDocument(user.uid, 'children', {
       displayName: '',
-      avatarToken: THEME_ID_LOOKUP.get('princess')?.emoji || '👤',
+      avatarToken: DEFAULT_AVATAR_TOKEN,
       themeId: 'princess',
       totalStars: 0,
       testFailureModeEnabled: true,
@@ -164,15 +164,31 @@ const useChildrenState = () => {
 
   // Follow the subscribed profile, including theme edits from another device.
   useEffect(() => {
-    if (access) return // The access provider selects across owner namespaces.
+    // Access owns child selection, but local profile edits must also update the
+    // active theme before its separate subscription receives the saved profile.
+    // Never choose a fallback or cross owner namespaces in this path.
+    if (access && (!canAdmin || access.selected?.ownerUid !== user?.uid)) return
     const selectedChild =
-      children.find((child) => child.id === activeChildId) ?? children[0]
+      children.find((child) => child.id === activeChildId) ??
+      (access ? undefined : children[0])
     if (!selectedChild) return
     const themeId = selectedChild.themeId || 'princess'
     if (selectedChild.id !== activeChildId || themeId !== activeThemeId) {
-      setActiveChild({ id: selectedChild.id, themeId })
+      setActiveChild({
+        id: selectedChild.id,
+        themeId,
+        ...(access ? { ownerUid: access.selected?.ownerUid } : {}),
+      })
     }
-  }, [children, activeChildId, activeThemeId, setActiveChild, access])
+  }, [
+    children,
+    activeChildId,
+    activeThemeId,
+    setActiveChild,
+    access,
+    canAdmin,
+    user?.uid,
+  ])
 
   return {
     children,

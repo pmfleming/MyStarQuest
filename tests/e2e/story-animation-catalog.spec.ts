@@ -57,9 +57,13 @@ for (const width of [1280, 390]) {
       })
       expect(moving).toBeGreaterThan(0)
       const shape = await scene
-        .locator('img')
-        .last()
-        .evaluate((image: HTMLImageElement) => {
+        .locator(actor)
+        .first()
+        .evaluate((element) => {
+          const image =
+            element instanceof HTMLImageElement
+              ? element
+              : element.querySelector('img')!
           const style = getComputedStyle(image)
           return {
             rendered: parseFloat(style.width) / parseFloat(style.height),

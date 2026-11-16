@@ -21,7 +21,14 @@ it('registers every available story animation player so a new one cannot be sile
         (match) => match[1]!
       )
     )
-    .filter((name) => name !== 'createStoryLayerScene')
+    .filter(
+      (name) =>
+        ![
+          'createStoryLayerScene',
+          'createDinosaurDepth',
+          'createStoryScenery',
+        ].includes(name)
+    )
   const registered = Object.values(getStorySceneFactories()).map(
     (create) => create.name
   )
