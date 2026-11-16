@@ -29,3 +29,9 @@ Validation: both component lifecycle tests passed, including no renders during e
 Orbit positions, focus longitude, lighting targets, mode visibility, and camera targets now update on scene-input or drag changes. Frame callbacks retain interpolation and animated pings. This removes duplicate focus searches and static trigonometry without reducing animation cadence.
 
 Validation: a 120-frame test records one focus calculation rather than two per frame and verifies lighting/orbit targets across mode changes; TypeScript passed.
+
+## 6. Coalesce agenda title layout work
+
+Resize bursts schedule one animation-frame measurement. Unchanged width/font signatures skip fitting, width-only changes reuse natural text width, and font changes invalidate that measurement. Pending frames and font listeners are cleaned up on unmount.
+
+Validation: the component test covers 20 resize notifications coalescing into one frame, unchanged-width skips, width-only reuse, changed fonts, expansion, and cleanup.
