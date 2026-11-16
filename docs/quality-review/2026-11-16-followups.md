@@ -13,3 +13,9 @@ Validation: weather store/data tests, **5 passed**. New regressions cover both a
 Shared runtimes now track individual subscriber tokens instead of a mutable counter. Cleanup is idempotent: a repeated unsubscribe cannot disconnect another consumer or corrupt the next connection. A failed setup drains already-installed listeners, synchronization, and broadcast resources before reporting the error. Revocation persistence failures are also routed to the existing error store instead of becoming unhandled rejections.
 
 Validation: runtime/recovery tests, **6 passed**. New cases cover two consumers, duplicate cleanup, reconnect ownership, and a setup failure after earlier subscriptions have been installed.
+
+## 3. Resolve and validate task completion once
+
+The star-award transaction now resolves the stored/default task once. Ownership, completion detection, creation, and event metadata use that record instead of repeatedly probing the Firestore snapshot and reconstructing fallbacks. Crucially, default task creation now receives the same child-ownership check as an existing task; invalid defaults cannot create a cross-child task while awarding stars to the selected child. Existing stored metadata takes precedence over defaults.
+
+Validation: star transaction tests, **6 passed**. Coverage includes concurrent deduplication, same-day reset, next-day attempts, wrong-child stored/default tasks, missing tasks, consumed-task history, penalty clamping, and authoritative reward pricing.

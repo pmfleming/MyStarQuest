@@ -72,29 +72,31 @@ export const completeTaskAndAwardStars = async (options: {
       throw new Error('Child not found')
     }
 
-    if (!taskSnapshot.exists() && !initialTaskData) {
+    const storedTask = taskSnapshot.data()
+    const task = storedTask ?? initialTaskData
+    if (!task) {
       throw new Error('Task not found')
     }
 
-    if (taskSnapshot.exists() && taskSnapshot.data()?.childId !== childId) {
+    if (task.childId !== childId) {
       throw new Error('Task does not belong to the selected child')
     }
 
     // Completion and stars commit together. A reset clears this guard, so
     // another attempt can earn stars even on the same day.
     if (
-      taskSnapshot.exists() &&
-      hasCompletedAttempt(taskSnapshot.data(), taskCollection, dateKey)
+      storedTask &&
+      hasCompletedAttempt(storedTask, taskCollection, dateKey)
     ) {
       return { appliedDelta: 0, wasAlreadyAwarded: true }
     }
 
     if (deleteOnComplete) {
-      if (taskSnapshot.exists()) transaction.delete(taskRef)
-    } else if (taskSnapshot.exists()) {
+      if (storedTask) transaction.delete(taskRef)
+    } else if (storedTask) {
       transaction.update(taskRef, updates)
     } else {
-      transaction.set(taskRef, { ...initialTaskData, ...updates })
+      transaction.set(taskRef, { ...task, ...updates })
     }
 
     const currentStars = Number(childSnapshot.data()?.totalStars ?? 0)
@@ -104,13 +106,9 @@ export const completeTaskAndAwardStars = async (options: {
       childId,
       taskId,
       taskCollection,
-      taskTitle: String((taskSnapshot.data() ?? initialTaskData)?.title ?? ''),
-      taskType: String(
-        (taskSnapshot.data() ?? initialTaskData)?.taskType ?? ''
-      ),
-      imageKey: String(
-        (taskSnapshot.data() ?? initialTaskData)?.imageKey ?? ''
-      ),
+      taskTitle: String(task.title ?? ''),
+      taskType: String(task.taskType ?? ''),
+      imageKey: String(task.imageKey ?? ''),
       outcome: updates.lastAttemptOutcome ?? 'success',
       dateKey,
       delta: clampedDelta,

@@ -188,4 +188,53 @@ describe('test completion star awards', () => {
     expect((await completeTaskAndAwardStars(nextDay)).appliedDelta).toBe(3)
     expect(documents.get(childPath)?.totalStars).toBe(19)
   })
+
+  it.each(['stored', 'initial'])(
+    'rejects a %s task belonging to another child before writing',
+    async (source) => {
+      const otherChildTask = { childId: 'other', taskType: 'math' }
+      if (source === 'stored') documents.set(taskPath, otherChildTask)
+      const before = structuredClone(documents)
+      await expect(
+        completeTaskAndAwardStars({
+          ...options,
+          initialTaskData:
+            source === 'initial' ? otherChildTask : { childId: 'child' },
+        })
+      ).rejects.toThrow('Task does not belong to the selected child')
+      expect(documents).toEqual(before)
+    }
+  )
+
+  it('rejects an absent task without inventing a completion record', async () => {
+    await expect(completeTaskAndAwardStars(options)).rejects.toThrow(
+      'Task not found'
+    )
+    expect(documents.get(childPath)?.totalStars).toBe(10)
+    expect(events()).toHaveLength(0)
+  })
+
+  it('uses stored task metadata when consuming a task and clamps a penalty to the balance', async () => {
+    documents.set(taskPath, {
+      childId: 'child',
+      title: 'Stored',
+      taskType: 'math',
+      imageKey: 'math-icon',
+    })
+    const receipt = await completeTaskAndAwardStars({
+      ...options,
+      delta: -20,
+      deleteOnComplete: true,
+      initialTaskData: { childId: 'child', title: 'Outdated' },
+    })
+    expect(receipt).toMatchObject({ appliedDelta: -10, starsBefore: 10 })
+    expect(documents.has(taskPath)).toBe(false)
+    expect(documents.get(childPath)?.totalStars).toBe(0)
+    expect(events()[0]?.[1]).toMatchObject({
+      taskTitle: 'Stored',
+      taskType: 'math',
+      imageKey: 'math-icon',
+      delta: -10,
+    })
+  })
 })
