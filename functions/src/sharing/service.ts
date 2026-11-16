@@ -196,10 +196,8 @@ export class SharingService {
     const used = new Set(
       redemptions.docs.map((doc) => (dataOf(doc) ?? {}).rewardId)
     )
-    const today = sharedDateKey(
-      this.now(),
-      String(initial.timeZone ?? 'Europe/London')
-    )
+    const timeZone = String(initial.timeZone ?? 'Europe/London')
+    const today = sharedDateKey(this.now(), timeZone)
     const states = new Map<string, DocumentData>()
     for (const [collection, snapshot] of [
       ['chores', chores],
@@ -210,29 +208,26 @@ export class SharingService {
         const field = completedFields[String(data.taskType ?? 'standard')]
         const completeAt = data[field] ?? data.lastAttemptedAt
         if (
-          typeof completeAt === 'number' &&
-          sharedDateKey(
-            completeAt,
-            String(initial.timeZone ?? 'Europe/London')
-          ) === today
-        ) {
-          states.set(progressKey(collection, task.id, today), {
-            collection,
-            entityId: task.id,
-            childId,
-            dateKey: today,
-            complete: true,
-            generation: 0,
-            revision: 1,
-            patch: Object.fromEntries(
-              Object.entries(data).filter(
-                ([key]) =>
-                  key.startsWith('manage') || key.startsWith('lastAttempt')
-              )
-            ),
-            imported: true,
-          })
-        }
+          typeof completeAt !== 'number' ||
+          sharedDateKey(completeAt, timeZone) !== today
+        )
+          continue
+        states.set(progressKey(collection, task.id, today), {
+          collection,
+          entityId: task.id,
+          childId,
+          dateKey: today,
+          complete: true,
+          generation: 0,
+          revision: 1,
+          patch: Object.fromEntries(
+            Object.entries(data).filter(
+              ([key]) =>
+                key.startsWith('manage') || key.startsWith('lastAttempt')
+            )
+          ),
+          imported: true,
+        })
       }
     }
     for (const doc of deviceStates.docs) {
@@ -766,6 +761,49 @@ function redeemReward(
   return -cost
 }
 
+/** Decide progress without performing writes; resets and saved completions win. */
+function nextActivityState(
+  action: Extract<SharedAction, { kind: 'activity' }>,
+  entity: DocumentData,
+  prior: DocumentData | undefined,
+  clean: DocumentData,
+  time: number
+) {
+  if (action.reset)
+    return { patch: {}, delta: 0, complete: false, consumed: false }
+  const alreadyComplete = prior?.complete === true
+  const patch: DocumentData = alreadyComplete
+    ? record(prior.patch ?? {})
+    : { ...(prior?.patch ?? {}), ...clean }
+  const finishedField = completedFields[String(entity.taskType)]
+  let delta = 0
+  if (action.complete && !alreadyComplete) {
+    delta = awardFor(entity, patch)
+    patch[finishedField] = time
+    if (action.collection === 'tests')
+      Object.assign(patch, {
+        lastAttemptedAt: time,
+        lastAttemptDateKey: action.dateKey,
+        lastAttemptOutcome: 'success',
+      })
+  }
+  return {
+    patch,
+    delta,
+    complete:
+      alreadyComplete ||
+      action.complete ||
+      patch.lastAttemptOutcome === 'failure' ||
+      Object.entries(patch).some(
+        ([key, value]) => key.endsWith('LastOutcome') && value === 'failure'
+      ) ||
+      typeof patch[finishedField] === 'number',
+    consumed:
+      Boolean(prior?.consumed) ||
+      (action.complete && entity.isRepeating !== true),
+  }
+}
+
 async function updateActivity(
   context: MutationContext,
   action: Extract<SharedAction, { kind: 'activity' }>,
@@ -775,7 +813,6 @@ async function updateActivity(
 ) {
   const { tx, ref, child, childId, admin, caller, time, operation } = context
   const collection = action.collection
-  let delta = 0
   const occurred = Number(operation.occurredAt)
   if (
     occurred > time + 300_000 ||
@@ -826,28 +863,13 @@ async function updateActivity(
     precondition(
       'Another parent updated this activity. Refresh before changing it.'
     )
-  let patch: Record<string, unknown> = {
-    ...(prior?.patch ?? {}),
-    ...clean,
-  }
-  if (action.reset) patch = {}
-  else if (alreadyComplete) patch = record(prior?.patch ?? {})
-  else if (action.complete) {
-    delta = awardFor(entity, patch)
-    patch[finishedField] = time
-    if (collection === 'tests')
-      Object.assign(patch, {
-        lastAttemptedAt: time,
-        lastAttemptDateKey: action.dateKey,
-        lastAttemptOutcome: 'success',
-      })
-  }
-  const failure =
-    !action.reset &&
-    (patch.lastAttemptOutcome === 'failure' ||
-      Object.entries(patch).some(
-        ([key, value]) => key.endsWith('LastOutcome') && value === 'failure'
-      ))
+  const { delta, ...state } = nextActivityState(
+    action,
+    entity,
+    prior,
+    clean,
+    time
+  )
   const progress = {
     childId,
     collection,
@@ -855,17 +877,7 @@ async function updateActivity(
     dateKey: action.dateKey,
     generation: generation + (action.reset ? 1 : 0),
     revision: storedNumber(prior, 'revision') + 1,
-    complete:
-      !action.reset &&
-      (alreadyComplete ||
-        action.complete ||
-        failure ||
-        typeof patch[finishedField] === 'number'),
-    patch,
-    consumed:
-      !action.reset &&
-      (Boolean(prior?.consumed) ||
-        (action.complete && entity.isRepeating !== true)),
+    ...state,
     actorUid: caller.uid,
     updatedAt: time,
   }

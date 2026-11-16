@@ -2,6 +2,7 @@ import backdropUrl from '../assets/comic/references/birthday/58-odette-polaroid-
 import photoUrl from '../assets/comic/opening/57-birthday-group-photo-v2.webp'
 import layout from '../assets/comic/references/birthday/polaroid-layout.json'
 import './storyPhotoMoment.css'
+import { finishStoryAnimations, storyImage } from './storyLayerScene'
 
 /** A single camera exposure, then the unchanged photo settles into Odette's hands. */
 export function createPhotoMoment(picture: HTMLElement) {
@@ -9,19 +10,12 @@ export function createPhotoMoment(picture: HTMLElement) {
   const stage = document.createElement('div')
   stage.className = 'photo-moment'
   stage.setAttribute('aria-hidden', 'true')
-  const backdrop = document.createElement('img')
-  backdrop.src = backdropUrl
-  backdrop.alt = ''
-  backdrop.draggable = false
-  backdrop.className = 'photo-moment-backdrop'
+  const backdrop = storyImage(backdropUrl, 'photo-moment-backdrop')
   const print = document.createElement('div')
   print.className = 'instant-print'
   const paper = document.createElement('div')
   paper.className = 'instant-paper'
-  const photo = document.createElement('img')
-  photo.src = photoUrl
-  photo.alt = ''
-  photo.draggable = false
+  const photo = storyImage(photoUrl, '')
   const flash = document.createElement('div')
   flash.className = 'camera-flash'
   const { canvas, photo: bounds, paper: edge } = layout
@@ -35,11 +29,7 @@ export function createPhotoMoment(picture: HTMLElement) {
   const hands = document.createElement('div')
   hands.className = 'photo-moment-hands'
   for (const side of ['left', 'right']) {
-    const glove = document.createElement('img')
-    glove.src = backdropUrl
-    glove.alt = ''
-    glove.className = `photo-moment-hand-${side}`
-    hands.append(glove)
+    hands.append(storyImage(backdropUrl, `photo-moment-hand-${side}`))
   }
   stage.append(backdrop, print, hands, flash)
   picture.append(stage)
@@ -179,12 +169,9 @@ export function createPhotoMoment(picture: HTMLElement) {
         timing
       ),
     ]
-    try {
-      await Promise.all(animations.map((animation) => animation.finished))
+    await finishStoryAnimations(animations, () => {
       if (run === generation) stop()
-    } catch {
-      /* Leaving this panel cancels the sequence. */
-    }
+    })
   }
   const onMotionChange = () => {
     if (reducedMotion.matches) stop()

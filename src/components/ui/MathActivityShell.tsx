@@ -36,8 +36,6 @@ const MathActivityShell = ({
     <ActivitySetupControls
       {...props}
       isSetup={isSetup}
-      min={1}
-      max={9}
       previousAriaLabel="Fewer puzzles"
       nextAriaLabel="More puzzles"
       isEditable={isEditable}

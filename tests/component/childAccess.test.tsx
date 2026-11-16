@@ -21,6 +21,8 @@ vi.mock('firebase/firestore', () => ({
   },
 }))
 vi.mock('../../src/offline/platform', () => ({ isOfflineEnabled: () => false }))
+// Exercise real subscriptions without initializing the unused offline transport.
+vi.mock('../../src/offline/firebaseTransport', () => ({}))
 vi.mock('../../src/offline/runtime', () => ({
   offlineRuntime: () => ({ revoke: fixtures.revoke }),
 }))

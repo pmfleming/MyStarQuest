@@ -1,9 +1,7 @@
 import { ActionImage } from '../components/ui/ActionArtwork'
 import { getThemeAsset, hasIllustratedTheme } from './themeAssets'
-import type { ReactNode } from 'react'
 import Carousel from '../components/ui/Carousel'
-import ChildAvatar from '../components/ChildAvatar'
-import ChildAvatarPicker from '../components/ChildAvatarPicker'
+import ChildAvatar, { ChildAvatarPicker } from '../components/ChildAvatar'
 import ActionTextInput from '../components/ui/ActionTextInput'
 import StarDisplay from '../components/ui/StarDisplay'
 import ImageStarFrame from '../components/ui/ImageStarFrame'
@@ -28,7 +26,6 @@ type ChildDefinitionDescriptorDeps = {
   theme: Theme
   activeChildId: string | null
   themeOptions: ThemeOption[]
-  carouselItems: Array<{ id: ThemeId; label: string; icon: ReactNode }>
   nameDrafts: Record<string, string>
   setNameDraft: (childId: string, value: string) => void
   commitDisplayName: (childId: string, value: string) => void | Promise<void>
@@ -133,7 +130,7 @@ export const createChildDefinitionListRowDescriptor = (
       >
         <Carousel
           key={`${child.id}-${currentThemeId}`}
-          items={deps.carouselItems}
+          items={deps.themeOptions}
           title="Select Theme"
           initialIndex={currentThemeIndex}
           onChange={(index) => {

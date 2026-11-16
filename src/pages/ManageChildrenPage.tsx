@@ -27,25 +27,10 @@ const ManageChildrenPage = () => {
     selectChild,
   } = useChildren()
 
-  const carouselItems = themeOptions.map((option) => ({
-    id: option.id,
-    label: option.label,
-    icon: (
-      <img
-        src={option.image}
-        alt={option.label}
-        loading="lazy"
-        decoding="async"
-        style={{ width: '70px', height: '70px', objectFit: 'contain' }}
-      />
-    ),
-  }))
-
   const childListDescriptor = createChildDefinitionListRowDescriptor({
     theme,
     activeChildId,
     themeOptions,
-    carouselItems,
     nameDrafts,
     setNameDraft,
     commitDisplayName,

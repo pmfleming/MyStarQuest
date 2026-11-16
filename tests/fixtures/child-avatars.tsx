@@ -22,16 +22,6 @@ export default function ChildAvatarsFixture() {
     theme,
     activeChildId: child.id,
     themeOptions,
-    carouselItems: themeOptions.map((option) => ({
-      ...option,
-      icon: (
-        <img
-          src={option.image}
-          alt=""
-          style={{ width: 70, height: 70, objectFit: 'contain' }}
-        />
-      ),
-    })),
     nameDrafts: {},
     setNameDraft: () => {},
     commitDisplayName: () => {},

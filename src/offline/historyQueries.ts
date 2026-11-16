@@ -102,7 +102,9 @@ export function subscribeHistoryWindow(
               )
               if (sources.size === expectedSources)
                 receive(
-                  Object.assign({}, ...sources.values()),
+                  Object.fromEntries(
+                    [...sources.values()].flatMap(Object.entries)
+                  ),
                   authoritative.size !== expectedSources
                 )
             },

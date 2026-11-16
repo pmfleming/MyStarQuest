@@ -43,46 +43,33 @@ export const getPlaceValueTotal = (values: PlaceValues) =>
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value))
 
+const problemRanges: Record<PositionalNotationDifficulty, [number, number]> = {
+  'one-crown': [1, 20],
+  'two-crowns': [100, 999],
+  'three-crowns': [1, 9_999],
+  'four-crowns': [1, 999_999],
+}
+
+const randomTarget = (start: number, end: number) => ({
+  target: Math.floor(Math.random() * (end - start + 1)) + start,
+})
+
 export function generateProgressivePositionalNotationProblem(
   index: number,
   totalProblems: number,
   difficulty: PositionalNotationDifficulty = 'one-crown'
 ): { target: number } {
-  if (difficulty === 'three-crowns' || difficulty === 'four-crowns') {
-    const max = difficulty === 'three-crowns' ? 9_999 : 999_999
-    if (totalProblems <= 1) {
-      return { target: Math.floor(Math.random() * max) + 1 }
-    }
-
-    const progress = clamp(index / Math.max(1, totalProblems - 1), 0, 1)
-    const bandWidth = Math.ceil(max / 10)
-    const bandStart = Math.round(
-      1 + Math.pow(progress, 1.15) * (max - bandWidth)
-    )
-    return { target: bandStart + Math.floor(Math.random() * bandWidth) }
-  }
-
-  if (difficulty === 'two-crowns') {
-    if (totalProblems <= 1) {
-      return { target: Math.floor(Math.random() * 900) + 100 }
-    }
-
-    const progress = clamp(index / Math.max(1, totalProblems - 1), 0, 1)
-    const easedProgress = Math.pow(progress, 1.15)
-    const bandStart = Math.round(100 + easedProgress * 800)
-    const bandEnd = Math.round(199 + easedProgress * 800)
-
-    return {
-      target: Math.floor(Math.random() * (bandEnd - bandStart + 1)) + bandStart,
-    }
-  }
-
-  if (totalProblems <= 1) {
-    return { target: Math.floor(Math.random() * 20) + 1 }
-  }
-
+  const [min, max] = problemRanges[difficulty]
+  if (totalProblems <= 1) return randomTarget(min, max)
   const progress = clamp(index / Math.max(1, totalProblems - 1), 0, 1)
   const easedProgress = Math.pow(progress, 1.15)
+  if (difficulty !== 'one-crown') {
+    const bandWidth = Math.ceil(max / 10)
+    const bandStart = Math.round(
+      min + easedProgress * (max - bandWidth + 1 - min)
+    )
+    return randomTarget(bandStart, bandStart + bandWidth - 1)
+  }
   const bandStart = clamp(
     Math.round(1 + easedProgress * 110),
     1,
@@ -94,7 +81,5 @@ export function generateProgressivePositionalNotationProblem(
     MAX_ONE_CROWN_TARGET
   )
 
-  return {
-    target: Math.floor(Math.random() * (bandEnd - bandStart + 1)) + bandStart,
-  }
+  return randomTarget(bandStart, bandEnd)
 }

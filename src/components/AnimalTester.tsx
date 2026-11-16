@@ -42,8 +42,6 @@ import SegmentedChoiceControl, {
 } from './ui/SegmentedChoiceControl'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
-const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 9
 const MODE_OPTIONS: SegmentedChoiceOption<AnimalMode>[] = [
   {
     value: 'learn',
@@ -558,8 +556,6 @@ const AnimalTester = (props: ActivityChoreProps) => {
         isSetup={isSetup}
         theme={theme}
         totalProblems={totalProblems}
-        min={MIN_PROBLEMS}
-        max={MAX_PROBLEMS}
         onAdjustProblems={onAdjustProblems}
         starReward={starReward}
         onStarsChange={onStarsChange}

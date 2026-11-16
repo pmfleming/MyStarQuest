@@ -7,7 +7,8 @@ import { useTheme } from '../../contexts/ThemeContext'
 type CarouselItem = {
   id: string | number
   label: string
-  icon: ReactNode
+  icon?: ReactNode
+  image?: string
 }
 
 type CarouselProps = {
@@ -32,6 +33,19 @@ const getRequiredItem = (items: CarouselItem[], index: number) => {
   if (!item) throw new Error(`Missing carousel item at index ${index}`)
   return item
 }
+
+const CarouselIcon = ({ item }: { item: CarouselItem }) =>
+  item.image ? (
+    <img
+      src={item.image}
+      alt={item.label}
+      loading="lazy"
+      decoding="async"
+      style={{ width: '70px', height: '70px', objectFit: 'contain' }}
+    />
+  ) : (
+    item.icon
+  )
 
 const Carousel = ({
   items,
@@ -192,7 +206,9 @@ const Carousel = ({
                   style={itemStyle}
                   aria-label={`Selected: ${item.label}`}
                 >
-                  <span style={iconStyle}>{item.icon}</span>
+                  <span style={iconStyle}>
+                    <CarouselIcon item={item} />
+                  </span>
                 </div>
               )
             }
@@ -208,7 +224,9 @@ const Carousel = ({
                 style={{ ...itemStyle, ...sideButtonStyle }}
                 aria-label={`${direction}: ${item.label}`}
               >
-                <span style={iconStyle}>{item.icon}</span>
+                <span style={iconStyle}>
+                  <CarouselIcon item={item} />
+                </span>
               </button>
             )
           })}

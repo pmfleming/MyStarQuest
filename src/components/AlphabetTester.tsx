@@ -18,9 +18,6 @@ import { createAssetCatalog } from '../data/assetCatalog'
 /*  Constants & Assets                                                 */
 /* ------------------------------------------------------------------ */
 
-const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 9
-
 const ALPHABET_ASSET_MODULES = import.meta.glob<string>(
   '../assets/alphabet/*.{png,jpg,jpeg,webp,svg}',
   { eager: true, import: 'default' }
@@ -178,8 +175,6 @@ const AlphabetTester = (props: ActivityChoreProps) => {
       <ActivitySetupControls
         {...props}
         isSetup={isSetup}
-        min={MIN_PROBLEMS}
-        max={MAX_PROBLEMS}
         previousAriaLabel="Fewer problems"
         nextAriaLabel="More problems"
         beforeProblemControl={

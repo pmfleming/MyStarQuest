@@ -1,4 +1,8 @@
-import { syncStoryAnimationVisibility, storyImage } from './storyLayerScene'
+import {
+  finishStoryAnimations,
+  syncStoryAnimationVisibility,
+  storyImage,
+} from './storyLayerScene'
 import type { Panel } from '../data/stories/seaFriends'
 import './storyTransitions.css'
 import './storyPaper.css'
@@ -203,9 +207,8 @@ export function createStoryTransitions(
         '[data-snapshot="true"]'
       )
       if (snapshot) {
-        const copy = snapshot.cloneNode(true) as HTMLElement
-        copy.classList.add('transition-scene-source')
-        artwork.append(copy)
+        artwork.append(snapshot.cloneNode(true))
+        artwork.lastElementChild?.classList.add('transition-scene-source')
       }
     }
     layer.append(artwork)
@@ -274,12 +277,9 @@ export function createStoryTransitions(
       else animateStoryEffect(spec, source, target, artwork, animate, audio)
     }
     layer.dataset.ready = 'true'
-    try {
-      await Promise.all(animations.map((animation) => animation.finished))
+    await finishStoryAnimations(animations, () => {
       if (run === generation) stop()
-    } catch {
-      /* Navigation cancels every layer together. */
-    }
+    })
   }
 
   const onMotionChange = () => {
@@ -647,37 +647,26 @@ function animateNormalStoryPage(
   )
   const coverAt = 0.6
   const expansion = 'cubic-bezier(0.22, 0.68, 0.2, 1)'
-  Object.assign(source.style, {
-    inset: 'auto',
-    left: '50%',
-    top: '50%',
-    width: `${width}px`,
-    height: `${height}px`,
-  })
   animate(layer, [
     { ...box(start), opacity: 1, offset: 0, easing: expansion },
     { ...box(end), opacity: 1, offset: coverAt },
     { ...box(end), opacity: 0, offset: 1 },
   ])
   const transform = (value: number) => `translate(-50%, -50%) scale(${value})`
-  animate(source, [
-    { transform: transform(1), offset: 0, easing: expansion },
-    { transform: transform(scale), offset: coverAt },
-    { transform: transform(scale), offset: 1 },
-  ])
   // The live destination includes its own paper and any layered scene animation.
   const snapshot = illustration.querySelector<HTMLElement>(
     '.transition-scene-source'
   )
-  if (snapshot) {
-    Object.assign(snapshot.style, {
+  for (const image of [source, snapshot]) {
+    if (!image) continue
+    Object.assign(image.style, {
       inset: 'auto',
       left: '50%',
       top: '50%',
       width: `${width}px`,
       height: `${height}px`,
     })
-    animate(snapshot, [
+    animate(image, [
       { transform: transform(1), offset: 0, easing: expansion },
       { transform: transform(scale), offset: coverAt },
       { transform: transform(scale), offset: 1 },

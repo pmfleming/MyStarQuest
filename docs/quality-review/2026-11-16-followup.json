@@ -1,0 +1,321 @@
+{
+  "date": "2026-11-16",
+  "baseline_commit": "39840b3",
+  "lens_commit": "8e8349c19fa22b1971bca3689d2712b5fdeebcd0",
+  "lens_version": "0.3.0",
+  "methodology": "Same Lens revision and matching analysis identities per scope. Lines sum files; complexity and effort sum all callables, excluding nested implementations. Locality/leverage are summed heuristic module risks, lower is better. Counts do not measure runtime performance, coverage, or developer hours. No exclusions, suppressions, or thresholds changed.",
+  "scopes": {
+    "app": {
+      "analysis_identity": "sha256:5bb11e0ab74c5a19a8fff4fc9daaf416b73ea6075dc3a7b6d918bb09ddc8b22b",
+      "before": {
+        "source_lines": 41731,
+        "cognitive_complexity": 3636,
+        "cyclomatic_complexity": 5683,
+        "halstead_effort": 10673509,
+        "clone_groups": 4,
+        "locality_risk": 14904,
+        "leverage_risk": 924,
+        "lint_blockers": 1
+      },
+      "after": {
+        "source_lines": 41658,
+        "cognitive_complexity": 3620,
+        "cyclomatic_complexity": 5678,
+        "halstead_effort": 10588015,
+        "clone_groups": 0,
+        "locality_risk": 14881,
+        "leverage_risk": 760,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -73,
+        "cognitive_complexity": -16,
+        "cyclomatic_complexity": -5,
+        "halstead_effort": -85494,
+        "clone_groups": -4,
+        "locality_risk": -23,
+        "leverage_risk": -164,
+        "lint_blockers": -1
+      },
+      "maximum_cognitive": [23, 22],
+      "maximum_cyclomatic": [21, 21],
+      "audit": {
+        "verdict": "warn",
+        "verification_failures": [],
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 4959,
+        "active_findings": 82,
+        "introduced_findings": 4959,
+        "inherited_findings": 0,
+        "high_risk_findings": 484,
+        "blocking_findings": 0,
+        "warning_findings": 82,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "evidence": {
+        "type_health": {
+          "records": 728,
+          "high_risk_records": 27,
+          "wide_types": 18,
+          "compiler_diagnostics": 0,
+          "type_coverage_percent": 99.74,
+          "typed_symbols": 31615,
+          "untyped_symbols": 82
+        },
+        "lint_health": {
+          "records": 32,
+          "blocking_findings": 0,
+          "warning_findings": 19
+        },
+        "react_health": {
+          "components": 175,
+          "records": 186,
+          "hook_lint_findings": 0,
+          "guidance_review_candidates": 2,
+          "correctness_findings": 0,
+          "optimization_findings": 2,
+          "configuration_findings": 0,
+          "unclassified_hook_findings": 0,
+          "a11y_findings": 8,
+          "a11y_tool_findings": 8,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 38
+        },
+        "dependency_health": {
+          "internal_edges": 1650,
+          "external_edges": 214,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "internal_cycle_witnesses": 0,
+          "internal_cycle_scope": "one-directed-witness-per-cyclic-component",
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 249,
+          "barrel_modules": 1,
+          "layer_violations": 44,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        },
+        "cleanup": {
+          "records": 98,
+          "unused_files": 33,
+          "unused_exports": 43,
+          "unused_dependencies": 0,
+          "unused_dev_dependencies": 1,
+          "unlisted_dependencies": 11,
+          "type_only_production_dependencies": 0,
+          "test_only_production_dependencies": 0,
+          "duplicate_exports": 0,
+          "entrypoint_files": 3,
+          "knip_findings": 98,
+          "tool_confirmed": 12,
+          "tool_disagreed": 0,
+          "tool_not_comparable": 8,
+          "tool_excluded": 0
+        },
+        "correctness_review": {
+          "tests": 126,
+          "colocated_tests": 0,
+          "external_tests": 126,
+          "execution_status": "passed",
+          "execution_scope": "suite",
+          "coverage_status": "not_collected",
+          "blocking_findings": 0
+        }
+      }
+    },
+    "functions": {
+      "analysis_identity": "sha256:4f9b533335dec457bc38d45d62faadbc21cdd4dcc45a75a27ca5772f7d2cc4b5",
+      "before": {
+        "source_lines": 2136,
+        "cognitive_complexity": 415,
+        "cyclomatic_complexity": 473,
+        "halstead_effort": 597407,
+        "clone_groups": 0,
+        "locality_risk": 208,
+        "leverage_risk": 72,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 2148,
+        "cognitive_complexity": 407,
+        "cyclomatic_complexity": 471,
+        "halstead_effort": 646591,
+        "clone_groups": 0,
+        "locality_risk": 208,
+        "leverage_risk": 72,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 12,
+        "cognitive_complexity": -8,
+        "cyclomatic_complexity": -2,
+        "halstead_effort": 49184,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "maximum_cognitive": [51, 43],
+      "maximum_cyclomatic": [45, 34],
+      "audit": {
+        "verdict": "pass",
+        "verification_failures": [],
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 199,
+        "active_findings": 0,
+        "introduced_findings": 199,
+        "inherited_findings": 0,
+        "high_risk_findings": 23,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      },
+      "evidence": {
+        "type_health": {
+          "records": 42,
+          "high_risk_records": 2,
+          "wide_types": 1,
+          "compiler_diagnostics": 0,
+          "type_coverage_percent": 99.62,
+          "typed_symbols": 2360,
+          "untyped_symbols": 9
+        },
+        "lint_health": {
+          "records": 4,
+          "blocking_findings": 0,
+          "warning_findings": 4
+        },
+        "react_health": {
+          "components": 0,
+          "records": 0,
+          "hook_lint_findings": 0,
+          "guidance_review_candidates": 0,
+          "correctness_findings": 0,
+          "optimization_findings": 0,
+          "configuration_findings": 0,
+          "unclassified_hook_findings": 0,
+          "a11y_findings": 0,
+          "a11y_tool_findings": 0,
+          "a11y_heuristic_findings": 0,
+          "high_risk_components": 0
+        },
+        "dependency_health": {
+          "internal_edges": 10,
+          "external_edges": 14,
+          "cycles": 0,
+          "heuristic_cycles": 0,
+          "internal_cycle_witnesses": 0,
+          "internal_cycle_scope": "one-directed-witness-per-cyclic-component",
+          "dependency_cruiser_cycles": 0,
+          "deep_relative_imports": 0,
+          "barrel_modules": 0,
+          "layer_violations": 0,
+          "unsupported_patterns": 0,
+          "workspaces": 1,
+          "cross_workspace_edges": 0,
+          "incomplete_workspace_projects": 0
+        },
+        "cleanup": {
+          "records": 8,
+          "unused_files": 1,
+          "unused_exports": 4,
+          "unused_dependencies": 0,
+          "unused_dev_dependencies": 0,
+          "unlisted_dependencies": 0,
+          "type_only_production_dependencies": 0,
+          "test_only_production_dependencies": 0,
+          "duplicate_exports": 0,
+          "entrypoint_files": 2,
+          "knip_findings": 8,
+          "tool_confirmed": 3,
+          "tool_disagreed": 0,
+          "tool_not_comparable": 3,
+          "tool_excluded": 0
+        },
+        "correctness_review": {
+          "tests": 36,
+          "colocated_tests": 0,
+          "external_tests": 36,
+          "execution_status": "unknown",
+          "execution_scope": "suite",
+          "coverage_status": "not_collected",
+          "blocking_findings": 0
+        }
+      }
+    }
+  },
+  "combined": {
+    "before": {
+      "source_lines": 43867,
+      "cognitive_complexity": 4051,
+      "cyclomatic_complexity": 6156,
+      "halstead_effort": 11270916,
+      "clone_groups": 4,
+      "locality_risk": 15112,
+      "leverage_risk": 996,
+      "lint_blockers": 1
+    },
+    "after": {
+      "source_lines": 43806,
+      "cognitive_complexity": 4027,
+      "cyclomatic_complexity": 6149,
+      "halstead_effort": 11234606,
+      "clone_groups": 0,
+      "locality_risk": 15089,
+      "leverage_risk": 832,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -61,
+      "cognitive_complexity": -24,
+      "cyclomatic_complexity": -7,
+      "halstead_effort": -36310,
+      "clone_groups": -4,
+      "locality_risk": -23,
+      "leverage_risk": -164,
+      "lint_blockers": -1
+    }
+  },
+  "physical_code_lines": {
+    "baseline": "39840b3",
+    "extensions": ["ts", "tsx", "js", "jsx", "mjs", "css", "java"],
+    "roots": ["src", "functions/src", "tests", "scripts", "android"],
+    "before": 66917,
+    "after": 66851,
+    "delta": -66
+  },
+  "validation": {
+    "unit_component": {
+      "files": 92,
+      "tests": 292
+    },
+    "chromium_scenarios": 30,
+    "firestore_emulator_tests": 15,
+    "number_generation_equivalence_cases": 3936,
+    "quality_summary_tests": 3,
+    "app_build": "passed",
+    "functions_build": "passed",
+    "eslint": "passed"
+  },
+  "raw_evidence_directory": "output/quality-review-2026-11-16/followup"
+}

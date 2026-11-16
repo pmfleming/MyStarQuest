@@ -4,7 +4,8 @@ export function snapshotStoryScene(surface: HTMLElement) {
     '[data-story-scene].ready, .photo-moment.playing, .morning-rooms.ready, [data-snapshot="true"]'
   )
   if (!scene) return
-  const snapshot = scene.cloneNode(true) as HTMLElement
+  const snapshot = scene.cloneNode(true)
+  if (!(snapshot instanceof HTMLElement)) return
   const originals = [scene, ...scene.querySelectorAll<HTMLElement>('*')]
   const copies = [snapshot, ...snapshot.querySelectorAll<HTMLElement>('*')]
   originals.forEach((element, index) => {

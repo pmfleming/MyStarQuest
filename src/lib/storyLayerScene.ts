@@ -17,6 +17,19 @@ export function syncStoryAnimationVisibility(animations: Animation[]) {
   }
 }
 
+/** Cancelled animations reject; only a completed group may finish its scene. */
+export async function finishStoryAnimations(
+  animations: Animation[],
+  onFinished: () => void
+) {
+  try {
+    await Promise.all(animations.map((animation) => animation.finished))
+  } catch {
+    return
+  }
+  onFinished()
+}
+
 type LayerScene = {
   className: string
   panelIds: readonly string[]

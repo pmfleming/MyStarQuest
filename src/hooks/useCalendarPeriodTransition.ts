@@ -8,7 +8,7 @@ export function useCalendarPeriodTransition(period: string) {
 
   function prepareTransition() {
     const frame = frameRef.current
-    const grid = frame?.firstElementChild as HTMLElement | null
+    const grid = frame?.firstElementChild
     running.current?.()
     pending.current = null
     if (
@@ -21,7 +21,8 @@ export function useCalendarPeriodTransition(period: string) {
       return
     }
 
-    const image = grid.cloneNode(true) as HTMLElement
+    const image = grid.cloneNode(true)
+    if (!(image instanceof HTMLElement)) return
     image.setAttribute('aria-hidden', 'true')
     image.setAttribute('inert', '')
     image.classList.add('calendar-transition-previous')
@@ -30,7 +31,7 @@ export function useCalendarPeriodTransition(period: string) {
 
   useLayoutEffect(() => {
     const frame = frameRef.current
-    const grid = frame?.firstElementChild as HTMLElement | null
+    const grid = frame?.firstElementChild
     const previous = pending.current
     pending.current = null
     if (!frame || !grid || !previous) return

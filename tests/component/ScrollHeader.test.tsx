@@ -5,6 +5,9 @@ import PageHeader from '../../src/components/PageHeader'
 import { themes } from '../../src/contexts/ThemeContext'
 import { ActivityTabVisibleContext } from '../../src/contexts/ActivityTabContext'
 
+// This fixture supplies its own header; the menu's data services are unused.
+vi.mock('../../src/components/AppMenu', () => ({ default: () => null }))
+
 beforeEach(() => {
   vi.spyOn(HTMLElement.prototype, 'scrollHeight', 'get').mockReturnValue(1200)
   vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(400)

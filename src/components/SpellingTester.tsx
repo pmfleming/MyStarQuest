@@ -28,8 +28,6 @@ import LetterCaseControl, { type LetterCase } from './ui/LetterCaseControl'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
 import { getChoiceFeedbackAnimationStyles } from './ui/activityAnimationStyles'
 
-const MIN_PROBLEMS = 1
-const MAX_PROBLEMS = 9
 const NEXT_LETTER_DELAY_MS = 450
 const NEXT_WORD_DELAY_MS = 1100
 const FLY_AWAY_DURATION_MS = 650
@@ -481,8 +479,6 @@ const SpellingTester = ({
         isSetup={isSetup}
         theme={theme}
         totalProblems={totalProblems}
-        min={MIN_PROBLEMS}
-        max={MAX_PROBLEMS}
         onAdjustProblems={onAdjustProblems}
         starReward={starReward}
         onStarsChange={onStarsChange}

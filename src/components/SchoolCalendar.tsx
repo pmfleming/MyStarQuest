@@ -3,6 +3,7 @@ import { historyIcon } from '../ui/calendarHistoryAssets'
 import { useCalendarHistory } from '../hooks/useCalendarHistory'
 import {
   historyRange,
+  selectCalendarHistory,
   type HistoryPeriod,
   type HistoryView,
 } from '../lib/calendarHistory'
@@ -36,6 +37,14 @@ import './SchoolCalendar.css'
 
 const getMondayFirstOffset = (date: Date) => (date.getDay() + 6) % 7
 
+const calendarColors = (
+  theme: Theme
+): CSSProperties & Record<`--calendar-number-${string}`, string> => ({
+  '--calendar-number-primary': theme.colors.primary,
+  '--calendar-number-secondary': theme.colors.secondary,
+  '--calendar-number-accent': theme.colors.accent,
+})
+
 type SchoolCalendarProps = {
   theme: Theme
 }
@@ -50,17 +59,16 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const historyEntries = history.entries
   const historyByDay = useMemo(() => {
     const days = new Map<string, typeof historyEntries>()
-    for (const entry of historyEntries) {
-      if (
-        historyView === 'completed'
-          ? entry.kind === 'rewards'
-          : historyView !== 'all' && entry.kind !== historyView
-      )
-        continue
+    for (const entry of selectCalendarHistory(
+      historyEntries,
+      selectedDateKey,
+      historyView,
+      period
+    )) {
       days.set(entry.dateKey, [...(days.get(entry.dateKey) ?? []), entry])
     }
     return days
-  }, [historyEntries, historyView])
+  }, [historyEntries, historyView, selectedDateKey, period])
   const selectedDate = useMemo(
     () => parseDateKey(selectedDateKey),
     [selectedDateKey]
@@ -73,30 +81,13 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const dateColumns =
     calendarPeriod === 'day'
       ? 'minmax(0, 1fr)'
-      : Array.from(
-          { length: 7 },
-          (_, index) =>
-            `minmax(0, ${
-              calendarPeriod === 'week'
-                ? index === getMondayFirstOffset(selectedDate)
-                  ? 9
-                  : 2
-                : 3
-            }fr)`
-        ).join(' ')
-  const monthStart = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth(),
-    1
-  )
-  const daysInMonth = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth() + 1,
-    0
-  ).getDate()
-  const monthRows = Math.ceil(
-    (getMondayFirstOffset(monthStart) + daysInMonth) / 7
-  )
+      : calendarPeriod === 'month'
+        ? 'repeat(7, minmax(0, 3fr))'
+        : Array.from(
+            { length: 7 },
+            (_, index) =>
+              `minmax(0, ${index === getMondayFirstOffset(selectedDate) ? 9 : 2}fr)`
+          ).join(' ')
   const dates = useMemo(() => {
     const { start, end } = historyRange(selectedDateKey, calendarPeriod)
     const days: Date[] = []
@@ -171,13 +162,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           <div
             className="school-calendar-grid [container-type:inline-size] isolate grid w-full gap-[3px]"
             data-period={calendarPeriod}
-            style={
-              {
-                '--calendar-number-primary': theme.colors.primary,
-                '--calendar-number-secondary': theme.colors.secondary,
-                '--calendar-number-accent': theme.colors.accent,
-              } as CSSProperties
-            }
+            style={calendarColors(theme)}
             role="group"
             aria-label={`${calendarPeriod.charAt(0).toUpperCase() + calendarPeriod.slice(1)} calendar`}
           >
@@ -195,7 +180,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
               className="calendar-date-grid grid w-full gap-[3px]"
               style={{
                 gridTemplateColumns: dateColumns,
-                gridTemplateRows: `repeat(${calendarPeriod === 'month' ? monthRows : 1}, minmax(0, 1fr))`,
+                gridTemplateRows: `repeat(${calendarPeriod === 'month' ? slotCount / 7 : 1}, minmax(0, 1fr))`,
               }}
             >
               {/* One cell per slot keeps leading and trailing padding consistent. */}

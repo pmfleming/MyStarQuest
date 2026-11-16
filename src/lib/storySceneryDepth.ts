@@ -9,21 +9,24 @@ import './storySceneryDepth.css'
 type Habitat = 'underwater' | 'clouds' | 'space' | 'kitchen' | 'palace'
 
 /** Place character nodes between these two independent scenery planes. */
-export function createStoryScenery(habitat: Habitat, background?: string) {
-  const sources =
-    habitat === 'underwater'
-      ? [reefMiddle, reefFront]
-      : habitat === 'kitchen'
-        ? [background!, background!]
-        : habitat === 'palace'
-          ? [background!, palaceFront]
-          : [cloudMiddle, cloudFront]
-  const layers = (['midground', 'foreground'] as const).map((depth, index) => {
+export function createStoryScenery(habitat: Habitat, background = '') {
+  const sources: Record<Habitat, [string, string]> = {
+    underwater: [reefMiddle, reefFront],
+    kitchen: [background, background],
+    palace: [background, palaceFront],
+    clouds: [cloudMiddle, cloudFront],
+    space: [cloudMiddle, cloudFront],
+  }
+  const layerFor = (depth: string, source: string) => {
     const layer = document.createElement('div')
     layer.className = `story-scenery-layer scenery-${habitat} scenery-${depth}`
     layer.dataset.depth = depth
-    layer.append(storyImage(sources[index]!, 'story-scenery-art'))
+    layer.append(storyImage(source, 'story-scenery-art'))
     return layer
-  })
-  return { midground: layers[0]!, foreground: layers[1]! }
+  }
+  const [middle, front] = sources[habitat]
+  return {
+    midground: layerFor('midground', middle),
+    foreground: layerFor('foreground', front),
+  }
 }

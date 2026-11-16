@@ -173,8 +173,6 @@ type ActivitySetupControlsProps = {
   isSetup: boolean
   theme: Theme
   totalProblems: number
-  min: number
-  max: number
   onAdjustProblems: (delta: number) => void | Promise<void>
   starReward: number
   onStarsChange: (value: number) => void | Promise<void>
@@ -189,8 +187,6 @@ export const ActivitySetupControls = ({
   isSetup,
   theme,
   totalProblems,
-  min,
-  max,
   onAdjustProblems,
   starReward,
   onStarsChange,
@@ -206,8 +202,6 @@ export const ActivitySetupControls = ({
     <ProblemCountControl
       theme={theme}
       totalProblems={totalProblems}
-      min={min}
-      max={max}
       onAdjust={onAdjustProblems}
       previousAriaLabel={previousAriaLabel}
       nextAriaLabel={nextAriaLabel}
@@ -297,8 +291,6 @@ export const ActivityPlayArea = ({
 type ProblemCountControlProps = {
   theme: Theme
   totalProblems: number
-  min: number
-  max: number
   onAdjust: (delta: number) => void | Promise<void>
   previousAriaLabel: string
   nextAriaLabel: string
@@ -308,8 +300,6 @@ type ProblemCountControlProps = {
 const ProblemCountControl = ({
   theme,
   totalProblems,
-  min,
-  max,
   onAdjust,
   previousAriaLabel,
   nextAriaLabel,
@@ -329,7 +319,7 @@ const ProblemCountControl = ({
             theme={theme}
             direction="prev"
             onClick={() => onAdjust(-1)}
-            disabled={totalProblems <= min}
+            disabled={totalProblems <= 1}
             ariaLabel={previousAriaLabel}
           />
         )}
@@ -351,7 +341,7 @@ const ProblemCountControl = ({
             theme={theme}
             direction="next"
             onClick={() => onAdjust(1)}
-            disabled={totalProblems >= max}
+            disabled={totalProblems >= 9}
             ariaLabel={nextAriaLabel}
           />
         )}
