@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { pauseStorySurfaceAnimations } from '../helpers/pauseStorySurfaceAnimations'
 import photoLayout from '../../src/assets/comic/references/birthday/polaroid-layout.json' with { type: 'json' }
 import flightLayout from '../../src/data/stories/dinosaurFlightLayout.json' with { type: 'json' }
 
@@ -154,9 +155,10 @@ test('plays the birthday photo animation in the app, replays it, and cleans up o
     0
   )
   await moment.evaluate((element) =>
-    element
-      .getAnimations({ subtree: true })
-      .forEach((animation) => animation.finish())
+    element.getAnimations({ subtree: true }).forEach((animation) => {
+      if (Number.isFinite(animation.effect!.getComputedTiming().endTime))
+        animation.finish()
+    })
   )
   await expect(moment).not.toHaveClass(/playing/)
   await page.screenshot({ path: testInfo.outputPath('app-photo-finished.png') })
@@ -180,16 +182,30 @@ test('reverses an unfinished opening and can reopen without leftover surfaces', 
   page,
 }) => {
   await page.goto('/tests/fixtures/story-reader.html')
+  await pauseStorySurfaceAnimations(page)
   const read = page.getByRole('button', { name: 'Read Sea friends' })
   await read.click()
   const reader = page.getByRole('dialog', { name: 'Sea friends story reader' })
   await expect(reader).toHaveAttribute('data-story-opening', 'true')
   await reader.dispatchEvent('cancel')
   await expect(reader).toHaveAttribute('data-story-closing', 'true')
+  await reader.evaluate((dialog) =>
+    dialog.getAnimations({ subtree: true }).forEach((animation) => {
+      if (Number.isFinite(animation.effect!.getComputedTiming().endTime))
+        animation.finish()
+    })
+  )
   await expect(reader).toHaveCount(0)
   await expect(page.locator('.story-phone-snapshot')).toHaveCount(0)
   await expect(read).toBeFocused()
   await read.click()
+  await expect(reader).toHaveAttribute('data-story-opening', 'true')
+  await reader.evaluate((dialog) =>
+    dialog.getAnimations({ subtree: true }).forEach((animation) => {
+      if (Number.isFinite(animation.effect!.getComputedTiming().endTime))
+        animation.finish()
+    })
+  )
   await expect(reader).toHaveAttribute('data-story-opening', 'false')
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await reader.getByRole('button', { name: 'Return to tests' }).click()
@@ -212,6 +228,7 @@ test('desktop story fills the viewport, scrubs, turns pages, and returns focus',
   await page.screenshot({
     path: `test-results/test-categories-princess-${browserName}.png`,
   })
+  await pauseStorySurfaceAnimations(page)
   await page.getByRole('button', { name: 'Read Sea friends' }).click()
   const reader = page.getByRole('dialog', { name: 'Sea friends story reader' })
   await expect(reader).toBeVisible()
@@ -223,9 +240,9 @@ test('desktop story fills the viewport, scrubs, turns pages, and returns focus',
     animation.pause()
     animation.currentTime = 0
     const start = element.getBoundingClientRect()
-    animation.currentTime = 600
+    animation.currentTime = Number(animation.effect!.getTiming().duration) / 2
     const middle = element.getBoundingClientRect()
-    animation.play()
+    element.getAnimations({ subtree: true }).forEach((item) => item.play())
     return {
       startWidth: start.width,
       startHeight: start.height,

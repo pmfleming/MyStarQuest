@@ -1,4 +1,5 @@
 import { expect, test, type Locator } from '@playwright/test'
+import { pauseStorySurfaceAnimations } from '../helpers/pauseStorySurfaceAnimations'
 
 async function sampleMorph(reader: Locator) {
   return reader.evaluate((dialog) => {
@@ -39,6 +40,7 @@ for (const width of [1280, 390]) {
   }) => {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 800 })
     await page.goto('/tests/fixtures/story-reader.html')
+    await pauseStorySurfaceAnimations(page)
     await page
       .getByRole('img', { name: 'Sea friends story cover' })
       .evaluate((image: HTMLImageElement) => image.decode())
@@ -89,21 +91,23 @@ test('reversing a morph preserves the visible shape and image scale', async ({
 }, testInfo) => {
   await page.setViewportSize({ width: 1280, height: 800 })
   await page.goto('/tests/fixtures/story-reader.html')
+  await pauseStorySurfaceAnimations(page)
   await page.getByRole('button', { name: 'Read Sea friends' }).click()
   const reader = page.getByRole('dialog')
   await expect(reader).toHaveAttribute('data-story-opening', 'true')
-  const capture = async (time: number) =>
-    reader.evaluate((dialog, at) => {
+  const capture = async (fraction: number) =>
+    reader.evaluate((dialog, fraction) => {
       dialog.getAnimations({ subtree: true }).forEach((animation) => {
         animation.pause()
-        animation.currentTime = at
+        animation.currentTime =
+          Number(animation.effect!.getTiming().duration) * fraction
       })
       return [dialog, dialog.querySelector('.story-stage')!].map((element) => {
         const bounds = element.getBoundingClientRect()
         return [bounds.x, bounds.y, bounds.width, bounds.height]
       })
-    }, time)
-  const before = await capture(600)
+    }, fraction)
+  const before = await capture(0.5)
   await page.screenshot({ path: testInfo.outputPath('opening-midway.png') })
   await reader.dispatchEvent('cancel')
   await expect(reader).toHaveAttribute('data-story-closing', 'true')

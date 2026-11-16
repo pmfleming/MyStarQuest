@@ -37,7 +37,6 @@ export default function StoryReader({
   const stageRef = useRef<HTMLDivElement>(null)
   const gesture = useRef<{ x: number; y: number; bottom: boolean } | null>(null)
   const lastPage = story.panels.length - 1
-  const panel = story.panels[displayedPage]!
   const chapters = getStoryChapters(story)
   const activeChapter = currentStoryChapter(chapters, displayedPage)
   const turn = (delta: number) =>
@@ -231,10 +230,10 @@ export default function StoryReader({
             type="range"
             min={0}
             max={lastPage}
-            value={displayedPage}
+            value={page}
             style={progressStyle}
             aria-label="Story progress"
-            aria-valuetext={`${displayedPage + 1} of ${story.panels.length}: ${panel.label}`}
+            aria-valuetext={`${page + 1} of ${story.panels.length}: ${story.panels[page]!.label}`}
             onChange={(event) => setPage(Number(event.target.value))}
           />
           <output
