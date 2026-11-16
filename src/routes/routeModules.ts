@@ -26,3 +26,22 @@ export function getRouteModule(pathname: string) {
   const name = routeNames.get(pathname.replace(/\/$/, '') || '/')
   return name ? routeModules[name] : null
 }
+
+const preloads = new Map<
+  NonNullable<ReturnType<typeof getRouteModule>>,
+  Promise<unknown>
+>()
+
+// Hover, keyboard focus and touch can announce the same navigation. Share work
+// and allow a later attempt to recover if the connection drops.
+export function preloadRoute(pathname: string): Promise<unknown> {
+  const load = getRouteModule(pathname)
+  if (!load) return Promise.resolve()
+  const pending = preloads.get(load)
+  if (pending) return pending
+  const request = load().catch(() => {
+    preloads.delete(load)
+  })
+  preloads.set(load, request)
+  return request
+}

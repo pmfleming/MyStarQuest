@@ -1,4 +1,5 @@
 import { AsyncButton } from './AsyncButton'
+import { preloadRoute } from '../../routes/routeModules'
 import { useNavigate } from 'react-router-dom'
 import type { Theme } from '../../contexts/ThemeContext'
 import { getFloatingSurfaceStyle, uiTokens } from '../../tokens'
@@ -37,6 +38,15 @@ const BottomNav = ({ theme, activeTabId }: BottomNavProps) => {
             type="button"
             aria-label={tab.ariaLabel}
             aria-current={isActive ? 'page' : undefined}
+            onPointerEnter={() => {
+              if (!isActive) void preloadRoute(tab.path)
+            }}
+            onFocus={() => {
+              if (!isActive) void preloadRoute(tab.path)
+            }}
+            onPointerDown={() => {
+              if (!isActive) void preloadRoute(tab.path)
+            }}
             onClick={() =>
               navigate(tab.path, {
                 state: {
