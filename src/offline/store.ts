@@ -16,6 +16,7 @@ import { snapshotStore } from '../lib/snapshotStore'
 import type { SyncReceipt } from './transport'
 import { importWebProgress } from './importWebProgress'
 import { parseChildScope } from '../sharing/scope'
+import { sameValue, shareSnapshot, UNCHANGED } from './changes'
 
 export class OfflineStore {
   private snapshot = snapshotStore<OfflineState | undefined>(undefined)
@@ -35,7 +36,10 @@ export class OfflineStore {
   open() {
     this.opening ??= (async () => {
       if (this.persistence.update) {
-        const { state } = await this.persistence.update(this.userId, () => {})
+        const { state } = await this.persistence.update(
+          this.userId,
+          () => UNCHANGED
+        )
         this.snapshot.publish(state)
         return
       }
@@ -62,8 +66,8 @@ export class OfflineStore {
             return change(state)
           }
         )
-        this.snapshot.publish(state)
-        this.onCommit?.()
+        this.snapshot.publish(shareSnapshot(this.getSnapshot(), state))
+        if (result !== UNCHANGED) this.onCommit?.()
         return result
       }
       const current = this.getSnapshot()
@@ -71,9 +75,10 @@ export class OfflineStore {
       const draft = structuredClone(current)
       if (parseChildScope(this.userId)) draft.shared = true
       const result = change(draft)
-      await this.persistence.write(this.userId, draft)
-      this.snapshot.publish(draft)
-      this.onCommit?.()
+      if (result !== UNCHANGED || draft.shared !== current.shared)
+        await this.persistence.write(this.userId, draft)
+      this.snapshot.publish(shareSnapshot(current, draft))
+      if (result !== UNCHANGED) this.onCommit?.()
       return result
     })
     this.work = operation.catch(() => {})
@@ -87,7 +92,7 @@ export class OfflineStore {
     const operation = this.work.then(async () => {
       await this.open()
       const saved = await this.persistence.read(this.userId)
-      if (saved) this.snapshot.publish(saved)
+      if (saved) this.snapshot.publish(shareSnapshot(this.getSnapshot(), saved))
     })
     this.work = operation.catch(() => {})
     return operation
@@ -109,8 +114,7 @@ export class OfflineStore {
     return this.mutate((state) => {
       // Another tab may have acknowledged this operation and applied later work.
       const operation = state.pending.find((operation) => operation.id === id)
-      if (!operation) return
-      if (state.revoked) return
+      if (!operation || state.revoked) return UNCHANGED
       const documents = state.documents[collection]
       if (document)
         documents[entityId] = latestDocument(
@@ -149,14 +153,22 @@ export class OfflineStore {
     documents: Record<string, LocalDocument>
   ) {
     return this.mutate((state) => {
-      if (state.revoked) return
+      if (
+        state.revoked ||
+        Object.entries(documents).every(([id, document]) =>
+          sameValue(state.history?.[collection][id], document)
+        )
+      )
+        return UNCHANGED
       state.history ??= { starEvents: {}, redemptions: {} }
       state.history[collection] = { ...state.history[collection], ...documents }
     })
   }
   mergeProgress(documents: Record<string, LocalDocument>) {
     return this.mutate((state) => {
-      if (!state.revoked) mergeSharedProgress(state, documents)
+      if (state.revoked || sameValue(state.sharedProgress, documents))
+        return UNCHANGED
+      mergeSharedProgress(state, documents)
     })
   }
   reject(id: string, message: string) {
@@ -168,6 +180,7 @@ export class OfflineStore {
   }
   revoke() {
     return this.mutate((state) => {
+      if (state.revoked) return UNCHANGED
       state.rejected = state.pending.map((operation) => ({
         id: operation.id,
         message: 'Access was removed; this change was not sent.',
@@ -188,7 +201,9 @@ export class OfflineStore {
     preserveWebProgress = false
   ) {
     return this.mutate((state) => {
-      if (state.revoked) return
+      if (state.revoked) return UNCHANGED
+      const previousPendingCount = state.pending.length
+      const previousImports = state.importedWebCollections?.length ?? 0
       if (collection === 'children' && !state.shared) {
         const migrated = new Set(
           Object.entries(documents)
@@ -217,12 +232,19 @@ export class OfflineStore {
         })
       }
       if (preserveWebProgress) importWebProgress(state, collection, documents)
-      state.documents[collection] = Object.fromEntries(
+      const nextDocuments = Object.fromEntries(
         Object.entries(documents).map(([id, document]) => [
           id,
           latestDocument(collection, state.documents[collection][id], document),
         ])
       )
+      if (
+        previousPendingCount === state.pending.length &&
+        previousImports === (state.importedWebCollections?.length ?? 0) &&
+        sameValue(state.documents[collection], nextDocuments)
+      )
+        return UNCHANGED
+      state.documents[collection] = nextDocuments
     })
   }
 }

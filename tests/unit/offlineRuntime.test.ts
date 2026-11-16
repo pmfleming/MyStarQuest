@@ -36,6 +36,42 @@ vi.mock('../../src/offline/persistence', () => ({
 }))
 import { offlineRuntime } from '../../src/offline/runtime'
 
+it('applies document deltas and ignores metadata-only notifications after initial sync', async () => {
+  const runtime = offlineRuntime('query-deltas'),
+    stop = runtime.connect()
+  try {
+    await vi.waitFor(() =>
+      expect(listeners.has('users/query-deltas/children')).toBe(true)
+    )
+    const receive = listeners.get('users/query-deltas/children')!
+    receive({
+      metadata: { fromCache: false },
+      docs: [{ id: 'child', data: () => ({ totalStars: 1 }) }],
+    })
+    await runtime.store.mutate(() => {})
+    receive({
+      metadata: { fromCache: false },
+      docChanges: () => [
+        {
+          type: 'modified',
+          doc: { id: 'child', data: () => ({ totalStars: 2 }) },
+        },
+      ],
+      get docs() {
+        throw new Error('Full snapshot should not be rescanned')
+      },
+    })
+    await runtime.store.mutate(() => {})
+    expect(runtime.documents('children')[0]?.data.totalStars).toBe(2)
+    const snapshot = runtime.store.getSnapshot()
+    receive({ metadata: { fromCache: false }, docChanges: () => [] })
+    await Promise.resolve()
+    expect(runtime.store.getSnapshot()).toBe(snapshot)
+  } finally {
+    stop()
+  }
+})
+
 it('keeps durable phone data through partial SDK cache results and accepts authoritative server deletion', async () => {
   const runtime = offlineRuntime('cached-parent')
   await runtime.store.mergeCollection('children', { child: { totalStars: 8 } })

@@ -150,25 +150,41 @@ function createRuntime(userId: string) {
             keyForDocument: (id: string, data: LocalDocument) => string = (
               id
             ) => id
-          ) =>
+          ) => {
+            let known: Map<string, [string, LocalDocument]> | undefined
             cleanup.push(
               onSnapshot(
                 source,
                 { includeMetadataChanges: true },
                 (snapshot) => {
                   if (snapshot.metadata.fromCache) return
-                  void merge(
-                    Object.fromEntries(
+                  const changes = known ? snapshot.docChanges?.() : undefined
+                  if (changes?.length === 0) return
+                  if (!known || !changes) {
+                    known = new Map(
                       snapshot.docs.map((doc) => {
                         const data = localDocument(doc.data())
-                        return [keyForDocument(doc.id, data), data]
+                        return [doc.id, [keyForDocument(doc.id, data), data]]
                       })
                     )
-                  ).catch(report)
+                  } else {
+                    for (const change of changes) {
+                      if (change.type === 'removed') known.delete(change.doc.id)
+                      else {
+                        const data = localDocument(change.doc.data())
+                        known.set(change.doc.id, [
+                          keyForDocument(change.doc.id, data),
+                          data,
+                        ])
+                      }
+                    }
+                  }
+                  void merge(Object.fromEntries(known.values())).catch(report)
                 },
                 denied
               )
             )
+          }
           if (scope) {
             cleanup.push(
               onSnapshot(

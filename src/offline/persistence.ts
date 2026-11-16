@@ -1,4 +1,5 @@
 import { emptyState, offlineStateSchema, type OfflineState } from './model'
+import { UNCHANGED } from './changes'
 
 export interface OfflinePersistence {
   read: (userId: string) => Promise<OfflineState | undefined>
@@ -83,9 +84,15 @@ export class IndexedDbPersistence implements OfflinePersistence {
             const state =
               offlineStateSchema.optional().parse(request.result) ??
               emptyState()
+            const previouslyShared = state.shared
             const result = change(state)
             value = { state, result }
-            accounts.put(state, userId)
+            if (
+              result !== UNCHANGED ||
+              request.result === undefined ||
+              previouslyShared !== state.shared
+            )
+              accounts.put(state, userId)
           } catch (error) {
             failure = error
             transaction.abort()
