@@ -273,22 +273,28 @@ export default function CalendarActivityHistory({
           )}
           {[...groups].map(([day, items]) => (
             <section key={day} aria-label={`${labels[view]} for ${day}`}>
-              {resultPeriod !== 'day' && (
-                <h4 className="calendar-history__day">
-                  <img
-                    src={getThemeAsset(theme.id, 'storyProgressIcon')}
-                    alt=""
-                    aria-hidden="true"
-                  />
-                  <time dateTime={day}>{formatDay(day)}</time>
-                  <span
-                    className="calendar-history__day-sparkle"
-                    aria-hidden="true"
-                  >
-                    ✦
-                  </span>
-                </h4>
-              )}
+              <div
+                className="calendar-history__day-reveal"
+                data-visible={resultPeriod !== 'day'}
+                aria-hidden={resultPeriod === 'day'}
+              >
+                <div className="calendar-history__day-clip">
+                  <h4 className="calendar-history__day">
+                    <img
+                      src={getThemeAsset(theme.id, 'storyProgressIcon')}
+                      alt=""
+                      aria-hidden="true"
+                    />
+                    <time dateTime={day}>{formatDay(day)}</time>
+                    <span
+                      className="calendar-history__day-sparkle"
+                      aria-hidden="true"
+                    >
+                      ✦
+                    </span>
+                  </h4>
+                </div>
+              </div>
               <ul className="day-agenda__list">
                 {items.map((item) => (
                   <HistoryEntry key={item.id} item={item} theme={theme} />

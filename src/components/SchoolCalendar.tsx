@@ -20,7 +20,6 @@ import {
 } from '../lib/today'
 import { useSchoolCalendar } from '../hooks/useSchoolCalendar'
 import { useCalendarSchedule } from '../hooks/useCalendarSchedule'
-import { useCalendarPeriodTransition } from '../hooks/useCalendarPeriodTransition'
 import { getAgendaForDate, isSchoolDate } from '../lib/calendarSchedule'
 import DayAgenda from './DayAgenda'
 import SchoolEvents from './SchoolEvents'
@@ -75,8 +74,6 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   )
   const todayDateKey = getTodayDescriptor().dateKey
   const calendarPeriod = period === 'year' ? 'month' : period
-  const { frameRef, prepareTransition } =
-    useCalendarPeriodTransition(calendarPeriod)
   // Nine of 21 shares gives the selected date three ordinary day widths.
   const dateColumns =
     calendarPeriod === 'day'
@@ -142,11 +139,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         view={historyView}
         onViewChange={setHistoryView}
         period={period}
-        onPeriodChange={(nextPeriod) => {
-          if (nextPeriod === period) return
-          prepareTransition()
-          setPeriod(nextPeriod)
-        }}
+        onPeriodChange={setPeriod}
         agenda={
           <div role="group" aria-label="Day agenda">
             <section aria-label={`Agenda for ${selectedDateKey}`}>
@@ -158,7 +151,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         }
       >
         {/* Grid */}
-        <div ref={frameRef} className="calendar-transition-frame">
+        <div>
           <div
             className="school-calendar-grid [container-type:inline-size] isolate grid w-full gap-[3px]"
             data-period={calendarPeriod}

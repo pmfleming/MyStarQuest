@@ -7,7 +7,7 @@ import { useActiveChild } from '../contexts/ActiveChildContext'
 import { useTheme } from '../contexts/ThemeContext'
 import TabContent from '../components/TabContent'
 import StandardActionList from '../components/ui/StandardActionList'
-import { getSurfaceWidthConstraints } from '../tokens'
+import { getSurfaceWidthConstraints, uiTokens } from '../tokens'
 import { createRewardDefinitionListRowDescriptor } from '../ui/definitionRowDescriptors'
 import { useRewards } from '../data/useRewards'
 import RewardCreationFlow from './RewardCreationFlow'
@@ -89,11 +89,12 @@ const RewardsPage = () => {
     celebration?.childId === activeChildId ? celebration : null
 
   return (
-    <TabContent theme={theme} title="Rewards">
+    <TabContent theme={theme}>
       <div
         className="mx-auto flex w-full flex-col"
         style={{
           ...getSurfaceWidthConstraints(),
+          paddingTop: `${uiTokens.panelStackGap}px`,
           paddingBottom: '96px',
         }}
       >

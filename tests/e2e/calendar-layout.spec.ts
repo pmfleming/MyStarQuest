@@ -13,29 +13,62 @@ test('view buttons stay still throughout animated period changes', async ({
   ).toBeVisible()
   await page.evaluate(() => document.fonts.ready)
   for (const period of ['Week', 'Month', 'Day', 'Month', 'Week', 'Day']) {
-    const movement = await page
+    const transition = await page
       .getByRole('radio', { name: period, exact: true })
       .evaluate(async (button) => {
         const views = document.querySelector('.calendar-history__views')!
         const top = views.getBoundingClientRect().top
         const samples: number[] = []
+        let animated = false
         ;(button as HTMLButtonElement).click()
         await new Promise<void>((resolve) => {
           const start = performance.now()
           function sample() {
+            animated ||= !!document.querySelector(
+              '.calendar-transition-frame[data-transitioning="true"]'
+            )
             samples.push(Math.abs(views.getBoundingClientRect().top - top))
             if (performance.now() - start < 450) requestAnimationFrame(sample)
             else resolve()
           }
           requestAnimationFrame(sample)
         })
-        return Math.max(...samples)
+        return { movement: Math.max(...samples), animated }
       })
+    expect(transition.animated, `missing transition to ${period}`).toBe(true)
     expect(
-      movement,
+      transition.movement,
       `button row moved while switching to ${period}`
     ).toBeLessThan(1)
+    await expect(page.locator('.calendar-transition-previous')).toHaveCount(0)
   }
+})
+
+test('rapid period changes and reduced motion leave only the active view', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.goto('/tests/fixtures/calendar-layout.html?theme=teenie')
+  await page.getByRole('radio', { name: 'Week', exact: true }).click()
+  await page.getByRole('radio', { name: 'Month', exact: true }).click()
+  await page.getByRole('radio', { name: 'Day', exact: true }).click()
+  await expect(page.locator('.calendar-transition-previous')).toHaveCount(0)
+  await expect(page.locator('.character-calendar__hero')).toBeVisible()
+  await expect(page.getByRole('button', { name: /^Select / })).toHaveCount(0)
+
+  await page.getByRole('radio', { name: 'Week', exact: true }).click()
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await expect(page.locator('.calendar-transition-previous')).toHaveCount(0)
+  await page.getByRole('radio', { name: 'Month', exact: true }).click()
+  await expect(page.locator('.calendar-transition-previous')).toHaveCount(0)
+  await expect(
+    page.getByRole('group', { name: 'Month calendar' })
+  ).toBeVisible()
+  expect(
+    await page
+      .locator('.character-calendar')
+      .evaluate((calendar) => calendar.getAnimations({ subtree: true }).length)
+  ).toBe(0)
 })
 
 for (const theme of ['teenie', 'princess']) {

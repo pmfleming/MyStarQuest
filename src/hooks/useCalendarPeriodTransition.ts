@@ -8,7 +8,7 @@ export function useCalendarPeriodTransition(period: string) {
 
   function prepareTransition() {
     const frame = frameRef.current
-    const grid = frame?.firstElementChild
+    const grid = frame?.querySelector<HTMLElement>(':scope > :not([hidden])')
     running.current?.()
     pending.current = null
     if (
@@ -31,22 +31,34 @@ export function useCalendarPeriodTransition(period: string) {
 
   useLayoutEffect(() => {
     const frame = frameRef.current
-    const grid = frame?.firstElementChild
+    const grid = frame?.querySelector<HTMLElement>(':scope > :not([hidden])')
     const previous = pending.current
     pending.current = null
     if (!frame || !grid || !previous) return
 
-    // Measure the destination without the existing column-width transition.
+    // Animate the visible stage, including the illustrated day view.
     frame.dataset.transitioning = 'true'
     frame.append(previous)
     const easing = 'cubic-bezier(0.22, 1, 0.36, 1)'
     const animations = [
-      grid.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300, easing }),
-      previous.animate([{ opacity: 1 }, { opacity: 0 }], {
-        duration: 180,
-        easing: 'ease-out',
-        fill: 'forwards',
-      }),
+      grid.animate(
+        [
+          { opacity: 0, transform: 'translateY(14px) scale(0.97)' },
+          { opacity: 1, transform: 'translateY(0) scale(1)' },
+        ],
+        { duration: 360, easing }
+      ),
+      previous.animate(
+        [
+          { opacity: 1, transform: 'translateY(0) scale(1)' },
+          { opacity: 0, transform: 'translateY(-8px) scale(1.02)' },
+        ],
+        {
+          duration: 200,
+          easing: 'ease-out',
+          fill: 'forwards',
+        }
+      ),
     ]
     const motionPreference = window.matchMedia(
       '(prefers-reduced-motion: reduce)'

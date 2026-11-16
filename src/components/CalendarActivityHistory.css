@@ -47,6 +47,23 @@
   height: 32px;
   object-fit: contain;
 }
+.calendar-history__day-reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s 380ms;
+}
+.calendar-history__day-reveal[data-visible='true'] {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+.calendar-history__day-clip {
+  min-height: 0;
+  overflow: hidden;
+}
 .calendar-history__day {
   display: inline-flex;
   align-items: center;
@@ -67,6 +84,16 @@
   font-size: 1.125rem;
   font-weight: 900;
   line-height: 1.3;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.94);
+  transform-origin: left center;
+  transition:
+    opacity 220ms ease-out,
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.calendar-history__day-reveal[data-visible='true'] .calendar-history__day {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 .calendar-history__day > img {
   flex: 0 0 26px;
@@ -127,4 +154,11 @@
 .calendar-history__unknown {
   text-align: center;
   font-size: 1.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-history__day-reveal,
+  .calendar-history__day {
+    transition: none;
+  }
 }

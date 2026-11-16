@@ -17,8 +17,12 @@
     ),
     linear-gradient(
       120deg,
-      var(--star-surface) 20%,
-      color-mix(in srgb, var(--star-accent) 24%, white)
+      color-mix(in srgb, var(--star-surface) 60%, transparent) 20%,
+      color-mix(
+        in srgb,
+        color-mix(in srgb, var(--star-accent) 24%, white) 60%,
+        transparent
+      )
     );
   box-shadow:
     0 5px 0 color-mix(in srgb, var(--star-accent) 60%, white),

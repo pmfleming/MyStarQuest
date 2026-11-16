@@ -14,6 +14,7 @@ interface TabContentProps {
   headerLeading?: ReactNode
   header?: ReactNode
   headerHeight?: number
+  collapseHeader?: boolean
   onResetToday?: () => Promise<void>
   children?: ReactNode
 }
@@ -24,13 +25,14 @@ const TabContent = ({
   headerLeading,
   header,
   headerHeight = uiTokens.floatingNavHeight,
+  collapseHeader = true,
   onResetToday,
   children,
 }: TabContentProps) => {
   const isVisible = useContext(ActivityTabVisibleContext)
   const { headerRef, progress, onScroll } = useScrollHeader(
     headerHeight,
-    isVisible
+    isVisible && collapseHeader
   )
   return (
     <div className="relative flex h-full flex-col overflow-hidden">

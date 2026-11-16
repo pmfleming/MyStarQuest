@@ -1,0 +1,78 @@
+.whimsical-view-transition {
+  display: grid;
+  grid-template-rows: 1fr;
+  min-width: 0;
+  margin-bottom: var(--explorer-panel-gap, 16px);
+  transition:
+    grid-template-rows 400ms ease-out,
+    margin-bottom 400ms ease-out;
+}
+
+.whimsical-view-transition[hidden] {
+  display: none;
+}
+
+.whimsical-view-transition--overlap {
+  grid-area: 1 / 1;
+  align-self: start;
+  margin-bottom: 0;
+}
+
+.whimsical-view-transition--overlap[data-open='true'] {
+  z-index: 1;
+}
+
+.whimsical-view-transition__clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.whimsical-view-transition__surface {
+  display: flow-root;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  transform-origin: center top;
+  transition:
+    transform 400ms ease-out,
+    opacity 400ms ease-out;
+}
+
+/* The same shrink, turn and fade as whimsical-poof, reversible mid-flight. */
+.whimsical-view-transition[data-open='false'] {
+  grid-template-rows: 0fr;
+  margin-bottom: 0;
+  transition-timing-function: ease-in;
+}
+
+.whimsical-view-transition[data-open='false']
+  .whimsical-view-transition__surface {
+  opacity: 0;
+  transform: scale(0) rotate(45deg);
+  transition-timing-function: ease-in;
+}
+
+@starting-style {
+  .whimsical-view-transition[data-open='true'][data-enter='true'] {
+    grid-template-rows: 0fr;
+    margin-bottom: 0;
+  }
+
+  .whimsical-view-transition[data-open='true'][data-enter='true']
+    .whimsical-view-transition__surface {
+    opacity: 0;
+    transform: scale(0) rotate(45deg);
+  }
+}
+
+.whimsical-view-transition[data-animate='false'],
+.whimsical-view-transition[data-animate='false']
+  .whimsical-view-transition__surface {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whimsical-view-transition,
+  .whimsical-view-transition__surface {
+    transition: none;
+  }
+}
