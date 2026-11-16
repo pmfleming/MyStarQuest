@@ -105,12 +105,14 @@ it('filters subscriptions by child and clears the previous child immediately whe
       },
     ])
   })
-  expect(result.current.entries.map((item) => item.title)).toEqual([
-    'Second child gift',
-  ])
+  await waitFor(() =>
+    expect(result.current.entries.map((item) => item.title)).toEqual([
+      'Second child gift',
+    ])
+  )
   expect(result.current.loading).toBe(false)
 })
-it('surfaces subscription failures instead of reporting an empty history as success', () => {
+it('surfaces subscription failures instead of reporting an empty history as success', async () => {
   const log = vi.spyOn(console, 'error').mockImplementation(() => {})
   const { result } = renderHook(useCalendarHistory)
   act(() => {
@@ -120,10 +122,10 @@ it('surfaces subscription failures instead of reporting an empty history as succ
     publish('redemptions', 'one', [])
   })
   expect(result.current.error).toBe(true)
-  expect(result.current.loading).toBe(false)
+  await waitFor(() => expect(result.current.loading).toBe(false))
   log.mockRestore()
 })
-it('reuses queries within a month and loads a new period without keeping stale entries', () => {
+it('reuses queries within a month and loads a new period without keeping stale entries', async () => {
   const { result, rerender, unmount } = renderHook(
     ({ date }) => useCalendarHistory(date, 'month'),
     { initialProps: { date: '2024-01-15' } }
@@ -134,7 +136,7 @@ it('reuses queries within a month and loads a new period without keeping stale e
     ])
     publish('redemptions', 'one', [])
   })
-  expect(result.current.loading).toBe(false)
+  await waitFor(() => expect(result.current.loading).toBe(false))
   const initial = new Map(state.listeners)
   rerender({ date: '2024-01-20' })
   expect(state.listeners).toEqual(initial)
@@ -151,7 +153,7 @@ it('reuses queries within a month and loads a new period without keeping stale e
     ])
     publish('redemptions', 'one', [])
   })
-  expect(result.current.entries[0]?.title).toBe('February')
+  await waitFor(() => expect(result.current.entries[0]?.title).toBe('February'))
   unmount()
   expect(state.listeners.size).toBe(0)
 })

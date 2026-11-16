@@ -10,6 +10,7 @@ import { parseChildScope } from '../sharing/scope'
 import { localDocument } from './firebaseTransport'
 import type { HistoryCollection, LocalDocument } from './model'
 import type { HistoryWindow } from './historyRetention'
+import { sameValue } from './changes'
 
 export function historySources(
   userId: string,
@@ -56,7 +57,7 @@ export function subscribeHistoryWindow(
   childId?: string
 ) {
   const stops: (() => void)[] = []
-  const sources = new Map<string, Record<string, LocalDocument>>()
+  const sources = new Map<string, Map<string, [string, LocalDocument]>>()
   const authoritative = new Set<string>()
   const querySources = historySources(userId, name, childId)
   const ranges: [string, number | string | Date, number | string | Date][] = [
@@ -70,6 +71,26 @@ export function subscribeHistoryWindow(
     ],
   ]
   const expectedSources = querySources.length * ranges.length
+  let timer: ReturnType<typeof setTimeout> | undefined
+  let previous: Record<string, LocalDocument> | undefined
+  let previouslyCached: boolean | undefined
+  const publish = () => {
+    timer = undefined
+    const combined = new Map<string, LocalDocument>()
+    for (const source of sources.values()) {
+      for (const [key, data] of source.values()) combined.set(key, data)
+    }
+    const documents = Object.fromEntries(combined)
+    const fromCache = authoritative.size !== expectedSources
+    if (previouslyCached === fromCache && sameValue(previous, documents)) return
+    previous = documents
+    previouslyCached = fromCache
+    receive(documents, fromCache)
+  }
+  const stop = () => {
+    clearTimeout(timer)
+    stops.forEach((unsubscribe) => unsubscribe())
+  }
   try {
     for (const [sourceIndex, { source, key }] of querySources.entries()) {
       for (const [rangeIndex, [field, start, end]] of ranges.entries()) {
@@ -83,30 +104,34 @@ export function subscribeHistoryWindow(
             query(source, ...constraints),
             { includeMetadataChanges: true },
             (snapshot) => {
-              if (
-                authoritative.has(sourceKey) &&
-                !snapshot.metadata.fromCache &&
-                snapshot.docChanges?.().length === 0
-              )
-                return
+              let known = sources.get(sourceKey)
+              const changes = known ? snapshot.docChanges() : undefined
+              const wasAuthoritative = authoritative.has(sourceKey)
               if (snapshot.metadata.fromCache) authoritative.delete(sourceKey)
               else authoritative.add(sourceKey)
-              sources.set(
-                sourceKey,
-                Object.fromEntries(
-                  snapshot.docs.map((doc) => {
+              if (!known) {
+                known = new Map()
+                sources.set(sourceKey, known)
+                for (const doc of snapshot.docs) {
+                  const data = localDocument(doc.data())
+                  known.set(doc.id, [key(doc.id, data), data])
+                }
+              } else {
+                for (const { type, doc } of changes ?? []) {
+                  if (type === 'removed') known.delete(doc.id)
+                  else {
                     const data = localDocument(doc.data())
-                    return [key(doc.id, data), data]
-                  })
+                    known.set(doc.id, [key(doc.id, data), data])
+                  }
+                }
+                if (
+                  !changes?.length &&
+                  wasAuthoritative === !snapshot.metadata.fromCache
                 )
-              )
-              if (sources.size === expectedSources)
-                receive(
-                  Object.fromEntries(
-                    [...sources.values()].flatMap(Object.entries)
-                  ),
-                  authoritative.size !== expectedSources
-                )
+                  return
+              }
+              if (sources.size === expectedSources && timer === undefined)
+                timer = setTimeout(publish, 0)
             },
             onError
           )
@@ -114,8 +139,8 @@ export function subscribeHistoryWindow(
       }
     }
   } catch (error) {
-    stops.forEach((stop) => stop())
+    stop()
     throw error
   }
-  return () => stops.forEach((stop) => stop())
+  return stop
 }
