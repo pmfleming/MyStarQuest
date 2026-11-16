@@ -108,7 +108,10 @@ export function useExplorerSession(
     }
   }, [nightlyResetKey, locationResetKey, syncInstant])
   const dateKey = buildDateKey(selectedDate)
+  const pendingSave = useRef<number | undefined>(undefined)
   const save = useEffectEvent(() => {
+    window.clearTimeout(pendingSave.current)
+    pendingSave.current = undefined
     if (pendingDateRestore.current && pendingDateRestore.current !== dateKey)
       return
     saveTimeExplorerState({
@@ -119,14 +122,20 @@ export function useExplorerSession(
       exploration: { dateKey, ...getClockTime() },
     })
   })
+  const saveOnRelease = useEffectEvent(() => {
+    if (pendingSave.current !== undefined || clock.view.isDragging) save()
+  })
   useEffect(() => {
     if (pendingDateRestore.current && pendingDateRestore.current !== dateKey) {
       setSelectedDateKey(pendingDateRestore.current)
       return
     }
     pendingDateRestore.current = undefined
-    const timer = window.setTimeout(() => save(), 250)
-    return () => window.clearTimeout(timer)
+    pendingSave.current = window.setTimeout(() => save(), 250)
+    return () => {
+      window.clearTimeout(pendingSave.current)
+      pendingSave.current = undefined
+    }
   }, [
     dateKey,
     displayMode,
@@ -140,18 +149,19 @@ export function useExplorerSession(
   ])
   useEffect(() => {
     const flush = () => save()
+    const release = () => saveOnRelease()
     const onVisibilityChange = () => {
       if (document.visibilityState === 'hidden') flush()
     }
     window.addEventListener('pagehide', flush)
-    document.addEventListener('pointerup', flush)
-    document.addEventListener('pointercancel', flush)
+    document.addEventListener('pointerup', release)
+    document.addEventListener('pointercancel', release)
     document.addEventListener('visibilitychange', onVisibilityChange)
     return () => {
       flush()
       window.removeEventListener('pagehide', flush)
-      document.removeEventListener('pointerup', flush)
-      document.removeEventListener('pointercancel', flush)
+      document.removeEventListener('pointerup', release)
+      document.removeEventListener('pointercancel', release)
       document.removeEventListener('visibilitychange', onVisibilityChange)
     }
   }, [])
