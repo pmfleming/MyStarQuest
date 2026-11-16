@@ -10,10 +10,11 @@ import {
 } from 'firebase/firestore'
 import { db } from '../firebaseDb'
 import { isOfflineEnabled } from '../offline/platform'
-import { offlineRuntime } from '../offline/runtime'
+import { subscribeOfflineCollection } from '../offline/subscribeCollection'
 import type { ReadCollection } from '../offline/model'
 import { parseChildScope } from '../sharing/scope'
-import { subscribeDayChange } from '../lib/dayChange'
+import { subscribeHistoryWindow } from '../offline/historyQueries'
+import type { HistoryWindow } from '../offline/historyRetention'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
@@ -28,6 +29,7 @@ type UseUserCollectionArgs<T> = {
   onItems?: (items: T[]) => void
   onClear?: () => void
   onError?: (error: unknown) => void
+  historyWindow?: HistoryWindow
 }
 
 export const useUserCollection = <T>({
@@ -43,12 +45,17 @@ export const useUserCollection = <T>({
   onItems,
   onClear,
   onError,
+  historyWindow,
 }: UseUserCollectionArgs<T>) => {
+  const historyStart = historyWindow?.start
+  const historyEnd = historyWindow?.end
   const resultKey = JSON.stringify([
     userId,
     collectionName,
     whereEqualToField,
     whereEqualToValue,
+    historyStart,
+    historyEnd,
   ])
   const [result, setResult] = useState<{ key: string; items: T[] }>({
     key: resultKey,
@@ -58,7 +65,8 @@ export const useUserCollection = <T>({
   useEffect(() => {
     const setItems = (items: T[]) => setResult({ key: resultKey, items })
     const publishDocuments = (
-      documents: { id: string; data: DocumentData }[]
+      documents: { id: string; data: DocumentData }[],
+      ready = true
     ) => {
       const mapped = documents.flatMap(({ id, data }) => {
         const item = mapDocument(id, data)
@@ -66,7 +74,7 @@ export const useUserCollection = <T>({
       })
       const nextItems = normalizeItems ? normalizeItems(mapped) : mapped
       setItems(nextItems)
-      onItems?.(nextItems)
+      if (ready) onItems?.(nextItems)
     }
     if (!userId) {
       onClear?.()
@@ -74,44 +82,52 @@ export const useUserCollection = <T>({
     }
 
     if (isOfflineEnabled() || parseChildScope(userId)) {
-      const runtime = offlineRuntime(userId)
-      let disposed = false
-      let previousDocuments: ReturnType<typeof runtime.documents> | undefined
-      const publish = () => {
-        if (disposed) return
-        const documents = runtime.documents(collectionName)
-        if (documents === previousDocuments) return
-        previousDocuments = documents
-        publishDocuments(
-          documents.filter(
-            ({ data }) =>
-              !whereEqualToField ||
-              data[whereEqualToField] === whereEqualToValue
-          )
-        )
-      }
-      const unsubscribeErrors = runtime.subscribeErrors(() => {
-        const error = runtime.getError()
-        if (error) onError?.(error)
+      return subscribeOfflineCollection({
+        userId,
+        collectionName,
+        historyWindow:
+          historyStart !== undefined && historyEnd !== undefined
+            ? {
+                start: historyStart,
+                end: historyEnd,
+                childId:
+                  typeof whereEqualToValue === 'string'
+                    ? whereEqualToValue
+                    : undefined,
+              }
+            : undefined,
+        receive: (documents, ready) =>
+          publishDocuments(
+            documents.filter(
+              ({ data }) =>
+                !whereEqualToField ||
+                data[whereEqualToField] === whereEqualToValue
+            ),
+            ready
+          ),
+        onError,
       })
-      const unsubscribe = runtime.store.subscribe(publish)
-      void runtime.store
-        .open()
-        .then(publish)
-        .catch((error) => {
-          runtime.report(error)
+    }
+
+    if (
+      historyStart !== undefined &&
+      historyEnd !== undefined &&
+      (collectionName === 'starEvents' || collectionName === 'redemptions')
+    ) {
+      return subscribeHistoryWindow(
+        userId,
+        collectionName,
+        { start: historyStart, end: historyEnd },
+        (documents) =>
+          publishDocuments(
+            Object.entries(documents).map(([id, data]) => ({ id, data }))
+          ),
+        (error) => {
           onError?.(error)
-        })
-      const stopDay =
-        collectionName === 'chores' || collectionName === 'tests'
-          ? subscribeDayChange(runtime.dateKey, publish)
-          : undefined
-      return () => {
-        disposed = true
-        unsubscribe()
-        unsubscribeErrors()
-        stopDay?.()
-      }
+          console.error(errorMessage, error)
+        },
+        typeof whereEqualToValue === 'string' ? whereEqualToValue : undefined
+      )
     }
 
     const baseCollection = collection(db, 'users', userId, collectionName)
@@ -155,6 +171,8 @@ export const useUserCollection = <T>({
     resultKey,
     whereEqualToField,
     whereEqualToValue,
+    historyStart,
+    historyEnd,
   ])
 
   return userId && result.key === resultKey ? result.items : []

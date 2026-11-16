@@ -45,9 +45,9 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
   const { events, loadError, retry } = useSchoolCalendar()
   const schedule = useCalendarSchedule()
-  const history = useCalendarHistory()
   const [historyView, setHistoryView] = useState<HistoryView>('all')
   const [period, setPeriod] = useState<HistoryPeriod>('day')
+  const history = useCalendarHistory(selectedDateKey, period)
   const historyEntries = history.entries
   const historyByDay = useMemo(() => {
     const days = new Map<string, typeof historyEntries>()

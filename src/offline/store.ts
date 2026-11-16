@@ -17,6 +17,12 @@ import type { SyncReceipt } from './transport'
 import { importWebProgress } from './importWebProgress'
 import { parseChildScope } from '../sharing/scope'
 import { sameValue, shareSnapshot, UNCHANGED } from './changes'
+import {
+  pruneHistory,
+  rememberRedemptions,
+  retainHistoryDocument,
+  type HistoryWindow,
+} from './historyRetention'
 
 export class OfflineStore {
   private snapshot = snapshotStore<OfflineState | undefined>(undefined)
@@ -36,9 +42,8 @@ export class OfflineStore {
   open() {
     this.opening ??= (async () => {
       if (this.persistence.update) {
-        const { state } = await this.persistence.update(
-          this.userId,
-          () => UNCHANGED
+        const { state } = await this.persistence.update(this.userId, (state) =>
+          pruneHistory(state) ? undefined : UNCHANGED
         )
         this.snapshot.publish(state)
         return
@@ -47,7 +52,8 @@ export class OfflineStore {
       if (saved && saved.version !== 1)
         throw new Error('Unsupported offline data version. Update the app.')
       const state = saved ?? emptyState()
-      if (!saved) await this.persistence.write(this.userId, state)
+      if (pruneHistory(state) || !saved)
+        await this.persistence.write(this.userId, state)
       this.snapshot.publish(state)
     })().catch((error) => {
       this.opening = undefined
@@ -145,24 +151,49 @@ export class OfflineStore {
         })
       if (removed) delete state.documents[removed.collection][removed.entityId]
       rebuildSharedProgress(state)
+      pruneHistory(state)
     })
   }
 
   mergeHistory(
     collection: HistoryCollection,
-    documents: Record<string, LocalDocument>
+    documents: Record<string, LocalDocument>,
+    window?: HistoryWindow
   ) {
     return this.mutate((state) => {
+      if (state.revoked) return UNCHANGED
+      const redeemed =
+        collection === 'redemptions' && rememberRedemptions(state, documents)
+      const changedWindow =
+        window && !sameValue(state.historyWindows?.[collection], window)
       if (
-        state.revoked ||
-        Object.entries(documents).every(([id, document]) =>
-          sameValue(state.history?.[collection][id], document)
+        !changedWindow &&
+        !redeemed &&
+        Object.entries(documents).every(
+          ([id, document]) =>
+            sameValue(state.history?.[collection][id], document) ||
+            !retainHistoryDocument(document, state.historyWindows?.[collection])
         )
       )
         return UNCHANGED
       state.history ??= { starEvents: {}, redemptions: {} }
       state.history[collection] = { ...state.history[collection], ...documents }
+      if (window)
+        state.historyWindows = {
+          starEvents: undefined,
+          redemptions: undefined,
+          ...state.historyWindows,
+          [collection]: window,
+        }
+      pruneHistory(state)
     })
+  }
+  mergeRewardRedemptions(documents: Record<string, LocalDocument>) {
+    return this.mutate((state) =>
+      state.revoked || !rememberRedemptions(state, documents)
+        ? UNCHANGED
+        : undefined
+    )
   }
   mergeProgress(documents: Record<string, LocalDocument>) {
     return this.mutate((state) => {
@@ -191,6 +222,7 @@ export class OfflineStore {
       state.sharedProgress = {}
       state.history = { starEvents: {}, redemptions: {} }
       state.consumed = {}
+      state.redeemedRewards = {}
       state.revoked = true
     })
   }

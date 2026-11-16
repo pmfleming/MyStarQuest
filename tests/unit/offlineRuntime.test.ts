@@ -8,6 +8,9 @@ const subscribe = vi.hoisted(() => vi.fn())
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('firebase/firestore', () => ({
   collection: (_db: unknown, ...parts: string[]) => parts.join('/'),
+  query: (source: string, ...constraints: string[]) =>
+    [source, ...constraints].join('|'),
+  where: (field: string, _op: string, value: string) => `${field}:${value}`,
   onSnapshot: (
     path: string,
     _options: unknown,
@@ -152,4 +155,38 @@ it('cleans partial subscriptions after setup fails and permits a later connectio
   } finally {
     reconnect()
   }
+})
+
+it('loads only relevant legacy reward reconciliation and releases its listeners', async () => {
+  const runtime = offlineRuntime('reward-ledger')
+  const stop = runtime.connect()
+  await vi.waitFor(() =>
+    expect(listeners.has('users/reward-ledger/rewards')).toBe(true)
+  )
+  expect(
+    [...listeners.keys()].some((key) =>
+      /^users\/reward-ledger\/(starEvents|redemptions)$/.test(key)
+    )
+  ).toBe(false)
+  listeners.get('users/reward-ledger/rewards')!({
+    metadata: { fromCache: false },
+    docs: [
+      { id: 'toy', data: () => ({ isRepeating: false }) },
+      { id: 'repeat', data: () => ({ isRepeating: true }) },
+    ],
+  })
+  const path = 'users/reward-ledger/redemptions|rewardId:toy'
+  await vi.waitFor(() => expect(listeners.has(path)).toBe(true))
+  expect(listeners.has('users/reward-ledger/redemptions|rewardId:repeat')).toBe(
+    false
+  )
+  listeners.get(path)!({
+    metadata: { fromCache: false },
+    docs: [{ id: 'old', data: () => ({ rewardId: 'toy', createdAt: 1 }) }],
+  })
+  await runtime.store.mutate(() => {})
+  expect(runtime.documents('rewards').map((doc) => doc.id)).toEqual(['repeat'])
+  expect(runtime.store.getSnapshot()?.history).toBeUndefined()
+  stop()
+  expect(listeners.has(path)).toBe(false)
 })

@@ -27,6 +27,7 @@ export function createReadModel(
           day && state.activities,
           day,
           name === 'rewards' && state.history?.redemptions,
+          name === 'rewards' && state.redeemedRewards,
         ]
     const previous = cache.get(name)
     if (

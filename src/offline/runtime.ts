@@ -11,6 +11,7 @@ import { Capacitor } from '@capacitor/core'
 import { db } from '../firebaseDb'
 import { getDateKeyInTimeZone } from '../lib/today'
 import { createReadModel } from './readModel'
+import { historySources } from './historyQueries'
 import { collections, type LocalDocument } from './model'
 import { IndexedDbPersistence } from './persistence'
 import { OfflineStore } from './store'
@@ -22,7 +23,12 @@ import type { OfflinePersistence } from './persistence'
 import { emptyState } from './model'
 
 const persistence = new IndexedDbPersistence()
-const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
+type Runtime = ReturnType<typeof createRuntime>
+const runtimes = new Map<string, WeakRef<Runtime>>()
+const connectedRuntimes = new Map<string, Runtime>()
+const collectedRuntimes = new FinalizationRegistry<string>((userId) => {
+  if (!runtimes.get(userId)?.deref()) runtimes.delete(userId)
+})
 
 function createRuntime(userId: string) {
   const connections = new Set<symbol>()
@@ -56,7 +62,7 @@ function createRuntime(userId: string) {
           ?.timeZone ?? 'Europe/London'
       )
     )
-  return {
+  const runtime = {
     store,
     sync,
     report,
@@ -66,12 +72,15 @@ function createRuntime(userId: string) {
     dateKey,
     documents: createReadModel(store.getSnapshot, dateKey),
     connect: () => {
+      connectedRuntimes.set(userId, runtime)
       const connection = Symbol()
       connections.add(connection)
       const disconnect = () => {
         if (!connections.delete(connection) || connections.size) return
         stopConnection?.()
         stopConnection = undefined
+        if (connectedRuntimes.get(userId) === runtime)
+          connectedRuntimes.delete(userId)
       }
       if (connections.size > 1) return disconnect
       let disposed = false
@@ -130,41 +139,42 @@ function createRuntime(userId: string) {
             ) => Promise<unknown>,
             keyForDocument: (id: string, data: LocalDocument) => string = (
               id
-            ) => id
+            ) => id,
+            register = true
           ) => {
             let known: Map<string, [string, LocalDocument]> | undefined
-            cleanup.push(
-              onSnapshot(
-                source,
-                { includeMetadataChanges: true },
-                (snapshot) => {
-                  if (snapshot.metadata.fromCache) return
-                  const changes = known ? snapshot.docChanges?.() : undefined
-                  if (changes?.length === 0) return
-                  if (!known || !changes) {
-                    known = new Map(
-                      snapshot.docs.map((doc) => {
-                        const data = localDocument(doc.data())
-                        return [doc.id, [keyForDocument(doc.id, data), data]]
-                      })
-                    )
-                  } else {
-                    for (const change of changes) {
-                      if (change.type === 'removed') known.delete(change.doc.id)
-                      else {
-                        const data = localDocument(change.doc.data())
-                        known.set(change.doc.id, [
-                          keyForDocument(change.doc.id, data),
-                          data,
-                        ])
-                      }
+            const stop = onSnapshot(
+              source,
+              { includeMetadataChanges: true },
+              (snapshot) => {
+                if (snapshot.metadata.fromCache) return
+                const changes = known ? snapshot.docChanges?.() : undefined
+                if (changes?.length === 0) return
+                if (!known || !changes) {
+                  known = new Map(
+                    snapshot.docs.map((doc) => {
+                      const data = localDocument(doc.data())
+                      return [doc.id, [keyForDocument(doc.id, data), data]]
+                    })
+                  )
+                } else {
+                  for (const change of changes) {
+                    if (change.type === 'removed') known.delete(change.doc.id)
+                    else {
+                      const data = localDocument(change.doc.data())
+                      known.set(change.doc.id, [
+                        keyForDocument(change.doc.id, data),
+                        data,
+                      ])
                     }
                   }
-                  void merge(Object.fromEntries(known.values())).catch(report)
-                },
-                denied
-              )
+                }
+                void merge(Object.fromEntries(known.values())).catch(report)
+              },
+              denied
             )
+            if (register) cleanup.push(stop)
+            return stop
           }
           if (scope) {
             cleanup.push(
@@ -191,25 +201,52 @@ function createRuntime(userId: string) {
               (documents) => store.mergeProgress(documents)
             )
           }
-          for (const name of ['starEvents', 'redemptions'] as const) {
-            // Prefixes match migrated audit IDs, deduplicating the legacy and shared sources.
-            if (scope)
-              watch(
-                query(
-                  collection(db, `users/${scope.ownerUid}/${name}`),
-                  where('childId', '==', scope.childId)
-                ),
-                (documents) => store.mergeHistory(name, documents),
-                (id) => `legacy-${id}`
+          // Reconcile old one-time rewards independently of the visible history.
+          const rewardWatches = new Map<string, () => void>()
+          cleanup.push(() => {
+            rewardWatches.forEach((stop) => stop())
+            rewardWatches.clear()
+          })
+          const reconcileRewards = (
+            documents: Record<string, LocalDocument>
+          ) => {
+            const ids = new Set(
+              Object.keys(documents).filter(
+                (id) =>
+                  documents[id]?.isRepeating !== true &&
+                  !store.getSnapshot()?.redeemedRewards?.[id]
               )
-            watch(
-              collection(
-                db,
-                scope ? `${childPath}/${name}` : `users/${userId}/${name}`
-              ),
-              (documents) => store.mergeHistory(name, documents),
-              (id, data) => String(data.operationId ?? id)
             )
+            for (const [id, stop] of rewardWatches) {
+              if (!ids.has(id)) {
+                stop()
+                rewardWatches.delete(id)
+              }
+            }
+            for (const id of ids) {
+              if (rewardWatches.has(id)) continue
+              const stops: (() => void)[] = []
+              rewardWatches.set(id, () => stops.forEach((stop) => stop()))
+              for (const { source, key } of historySources(
+                userId,
+                'redemptions'
+              )) {
+                stops.push(
+                  watch(
+                    query(source, where('rewardId', '==', id)),
+                    async (documents) => {
+                      await store.mergeRewardRedemptions(documents)
+                      if (store.getSnapshot()?.redeemedRewards?.[id]) {
+                        rewardWatches.get(id)?.()
+                        rewardWatches.delete(id)
+                      }
+                    },
+                    key,
+                    false
+                  )
+                )
+              }
+            }
           }
           for (const name of collections) {
             if (scope && name === 'children') continue
@@ -221,12 +258,14 @@ function createRuntime(userId: string) {
               scope && name !== 'rewards'
                 ? query(source, where('childId', '==', scope.childId))
                 : source,
-              (documents) =>
-                store.mergeCollection(
+              async (documents) => {
+                await store.mergeCollection(
                   name,
                   documents,
                   !scope && Capacitor.getPlatform() === 'web'
                 )
+                if (!disposed && name === 'rewards') reconcileRewards(documents)
+              }
             )
           }
           const wake = () => {
@@ -250,13 +289,15 @@ function createRuntime(userId: string) {
       return disconnect
     },
   }
+  return runtime
 }
 
 export function offlineRuntime(userId: string) {
-  let runtime = runtimes.get(userId)
+  let runtime = connectedRuntimes.get(userId) ?? runtimes.get(userId)?.deref()
   if (!runtime) {
     runtime = createRuntime(userId)
-    runtimes.set(userId, runtime)
+    runtimes.set(userId, new WeakRef(runtime))
+    collectedRuntimes.register(runtime, userId)
   }
   return runtime
 }

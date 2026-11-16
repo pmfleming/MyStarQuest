@@ -65,6 +65,19 @@ export const offlineStateSchema = z.object({
   ),
   activities: z.record(z.string(), activitySchema),
   consumed: z.record(z.string(), z.boolean()),
+  redeemedRewards: z.record(z.string(), z.boolean()).optional(),
+  historyWindows: z
+    .record(
+      z.enum(['starEvents', 'redemptions']),
+      z
+        .object({
+          start: z.number(),
+          end: z.number(),
+          childId: z.string().optional(),
+        })
+        .optional()
+    )
+    .optional(),
   importedWebCollections: z.array(collectionSchema).optional(),
   history: z
     .object({
@@ -230,7 +243,12 @@ export function projectDocuments(
 export function redeemedNonRepeatingRewardIds(state: OfflineState) {
   const rewards = projectDocuments(state, 'rewards')
   return new Set(
-    Object.values(state.history?.redemptions ?? {}).flatMap((redemption) => {
+    [
+      ...Object.entries(state.redeemedRewards ?? {}).flatMap(
+        ([rewardId, consumed]) => (consumed ? [{ rewardId }] : [])
+      ),
+      ...Object.values(state.history?.redemptions ?? {}),
+    ].flatMap((redemption: LocalDocument) => {
       const id = String(redemption.rewardId ?? '')
       const reward = rewards[id]
       return reward &&

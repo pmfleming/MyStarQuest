@@ -1,7 +1,15 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useDataScope } from '../sharing/ChildAccessContext'
 import { useUserCollection } from '../data/useUserCollection'
-import { buildCalendarHistory } from '../lib/calendarHistory'
+import {
+  buildCalendarHistory,
+  type HistoryPeriod,
+} from '../lib/calendarHistory'
+import {
+  calendarHistoryWindow,
+  type HistoryWindow,
+} from '../offline/historyRetention'
+import { getTodayDescriptor } from '../lib/today'
 import type { ReadCollection } from '../offline/model'
 
 const mapDocument = (id: string, data: Record<string, unknown>) => ({
@@ -11,9 +19,10 @@ const mapDocument = (id: string, data: Record<string, unknown>) => ({
 function useHistoryCollection(
   name: ReadCollection,
   storageKey: string | undefined,
-  childId: string | null
+  childId: string | null,
+  historyWindow?: HistoryWindow
 ) {
-  const key = `${storageKey}/${childId}/${name}`
+  const key = `${storageKey}/${childId}/${name}/${historyWindow?.start}/${historyWindow?.end}`
   const [status, setStatus] = useState({ key: '', error: false })
   const onItems = useCallback(() => setStatus({ key, error: false }), [key])
   const onError = useCallback(() => setStatus({ key, error: true }), [key])
@@ -26,6 +35,7 @@ function useHistoryCollection(
     errorMessage: `Failed to load calendar ${name}`,
     onItems,
     onError,
+    historyWindow,
   })
   return {
     items,
@@ -33,10 +43,19 @@ function useHistoryCollection(
     error: status.key === key && status.error,
   }
 }
-export function useCalendarHistory() {
+export function useCalendarHistory(
+  dateKey = getTodayDescriptor().dateKey,
+  period: HistoryPeriod = 'month'
+) {
   const { storageKey, childId, timeZone } = useDataScope()
-  const events = useHistoryCollection('starEvents', storageKey, childId)
-  const redemptions = useHistoryCollection('redemptions', storageKey, childId)
+  const window = calendarHistoryWindow(dateKey, period)
+  const events = useHistoryCollection('starEvents', storageKey, childId, window)
+  const redemptions = useHistoryCollection(
+    'redemptions',
+    storageKey,
+    childId,
+    window
+  )
   const chores = useHistoryCollection('chores', storageKey, childId)
   const tests = useHistoryCollection('tests', storageKey, childId)
   const rewards = useHistoryCollection('rewards', storageKey, childId)
