@@ -47,9 +47,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
   const schedule = useCalendarSchedule()
   const history = useCalendarHistory()
   const [historyView, setHistoryView] = useState<HistoryView>('all')
-  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
-  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
-  const period = historyView === 'rewards' ? rewardPeriod : taskPeriod
+  const [period, setPeriod] = useState<HistoryPeriod>('day')
   const historyEntries = history.entries
   const historyByDay = useMemo(() => {
     const days = new Map<string, typeof historyEntries>()
@@ -118,22 +116,9 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
     calendarPeriod === 'month'
       ? Math.ceil((firstDayOffset + dates.length) / 7) * 7
       : dates.length
-  const agendaDays = useMemo(
-    () =>
-      dates
-        .map((date) => ({
-          date,
-          dateKey: buildDateKey(date),
-          agenda: getAgendaForDate(schedule, date, events),
-        }))
-        .filter(
-          ({ dateKey, agenda }) =>
-            calendarPeriod === 'day' ||
-            agenda.length > 0 ||
-            getSchoolEvents(events[dateKey]).length > 0 ||
-            getTheatreEvents(dateKey).length > 0
-        ),
-    [dates, schedule, events, calendarPeriod]
+  const agenda = useMemo(
+    () => getAgendaForDate(schedule, selectedDate, events),
+    [schedule, selectedDate, events]
   )
   const schoolIcon = getThemeAsset(theme.id, 'schoolDayImage')
 
@@ -166,8 +151,15 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
         view={historyView}
         onViewChange={setHistoryView}
         period={period}
-        onPeriodChange={
-          historyView === 'rewards' ? setRewardPeriod : setTaskPeriod
+        onPeriodChange={setPeriod}
+        agenda={
+          <div role="group" aria-label="Day agenda">
+            <section aria-label={`Agenda for ${selectedDateKey}`}>
+              <SchoolEvents day={events[selectedDateKey]} theme={theme} />
+              <TheatreEvents dateKey={selectedDateKey} theme={theme} />
+              <DayAgenda theme={theme} agenda={agenda} />
+            </section>
+          </div>
         }
       >
         {/* Grid */}
@@ -401,36 +393,6 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
           </div>
         </div>
       </CalendarActivityHistory>
-      {historyView === 'all' && (
-        <div
-          role="group"
-          aria-label={`${calendarPeriod.charAt(0).toUpperCase() + calendarPeriod.slice(1)} agenda`}
-        >
-          {agendaDays.map(({ date, dateKey, agenda }) => (
-            <section key={dateKey} aria-label={`Agenda for ${dateKey}`}>
-              {calendarPeriod !== 'day' && (
-                <h4
-                  className="calendar-history__day"
-                  style={{ color: theme.colors.text }}
-                >
-                  <time dateTime={dateKey}>
-                    {date.toLocaleDateString('en-GB', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                    })}
-                  </time>
-                </h4>
-              )}
-              <SchoolEvents day={events[dateKey]} theme={theme} />
-              <TheatreEvents dateKey={dateKey} theme={theme} />
-              {(agenda.length > 0 || calendarPeriod === 'day') && (
-                <DayAgenda theme={theme} agenda={agenda} />
-              )}
-            </section>
-          ))}
-        </div>
-      )}
     </section>
   )
 }

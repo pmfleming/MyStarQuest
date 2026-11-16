@@ -12,6 +12,7 @@ import {
 import { historyIcon, historyPeriodIcons } from '../ui/calendarHistoryAssets'
 import { getThemeAsset } from '../ui/themeAssets'
 import { getChoreImage } from '../assets/chores/assets'
+import { getPresetChoreOverviewImage } from '../ui/choreOverviewAssets'
 import { getRewardImage } from '../assets/rewards/assets'
 import starImage from '../assets/global/star.svg'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
@@ -25,10 +26,10 @@ import './CalendarActivityHistory.css'
 // Full descriptions are for assistive technology; the visible UI uses artwork and numbers.
 const labels = {
   all: 'Activity history',
-  completed: 'Chores & tests completed',
+  completed: 'Chores & tasks completed',
   chores: 'Chores completed',
   tests: 'Tests completed',
-  rewards: 'Rewards granted',
+  rewards: 'Rewards received',
 }
 const formatDay = (key: string) =>
   parseDateKey(key).toLocaleDateString('en-GB', {
@@ -71,6 +72,13 @@ function HistoryEntry({
   item: CalendarHistoryEntry
   theme: Theme
 }) {
+  const artwork =
+    item.kind === 'rewards'
+      ? getRewardImage(item.imageKey, theme.id)
+      : item.taskType === 'eating' || item.taskType === 'watertoiletcheck'
+        ? getPresetChoreOverviewImage(item.taskType, theme.id)
+        : getChoreImage(item.imageKey, theme.id)
+
   return (
     <ExpandableAgendaItem
       className="day-agenda__item calendar-history__item"
@@ -96,12 +104,7 @@ function HistoryEntry({
       )}
       <div className="calendar-history__artwork">
         <img
-          src={
-            (item.kind === 'rewards'
-              ? getRewardImage(item.imageKey, theme.id)
-              : getChoreImage(item.imageKey, theme.id)) ||
-            historyIcon(theme, item.kind)
-          }
+          src={artwork || historyIcon(theme, item.kind)}
           alt=""
           loading="lazy"
           decoding="async"
@@ -133,6 +136,7 @@ export default function CalendarActivityHistory({
   loading,
   error,
   children,
+  agenda,
 }: {
   theme: Theme
   entries: CalendarHistoryEntry[]
@@ -144,15 +148,29 @@ export default function CalendarActivityHistory({
   loading: boolean
   error: boolean
   children?: ReactNode
+  agenda?: ReactNode
 }) {
   const { selectedDateKey, setSelectedDateKey } = useSelectedDate()
-  const filtered = selectCalendarHistory(entries, selectedDateKey, view, period)
+  const resultPeriod = view === 'all' ? 'day' : period
+  const filtered = selectCalendarHistory(
+    entries,
+    selectedDateKey,
+    view,
+    resultPeriod
+  )
+  const periodEntries = selectCalendarHistory(
+    entries,
+    selectedDateKey,
+    'all',
+    period
+  )
   const groups = new Map<string, CalendarHistoryEntry[]>()
   filtered.forEach((entry) =>
     groups.set(entry.dateKey, [...(groups.get(entry.dateKey) ?? []), entry])
   )
-  const rewardCount = filtered.filter((item) => item.kind === 'rewards').length
-  const stars = filtered.reduce((sum, item) => sum + item.stars, 0)
+  const rewardCount = periodEntries.filter(
+    (item) => item.kind === 'rewards'
+  ).length
   const style: CSSProperties & Record<`--${string}`, string> = {
     color: theme.colors.text,
     fontFamily: theme.fonts.heading,
@@ -169,28 +187,12 @@ export default function CalendarActivityHistory({
       aria-label="Activity history"
       style={style}
     >
-      <SegmentedChoiceControl
-        theme={theme}
-        value={view}
-        onChange={onViewChange}
-        ariaLabel="History type"
-        options={(
-          ['all', 'completed', 'chores', 'tests', 'rewards'] as const
-        ).map((value) => ({
-          value,
-          label: value === 'all' ? 'All activity' : labels[value],
-          icon: historyIcon(theme, value),
-        }))}
-      />
       <SegmentedChoiceControl<HistoryPeriod>
         theme={theme}
         value={period}
         ariaLabel="History period"
         onChange={onPeriodChange}
-        options={(view === 'rewards'
-          ? (['day', 'month', 'year'] as const)
-          : (['day', 'week', 'month'] as const)
-        ).map((value) => ({
+        options={(['day', 'week', 'month'] as const).map((value) => ({
           value,
           label: value.charAt(0).toUpperCase() + value.slice(1),
           icon: historyPeriodIcons[value],
@@ -228,6 +230,42 @@ export default function CalendarActivityHistory({
         </button>
       </div>
       {children}
+      <div
+        className="calendar-history__views"
+        role="group"
+        aria-label="Calendar views"
+      >
+        {(
+          [
+            { value: 'all', label: 'Calendar', count: undefined },
+            {
+              value: 'completed',
+              label: 'Chores/Tasks',
+              count: periodEntries.length - rewardCount,
+            },
+            { value: 'rewards', label: 'Rewards', count: rewardCount },
+          ] as const
+        ).map(({ value, label, count }) => (
+          <button
+            key={value}
+            type="button"
+            aria-label={label}
+            aria-pressed={view === value}
+            onClick={() => onViewChange(value)}
+            style={{
+              background:
+                view === value ? theme.colors.primary : 'var(--history-tint)',
+              color: view === value ? '#fff' : theme.colors.text,
+            }}
+          >
+            <img src={historyIcon(theme, value)} alt="" />
+            {count !== undefined && childId && !loading && !error && (
+              <strong aria-hidden="true">{count}</strong>
+            )}
+          </button>
+        ))}
+      </div>
+      {view === 'all' && agenda}
       {!childId ? (
         <div
           className="calendar-history__notice"
@@ -260,42 +298,18 @@ export default function CalendarActivityHistory({
           )}
           {(!error || filtered.length > 0) && (
             <div
-              className="calendar-history__totals"
+              className="sr-only"
               role="status"
               aria-label={
                 filtered.length
                   ? `${filtered.length} history entries`
-                  : `No ${view === 'all' ? 'activity recorded' : labels[view].toLowerCase()} this ${period}`
+                  : `No ${view === 'all' ? 'activity recorded' : labels[view].toLowerCase()} this ${resultPeriod}`
               }
-            >
-              {view === 'all' ? (
-                <>
-                  <HistoryCount
-                    image={historyIcon(theme, 'completed')}
-                    value={filtered.length - rewardCount}
-                    label={`${filtered.length - rewardCount} completed activities`}
-                  />
-                  <HistoryCount
-                    image={historyIcon(theme, 'rewards')}
-                    value={rewardCount}
-                    label={`${rewardCount} rewards granted`}
-                  />
-                </>
-              ) : (
-                <>
-                  <HistoryCount
-                    image={historyIcon(theme, view)}
-                    value={filtered.length}
-                    label={`${filtered.length} ${labels[view].toLowerCase()}`}
-                  />
-                  <HistoryStars stars={stars} reward={view === 'rewards'} />
-                </>
-              )}
-            </div>
+            />
           )}
           {[...groups].map(([day, items]) => (
             <section key={day} aria-label={`${labels[view]} for ${day}`}>
-              {period !== 'day' && (
+              {resultPeriod !== 'day' && (
                 <h4 className="calendar-history__day">
                   <time dateTime={day}>{formatDay(day)}</time>
                 </h4>

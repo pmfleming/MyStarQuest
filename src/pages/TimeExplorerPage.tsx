@@ -59,7 +59,27 @@ const TimeExplorerPage = () => {
   const weatherLabel = `Show weather: ${explorer.weatherCity.label}${exploration.isExploring ? `, Your weather, ${getExplorationDescription(exploration)}` : weather.data ? `, ${getWeatherDescription(weather.data)}, ${formatTemperature(weather.data.temperature)}` : ''}`
 
   return (
-    <TabContent theme={theme} title="Time Explorer">
+    <TabContent
+      theme={theme}
+      headerHeight={uiTokens.pageControlHeight}
+      header={
+        <header aria-label="Time Explorer controls">
+          <TimeExplorerControls
+            theme={theme}
+            clock={explorer.clock}
+            selectedDate={selectedDate}
+            currentCity={explorer.weatherCity}
+            activePanels={activePanels}
+            weatherLabel={weatherLabel}
+            weatherScene={
+              weather.data ? getWeatherScene(weather.data) : 'unavailable'
+            }
+            togglePanel={togglePanel}
+            resetToNow={resetToNow}
+          />
+        </header>
+      }
+    >
       <div
         className="mx-auto flex w-full flex-col"
         style={{
@@ -68,19 +88,6 @@ const TimeExplorerPage = () => {
           paddingBottom: '96px',
         }}
       >
-        <TimeExplorerControls
-          theme={theme}
-          clock={explorer.clock}
-          selectedDate={selectedDate}
-          currentCity={explorer.weatherCity}
-          activePanels={activePanels}
-          weatherLabel={weatherLabel}
-          weatherScene={
-            weather.data ? getWeatherScene(weather.data) : 'unavailable'
-          }
-          togglePanel={togglePanel}
-          resetToNow={resetToNow}
-        />
         {globeVisible && <SpinningPlanet theme={theme} {...explorer.planet} />}
         {activePanels.includes('clock') && (
           <Clock theme={theme} clock={explorer.clock} />

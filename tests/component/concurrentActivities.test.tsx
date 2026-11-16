@@ -200,7 +200,7 @@ it('shows only the selected category and a cover with an entry button for storie
   expect(screen.queryByRole('button', { name: /^Run / })).toBeNull()
 })
 
-it('resets retained chores from the Tests menu without stopping its tests', async () => {
+it('resets chores from their menu without stopping retained tests', async () => {
   render(tree())
   await act(async () => {
     vi.advanceTimersByTime(20)
@@ -211,10 +211,10 @@ it('resets retained chores from the Tests menu without stopping its tests', asyn
     vi.advanceTimersByTime(20)
   })
   for (const chore of chores) await click(`Run ${chore.title}`)
-  await click('Tests tab')
   await click('Open menu')
   await click('Reset today')
   expect(state.resetDinner).toHaveBeenCalledTimes(2)
+  await click('Tests tab')
   expect(screen.getByRole('button', { name: 'Reset Arithmetic' })).toBeVisible()
   await click('Chores tab')
   for (const chore of chores)

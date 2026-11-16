@@ -14,8 +14,8 @@
 
 .sharing-pool {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
   padding: 8px;
   height: 100px;
   border: 2px solid var(--sharing-gold);
@@ -30,32 +30,43 @@
     0 4px 0 #55305c0d;
 }
 
-.sharing-counters {
+/* Keep all frames in the original tray height, including their empty slots. */
+.sharing-ten-frames {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
-  gap: 2px;
+  gap: 6px;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.sharing-ten-frame {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
   flex: 1;
   min-width: 0;
+  border: 1px solid var(--sharing-gold);
+  border-radius: 5px;
+  overflow: hidden;
+  background: #ffffff80;
 }
 
-/* Keep one row, allowing overlap so crowded trays still show larger artwork. */
-.sharing-pool .sharing-counters {
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 0;
-}
-
-.sharing-pool .sharing-token {
-  flex: 0 1 80px;
-  width: 80px;
-  height: 80px;
+.sharing-frame-slot {
+  display: grid;
+  place-items: center;
   min-width: 0;
+  min-height: 0;
 }
 
-.sharing-pool .sharing-token + .sharing-token {
-  margin-left: -12px;
+.sharing-frame-slot:not(:nth-child(5n)) {
+  border-right: 1px solid
+    color-mix(in srgb, var(--sharing-gold) 45%, transparent);
+}
+
+.sharing-frame-slot:nth-child(-n + 5) {
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--sharing-gold) 45%, transparent);
 }
 
 .sharing-containers {
@@ -184,14 +195,13 @@
 }
 
 .sharing-bowl {
-  --sharing-token-size: 36px;
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   height: 76px;
   margin-bottom: 8px;
-  padding: 8px 4px 16px;
+  padding: 6px 6px 14px;
   margin-top: calc(var(--sharing-stage) * -0.13);
   border: 2px solid var(--sharing-gold);
   border-radius: 14px 14px 42% 42% / 14px 14px 24px 24px;
@@ -257,63 +267,44 @@
 .sharing-token {
   display: block;
   pointer-events: none;
-  flex: 0 0 var(--sharing-token-size, 28px);
-  width: var(--sharing-token-size, 28px);
-  height: var(--sharing-token-size, 28px);
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
   object-fit: contain;
   filter: drop-shadow(0 2px 1px #79436a1c);
   animation: share-pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
 }
 
 .sharing-bowl .sharing-counters {
-  position: relative;
-  height: 38px;
-  margin: 0 5px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--sharing-rows), minmax(0, 1fr));
+  gap: 1px 2px;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
 }
 
 .sharing-bowl .sharing-token-dropped {
-  position: absolute;
-  transform: translate(
-      calc(-50% + var(--sharing-scatter-x)),
-      calc(-50% + var(--sharing-scatter-y))
-    )
-    rotate(var(--sharing-tilt));
   animation: sharing-token-drop 380ms ease-out both;
-  transition:
-    left 180ms ease-out,
-    top 180ms ease-out,
-    width 180ms ease-out,
-    height 180ms ease-out;
 }
 
 @keyframes sharing-token-drop {
   0% {
     opacity: 0;
-    transform: translate(-50%, calc(-50% - 42px))
-      rotate(calc(var(--sharing-tilt) - 35deg));
+    transform: translateY(-30px);
   }
   65% {
     opacity: 1;
-    transform: translate(
-        calc(-50% + var(--sharing-scatter-x)),
-        calc(-50% + var(--sharing-scatter-y) + 3px)
-      )
-      rotate(calc(var(--sharing-tilt) + 9deg));
+    transform: translateY(3px);
   }
   82% {
-    transform: translate(
-        calc(-50% + var(--sharing-scatter-x)),
-        calc(-50% + var(--sharing-scatter-y) - 3px)
-      )
-      rotate(calc(var(--sharing-tilt) - 4deg));
+    transform: translateY(-2px);
   }
   100% {
     opacity: 1;
-    transform: translate(
-        calc(-50% + var(--sharing-scatter-x)),
-        calc(-50% + var(--sharing-scatter-y))
-      )
-      rotate(var(--sharing-tilt));
+    transform: translateY(0);
   }
 }
 
@@ -400,27 +391,5 @@
   .sharing-board .sharing-tear {
     animation: none !important;
     transition: none !important;
-  }
-}
-
-.sharing-bowl[data-density='full'] {
-  --sharing-token-size: 28px;
-}
-
-.sharing-bowl[data-density='packed'] {
-  --sharing-token-size: 18px;
-}
-
-@container (max-width: 300px) {
-  .sharing-bowl {
-    --sharing-token-size: 32px;
-  }
-
-  .sharing-bowl[data-density='full'] {
-    --sharing-token-size: 24px;
-  }
-
-  .sharing-bowl[data-density='packed'] {
-    --sharing-token-size: 16px;
   }
 }

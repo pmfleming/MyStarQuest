@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { expect, it, vi } from 'vitest'
 import CalendarActivityHistory from '../../src/components/CalendarActivityHistory'
 import { themes } from '../../src/contexts/ThemeContext'
 import type { HistoryPeriod, HistoryView } from '../../src/lib/calendarHistory'
 import { buildCalendarHistory } from '../../src/lib/calendarHistory'
+import { getThemeAsset } from '../../src/ui/themeAssets'
 
 const selection = vi.hoisted(() => ({
   selectedDateKey: '2026-10-22',
@@ -66,6 +67,99 @@ const entries = buildCalendarHistory(
   [],
   'Europe/London'
 )
+
+it.each(['teenie', 'princess'] as const)(
+  'uses Dinner artwork for recorded and legacy completions in the %s theme',
+  (themeId) => {
+    const history = buildCalendarHistory(
+      [
+        {
+          id: 'snapshot',
+          data: {
+            taskId: 'deleted-dinner',
+            taskTitle: 'Dinner',
+            taskCollection: 'chores',
+            taskType: 'eating',
+            imageKey: '',
+            dateKey: '2026-10-22',
+            occurredAt: Date.parse('2026-10-22T06:15:00Z'),
+            delta: 2,
+          },
+        },
+        {
+          id: 'legacy',
+          data: {
+            taskId: 'dinner',
+            dateKey: '2026-10-22',
+            delta: 2,
+          },
+        },
+        {
+          id: 'tidy',
+          data: {
+            taskTitle: 'Tidy room',
+            taskCollection: 'chores',
+            taskType: 'standard',
+            imageKey: 'tidyingUp',
+            dateKey: '2026-10-22',
+            delta: 1,
+          },
+        },
+        {
+          id: 'water',
+          data: {
+            taskTitle: 'Water check',
+            taskCollection: 'chores',
+            taskType: 'watertoiletcheck',
+            dateKey: '2026-10-22',
+            delta: 1,
+          },
+        },
+      ],
+      [],
+      [{ id: 'dinner', data: { title: 'Dinner', taskType: 'eating' } }],
+      [],
+      [],
+      'Europe/Amsterdam'
+    )
+    expect(history.find(({ id }) => id === 'task-snapshot')).toMatchObject({
+      title: 'Dinner',
+      taskType: 'eating',
+      time: '08:15',
+      stars: 2,
+    })
+    render(
+      <CalendarActivityHistory
+        theme={themes[themeId]}
+        entries={history}
+        view="completed"
+        onViewChange={vi.fn()}
+        period="day"
+        onPeriodChange={vi.fn()}
+        childId="child"
+        loading={false}
+        error={false}
+      />
+    )
+    const dinners = screen.getAllByRole('button', { name: /^Dinner,/ })
+    expect(dinners).toHaveLength(2)
+    for (const row of dinners) {
+      expect(
+        row.querySelector('.calendar-history__artwork > img')
+      ).toHaveAttribute('src', getThemeAsset(themeId, 'dinnerOverview'))
+    }
+    for (const [title, role] of [
+      ['Tidy room', 'tidyingUp'],
+      ['Water check', 'waterToiletOverview'],
+    ] as const) {
+      const row = screen.getByRole('button', { name: new RegExp(`^${title},`) })
+      expect(
+        row.querySelector('.calendar-history__artwork > img')
+      ).toHaveAttribute('src', getThemeAsset(themeId, role))
+    }
+  }
+)
+
 function Harness({
   childId = 'child',
   loading = false,
@@ -76,87 +170,71 @@ function Harness({
   error?: boolean
 }) {
   const [view, setView] = useState<HistoryView>('all')
-  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
-  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
+  const [period, setPeriod] = useState<HistoryPeriod>('day')
   return (
     <CalendarActivityHistory
       theme={themes.princess}
       entries={entries}
       view={view}
       onViewChange={setView}
-      period={view === 'rewards' ? rewardPeriod : taskPeriod}
-      onPeriodChange={view === 'rewards' ? setRewardPeriod : setTaskPeriod}
+      period={period}
+      onPeriodChange={setPeriod}
       childId={childId}
       loading={loading}
       error={error}
     />
   )
 }
-it('shows the selected day and separately filters chores, tests and granted rewards', () => {
+it('uses three bottom buttons and preserves the period while Calendar stays on the selected day', () => {
   render(<Harness />)
-  expect(screen.getByRole('button', { name: /^Tidy room,/ })).toBeVisible()
-  expect(screen.getByRole('button', { name: /^Maths,/ })).toBeVisible()
-  expect(screen.getByRole('button', { name: /^Cards,/ })).toBeVisible()
+  expect(
+    screen.queryByRole('radiogroup', { name: 'History type' })
+  ).not.toBeInTheDocument()
+  expect(
+    screen.getByRole('button', { name: 'Calendar', exact: true })
+  ).toHaveAttribute('aria-pressed', 'true')
+  for (const title of ['Tidy room', 'Maths', 'Cards']) {
+    expect(
+      screen.getByRole('button', { name: new RegExp(`^${title},`) })
+    ).toBeVisible()
+  }
+  fireEvent.click(screen.getByRole('radio', { name: 'Week' }))
   expect(
     screen.queryByRole('button', { name: /^Piano,/ })
   ).not.toBeInTheDocument()
-  fireEvent.click(
-    screen.getByRole('radio', { name: 'Chores & tests completed' })
-  )
-  fireEvent.click(screen.getByRole('radio', { name: 'Week' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Chores/Tasks' }))
   expect(screen.getByRole('button', { name: /^Piano,/ })).toBeVisible()
   expect(screen.getByRole('button', { name: /^Maths,/ })).toBeVisible()
   expect(
     screen.queryByRole('button', { name: /^Cards,/ })
   ).not.toBeInTheDocument()
-  expect(
-    within(screen.getByRole('status')).getByRole('img', {
-      name: '6 stars earned',
-    })
-  ).toBeVisible()
-  fireEvent.click(screen.getByRole('radio', { name: 'Chores completed' }))
-  fireEvent.click(screen.getByRole('radio', { name: 'Week' }))
-  expect(screen.getByRole('button', { name: /^Piano,/ })).toBeVisible()
-  expect(
-    within(screen.getByRole('status')).getByRole('img', {
-      name: '3 stars earned',
-    })
-  ).toBeVisible()
+  fireEvent.click(screen.getByRole('button', { name: 'Rewards', exact: true }))
+  expect(screen.getByRole('radio', { name: 'Week' })).toHaveAttribute(
+    'aria-checked',
+    'true'
+  )
+  expect(screen.queryByRole('radio', { name: 'Year' })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: /^Cards,/ })).toBeVisible()
   expect(
     screen.queryByRole('button', { name: /^Maths,/ })
   ).not.toBeInTheDocument()
+  fireEvent.click(screen.getByRole('radio', { name: 'Month' }))
   expect(
-    screen.queryByRole('button', { name: /^Cards,/ })
+    screen.queryByRole('button', { name: /^Birthday toy,/ })
   ).not.toBeInTheDocument()
-  fireEvent.click(screen.getByRole('radio', { name: 'Tests completed' }))
-  expect(screen.getByRole('button', { name: /^Maths,/ })).toBeVisible()
+  fireEvent.click(screen.getByRole('button', { name: 'Calendar', exact: true }))
+  expect(screen.getByRole('radio', { name: 'Month' })).toHaveAttribute(
+    'aria-checked',
+    'true'
+  )
   expect(
     screen.queryByRole('button', { name: /^Piano,/ })
   ).not.toBeInTheDocument()
-  fireEvent.click(screen.getByRole('radio', { name: 'Rewards granted' }))
-  expect(screen.queryByRole('radio', { name: 'Week' })).not.toBeInTheDocument()
-  fireEvent.click(screen.getByRole('radio', { name: 'Year' }))
-  expect(screen.getByRole('button', { name: /^Birthday toy,/ })).toBeVisible()
-  expect(
-    within(screen.getByRole('status')).getByRole('img', {
-      name: '14 stars spent',
-    })
-  ).toBeVisible()
+  expect(screen.getByRole('button', { name: /^Cards,/ })).toBeVisible()
   fireEvent.click(
-    screen.getByRole('button', { name: 'Previous calendar year' })
+    screen.getByRole('button', { name: 'Previous calendar month' })
   )
-  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith('2025-10-22')
-  expect(screen.getByLabelText('Calendar date')).toHaveAttribute(
-    'datetime',
-    '2026-10-22'
-  )
-  expect(document.querySelector('input[type="date"]')).toBeNull()
-  fireEvent.click(screen.getByRole('radio', { name: 'Chores completed' }))
-  expect(
-    within(
-      screen.getByRole('radiogroup', { name: 'History period' })
-    ).getByRole('radio', { name: 'Week' })
-  ).toHaveAttribute('aria-checked', 'true')
+  expect(selection.setSelectedDateKey).toHaveBeenLastCalledWith('2026-09-22')
 })
 it('distinguishes no child, loading, failed loading, and an empty period', () => {
   const { rerender } = render(<Harness childId={null} />)
@@ -182,14 +260,8 @@ it('distinguishes no child, loading, failed loading, and an empty period', () =>
 
 it('uses artwork and numbers with no visible label longer than one word', () => {
   const { container } = render(<Harness />)
-  for (const name of [
-    'All activity',
-    'Chores & tests completed',
-    'Chores completed',
-    'Tests completed',
-    'Rewards granted',
-  ]) {
-    fireEvent.click(screen.getByRole('radio', { name }))
+  for (const name of ['Calendar', 'Chores/Tasks', 'Rewards']) {
+    fireEvent.click(screen.getByRole('button', { name, exact: true }))
     const month = screen.queryByRole('radio', { name: 'Month' })
     if (month) fireEvent.click(month)
     const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT)

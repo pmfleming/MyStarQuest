@@ -12,6 +12,7 @@ import teenieWriting from '../assets/teenie/memo.webp'
 import princessThinking from '../assets/themes/princess/category-thinking.webp'
 import princessReading from '../assets/themes/princess/category-reading.webp'
 import SegmentedChoiceControl from './ui/SegmentedChoiceControl'
+import { getFloatingSurfaceStyle, uiTokens } from '../tokens'
 
 export default function TestCategoryPicker({
   theme,
@@ -42,6 +43,11 @@ export default function TestCategoryPicker({
       onChange={onSelect}
       ariaLabel="Test categories"
       size="page"
+      style={{
+        ...getFloatingSurfaceStyle(theme, { top: '12px' }),
+        height: uiTokens.pageControlHeight,
+        borderRadius: uiTokens.listActionRadius,
+      }}
       options={TEST_CATEGORIES.map((category) => ({
         value: category,
         label: categoryLabels[category],

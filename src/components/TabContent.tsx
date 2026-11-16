@@ -9,6 +9,8 @@ import AppMenu from './AppMenu'
 interface TabContentProps {
   theme: Theme
   title?: string
+  header?: ReactNode
+  headerHeight?: number
   onResetToday?: () => Promise<void>
   children?: ReactNode
 }
@@ -16,26 +18,29 @@ interface TabContentProps {
 const TabContent = ({
   theme,
   title,
+  header,
+  headerHeight = uiTokens.floatingNavHeight,
   onResetToday,
   children,
 }: TabContentProps) => {
   const isVisible = useContext(ActivityTabVisibleContext)
   return (
     <div className="relative flex h-full flex-col overflow-hidden">
-      {title && (
-        <PageHeader
-          theme={theme}
-          title={title}
-          right={
-            <AppMenu
-              key={String(isVisible)}
-              theme={theme}
-              onResetToday={onResetToday}
-            />
-          }
-          fontFamily={theme.fonts.heading}
-        />
-      )}
+      {header ??
+        (title && (
+          <PageHeader
+            theme={theme}
+            title={title}
+            right={
+              <AppMenu
+                key={String(isVisible)}
+                theme={theme}
+                onResetToday={onResetToday}
+              />
+            }
+            fontFamily={theme.fonts.heading}
+          />
+        ))}
       <div
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
         style={{
@@ -48,6 +53,9 @@ const TabContent = ({
         <DragScrollRegion
           className="min-h-0 flex-1"
           topNavPadding={!!title}
+          contentStyle={
+            header ? { paddingTop: `${headerHeight + 24}px` } : undefined
+          }
           bottomNavPadding
         >
           {children}

@@ -1,6 +1,6 @@
 import type { Theme } from '../contexts/ThemeContext'
 import { AsyncButton } from './ui/AsyncButton'
-import { uiTokens } from '../tokens'
+import { getFloatingSurfaceStyle, uiTokens } from '../tokens'
 import globeIcon from '../assets/cities/earth.svg'
 import TimeExplorerClockIcon, {
   type HeaderClock,
@@ -92,14 +92,13 @@ export default function TimeExplorerControls({
       aria-label="Time Explorer controls"
       className="flex items-stretch p-1"
       style={{
+        ...getFloatingSurfaceStyle(theme, { top: '12px' }),
         containerType: 'inline-size',
         height: uiTokens.pageControlHeight,
         minHeight: uiTokens.pageControlHeight,
         maxHeight: uiTokens.pageControlHeight,
         boxSizing: 'border-box',
         borderRadius: 22,
-        border: `2px solid ${theme.colors.accent}66`,
-        background: theme.colors.surface,
       }}
     >
       <div

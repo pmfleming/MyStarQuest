@@ -26,14 +26,14 @@ vi.mock('../../src/contexts/ThemeContext', async (original) => {
 })
 vi.mock('../../src/components/TabContent', () => ({
   default: ({
-    headerRight,
+    header,
     children,
   }: {
-    headerRight: React.ReactNode
+    header: React.ReactNode
     children: React.ReactNode
   }) => (
     <>
-      {headerRight}
+      {header}
       {children}
     </>
   ),

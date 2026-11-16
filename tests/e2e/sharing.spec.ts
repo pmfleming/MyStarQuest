@@ -48,7 +48,18 @@ for (const theme of ['princess', 'teenie'] as const) {
           expect(bounds!.width).toBeLessThanOrEqual(380)
         }
         await expectCardFits()
-        const items = board.locator('.sharing-counters > *')
+        const items = board.locator('.sharing-token')
+        const initialBoardHeight = (await board.boundingBox())!.height
+        await expect(board.locator('.sharing-ten-frame')).toHaveCount(3)
+        await expect(items).toHaveCount(24)
+        expect(
+          (await board.locator('.sharing-pool').boundingBox())!.height
+        ).toBe(100)
+        await page.screenshot({
+          path: `test-results/sharing-${theme}-${touch ? 'phone' : 'desktop'}-full-tray.png`,
+          fullPage: true,
+          animations: 'disabled',
+        })
         for (const button of await board.getByRole('button').all()) {
           const bounds = await button.boundingBox()
           expect(bounds!.width).toBeGreaterThanOrEqual(44)
@@ -57,6 +68,10 @@ for (const theme of ['princess', 'teenie'] as const) {
         // Even a mistaken distribution must render every symbol without clipping.
         for (let i = 0; i < 24; i++) await activate(`Give one to ${friends[0]}`)
         await expect(items).toHaveCount(24)
+        expect((await board.boundingBox())!.height).toBe(initialBoardHeight)
+        expect(
+          (await board.locator('.sharing-bowl').first().boundingBox())!.height
+        ).toBe(76)
         await expectCardFits()
         await expect(
           page.getByRole('button', {
@@ -77,25 +92,27 @@ for (const theme of ['princess', 'teenie'] as const) {
         expect(
           await board.evaluate((element) => {
             const bounds = element.getBoundingClientRect()
-            return Array.from(
-              element.querySelectorAll('.sharing-counters > *')
-            ).every((item) => {
-              const box = item.getBoundingClientRect()
-              const loaded =
-                !(item instanceof HTMLImageElement) ||
-                (item.complete && item.naturalWidth > 0)
-              return (
-                loaded &&
-                box.left >= bounds.left &&
-                box.right <= bounds.right &&
-                box.top >=
-                  item.parentElement!.parentElement!.getBoundingClientRect()
-                    .top &&
-                box.bottom <=
-                  item.parentElement!.parentElement!.getBoundingClientRect()
-                    .bottom
-              )
-            })
+            return Array.from(element.querySelectorAll('.sharing-token')).every(
+              (item) => {
+                const box = item.getBoundingClientRect()
+                const loaded =
+                  !(item instanceof HTMLImageElement) ||
+                  (item.complete && item.naturalWidth > 0)
+                return (
+                  loaded &&
+                  box.left >= bounds.left &&
+                  box.right <= bounds.right &&
+                  box.top >=
+                    item
+                      .closest('.sharing-bowl, .sharing-pool')!
+                      .getBoundingClientRect().top &&
+                  box.bottom <=
+                    item
+                      .closest('.sharing-bowl, .sharing-pool')!
+                      .getBoundingClientRect().bottom
+                )
+              }
+            )
           })
         ).toBe(true)
         await expect(board.locator('[data-mood="sad"]')).toHaveCount(3)

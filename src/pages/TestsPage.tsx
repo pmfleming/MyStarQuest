@@ -104,7 +104,31 @@ const TestsPage = () => {
   )
 
   return (
-    <TabContent theme={theme} title="Tests">
+    <TabContent
+      theme={theme}
+      headerHeight={uiTokens.pageControlHeight}
+      header={
+        <header aria-label="Test categories">
+          <TestCategoryPicker
+            theme={theme}
+            selected={selectedCategory}
+            onSelect={(category) => {
+              setSelectedCategory(category)
+              setVisitedCategories((visited) =>
+                visited.has(category)
+                  ? visited
+                  : new Set([...visited, category])
+              )
+              setAdding(false)
+              const firstType = TEST_TYPES.find(
+                (type) => testCategory[type] === category
+              )
+              if (firstType) setNewType(firstType)
+            }}
+          />
+        </header>
+      }
+    >
       <div
         className="mx-auto flex w-full flex-col"
         style={{
@@ -124,23 +148,6 @@ const TestsPage = () => {
           </div>
         ) : (
           <>
-            <TestCategoryPicker
-              theme={theme}
-              selected={selectedCategory}
-              onSelect={(category) => {
-                setSelectedCategory(category)
-                setVisitedCategories((visited) =>
-                  visited.has(category)
-                    ? visited
-                    : new Set([...visited, category])
-                )
-                setAdding(false)
-                const firstType = TEST_TYPES.find(
-                  (type) => testCategory[type] === category
-                )
-                if (firstType) setNewType(firstType)
-              }}
-            />
             {TEST_CATEGORIES.filter((category) =>
               visitedCategories.has(category)
             ).map((category) => (

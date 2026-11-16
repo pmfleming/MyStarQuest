@@ -78,8 +78,7 @@ export default function Fixture() {
       ? themes.teenie
       : themes.princess
   const [view, setView] = useState<HistoryView>('all')
-  const [taskPeriod, setTaskPeriod] = useState<HistoryPeriod>('day')
-  const [rewardPeriod, setRewardPeriod] = useState<HistoryPeriod>('day')
+  const [period, setPeriod] = useState<HistoryPeriod>('day')
   const [selectedDateKey, setSelectedDateKey] = useState('2026-10-22')
   return (
     <SelectedDateContext.Provider
@@ -108,8 +107,8 @@ export default function Fixture() {
           entries={entries}
           view={view}
           onViewChange={setView}
-          period={view === 'rewards' ? rewardPeriod : taskPeriod}
-          onPeriodChange={view === 'rewards' ? setRewardPeriod : setTaskPeriod}
+          period={period}
+          onPeriodChange={setPeriod}
           childId="child"
           loading={false}
           error={false}

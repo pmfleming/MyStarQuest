@@ -105,13 +105,9 @@ export default function SharingTester(props: SharingTesterProps) {
       return current.map((count, i) => (i === index ? count + delta : count))
     })
   }
-  const counters = (count: number, bowl?: number) =>
+  const counters = (count: number) =>
     Array.from({ length: count }, (_, index) => (
-      <SharingToken
-        key={index}
-        treat={treat}
-        drop={bowl === undefined ? undefined : { index, count, bowl }}
-      />
+      <SharingToken key={index} treat={treat} dropped />
     ))
 
   return (
@@ -163,8 +159,24 @@ export default function SharingTester(props: SharingTesterProps) {
               role="group"
               aria-label={`${remaining} ${symbolName} left to share`}
             >
-              <div className="sharing-counters" aria-hidden="true">
-                {counters(remaining)}
+              <div className="sharing-ten-frames" aria-hidden="true">
+                {Array.from(
+                  { length: Math.ceil(problem.total / 10) },
+                  (_, frame) => (
+                    <div
+                      className="sharing-ten-frame sharing-counters"
+                      key={frame}
+                    >
+                      {Array.from({ length: 10 }, (_, slot) => (
+                        <span className="sharing-frame-slot" key={slot}>
+                          {frame * 10 + slot < remaining && (
+                            <SharingToken treat={treat} />
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  )
+                )}
               </div>
             </div>
             <div className="sharing-containers">
@@ -187,15 +199,19 @@ export default function SharingTester(props: SharingTesterProps) {
                         mood={mood}
                         speech={speech}
                       />
-                      <div
-                        className="sharing-bowl"
-                        aria-hidden="true"
-                        data-density={
-                          count > 12 ? 'packed' : count > 6 ? 'full' : undefined
-                        }
-                      >
-                        <div className="sharing-counters">
-                          {counters(count, index)}
+                      <div className="sharing-bowl" aria-hidden="true">
+                        <div
+                          className="sharing-counters"
+                          style={
+                            {
+                              '--sharing-rows': Math.max(
+                                1,
+                                Math.ceil(count / 5)
+                              ),
+                            } as CSSProperties
+                          }
+                        >
+                          {counters(count)}
                         </div>
                         <span className="sharing-bowl-crest">
                           <svg viewBox="0 0 32 24" focusable="false">
