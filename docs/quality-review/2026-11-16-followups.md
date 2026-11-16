@@ -19,3 +19,11 @@ Validation: runtime/recovery tests, **6 passed**. New cases cover two consumers,
 The star-award transaction now resolves the stored/default task once. Ownership, completion detection, creation, and event metadata use that record instead of repeatedly probing the Firestore snapshot and reconstructing fallbacks. Crucially, default task creation now receives the same child-ownership check as an existing task; invalid defaults cannot create a cross-child task while awarding stars to the selected child. Existing stored metadata takes precedence over defaults.
 
 Validation: star transaction tests, **6 passed**. Coverage includes concurrent deduplication, same-day reset, next-day attempts, wrong-child stored/default tasks, missing tasks, consumed-task history, penalty clamping, and authoritative reward pricing.
+
+## 4. Separate weather composition from condition rendering
+
+WeatherScene now composes the environment, condition layer, character, precipitation, and wind. The condition layer owns sunlight/moonlight, clouds, lightning, and ground effects. Cloud placement is a complete level-to-layout table, removing repeated rendering branches while keeping the exact coordinates and drawing order. Existing artwork and accessibility labels are preserved.
+
+Validation: weather component/data tests, **3 passed**; **3,072** before/after server-rendered combinations matched exactly after normalizing generated clip-path IDs. The combinations cover both themes, availability, day/night, every cloud/precipitation/intensity/wind value, and representative fog/thunder flags.
+
+Lens: the former 31-point WeatherScene callable is now 12, with the condition layer at 14. The complete module falls from cognitive 43 to 38, cyclomatic 46 to 43, and 334 to 329 lines. Estimated effort rises from 107,950 to 139,625; this is a readability/ownership improvement with a measured effort tradeoff, not a claim that every metric decreases.
