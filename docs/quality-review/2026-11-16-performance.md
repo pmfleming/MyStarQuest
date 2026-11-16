@@ -35,3 +35,9 @@ Validation: a 120-frame test records one focus calculation rather than two per f
 Resize bursts schedule one animation-frame measurement. Unchanged width/font signatures skip fitting, width-only changes reuse natural text width, and font changes invalidate that measurement. Pending frames and font listeners are cleaned up on unmount.
 
 Validation: the component test covers 20 resize notifications coalescing into one frame, unchanged-width skips, width-only reuse, changed fonts, expansion, and cleanup.
+
+## 7. Skip identical backend reset writes
+
+Daily and manual legacy resets now compute each patch once and batch only documents whose stored fields differ. Missing fields still receive their defaults. Return counts reflect actual writes; 500-write limits and stop-on-failure behavior remain.
+
+Validation: integration-style handler tests cover already-reset dinner/water/standard chores, missing defaults, changed fields, 1,001 writes in three batches, and batch failure. Functions build passed.

@@ -167,19 +167,24 @@ const resetChildChores = async (
 ) => {
   const templates = await getTemplateDocs(uid, childId)
 
-  const choresToReset = templates.filter((taskDoc) => {
+  const choresToReset = templates.flatMap((taskDoc) => {
     const data = taskDoc.data()
     const title: unknown = data.title
-    if (requireTitle && (typeof title !== 'string' || !title.trim()))
-      return false
-    return isScheduledForDay(data, dayType)
+    if (requireTitle && (typeof title !== 'string' || !title.trim())) return []
+    if (!isScheduledForDay(data, dayType)) return []
+    const patch = getDailyActivityResetPatch(data)
+    return Object.entries(patch).some(
+      ([key, value]) => !Object.is(data[key], value)
+    )
+      ? [{ ref: taskDoc.ref, patch }]
+      : []
   })
 
   // Each chunk is atomic. Stop and report a failed commit before starting another.
   for (let offset = 0; offset < choresToReset.length; offset += 500) {
     const batch = db.batch()
-    for (const taskDoc of choresToReset.slice(offset, offset + 500))
-      batch.update(taskDoc.ref, getDailyActivityResetPatch(taskDoc.data()))
+    for (const { ref, patch } of choresToReset.slice(offset, offset + 500))
+      batch.update(ref, patch)
     await batch.commit()
   }
   return choresToReset.length
