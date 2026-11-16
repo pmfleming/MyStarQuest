@@ -117,6 +117,9 @@ export default class SolarSystem3DManager {
   private readonly cameraDirectionFromEarth = new THREE.Vector3()
   private readonly citySurfaceNormal = new THREE.Vector3()
   private readonly outwardNormal = new THREE.Vector3()
+  private targetRotationX = 0
+  private targetRotationY = 0
+  private targetTilt = 0
   private animationFrameId: number | null = null
   private intersectionObserver: IntersectionObserver | null = null
   private resizeObserver: ResizeObserver | null = null
@@ -234,6 +237,7 @@ export default class SolarSystem3DManager {
     this.starField = this.createStarField()
     this.scene.add(this.starField)
 
+    this.updateSceneTargets(initialState)
     this.rebuildCityMarkers(initialState)
     this.initEarthTexture()
 
@@ -275,6 +279,7 @@ export default class SolarSystem3DManager {
     this.sceneState = nextState
     if (nextState.displayMode !== 'solar-focus') this.finishOrbitDrag()
     this.syncPointerStyle()
+    this.updateSceneTargets(nextState)
     this.syncCityVisualState(nextState)
   }
 
@@ -425,6 +430,7 @@ export default class SolarSystem3DManager {
       progress
     )
     drag.previousPointerProgress = progress
+    this.updateSceneTargets(this.sceneState)
     this.onOrbitChange?.(drag.year, drag.progress)
   }
 
@@ -441,6 +447,7 @@ export default class SolarSystem3DManager {
   private readonly finishOrbitDrag = () => {
     const drag = this.orbitDrag
     this.orbitDrag = null
+    if (drag) this.updateSceneTargets(this.sceneState)
     const canvas = this.renderer.domElement
     if (drag && canvas.hasPointerCapture(drag.pointerId)) {
       canvas.releasePointerCapture(drag.pointerId)
@@ -466,93 +473,71 @@ export default class SolarSystem3DManager {
     }
   }
 
-  private applySceneState(state: SolarSystemSceneState) {
-    const earthOrbitAngle =
+  // Targets depend on input, not animation time. Recompute on state/drag changes.
+  private updateSceneTargets(state: SolarSystemSceneState) {
+    const earthFocus = state.displayMode === 'earth-focus'
+    const angle =
       Math.PI / 2 -
       (this.orbitDrag?.progress ?? state.earthOrbitProgress) * Math.PI * 2
-
-    if (state.displayMode === 'earth-focus') {
-      this.earthPosition.set(0, 0, 0)
-      this.earthOrbitAnchor.position.set(0, 0, 0)
-      this.earthTiltGroup.rotation.z = lerpAngle(
-        this.earthTiltGroup.rotation.z,
-        0,
-        0.12
-      )
-
+    this.earthPosition.set(
+      earthFocus ? 0 : Math.cos(angle) * EARTH_ORBIT_X,
+      earthFocus ? 0 : Math.sin(angle) * EARTH_ORBIT_Y,
+      0
+    )
+    this.earthOrbitAnchor.position.copy(this.earthPosition)
+    this.targetTilt = earthFocus ? 0 : THREE.MathUtils.degToRad(AXIAL_TILT_DEG)
+    this.targetRotationX = earthFocus
+      ? THREE.MathUtils.degToRad(EARTH_FOCUS_CENTER_LATITUDE_DEG)
+      : 0
+    this.targetRotationY = THREE.MathUtils.degToRad(state.earthRotationDeg)
+    this.desiredSunLightPosition.set(0, 0, 0)
+    if (earthFocus) {
       const centeredLongitude = getCenteredLongitude(
         state.activeFocusId,
         state.cityOptions,
         state.sunPosition.longitude
       )
-      const targetRotationY = getEarthViewRotationY(centeredLongitude)
-      this.earthMesh.rotation.x = lerpAngle(
-        this.earthMesh.rotation.x,
-        THREE.MathUtils.degToRad(EARTH_FOCUS_CENTER_LATITUDE_DEG),
-        0.12
-      )
-      this.earthMesh.rotation.y = lerpAngle(
-        this.earthMesh.rotation.y,
-        targetRotationY,
-        0.12
-      )
-    } else {
-      this.earthPosition.set(
-        Math.cos(earthOrbitAngle) * EARTH_ORBIT_X,
-        Math.sin(earthOrbitAngle) * EARTH_ORBIT_Y,
-        0
-      )
-      this.earthOrbitAnchor.position.copy(this.earthPosition)
-      this.earthTiltGroup.rotation.z = lerpAngle(
-        this.earthTiltGroup.rotation.z,
-        THREE.MathUtils.degToRad(AXIAL_TILT_DEG),
-        0.08
-      )
-      this.earthMesh.rotation.x = lerpAngle(this.earthMesh.rotation.x, 0, 0.08)
-      this.earthMesh.rotation.y = THREE.MathUtils.degToRad(
-        state.earthRotationDeg
-      )
-    }
-
-    if (state.displayMode === 'earth-focus') {
-      const centeredLongitude = getCenteredLongitude(
-        state.activeFocusId,
-        state.cityOptions,
-        state.sunPosition.longitude
-      )
-      const relativeSunLongitude = normalizeLongitude(
-        state.sunPosition.longitude - centeredLongitude
-      )
+      this.targetRotationY = getEarthViewRotationY(centeredLongitude)
       latLonToVector(
         state.sunPosition.latitude,
-        relativeSunLongitude - 90,
+        normalizeLongitude(state.sunPosition.longitude - centeredLongitude) -
+          90,
         EARTH_FOCUS_LIGHT_DISTANCE,
         this.desiredSunLightPosition
       )
-
-      this.sunLight.position.lerp(this.desiredSunLightPosition, 0.12)
-      this.sunMesh.visible = false
-      this.ambientLight.intensity = 0.03
-      this.orbitLine.visible = false
-      this.monthTickGroup.visible = false
-      this.monthLabelGroup.visible = false
-    } else {
-      this.sunMesh.visible = true
-      this.sunMesh.position.set(0, 0, 0)
-      this.sunLight.position.lerp(this.sunMesh.position, 0.08)
-      this.ambientLight.intensity = 0.42
-      this.orbitLine.visible = true
-      this.monthTickGroup.visible = true
-      this.monthLabelGroup.visible = true
     }
+    this.sunMesh.visible = !earthFocus
+    this.ambientLight.intensity = earthFocus ? 0.03 : 0.42
+    this.orbitLine.visible = !earthFocus
+    this.monthTickGroup.visible = !earthFocus
+    this.monthLabelGroup.visible = !earthFocus
+    this.desiredCameraPosition.copy(
+      earthFocus ? EARTH_FOCUS_CAMERA_POSITION : SOLAR_FOCUS_CAMERA_POSITION
+    )
+    this.desiredLookTarget.set(
+      earthFocus ? EARTH_FOCUS_LOOK_TARGET_X : SOLAR_FOCUS_LOOK_TARGET_X,
+      0,
+      0
+    )
+  }
 
-    if (state.displayMode === 'earth-focus') {
-      this.desiredCameraPosition.copy(EARTH_FOCUS_CAMERA_POSITION)
-      this.desiredLookTarget.set(EARTH_FOCUS_LOOK_TARGET_X, 0, 0)
-    } else {
-      this.desiredCameraPosition.copy(SOLAR_FOCUS_CAMERA_POSITION)
-      this.desiredLookTarget.set(SOLAR_FOCUS_LOOK_TARGET_X, 0, 0)
-    }
+  private applySceneState(state: SolarSystemSceneState) {
+    const earthFocus = state.displayMode === 'earth-focus'
+    const smoothing = earthFocus ? 0.12 : 0.08
+    this.earthTiltGroup.rotation.z = lerpAngle(
+      this.earthTiltGroup.rotation.z,
+      this.targetTilt,
+      smoothing
+    )
+    this.earthMesh.rotation.x = lerpAngle(
+      this.earthMesh.rotation.x,
+      this.targetRotationX,
+      smoothing
+    )
+    this.earthMesh.rotation.y = earthFocus
+      ? lerpAngle(this.earthMesh.rotation.y, this.targetRotationY, smoothing)
+      : this.targetRotationY
+    this.sunLight.position.lerp(this.desiredSunLightPosition, smoothing)
 
     this.cameraTarget.lerp(this.desiredCameraPosition, 0.08)
     this.lookTarget.lerp(this.desiredLookTarget, 0.1)

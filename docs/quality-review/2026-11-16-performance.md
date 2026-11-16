@@ -23,3 +23,9 @@ Validation: eight targeted timer, projection, runtime, and calendar-hook tests p
 Retained inactive activity tabs use deadline timers instead of 250 ms visual ticks. Expiry still persists once; returning to the tab catches up immediately. Hidden browser documents retain the existing resume behavior. Timers stop after the final deadline.
 
 Validation: both component lifecycle tests passed, including no renders during eight inactive seconds and expiry while the activity tab remains inactive.
+
+## 5. Cache WebGL scene targets
+
+Orbit positions, focus longitude, lighting targets, mode visibility, and camera targets now update on scene-input or drag changes. Frame callbacks retain interpolation and animated pings. This removes duplicate focus searches and static trigonometry without reducing animation cadence.
+
+Validation: a 120-frame test records one focus calculation rather than two per frame and verifies lighting/orbit targets across mode changes; TypeScript passed.
