@@ -9,22 +9,13 @@ import {
 } from 'firebase/firestore'
 import { Capacitor } from '@capacitor/core'
 import { db } from '../firebaseDb'
-import { getTodayDescriptor } from '../lib/today'
-import {
-  collections,
-  historyDocuments,
-  type ReadCollection,
-  type LocalDocument,
-} from './model'
+import { getDateKeyInTimeZone } from '../lib/today'
+import { createReadModel } from './readModel'
+import { collections, type LocalDocument } from './model'
 import { IndexedDbPersistence } from './persistence'
 import { OfflineStore } from './store'
 import { OfflineSync } from './sync'
-import {
-  localDocument,
-  sendToFirebase,
-  snapshotDocument,
-} from './firebaseTransport'
-import { deviceDocuments } from './selectors'
+import { localDocument, sendToFirebase } from './firebaseTransport'
 import { snapshotStore } from '../lib/snapshotStore'
 import { parseChildScope } from '../sharing/scope'
 import type { OfflinePersistence } from './persistence'
@@ -57,6 +48,14 @@ function createRuntime(userId: string) {
       error instanceof Error ? error.message : 'Could not save on this device.'
     )
   }
+  const dateKey = () =>
+    getDateKeyInTimeZone(
+      new Date(),
+      String(
+        store.getSnapshot()?.documents.children[scope?.childId ?? '']
+          ?.timeZone ?? 'Europe/London'
+      )
+    )
   return {
     store,
     sync,
@@ -64,26 +63,8 @@ function createRuntime(userId: string) {
     getError: errors.getSnapshot,
     subscribeErrors: errors.subscribe,
     revoke: () => store.revoke(),
-    documents: (name: ReadCollection) => {
-      const state = store.getSnapshot()
-      return state
-        ? Object.entries(
-            name === 'starEvents' || name === 'redemptions'
-              ? historyDocuments(state, name)
-              : deviceDocuments(
-                  state,
-                  name,
-                  getTodayDescriptor(
-                    new Date(),
-                    String(
-                      state.documents.children[scope?.childId ?? '']
-                        ?.timeZone ?? 'Europe/London'
-                    )
-                  ).dateKey
-                )
-          ).map(([id, data]) => ({ id, data: snapshotDocument(data) }))
-        : []
-    },
+    dateKey,
+    documents: createReadModel(store.getSnapshot, dateKey),
     connect: () => {
       const connection = Symbol()
       connections.add(connection)

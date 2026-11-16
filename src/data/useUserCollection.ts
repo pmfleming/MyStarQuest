@@ -13,6 +13,7 @@ import { isOfflineEnabled } from '../offline/platform'
 import { offlineRuntime } from '../offline/runtime'
 import type { ReadCollection } from '../offline/model'
 import { parseChildScope } from '../sharing/scope'
+import { subscribeDayChange } from '../lib/dayChange'
 
 type UseUserCollectionArgs<T> = {
   userId: string | undefined
@@ -75,16 +76,18 @@ export const useUserCollection = <T>({
     if (isOfflineEnabled() || parseChildScope(userId)) {
       const runtime = offlineRuntime(userId)
       let disposed = false
+      let previousDocuments: ReturnType<typeof runtime.documents> | undefined
       const publish = () => {
         if (disposed) return
+        const documents = runtime.documents(collectionName)
+        if (documents === previousDocuments) return
+        previousDocuments = documents
         publishDocuments(
-          runtime
-            .documents(collectionName)
-            .filter(
-              ({ data }) =>
-                !whereEqualToField ||
-                data[whereEqualToField] === whereEqualToValue
-            )
+          documents.filter(
+            ({ data }) =>
+              !whereEqualToField ||
+              data[whereEqualToField] === whereEqualToValue
+          )
         )
       }
       const unsubscribeErrors = runtime.subscribeErrors(() => {
@@ -99,15 +102,15 @@ export const useUserCollection = <T>({
           runtime.report(error)
           onError?.(error)
         })
-      // Refresh day-scoped progress while open, and immediately after resuming.
-      const interval = setInterval(publish, 30_000)
-      document.addEventListener('visibilitychange', publish)
+      const stopDay =
+        collectionName === 'chores' || collectionName === 'tests'
+          ? subscribeDayChange(runtime.dateKey, publish)
+          : undefined
       return () => {
         disposed = true
         unsubscribe()
         unsubscribeErrors()
-        clearInterval(interval)
-        document.removeEventListener('visibilitychange', publish)
+        stopDay?.()
       }
     }
 
