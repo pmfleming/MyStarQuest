@@ -4,6 +4,7 @@ import type { OfflineState } from '../../src/offline/model'
 const listeners = vi.hoisted(
   () => new Map<string, (snapshot: unknown) => void>()
 )
+const subscribe = vi.hoisted(() => vi.fn())
 vi.mock('../../src/firebaseDb', () => ({ db: {} }))
 vi.mock('firebase/firestore', () => ({
   collection: (_db: unknown, ...parts: string[]) => parts.join('/'),
@@ -12,6 +13,7 @@ vi.mock('firebase/firestore', () => ({
     _options: unknown,
     receive: (snapshot: unknown) => void
   ) => {
+    subscribe(path)
     listeners.set(path, receive)
     return () => listeners.delete(path)
   },
@@ -57,5 +59,61 @@ it('keeps durable phone data through partial SDK cache results and accepts autho
     expect(runtime.documents('children')).toEqual([])
   } finally {
     stop()
+  }
+})
+
+it('releases each subscriber once and reconnects after the last owner leaves', async () => {
+  const runtime = offlineRuntime('connection-owners')
+  const path = 'users/connection-owners/children'
+  const first = runtime.connect()
+  const second = runtime.connect()
+  try {
+    await vi.waitFor(() => expect(listeners.has(path)).toBe(true))
+    first()
+    first()
+    expect(listeners.has(path)).toBe(true)
+    second()
+    expect(listeners.has(path)).toBe(false)
+    const third = runtime.connect()
+    try {
+      await vi.waitFor(() => expect(listeners.has(path)).toBe(true))
+      second()
+      expect(listeners.has(path)).toBe(true)
+    } finally {
+      third()
+    }
+    expect(listeners.has(path)).toBe(false)
+  } finally {
+    first()
+    second()
+  }
+})
+
+it('cleans partial subscriptions after setup fails and permits a later connection', async () => {
+  const runtime = offlineRuntime('failed-setup')
+  const prefix = 'users/failed-setup/'
+  subscribe.mockImplementation((path: string) => {
+    if (path === `${prefix}children`) throw new Error('Subscription failed')
+  })
+  const stop = runtime.connect()
+  try {
+    await vi.waitFor(() =>
+      expect(runtime.getError()).toBe('Subscription failed')
+    )
+    expect(
+      [...listeners.keys()].filter((path) => path.startsWith(prefix))
+    ).toEqual([])
+    expect(runtime.store.onCommit).toBeUndefined()
+  } finally {
+    stop()
+    subscribe.mockReset()
+  }
+  const reconnect = runtime.connect()
+  try {
+    await vi.waitFor(() =>
+      expect(listeners.has(`${prefix}children`)).toBe(true)
+    )
+  } finally {
+    reconnect()
   }
 })

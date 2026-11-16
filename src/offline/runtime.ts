@@ -34,7 +34,7 @@ const persistence = new IndexedDbPersistence()
 const runtimes = new Map<string, ReturnType<typeof createRuntime>>()
 
 function createRuntime(userId: string) {
-  let connections = 0
+  const connections = new Set<symbol>()
   let stopConnection: (() => void) | undefined
   const scope = parseChildScope(userId)
   // Browsers without IndexedDB can use online shared operations, but do not
@@ -85,16 +85,20 @@ function createRuntime(userId: string) {
         : []
     },
     connect: () => {
-      connections++
+      const connection = Symbol()
+      connections.add(connection)
       const disconnect = () => {
-        if (--connections === 0) {
-          stopConnection?.()
-          stopConnection = undefined
-        }
+        if (!connections.delete(connection) || connections.size) return
+        stopConnection?.()
+        stopConnection = undefined
       }
-      if (connections > 1) return disconnect
+      if (connections.size > 1) return disconnect
       let disposed = false
       const cleanup: (() => void)[] = []
+      const stop = () => {
+        disposed = true
+        cleanup.splice(0).forEach((stop) => stop())
+      }
       void store
         .open()
         .then(() => {
@@ -128,6 +132,7 @@ function createRuntime(userId: string) {
                   .then(() =>
                     report(new Error('Access to this child was removed.'))
                   )
+                  .catch(report)
               else report(error)
             } else if (error.code === 'permission-denied')
               report(
@@ -171,7 +176,8 @@ function createRuntime(userId: string) {
                 { includeMetadataChanges: true },
                 (snapshot) => {
                   if (!snapshot.exists()) {
-                    if (!snapshot.metadata.fromCache) void store.revoke()
+                    if (!snapshot.metadata.fromCache)
+                      void store.revoke().catch(report)
                     return
                   }
                   void store
@@ -238,11 +244,12 @@ function createRuntime(userId: string) {
             document.removeEventListener('visibilitychange', wake)
           })
         })
-        .catch(report)
-      stopConnection = () => {
-        disposed = true
-        cleanup.forEach((stop) => stop())
-      }
+        .catch((error: unknown) => {
+          if (disposed) return
+          stop()
+          report(error)
+        })
+      stopConnection = stop
       return disconnect
     },
   }
