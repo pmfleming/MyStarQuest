@@ -121,6 +121,11 @@ export default class SolarSystem3DManager {
   private targetRotationY = 0
   private targetTilt = 0
   private animationFrameId: number | null = null
+  private lastFrameTime: number | null = null
+  private interactiveUntil = 0
+  private readonly motionPreference = window.matchMedia?.(
+    '(prefers-reduced-motion: reduce)'
+  )
   private intersectionObserver: IntersectionObserver | null = null
   private resizeObserver: ResizeObserver | null = null
   private layoutDirty = true
@@ -250,6 +255,7 @@ export default class SolarSystem3DManager {
     this.syncPointerStyle()
 
     document.addEventListener('visibilitychange', this.handleVisibilityChange)
+    this.motionPreference?.addEventListener('change', this.handleResize)
     window.addEventListener('resize', this.handleResize)
     if ('ResizeObserver' in window) {
       this.resizeObserver = new ResizeObserver(this.handleResize)
@@ -272,6 +278,14 @@ export default class SolarSystem3DManager {
   setSceneState(nextState: SolarSystemSceneState) {
     if (this.disposed) return
     if (
+      nextState.displayMode !== this.sceneState.displayMode ||
+      nextState.activeFocusId !== this.sceneState.activeFocusId ||
+      nextState.earthOrbitProgress !== this.sceneState.earthOrbitProgress ||
+      Math.abs(nextState.earthRotationDeg - this.sceneState.earthRotationDeg) >
+        0.1
+    )
+      this.interactiveUntil = performance.now() + 1500
+    if (
       this.sceneState.monthLabelFontFamily !== nextState.monthLabelFontFamily
     ) {
       this.rebuildMonthLabels(nextState.monthLabelFontFamily)
@@ -281,6 +295,7 @@ export default class SolarSystem3DManager {
     this.syncPointerStyle()
     this.updateSceneTargets(nextState)
     this.syncCityVisualState(nextState)
+    this.updateAnimationState()
   }
 
   dispose() {
@@ -302,6 +317,7 @@ export default class SolarSystem3DManager {
     )
     this.intersectionObserver?.disconnect()
     this.resizeObserver?.disconnect()
+    this.motionPreference?.removeEventListener('change', this.handleResize)
     window.removeEventListener('resize', this.handleResize)
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId)
@@ -320,9 +336,23 @@ export default class SolarSystem3DManager {
     this.renderer.dispose()
   }
 
-  private animate = () => {
+  private animate = (now: number) => {
     this.animationFrameId = null
     if (!this.shouldAnimate()) return
+
+    const elapsed =
+      this.lastFrameTime === null ? 1000 / 60 : now - this.lastFrameTime
+    const interactive = this.orbitDrag || now < this.interactiveUntil
+    if (
+      this.lastFrameTime !== null &&
+      !this.motionPreference?.matches &&
+      !interactive &&
+      elapsed < 1000 / 30 - 1
+    ) {
+      this.animationFrameId = window.requestAnimationFrame(this.animate)
+      return
+    }
+    this.lastFrameTime = now
 
     const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
     if (
@@ -333,9 +363,10 @@ export default class SolarSystem3DManager {
       this.layoutDirty = false
       this.resizeRendererToDisplaySize()
     }
-    this.applySceneState(this.sceneState)
+    this.applySceneState(this.sceneState, Math.min(elapsed, 100))
     this.renderer.render(this.scene, this.camera)
-    this.animationFrameId = window.requestAnimationFrame(this.animate)
+    if (!this.motionPreference?.matches)
+      this.animationFrameId = window.requestAnimationFrame(this.animate)
   }
 
   private readonly handleVisibilityChange = () => {
@@ -347,6 +378,7 @@ export default class SolarSystem3DManager {
 
   private readonly handleResize = () => {
     this.layoutDirty = true
+    this.updateAnimationState()
   }
 
   private syncPointerStyle() {
@@ -431,6 +463,7 @@ export default class SolarSystem3DManager {
     )
     drag.previousPointerProgress = progress
     this.updateSceneTargets(this.sceneState)
+    this.updateAnimationState()
     this.onOrbitChange?.(drag.year, drag.progress)
   }
 
@@ -461,6 +494,7 @@ export default class SolarSystem3DManager {
 
   private updateAnimationState() {
     if (!this.shouldAnimate()) {
+      this.lastFrameTime = null
       if (this.animationFrameId !== null) {
         cancelAnimationFrame(this.animationFrameId)
         this.animationFrameId = null
@@ -521,9 +555,12 @@ export default class SolarSystem3DManager {
     )
   }
 
-  private applySceneState(state: SolarSystemSceneState) {
+  private applySceneState(state: SolarSystemSceneState, elapsed: number) {
     const earthFocus = state.displayMode === 'earth-focus'
-    const smoothing = earthFocus ? 0.12 : 0.08
+    const reducedMotion = this.motionPreference?.matches
+    const blend = (amount: number) =>
+      reducedMotion ? 1 : 1 - (1 - amount) ** (elapsed / (1000 / 60))
+    const smoothing = blend(earthFocus ? 0.12 : 0.08)
     this.earthTiltGroup.rotation.z = lerpAngle(
       this.earthTiltGroup.rotation.z,
       this.targetTilt,
@@ -539,13 +576,13 @@ export default class SolarSystem3DManager {
       : this.targetRotationY
     this.sunLight.position.lerp(this.desiredSunLightPosition, smoothing)
 
-    this.cameraTarget.lerp(this.desiredCameraPosition, 0.08)
-    this.lookTarget.lerp(this.desiredLookTarget, 0.1)
+    this.cameraTarget.lerp(this.desiredCameraPosition, blend(0.08))
+    this.lookTarget.lerp(this.desiredLookTarget, blend(0.1))
     this.camera.position.copy(this.cameraTarget)
     this.camera.lookAt(this.lookTarget)
 
     this.updateCityPings(state)
-    this.starField.rotation.y += 0.0003
+    if (!reducedMotion) this.starField.rotation.y += 0.000018 * elapsed
   }
 
   private rebuildCityMarkers(state: SolarSystemSceneState) {
@@ -672,7 +709,9 @@ export default class SolarSystem3DManager {
         scale * (1 + (visual.pulseStrokeWidth - 3) * 0.03)
       )
       visual.pulse.visible =
-        state.displayMode === 'earth-focus' && isFrontFacing
+        !this.motionPreference?.matches &&
+        state.displayMode === 'earth-focus' &&
+        isFrontFacing
     }
   }
 
@@ -862,5 +901,6 @@ export default class SolarSystem3DManager {
     this.earthMesh.material.map = texture
     this.earthMesh.material.color.set('#ffffff')
     this.earthMesh.material.needsUpdate = true
+    this.updateAnimationState()
   }
 }

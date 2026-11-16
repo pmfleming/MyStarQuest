@@ -55,8 +55,8 @@ it('calculates focus targets once per input change while continuing animation', 
     document.createElement('canvas'),
     state
   )
-  for (let i = 0; i < 120; i++) frame(i * 16)
-  expect(render).toHaveBeenCalledTimes(120)
+  for (let i = 0; i < 120; i++) frame(i * (1000 / 60))
+  expect(render).toHaveBeenCalledTimes(60)
   expect(centered).toHaveBeenCalledTimes(1)
   const scene = render.mock.calls[0][0] as THREE.Scene
   const light = scene.children.find(
@@ -79,4 +79,53 @@ it('calculates focus targets once per input change while continuing animation', 
   frame(2016)
   expect(centered).toHaveBeenCalledTimes(2)
   manager.dispose()
+})
+
+it('renders reduced motion only on invalidation and resumes ambient animation when enabled', () => {
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue(null)
+  const preference = {
+    matches: true,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  }
+  vi.stubGlobal('matchMedia', () => preference)
+  const frames: FrameRequestCallback[] = []
+  vi.stubGlobal('requestAnimationFrame', (next: FrameRequestCallback) => {
+    frames.push(next)
+    return frames.length
+  })
+  vi.stubGlobal('cancelAnimationFrame', vi.fn())
+  const state: SolarSystemSceneState = {
+    displayMode: 'earth-focus',
+    earthRotationDeg: 90,
+    earthOrbitProgress: 0.25,
+    orbitYear: 2026,
+    activeFocusId: 'earth',
+    cityOptions: [],
+    sunPosition: { latitude: 10, longitude: 30 },
+    monthLabelFontFamily: 'sans-serif',
+  }
+  const manager = new SolarSystem3DManager(
+    document.createElement('canvas'),
+    state
+  )
+  frames.shift()!(0)
+  expect(render).toHaveBeenCalledOnce()
+  expect(frames).toHaveLength(0)
+  manager.setSceneState({ ...state, displayMode: 'solar-focus' })
+  frames.shift()!(100)
+  expect(render).toHaveBeenCalledTimes(2)
+  expect(frames).toHaveLength(0)
+  window.dispatchEvent(new Event('resize'))
+  frames.shift()!(200)
+  expect(render).toHaveBeenCalledTimes(3)
+  preference.matches = false
+  preference.addEventListener.mock.calls[0][1]()
+  frames.shift()!(300)
+  expect(frames).toHaveLength(1)
+  manager.dispose()
+  expect(preference.removeEventListener).toHaveBeenCalledWith(
+    'change',
+    preference.addEventListener.mock.calls[0][1]
+  )
 })
