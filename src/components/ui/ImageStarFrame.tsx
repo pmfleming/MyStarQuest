@@ -90,6 +90,7 @@ const ImageStarFrame = ({
           >
             <ImageWithOverlay
               src={image}
+              sizes="170px"
               overlayImage={overlayImage}
               alt={imageAlt}
               loading={loading ?? defaultLoading}

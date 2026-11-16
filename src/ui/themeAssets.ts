@@ -17,8 +17,8 @@ import breakfastOverview from '../assets/themes/princess/meal-breakfast.webp'
 import lunchOverview from '../assets/themes/princess/meal-lunch.webp'
 import waterToiletOverview from '../assets/themes/princess/water-toilet-check-overview.webp'
 import mathsCounter from '../assets/themes/princess/maths-counter.svg'
-import practicePiano from '../assets/themes/princess/practice-piano.png'
-import practiceJudo from '../assets/themes/princess/practice-judo.png'
+import practicePiano from '../assets/themes/princess/practice-piano.webp'
+import practiceJudo from '../assets/themes/princess/practice-judo.webp'
 import nowIcon from '../assets/themes/princess/now-character.png'
 import storyReturnIcon from '../assets/themes/princess/story-return-character.webp'
 import storyPageIcon from '../assets/themes/princess/story-page-next.webp'
@@ -153,8 +153,8 @@ const teenieRoles = {
   nonSchoolDayWinterImage: 'non-school-winter.webp',
   tidyingUp: 'tidying-up.webp',
   writing: 'writing.webp',
-  practicePiano: 'practice-piano.png',
-  practiceJudo: 'practice-judo.png',
+  practicePiano: 'practice-piano.webp',
+  practiceJudo: 'practice-judo.webp',
   brave: 'brave.webp',
   gettingDressed: 'getting-dressed.webp',
   dinnerOverview: 'meal-dinner.webp',

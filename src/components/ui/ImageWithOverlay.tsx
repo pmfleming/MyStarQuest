@@ -1,4 +1,5 @@
 import type { CSSProperties, ImgHTMLAttributes } from 'react'
+import { artworkSrcSet } from '../../ui/responsiveArtwork'
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   overlayImage?: string
@@ -27,7 +28,13 @@ export default function ImageWithOverlay({
         position: 'relative',
       }}
     >
-      <img {...imageProps} alt={alt} style={imageStyle} />
+      <img
+        srcSet={artworkSrcSet(imageProps.src)}
+        sizes="100vw"
+        {...imageProps}
+        alt={alt}
+        style={imageStyle}
+      />
       {overlayImage && (
         <img
           src={overlayImage}
