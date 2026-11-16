@@ -13,6 +13,7 @@ import AppErrorBoundary from './components/AppErrorBoundary'
 import LoginPage from './pages/LoginPage'
 import { routeModules } from './routes/routeModules'
 import RoutePreloader from './routes/RoutePreloader'
+import AppUpdateNotice from './components/AppUpdateNotice'
 
 const InvitationPage = lazy(() => import('./sharing/InvitationPage'))
 const DashboardPage = lazy(routeModules.chores)
@@ -25,6 +26,7 @@ const ProtectedDataRoute = lazy(routeModules.protectedData)
 const App = () => {
   return (
     <AppErrorBoundary>
+      <AppUpdateNotice />
       <AuthProvider>
         <SchoolCalendarSync />
         <ThemeProvider>

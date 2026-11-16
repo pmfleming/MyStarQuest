@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 import type { Plugin } from 'vite'
 
 export function offlinePlugin(): Plugin {
@@ -32,6 +33,16 @@ export function offlinePlugin(): Plugin {
         )
         .digest('hex')
         .slice(0, 16)
+      this.emitFile({
+        type: 'asset',
+        fileName: 'build-info.json',
+        source: JSON.stringify({
+          version,
+          revision: execFileSync('git', ['rev-parse', 'HEAD'], {
+            encoding: 'utf8',
+          }).trim(),
+        }),
+      })
       this.emitFile({
         type: 'asset',
         fileName: 'sw.js',

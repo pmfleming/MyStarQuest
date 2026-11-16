@@ -69,9 +69,17 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     (async () => {
-      for (const name of await caches.keys()) {
-        if (name.startsWith('msq-shell-') && name !== shellName)
-          await caches.delete(name)
+      // An explicitly accepted update can activate while another tab still runs
+      // the previous build. Keep its hashed chunks until a later clean activation.
+      const clients = await self.clients.matchAll({
+        type: 'window',
+        includeUncontrolled: true,
+      })
+      if (clients.length === 0) {
+        for (const name of await caches.keys()) {
+          if (name.startsWith('msq-shell-') && name !== shellName)
+            await caches.delete(name)
+        }
       }
       await self.clients.claim()
     })()
@@ -102,6 +110,9 @@ async function asset(request, event) {
     // carry an Origin header that differs from installation (Vary: Origin).
     const cached = await cache.match(request, { ignoreVary: true })
     if (cached) return cached
+    // Immutable hashes make it safe for an older open tab to finish lazy imports.
+    const previous = await caches.match(request, { ignoreVary: true })
+    if (previous) return previous
   } catch {
     /* A cache failure must not prevent a working network request. */
   }
@@ -139,6 +150,10 @@ self.addEventListener('fetch', (event) => {
   }
 })
 self.addEventListener('message', (event) => {
+  if (event.data?.type === 'ACTIVATE_UPDATE') {
+    event.waitUntil(self.skipWaiting())
+    return
+  }
   if (event.data?.type !== 'CACHE_VISITED' || !Array.isArray(event.data.urls))
     return
   event.waitUntil(

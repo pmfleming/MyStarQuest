@@ -1,5 +1,6 @@
 import { Capacitor } from '@capacitor/core'
 import { afterFirstPaint } from './afterFirstPaint'
+import { setWaitingWorker } from './appUpdate'
 
 // Native assets already ship in the APK. Do not let a web cache mask an APK update.
 export function registerOfflineShell() {
@@ -10,6 +11,7 @@ export function registerOfflineShell() {
   )
     return
   let pending = false
+  let registration: ServiceWorkerRegistration | undefined
   const cacheVisited = () =>
     navigator.serviceWorker.controller?.postMessage({
       type: 'CACHE_VISITED',
@@ -20,11 +22,28 @@ export function registerOfflineShell() {
     if (pending || navigator.onLine === false) return
     pending = true
     try {
-      const registration = await navigator.serviceWorker.register('/sw.js', {
-        updateViaCache: 'none',
-      })
-      cacheVisited()
-      if (registration.active) void registration.update().catch(() => {})
+      if (!registration) {
+        registration = await navigator.serviceWorker.register('/sw.js', {
+          updateViaCache: 'none',
+        })
+        const refreshUpdate = () =>
+          setWaitingWorker(registration?.waiting ?? null)
+        refreshUpdate()
+        const watchInstall = () => {
+          registration?.installing?.addEventListener(
+            'statechange',
+            refreshUpdate
+          )
+        }
+        watchInstall()
+        registration.addEventListener('updatefound', watchInstall)
+        navigator.serviceWorker.addEventListener(
+          'controllerchange',
+          refreshUpdate
+        )
+        cacheVisited()
+      }
+      if (registration.active) await registration.update()
     } catch {
       // Unsupported storage or a dropped installation leaves normal online use intact.
     } finally {
@@ -32,6 +51,13 @@ export function registerOfflineShell() {
     }
   }
   window.addEventListener('online', () => {
+    void register()
+  })
+  let lastCheck = Date.now()
+  document.addEventListener('visibilitychange', () => {
+    // Returning to a long-lived tab should discover releases without polling.
+    if (document.hidden || Date.now() - lastCheck < 60_000) return
+    lastCheck = Date.now()
     void register()
   })
   afterFirstPaint(() => {

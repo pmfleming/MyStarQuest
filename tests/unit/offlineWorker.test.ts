@@ -18,6 +18,12 @@ function worker() {
       ? new URL(request, 'https://app.test').href
       : request.url
   const caches = {
+    match: async (request: Request | string) => {
+      for (const entries of maps.values()) {
+        const response = entries.get(key(request))
+        if (response) return response.clone()
+      }
+    },
     keys: async () => [...maps.keys()],
     delete: async (name: string) => maps.delete(name),
     open: async (name: string) => {
@@ -48,7 +54,11 @@ function worker() {
   const handlers = new Map<string, (event: Event) => void>()
   const self = {
     location: new URL('https://app.test'),
-    clients: { claim: vi.fn() },
+    clients: {
+      claim: vi.fn(),
+      matchAll: vi.fn<() => Promise<object[]>>().mockResolvedValue([]),
+    },
+    skipWaiting: vi.fn().mockResolvedValue(undefined),
     addEventListener: (name: string, handler: (event: Event) => void) =>
       handlers.set(name, handler),
   }
@@ -76,20 +86,40 @@ function worker() {
     setTimeout,
     clearTimeout,
   })
-  function event(name: string, request?: Request) {
+  function event(name: string, request?: Request, data?: unknown) {
     const work: Promise<unknown>[] = []
     const respondWith = vi.fn((promise: Promise<Response>) =>
       work.push(promise)
     )
     handlers.get(name)!({
       request,
+      data,
       waitUntil: (promise) => work.push(promise),
       respondWith,
     })
     return { done: Promise.all(work), respondWith }
   }
-  return { maps, fetch, event, caches }
+  return { maps, fetch, event, caches, self }
 }
+
+it('activates only on request and preserves lazy chunks for another open tab', async () => {
+  const sw = worker()
+  await sw.event('install').done
+  expect(sw.self.skipWaiting).not.toHaveBeenCalled()
+  await sw.event('message', undefined, { type: 'ACTIVATE_UPDATE' }).done
+  expect(sw.self.skipWaiting).toHaveBeenCalledOnce()
+  sw.self.clients.matchAll.mockResolvedValue([{ id: 'older-tab' }])
+  const old = await sw.caches.open('msq-shell-old')
+  await old.put('/assets/older-page.js', new Response('older page'))
+  await sw.event('activate').done
+  sw.fetch.mockRejectedValue(new Error('Offline'))
+  const [response] = (await sw.event(
+    'fetch',
+    new Request('https://app.test/assets/older-page.js')
+  ).done) as Response[]
+  expect(await response.text()).toBe('older page')
+  expect(sw.maps.has('msq-shell-old')).toBe(true)
+})
 
 it('preserves the working cache after a broken deployment, then installs and serves a valid release safely', async () => {
   const sw = worker()
