@@ -72,6 +72,15 @@ function usableWeather(entry: Entry, now = Date.now()) {
     : null
 }
 
+function cancelRequest(entry: Entry) {
+  const controller = entry.controller
+  // Release ownership before abort handlers run, so a reconnect can start now.
+  entry.controller = undefined
+  controller?.abort()
+  if (controller) entry.lastAttempt = null
+  publish(entry, { loading: false })
+}
+
 async function refresh(entry: Entry, force = false) {
   const now = Date.now()
   const zone = entry.city.location.timeZone
@@ -82,11 +91,10 @@ async function refresh(entry: Entry, force = false) {
   const stale = Boolean(usable && now - usable.fetchedAt >= WEATHER_FRESH_MS)
   publish(entry, { now, data: usable, stale })
   if (navigator.onLine === false) {
+    cancelRequest(entry)
     publish(entry, {
-      loading: false,
       error: 'Offline. Weather will update when connected.',
     })
-    entry.controller?.abort()
     return
   }
   if (entry.controller) return
@@ -167,13 +175,7 @@ export function subscribeWeather(city: WeatherCity, listener: () => void) {
       if (entry.state.getSubscriberCount()) return
       entry.stop?.()
       entry.stop = undefined
-      const controller = entry.controller
-      entry.controller = undefined
-      controller?.abort()
-      if (controller) {
-        entry.lastAttempt = null
-        publish(entry, { loading: false })
-      }
+      cancelRequest(entry)
     })
   }
 }

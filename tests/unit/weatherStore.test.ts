@@ -96,3 +96,42 @@ it('allows retry after a stalled request times out and ignores its late result',
   await vi.advanceTimersByTimeAsync(0)
   expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(12)
 })
+
+it.each([false, true])(
+  'reconnects after cancellation without waiting for the old request (settle first: %s)',
+  async (settleFirst) => {
+    let online = true
+    vi.spyOn(navigator, 'onLine', 'get').mockImplementation(() => online)
+    let finish!: (value: unknown) => void
+    const fetch = vi
+      .fn()
+      .mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            finish = resolve
+          })
+      )
+      .mockResolvedValue(response(12))
+    vi.stubGlobal('fetch', fetch)
+    cleanup.push(store.subscribeWeather(amsterdam, vi.fn()))
+    online = false
+    window.dispatchEvent(new Event('offline'))
+    if (settleFirst) await vi.advanceTimersByTimeAsync(0)
+    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+      loading: false,
+      error: 'Offline. Weather will update when connected.',
+    })
+    online = true
+    window.dispatchEvent(new Event('online'))
+    await vi.advanceTimersByTimeAsync(0)
+    expect(fetch).toHaveBeenCalledTimes(2)
+    expect(store.getWeatherSnapshot(amsterdam)).toMatchObject({
+      loading: false,
+      error: null,
+      data: { temperature: 12 },
+    })
+    finish(response(30))
+    await vi.advanceTimersByTimeAsync(0)
+    expect(store.getWeatherSnapshot(amsterdam).data?.temperature).toBe(12)
+  }
+)
