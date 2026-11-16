@@ -1,5 +1,6 @@
 import { useAsyncAction } from './useAsyncAction'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
+import { ActivityTabVisibleContext } from '../contexts/ActivityTabContext'
 import { BITE_COOLDOWN_SECONDS } from '../data/types'
 import { celebrateSuccess } from '../lib/celebrate'
 
@@ -26,7 +27,12 @@ export const useDinnerCountdownState = ({
 }: UseDinnerCountdownStateArgs) => {
   const { runAction, ...persistence } = useAsyncAction<'expire'>()
   const expirationAttempted = useRef(false)
-  const now = useDinnerClock(isTimerRunning, biteCooldownEndsAt)
+  const visible = useContext(ActivityTabVisibleContext)
+  const expiresAt =
+    isTimerRunning && timerStartedAt != null && !isCompleted
+      ? timerStartedAt + remaining * 1000
+      : undefined
+  const now = useDinnerClock(visible, expiresAt, biteCooldownEndsAt)
   const [animSlice, setAnimSlice] = useState<number | null>(null)
   const [biteVis, setBiteVis] = useState(false)
   const prevBites = useRef(bitesLeft)
@@ -103,32 +109,38 @@ const getSecondHandRotation = (
 
 // Own the visibility listener and timer together so both always stop on cleanup.
 function useDinnerClock(
-  isTimerRunning: boolean,
+  visible: boolean,
+  expiresAt?: number,
   biteCooldownEndsAt?: number | null
 ) {
   const [now, setNow] = useState(() => Date.now())
   useEffect(() => {
-    const needsTick =
-      isTimerRunning || (biteCooldownEndsAt && biteCooldownEndsAt > Date.now())
-    if (!needsTick) return
-
-    let interval: number | undefined
+    let timer: number | undefined
     const updateTimer = () => {
-      if (interval !== undefined) window.clearInterval(interval)
-      interval = undefined
-      if (!document.hidden) {
-        setNow(Date.now())
-        interval = window.setInterval(() => setNow(Date.now()), 250)
-      }
+      window.clearTimeout(timer)
+      if (document.hidden) return
+      const time = Date.now()
+      setNow(time)
+      const nextDeadline = Math.min(
+        ...[expiresAt, biteCooldownEndsAt].filter(
+          (deadline): deadline is number => deadline != null && deadline > time
+        )
+      )
+      if (!Number.isFinite(nextDeadline)) return
+      // Retained inactive tabs only wake at a meaningful state transition.
+      const delay = visible
+        ? Math.min(250, nextDeadline - time)
+        : nextDeadline - time
+      timer = window.setTimeout(updateTimer, delay)
     }
 
     updateTimer()
     document.addEventListener('visibilitychange', updateTimer)
     return () => {
-      if (interval !== undefined) window.clearInterval(interval)
+      window.clearTimeout(timer)
       document.removeEventListener('visibilitychange', updateTimer)
     }
-  }, [isTimerRunning, biteCooldownEndsAt])
+  }, [visible, expiresAt, biteCooldownEndsAt])
 
   return now
 }

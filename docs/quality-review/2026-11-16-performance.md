@@ -17,3 +17,9 @@ Validation: offline suites passed (22 cases across the targeted files); TypeScri
 All subscribers share one minute-level day-boundary check, suspended while the document is hidden. Only chores and tests subscribe; unchanged dates publish nothing. Collection projections retain identity until their relevant inputs change, preventing unrelated history updates from rebuilding active lists.
 
 Validation: eight targeted timer, projection, runtime, and calendar-hook tests passed; TypeScript passed.
+
+## 4. Suspend inactive countdown rendering
+
+Retained inactive activity tabs use deadline timers instead of 250 ms visual ticks. Expiry still persists once; returning to the tab catches up immediately. Hidden browser documents retain the existing resume behavior. Timers stop after the final deadline.
+
+Validation: both component lifecycle tests passed, including no renders during eight inactive seconds and expiry while the activity tab remains inactive.
