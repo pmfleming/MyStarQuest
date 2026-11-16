@@ -32,10 +32,7 @@ import { uiTokens } from '../tokens'
 import CalendarWeekdays from './CalendarWeekdays'
 import './SchoolCalendar.css'
 
-const getMondayFirstOffset = (date: Date) => {
-  const day = date.getDay()
-  return day === 0 ? 6 : day - 1
-}
+const getMondayFirstOffset = (date: Date) => (date.getDay() + 6) % 7
 
 type SchoolCalendarProps = {
   theme: Theme
@@ -124,13 +121,12 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
 
   return (
     <section
+      className="box-border px-3 pt-3 pb-2.5"
       style={{
         borderRadius: `${uiTokens.surfaceRadius}px`,
         background: theme.colors.surface,
-        padding: '12px 12px 10px',
         border: `3px solid ${theme.colors.accent}`,
         fontFamily: theme.fonts.heading,
-        boxSizing: 'border-box',
       }}
     >
       {loadError && (
@@ -164,24 +160,15 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
       >
         {/* Grid */}
         <div
-          className="school-calendar-grid"
+          className="school-calendar-grid [container-type:inline-size] isolate grid w-full gap-[3px]"
           data-period={calendarPeriod}
           role="group"
           aria-label={`${calendarPeriod.charAt(0).toUpperCase() + calendarPeriod.slice(1)} calendar`}
-          style={{
-            display: 'grid',
-            width: '100%',
-            containerType: 'inline-size',
-            gap: 3,
-            isolation: 'isolate',
-          }}
         >
           <div
-            className="calendar-weekday-row"
+            className="calendar-weekday-row grid gap-[3px]"
             style={{
-              display: 'grid',
               gridTemplateColumns: dateColumns,
-              gap: 3,
             }}
           >
             <CalendarWeekdays
@@ -195,14 +182,11 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
             />
           </div>
           <div
-            className="calendar-date-grid"
+            className="calendar-date-grid grid w-full gap-[3px]"
             style={{
-              display: 'grid',
               gridTemplateColumns: dateColumns,
               gridTemplateRows: `repeat(${calendarPeriod === 'month' ? monthRows : 1}, minmax(0, 1fr))`,
               height: `calc((100cqw - 18px) / 7 * ${monthRows} + ${(monthRows - 1) * 3}px - var(--calendar-weekday-growth))`,
-              gap: 3,
-              width: '100%',
             }}
           >
             {/* One cell per slot keeps leading and trailing padding consistent. */}
@@ -259,24 +243,15 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   aria-label={`Select ${dateKey}`}
                   aria-description={description}
                   title={description}
+                  className="calendar-date relative min-h-0 min-w-0 cursor-pointer overflow-hidden border-[3px] border-solid p-0"
+                  data-illustrated={hasIllustration}
                   style={{
-                    minWidth: 0,
-                    minHeight: 0,
-                    borderRadius: calendarPeriod === 'month' ? '25%' : 18,
-                    position: 'relative',
-                    transform:
-                      isSelected && calendarPeriod === 'month'
-                        ? 'scale(1.16)'
-                        : undefined,
-                    zIndex: isSelected ? 1 : undefined,
-                    overflow: 'hidden',
                     background: isSchool
                       ? `${theme.colors.primary}18`
                       : '#ffffff',
-                    border: `3px solid ${highlight.color}`,
+                    borderColor: highlight.color,
                     boxShadow: highlight.glow && `0 0 0 2px ${highlight.glow}`,
-                    cursor: 'pointer',
-                    padding: 0,
+                    color: theme.colors.text,
                   }}
                 >
                   <img
@@ -288,60 +263,16 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                     }
                     loading="lazy"
                     decoding="async"
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                      padding: calendarPeriod === 'month' ? '10%' : 4,
-                      opacity: hasIllustration ? 1 : 0.75,
-                    }}
+                    className="calendar-date-artwork absolute inset-0 h-full w-full object-contain"
                   />
-                  <span
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems:
-                        hasIllustration || calendarPeriod !== 'month'
-                          ? 'flex-start'
-                          : 'center',
-                      justifyContent: hasIllustration ? 'flex-start' : 'center',
-                      padding:
-                        calendarPeriod !== 'month'
-                          ? '6px 2px'
-                          : hasIllustration
-                            ? '2px'
-                            : undefined,
-                      fontSize:
-                        calendarPeriod === 'day'
-                          ? '2rem'
-                          : calendarPeriod === 'week' && !isSelected
-                            ? 'clamp(0.85rem, 4cqw, 1.2rem)'
-                            : hasIllustration
-                              ? '0.85rem'
-                              : '1.2rem',
-                      fontWeight: 900,
-                      lineHeight: 1,
-                      color: theme.colors.text,
-                      textShadow: '0 0 3px #fff, 0 0 3px #fff',
-                    }}
-                  >
+                  <span className="calendar-date-number absolute inset-0 flex items-center justify-center leading-none font-black">
                     {day}
                   </span>
                   {dayHistory.length > 0 && (
                     <span
                       aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        display: 'flex',
-                        background: theme.colors.surface,
-                        borderRadius: '0 6px 0 0',
-                        maxWidth: '70%',
-                      }}
+                      className="absolute bottom-0 left-0 flex max-w-[70%] rounded-tr-[6px]"
+                      style={{ background: theme.colors.surface }}
                     >
                       {[...new Set(dayHistory.map((entry) => entry.kind))].map(
                         (kind) => (
@@ -349,11 +280,7 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                             key={kind}
                             src={historyIcon(theme, kind)}
                             alt=""
-                            style={{
-                              width: 14,
-                              height: 14,
-                              objectFit: 'contain',
-                            }}
+                            className="h-[14px] w-[14px] object-contain"
                           />
                         )
                       )}
@@ -362,28 +289,13 @@ export default function SchoolCalendar({ theme }: SchoolCalendarProps) {
                   {schoolEvents.length + theatreEvents.length > 1 && (
                     <span
                       aria-hidden="true"
-                      style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                        borderRadius: '6px 0 0 0',
-                        background: theme.colors.surface,
-                        width: '36%',
-                        height: '36%',
-                        maxWidth: 24,
-                        maxHeight: 24,
-                        padding: 1,
-                        boxSizing: 'border-box',
-                      }}
+                      className="absolute right-0 bottom-0 box-border flex h-[36%] max-h-[24px] w-[36%] max-w-[24px] rounded-tl-[6px] p-px"
+                      style={{ background: theme.colors.surface }}
                     >
                       <img
                         src={getThemeAsset(theme.id, 'calendarMoreIcon')}
                         alt=""
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'contain',
-                        }}
+                        className="h-full w-full object-contain"
                       />
                     </span>
                   )}

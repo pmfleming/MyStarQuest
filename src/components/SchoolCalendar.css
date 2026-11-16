@@ -33,6 +33,64 @@
   transition: grid-template-columns 360ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.calendar-date {
+  border-radius: 25%;
+}
+
+.calendar-date[aria-pressed='true'] {
+  z-index: 1;
+}
+
+.school-calendar-grid[data-period='month'] .calendar-date[aria-pressed='true'] {
+  transform: scale(1.16);
+}
+
+.calendar-date-artwork {
+  padding: 10%;
+  opacity: 0.75;
+}
+
+.calendar-date-number {
+  font-size: 1.2rem;
+  text-shadow:
+    0 0 3px #fff,
+    0 0 3px #fff;
+}
+
+.calendar-date[data-illustrated='true'] .calendar-date-artwork {
+  opacity: 1;
+}
+
+.calendar-date[data-illustrated='true'] .calendar-date-number {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2px;
+  font-size: 0.85rem;
+}
+
+.school-calendar-grid:not([data-period='month']) .calendar-date {
+  border-radius: 18px;
+}
+
+.school-calendar-grid:not([data-period='month']) .calendar-date-artwork {
+  padding: 4px;
+}
+
+.school-calendar-grid:not([data-period='month']) .calendar-date-number {
+  align-items: flex-start;
+  padding: 6px 2px;
+}
+
+.school-calendar-grid[data-period='day'] .calendar-date-number {
+  font-size: 2rem;
+}
+
+.school-calendar-grid[data-period='week']
+  .calendar-date:not([aria-pressed='true'])
+  .calendar-date-number {
+  font-size: clamp(0.85rem, 4cqw, 1.2rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .calendar-date-grid,
   .calendar-weekday-row,

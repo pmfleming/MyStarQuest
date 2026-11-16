@@ -21,6 +21,21 @@ type AnimalDisplayCategories = {
 const makeFacts = (facts: readonly FactSeed[]): AnimalFact[] =>
   facts.map(([label, visual, text]) => ({ label, visual, text }))
 
+const ANDEAN_CAMELID = {
+  habitat: [
+    ['PLACE', '🌎', 'The Andes of South America'],
+    ['HOME', '⛰️', 'High grasslands and mountain farms'],
+    ['TEMPERATURE', '❄️☀️', 'Cool nights and sunny days'],
+    ['HEIGHT', '🏔️', 'Lives high above sea level'],
+  ],
+  food: [
+    ['DIET', '🌿', 'Herbivore: plants'],
+    ['FOOD', '🌱', 'Grass, hay, and mountain plants'],
+    ['HOW', '🦙', 'Grazes with a split upper lip'],
+    ['CUD', '🔄', 'Chews food again to digest it'],
+  ],
+} satisfies Pick<AnimalKnowledgeSeed, 'habitat' | 'food'>
+
 const KNOWLEDGE_SEEDS = {
   ant: {
     habitat: [
@@ -695,18 +710,7 @@ const KNOWLEDGE_SEEDS = {
     ],
   },
   llama: {
-    habitat: [
-      ['PLACE', '🌎', 'The Andes of South America'],
-      ['HOME', '⛰️', 'High grasslands and mountain farms'],
-      ['TEMPERATURE', '❄️☀️', 'Cool nights and sunny days'],
-      ['HEIGHT', '🏔️', 'Lives high above sea level'],
-    ],
-    food: [
-      ['DIET', '🌿', 'Herbivore: plants'],
-      ['FOOD', '🌱', 'Grass, hay, and mountain plants'],
-      ['HOW', '🦙', 'Grazes with a split upper lip'],
-      ['CUD', '🔄', 'Chews food again to digest it'],
-    ],
+    ...ANDEAN_CAMELID,
     abilities: [
       ['CARRY', '🎒', 'Carries loads along mountain paths'],
       ['CLIMB', '⛰️', 'Walks securely on steep ground'],
@@ -1367,18 +1371,7 @@ const KNOWLEDGE_SEEDS = {
     ],
   },
   alpaca: {
-    habitat: [
-      ['PLACE', '🌎', 'The Andes of South America'],
-      ['HOME', '⛰️', 'High grasslands and mountain farms'],
-      ['TEMPERATURE', '❄️☀️', 'Cool nights and sunny days'],
-      ['HEIGHT', '🏔️', 'Lives high above sea level'],
-    ],
-    food: [
-      ['DIET', '🌿', 'Herbivore: plants'],
-      ['FOOD', '🌱', 'Grass, hay, and mountain plants'],
-      ['HOW', '🦙', 'Grazes with a split upper lip'],
-      ['CUD', '🔄', 'Chews food again to digest it'],
-    ],
+    ...ANDEAN_CAMELID,
     abilities: [
       ['WOOL', '🧶', 'Soft fibre keeps it warm'],
       ['CLIMB', '⛰️', 'Walks securely on mountain ground'],

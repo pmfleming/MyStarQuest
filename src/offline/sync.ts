@@ -16,6 +16,11 @@ export type SendOperation = (
   operation: PendingAction
 ) => Promise<SyncReceipt>
 
+const errorCode = (error: unknown) =>
+  error && typeof error === 'object' && 'code' in error
+    ? String(error.code)
+    : ''
+
 export class OfflineSync {
   private stopped = true
   private running = false
@@ -57,6 +62,62 @@ export class OfflineSync {
     void this.flush()
   }
 
+  private async sendPending(operation: PendingAction) {
+    let receipt: SyncReceipt
+    try {
+      // A timeout cannot cancel a commit. Retrying the durable ID is idempotent.
+      receipt = await withDeadline(
+        () => this.send(this.store.userId, operation),
+        SYNC_TIMEOUT_MS
+      )
+    } catch (error) {
+      const code = errorCode(error)
+      const shared = parseChildScope(this.store.userId)
+      if (
+        error instanceof RewardUnavailable ||
+        (shared &&
+          /failed-precondition|not-found|already-exists|invalid-argument/.test(
+            code
+          ))
+      ) {
+        await this.store.reject(
+          operation.id,
+          error instanceof Error
+            ? error.message
+            : 'This change was not applied.'
+        )
+        return
+      }
+      if (shared && /permission-denied/.test(code)) await this.store.revoke()
+      throw error
+    }
+    // A lost local acknowledgement must retry, never reject a committed operation.
+    await this.store.acknowledge(operation.id, receipt)
+    this.retryMs = 1000
+  }
+
+  private handleFailure(error: unknown) {
+    const needsAttention =
+      error instanceof SyncConflict ||
+      /permission-denied|unauthenticated|invalid-argument/.test(
+        errorCode(error)
+      )
+    this.publish({
+      state: needsAttention ? 'attention' : 'waiting',
+      message: needsAttention
+        ? error instanceof SyncConflict
+          ? error.message
+          : 'Sync needs attention. Sign in again or check account access. Your changes are saved on this device.'
+        : null,
+    })
+    if (this.stopped || needsAttention || navigator.onLine === false) return
+    this.timer = setTimeout(() => {
+      this.timer = undefined
+      void this.flush()
+    }, this.retryMs)
+    this.retryMs = Math.min(60_000, this.retryMs * 2)
+  }
+
   async flush() {
     if (this.stopped || this.running) return
     this.running = true
@@ -73,71 +134,10 @@ export class OfflineSync {
           break
         }
         this.publish({ state: 'syncing', message: null })
-        // A timeout cannot cancel a Firestore commit. Retain the same durable
-        // operation ID on retry; its server receipt prevents duplicate effects.
-        let receipt: SyncReceipt
-        try {
-          receipt = await withDeadline(
-            () => this.send(this.store.userId, operation),
-            SYNC_TIMEOUT_MS
-          )
-        } catch (error) {
-          if (error instanceof RewardUnavailable) {
-            await this.store.reject(operation.id, error.message)
-            continue
-          }
-          const code =
-            error && typeof error === 'object' && 'code' in error
-              ? String(error.code)
-              : ''
-          if (
-            parseChildScope(this.store.userId) &&
-            /failed-precondition|not-found|already-exists|invalid-argument/.test(
-              code
-            )
-          ) {
-            await this.store.reject(
-              operation.id,
-              error instanceof Error
-                ? error.message
-                : 'This change was not applied.'
-            )
-            continue
-          }
-          if (
-            parseChildScope(this.store.userId) &&
-            /permission-denied/.test(code)
-          )
-            await this.store.revoke()
-          throw error
-        }
-        // A lost local acknowledgement is safe: the queue keeps the same ID.
-        await this.store.acknowledge(operation.id, receipt)
-        this.retryMs = 1000
+        await this.sendPending(operation)
       }
     } catch (error) {
-      const code =
-        error && typeof error === 'object' && 'code' in error
-          ? String(error.code)
-          : ''
-      const needsAttention =
-        error instanceof SyncConflict ||
-        /permission-denied|unauthenticated|invalid-argument/.test(code)
-      this.publish({
-        state: needsAttention ? 'attention' : 'waiting',
-        message: needsAttention
-          ? error instanceof SyncConflict
-            ? error.message
-            : 'Sync needs attention. Sign in again or check account access. Your changes are saved on this device.'
-          : null,
-      })
-      if (!this.stopped && !needsAttention && navigator.onLine !== false) {
-        this.timer = setTimeout(() => {
-          this.timer = undefined
-          void this.flush()
-        }, this.retryMs)
-        this.retryMs = Math.min(60_000, this.retryMs * 2)
-      }
+      this.handleFailure(error)
     } finally {
       this.running = false
     }

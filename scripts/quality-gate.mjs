@@ -2,7 +2,11 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
-import { auditPassed, writeComparison } from './quality-summary.mjs'
+import {
+  artifactNames,
+  auditPassed,
+  writeComparison,
+} from './quality-summary.mjs'
 
 const root = process.cwd()
 const dependencyRoots = ['node_modules', 'functions/node_modules']
@@ -101,17 +105,28 @@ try {
       env: { ...process.env, VITEST_MAX_WORKERS: '2' },
     }
   )
-  if (snapshot) {
-    fs.mkdirSync(output, { recursive: true })
-    for (const name of fs
-      .readdirSync(path.join(snapshot, 'target/analysis'))
-      .filter((name) => name.endsWith('.json'))) {
-      fs.copyFileSync(
-        path.join(snapshot, 'target/analysis', name),
-        path.join(output, name)
-      )
-    }
+  // Current Lens stores evidence in Turso. Export from this run's database;
+  // old JSON files in output_dir are not current measurement evidence.
+  fs.mkdirSync(output, { recursive: true })
+  for (const name of ['audit', ...artifactNames]) {
+    const artifact = execFileSync(
+      process.execPath,
+      [
+        lens,
+        'export',
+        `${name}.json`,
+        '--config',
+        path.join(project, 'ts-react-quality-lens.config.json'),
+      ],
+      { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 }
+    )
+    fs.writeFileSync(path.join(output, `${name}.json`), artifact)
   }
+  if (snapshot)
+    fs.copyFileSync(
+      path.join(snapshot, 'target/analysis/lens.db'),
+      path.join(output, 'lens.db')
+    )
   const audit = JSON.parse(
     fs.readFileSync(path.join(output, 'audit.json'), 'utf8')
   )

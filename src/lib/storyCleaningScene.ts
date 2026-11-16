@@ -1,18 +1,31 @@
-import { storyImage as img } from './storyLayerScene'
+import {
+  createStoryLayerScene,
+  syncStoryAnimationVisibility,
+  storyImage as img,
+} from './storyLayerScene'
 import background from '../assets/comic/layers/cleaning/background.webp'
 import yellow from '../assets/comic/layers/cleaning/yellow-duster.webp'
 import mint from '../assets/comic/layers/cleaning/mint-mop.webp'
 import './storyCleaningScene.css'
 
 export function createCleaningScene(host: HTMLElement) {
-  const stage = document.createElement('div')
-  stage.className = 'cleaning-scene'
-  stage.setAttribute('aria-hidden', 'true')
-  host.append(stage)
-  let generation = 0
-  let paused = false
   const reduced = matchMedia('(prefers-reduced-motion: reduce)')
   const motions: Animation[] = []
+  const cancelMotion = () =>
+    motions.splice(0).forEach((animation) => animation.cancel())
+  const scene = createStoryLayerScene(host, {
+    className: 'cleaning-scene',
+    panelIds: ['15-speed-cleaning'],
+    build(stage) {
+      stage.append(img(background, 'cleaning-background'))
+      actor(yellow, 'yellow')
+      actor(mint, 'mint')
+    },
+    onReady: animate,
+    onStop: cancelMotion,
+    onVisibilityChange: () => syncStoryAnimationVisibility(motions),
+  })
+  const { stage } = scene
   function actor(src: string, name: string) {
     const node = document.createElement('div')
     node.className = `cleaner cleaner-${name}`
@@ -33,15 +46,8 @@ export function createCleaningScene(host: HTMLElement) {
     stage.append(node)
     return node
   }
-  function stop() {
-    generation++
-    motions.splice(0).forEach((animation) => animation.cancel())
-    stage.classList.remove('ready')
-    stage.replaceChildren()
-    delete stage.dataset.panelId
-  }
   function animate() {
-    motions.splice(0).forEach((animation) => animation.cancel())
+    cancelMotion()
     if (reduced.matches || !stage.classList.contains('ready')) return
     const duster = stage.querySelector<HTMLElement>('.cleaner-yellow')!
     const mop = stage.querySelector<HTMLElement>('.cleaner-mint')!
@@ -99,46 +105,14 @@ export function createCleaningScene(host: HTMLElement) {
         { duration: 10500, iterations: Infinity, easing: 'ease-in-out' }
       )
     )
-    if (paused) motions.forEach((animation) => animation.pause())
-  }
-  async function show(id: string) {
-    stop()
-    if (id !== '15-speed-cleaning') return
-    const run = generation
-    stage.dataset.panelId = id
-    stage.append(img(background, 'cleaning-background'))
-    actor(yellow, 'yellow')
-    actor(mint, 'mint')
-    try {
-      await Promise.all(
-        [...stage.querySelectorAll('img')].map((image) => image.decode())
-      )
-    } catch {
-      if (run === generation) stop()
-      return
-    }
-    if (run !== generation) return
-    stage.classList.add('ready')
-    visibility()
-    animate()
-  }
-  function visibility() {
-    paused = document.hidden
-    stage.classList.toggle('paused', paused)
-    motions.forEach((animation) =>
-      paused ? animation.pause() : animation.play()
-    )
+    syncStoryAnimationVisibility(motions)
   }
   reduced.addEventListener('change', animate)
-  document.addEventListener('visibilitychange', visibility)
   return {
-    show,
-    stop,
+    ...scene,
     dispose() {
-      stop()
-      stage.remove()
+      scene.dispose()
       reduced.removeEventListener('change', animate)
-      document.removeEventListener('visibilitychange', visibility)
     },
   }
 }

@@ -23,6 +23,7 @@ import happying from '../assets/teenie/happy.webp'
 import lalaping from '../assets/teenie/lala.webp'
 import sparkleping from '../assets/teenie/sparkle.webp'
 import { getThemeAsset } from '../ui/themeAssets'
+import { shuffle } from '../lib/shuffle'
 
 export type SharingFriend = {
   kind: 'princess' | 'image'
@@ -119,13 +120,6 @@ export function pickSharingFriends(
 ): SharingFriend[] {
   const previousNames = new Set(previous.map((friend) => friend.name))
   const friends = getSharingFriends(themeId)
-  const shuffle = (pool: SharingFriend[]) => {
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[pool[i], pool[j]] = [pool[j]!, pool[i]!]
-    }
-    return pool
-  }
   return [
     ...shuffle(friends.filter((friend) => !previousNames.has(friend.name))),
     ...shuffle(friends.filter((friend) => previousNames.has(friend.name))),

@@ -1,4 +1,4 @@
-import { storyImage } from './storyLayerScene'
+import { syncStoryAnimationVisibility, storyImage } from './storyLayerScene'
 import type { Panel } from '../data/stories/seaFriends'
 import './storyTransitions.css'
 import './storyPaper.css'
@@ -276,24 +276,19 @@ export function createStoryTransitions(
   const onMotionChange = () => {
     if (reducedMotion.matches) stop()
   }
-  const onVisibilityChange = () =>
-    animations.forEach((animation) => {
-      if (animation.playState === 'finished') return
-      if (document.hidden) animation.pause()
-      else animation.play()
-    })
-  reducedMotion.addEventListener('change', onMotionChange)
-  window.addEventListener('resize', stop)
-  document.addEventListener('visibilitychange', onVisibilityChange)
+  const onVisibilityChange = () => syncStoryAnimationVisibility(animations)
+  const listeners = new AbortController()
+  const { signal } = listeners
+  reducedMotion.addEventListener('change', onMotionChange, { signal })
+  window.addEventListener('resize', stop, { signal })
+  document.addEventListener('visibilitychange', onVisibilityChange, { signal })
   return {
     canPlay,
     play,
     stop,
     dispose() {
       stop()
-      reducedMotion.removeEventListener('change', onMotionChange)
-      window.removeEventListener('resize', stop)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
+      listeners.abort()
     },
   }
 }

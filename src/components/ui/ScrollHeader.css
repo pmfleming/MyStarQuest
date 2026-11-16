@@ -1,0 +1,19 @@
+.scroll-header {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 100;
+  pointer-events: none;
+  transform: translateY(calc(-100% * var(--scroll-header-progress, 0)));
+  opacity: calc(1 - var(--scroll-header-progress, 0));
+}
+
+.scroll-header > * {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-header {
+    /* Preserve the fade without the sliding motion. */
+    transform: none;
+  }
+}

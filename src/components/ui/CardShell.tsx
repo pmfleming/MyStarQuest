@@ -74,7 +74,10 @@ const CardShell = forwardRef<HTMLElement, CardShellProps>(function CardShell(
   const isEditing = variant === 'editing'
   const isAdd = variant === 'add'
 
-  const baseStyle: CSSProperties = {
+  const baseStyle: CSSProperties & Record<`--card-${string}`, string> = {
+    '--card-default-utility-width': `${uiTokens.listUtilityActionWidth}px`,
+    '--card-action-gap': `${uiTokens.actionRowGap}px`,
+    '--card-padding': `${uiTokens.listItemPadding}px`,
     width: '100%',
     maxWidth: `${uiTokens.contentMaxWidth}px`,
     boxSizing: 'border-box',

@@ -7,6 +7,7 @@ import tangySweet from '../assets/comic/layers/underwater/tangy-sweet.webp'
 import eclipseDiana from '../assets/comic/layers/underwater/eclipse-diana.webp'
 import hopDoremi from '../assets/comic/layers/underwater/hop-doremi.webp'
 import './storyUnderwater.css'
+import { storyImage as image } from './storyLayerScene'
 
 const scenes: Record<string, { background: string; friends: string }> = {
   '05-rainbow': { background: garden, friends: rainbow },
@@ -21,15 +22,6 @@ export function createUnderwaterScene(host: HTMLElement) {
   const stage = document.createElement('div')
   stage.className = 'underwater-scene'
   stage.setAttribute('aria-hidden', 'true')
-  const image = (src: string, className: string) => {
-    const node = document.createElement('img')
-    node.className = className
-    node.alt = ''
-    node.draggable = false
-    node.decoding = 'async'
-    if (src) node.src = src
-    return node
-  }
   const odette = image('', 'underwater-odette')
   stage.append(odette)
   for (let i = 0; i < 8; i += 1) {

@@ -1,6 +1,27 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { auditPassed, metrics } from './quality-summary.mjs'
+import {
+  artifactNames,
+  auditPassed,
+  comparableArtifacts,
+  metrics,
+} from './quality-summary.mjs'
+
+test('rejects historical metrics from a different or missing analysis identity', () => {
+  const current = Object.fromEntries(
+    artifactNames.map((name) => [
+      name,
+      { analysis_identity: { id: 'current' } },
+    ])
+  )
+  assert.equal(comparableArtifacts(current, structuredClone(current)), true)
+  const previous = structuredClone(current)
+  previous.hotspots.analysis_identity.id = 'old-function-formula'
+  assert.equal(comparableArtifacts(current, previous), false)
+  delete previous.hotspots.analysis_identity
+  assert.equal(comparableArtifacts(current, previous), false)
+  assert.equal(comparableArtifacts({}, {}), false)
+})
 
 test('accepts complete pass/warn verdicts, and rejects blockers or missing evidence', () => {
   const complete = { complete: true, blocking_findings: 0, verdict: 'pass' }

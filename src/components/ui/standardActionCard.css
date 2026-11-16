@@ -1,0 +1,92 @@
+@keyframes whimsical-poof {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotate(45deg);
+    opacity: 0;
+  }
+}
+.whimsical-card-exiting {
+  animation: whimsical-poof 400ms ease-in forwards !important;
+  pointer-events: none;
+}
+.whimsical-btn {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+  cursor: pointer;
+}
+.whimsical-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+}
+.whimsical-btn:active:not(:disabled) {
+  transform: scale(0.92) translateY(4px) !important;
+}
+.whimsical-btn-utility:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+.whimsical-btn-delete:hover:not(:disabled) {
+  background: #fef2f2 !important;
+  color: #ef4444 !important;
+  border-color: #fecaca !important;
+}
+[data-action-theme='princess'] .whimsical-btn-delete:hover:not(:disabled) {
+  background: #fce7f3 !important;
+  color: #831843 !important;
+  border-color: #c76598 !important;
+}
+@keyframes standard-card-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.standard-card-spinner {
+  animation: standard-card-spin 0.8s linear infinite;
+}
+.standard-card-primary-hidden:has(
+    .activity-inline-action,
+    .activity-inline-action-row
+  )
+  :is(.activity-inline-action, .activity-inline-action-row) {
+  width: calc(
+    100% - var(--card-utility-width, var(--card-default-utility-width)) -
+      var(--card-action-gap)
+  ) !important;
+  align-self: flex-start;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.standard-card-primary-hidden:has(
+    .activity-inline-action,
+    .activity-inline-action-row
+  )
+  [data-card-region='footer'] {
+  position: absolute !important;
+  right: var(--card-padding);
+  bottom: var(--card-padding);
+  width: var(--card-utility-width, var(--card-default-utility-width));
+}
+.standard-card-confirming-reset {
+  --card-utility-width: calc(
+    var(--card-default-utility-width) * 2 + var(--card-action-gap)
+  );
+}
+.standard-card-confirming-reset
+  :is(.activity-inline-action, .activity-inline-action-row) {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+@media (prefers-reduced-motion: reduce) {
+  .whimsical-card,
+  .whimsical-card-exiting,
+  .whimsical-btn,
+  .standard-card-spinner {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

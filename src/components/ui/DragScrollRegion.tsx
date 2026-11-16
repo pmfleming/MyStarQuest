@@ -4,6 +4,7 @@ import {
   useState,
   type CSSProperties,
   type ReactNode,
+  type UIEventHandler,
 } from 'react'
 import { uiTokens } from '../../tokens'
 
@@ -15,6 +16,7 @@ type DragScrollRegionProps = {
   as?: 'main' | 'div' | 'section'
   bottomNavPadding?: boolean
   topNavPadding?: boolean
+  onScroll?: UIEventHandler<HTMLDivElement>
 }
 
 type DragState = {
@@ -35,6 +37,7 @@ const DragScrollRegion = ({
   as = 'main',
   bottomNavPadding = false,
   topNavPadding = false,
+  onScroll,
 }: DragScrollRegionProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const [isDragging, setIsDragging] = useState(false)
@@ -161,6 +164,7 @@ const DragScrollRegion = ({
     <ComponentTag className={outerClasses}>
       <div
         ref={scrollRef}
+        onScroll={onScroll}
         className={[
           'app-scroll-region',
           'min-h-0 flex-1',

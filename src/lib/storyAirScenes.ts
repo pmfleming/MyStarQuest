@@ -1,4 +1,8 @@
-import { storyImage } from './storyLayerScene'
+import {
+  syncStoryAnimationVisibility,
+  createStoryLayerScene,
+  storyImage,
+} from './storyLayerScene'
 import sizes from '../assets/comic/layers/air/sizes.json'
 import './storyAirScenes.css'
 
@@ -9,7 +13,7 @@ const assets = import.meta.glob<string>('../assets/comic/layers/air/*.webp', {
 })
 const asset = (name: string) =>
   assets[`../assets/comic/layers/air/${name}.webp`]!
-const dimensions = sizes as Record<string, { width: number; height: number }>
+const dimensions: Record<string, { width: number; height: number }> = sizes
 export const airSceneIds = [
   '37-playground-surprise',
   '38-rainbow-slide',
@@ -39,16 +43,40 @@ type Motion = {
 
 /** Animate independent original cutouts over clean scenery, never the flattened picture. */
 export function createAirScenes(host: HTMLElement) {
-  const stage = document.createElement('div')
-  stage.className = 'air-scene'
-  stage.setAttribute('aria-hidden', 'true')
-  host.append(stage)
   const reduced = matchMedia('(prefers-reduced-motion: reduce)')
-  let generation = 0
   let width = 1448,
     height = 1086
   let motions: Motion[] = []
   let animations: Animation[] = []
+
+  const scene = createStoryLayerScene(host, {
+    className: 'air-scene',
+    panelIds: airSceneIds,
+    build(stage, id) {
+      const size = dimensions[id]!
+      width = size.width
+      height = size.height
+      stage.append(image(id, 'air-background'))
+      const builders = [
+        playground,
+        slide,
+        swings,
+        stones,
+        roundabout,
+        trampolines,
+        bridge,
+      ]
+      builders[airSceneIds.indexOf(id)]!()
+    },
+    onReady: startMotion,
+    onVisibilityChange: () => syncStoryAnimationVisibility(animations),
+    onStop() {
+      animations.forEach((animation) => animation.cancel())
+      animations = []
+      motions = []
+    },
+  })
+  const { stage } = scene
 
   function image(name: string, className: string) {
     return storyImage(asset(name), className)
@@ -373,62 +401,12 @@ export function createAirScenes(host: HTMLElement) {
       animations.push(animation)
     }
   }
-  function stop() {
-    generation++
-    animations.forEach((animation) => animation.cancel())
-    animations = []
-    motions = []
-    stage.replaceChildren()
-    stage.classList.remove('ready')
-    delete stage.dataset.panelId
-  }
-  async function show(id: string) {
-    stop()
-    if (!airSceneIds.includes(id)) return
-    const run = generation
-    const size = dimensions[id]!
-    width = size.width
-    height = size.height
-    stage.dataset.panelId = id
-    stage.append(image(id, 'air-background'))
-    const builders = [
-      playground,
-      slide,
-      swings,
-      stones,
-      roundabout,
-      trampolines,
-      bridge,
-    ]
-    builders[airSceneIds.indexOf(id)]!()
-    try {
-      await Promise.all(
-        [...stage.querySelectorAll('img')].map((image) => image.decode())
-      )
-    } catch {
-      if (run === generation) stop()
-      return
-    }
-    if (run !== generation) return
-    stage.classList.add('ready')
-    startMotion()
-  }
-  const visibility = () =>
-    animations.forEach((animation) => {
-      if (animation.playState === 'finished') return
-      if (document.hidden) animation.pause()
-      else animation.play()
-    })
   reduced.addEventListener('change', startMotion)
-  document.addEventListener('visibilitychange', visibility)
   return {
-    show,
-    stop,
+    ...scene,
     dispose() {
-      stop()
-      stage.remove()
+      scene.dispose()
       reduced.removeEventListener('change', startMotion)
-      document.removeEventListener('visibilitychange', visibility)
     },
   }
 }

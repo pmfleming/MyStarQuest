@@ -1,3 +1,4 @@
+import './standardActionCard.css'
 import { ActionImage } from './ActionArtwork'
 import { useEffect, useState, type ReactNode } from 'react'
 import type { Theme } from '../../contexts/ThemeContext'
@@ -12,10 +13,7 @@ import {
   DefaultActionIcon,
   StandardActionButtons,
 } from './StandardActionButtons'
-import {
-  injectStandardActionStyles,
-  useCardExitAnimation,
-} from './standardActionCardAnimations'
+import { useCardExitAnimation } from './standardActionCardAnimations'
 import type {
   ActionCardContentProps,
   StandardActionListProps,
@@ -331,11 +329,6 @@ const StandardActionList = <T,>({
   hideAdd = false,
   ...cardProps
 }: StandardActionListProps<T>) => {
-  // Inject CSS animations on mount
-  useEffect(() => {
-    injectStandardActionStyles()
-  }, [])
-
   if (isLoading) {
     return (
       <div className="flex flex-col" style={{ width: '100%' }}>

@@ -1,7 +1,7 @@
 /** Decorative images never replace the accessible, static page underneath. */
 export function storyImage(src: string, className: string) {
   const image = document.createElement('img')
-  image.src = src
+  if (src) image.src = src
   image.alt = ''
   image.draggable = false
   image.decoding = 'async'
@@ -9,14 +9,25 @@ export function storyImage(src: string, className: string) {
   return image
 }
 
+export function syncStoryAnimationVisibility(animations: Animation[]) {
+  for (const animation of animations) {
+    if (animation.playState === 'finished') continue
+    if (document.hidden) animation.pause()
+    else animation.play()
+  }
+}
+
 type LayerScene = {
   className: string
   panelIds: readonly string[]
   build: (stage: HTMLElement, id: string) => void
   entrance?: string
+  onReady?: () => void
+  onStop?: () => void
+  onVisibilityChange?: () => void
 }
 
-/** Own loading, cancellation and visibility once for CSS-animated story layers. */
+/** Own loading, cancellation and visibility for CSS and WAAPI story layers. */
 export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
   const stage = document.createElement('div')
   stage.className = scene.className
@@ -30,6 +41,7 @@ export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
 
   function stop() {
     generation++
+    scene.onStop?.()
     observer?.disconnect()
     observer = undefined
     stage.className = scene.className
@@ -46,6 +58,7 @@ export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
 
   function visibility() {
     stage.classList.toggle('paused', document.hidden)
+    scene.onVisibilityChange?.()
   }
 
   async function show(id: string) {
@@ -59,12 +72,14 @@ export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
         [...stage.querySelectorAll('img')].map((image) => image.decode())
       )
     } catch {
+      // A stale failure must not stop the replacement scene.
       if (run === generation) stop()
       return
     }
     if (run !== generation) return
     stage.classList.add('ready')
     visibility()
+    scene.onReady?.()
     if (scene.entrance) {
       observer = new MutationObserver(startEntrance)
       observer.observe(surface, {
@@ -77,6 +92,7 @@ export function createStoryLayerScene(host: HTMLElement, scene: LayerScene) {
 
   document.addEventListener('visibilitychange', visibility)
   return {
+    stage,
     show,
     stop,
     dispose() {

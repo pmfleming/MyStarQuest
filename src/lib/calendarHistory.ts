@@ -48,9 +48,13 @@ export function buildCalendarHistory(
   rewards: HistoryDocument[],
   timeZone: string
 ): CalendarHistoryEntry[] {
-  const choreMap = new Map(chores.map((item) => [item.id, item.data]))
-  const testMap = new Map(tests.map((item) => [item.id, item.data]))
-  const rewardMap = new Map(rewards.map((item) => [item.id, item.data]))
+  const index = (items: HistoryDocument[]) =>
+    new Map(items.map(({ id, data }) => [id, data]))
+  const definitions = {
+    chores: index(chores),
+    tests: index(tests),
+    rewards: index(rewards),
+  }
   return [
     ...events.map((item) => ({ ...item, reward: false })),
     ...redemptions.map((item) => ({ ...item, reward: true })),
@@ -59,18 +63,14 @@ export function buildCalendarHistory(
       const taskId = text(data.taskId)
       const kind: HistoryKind = reward
         ? 'rewards'
-        : data.taskCollection === 'tests' ||
-            (!data.taskCollection && testMap.has(taskId))
-          ? 'tests'
-          : data.taskCollection === 'chores' ||
-              (!data.taskCollection && choreMap.has(taskId))
-            ? 'chores'
-            : 'activity'
-      const definition = reward
-        ? rewardMap.get(text(data.rewardId))
-        : kind === 'tests'
-          ? testMap.get(taskId)
-          : choreMap.get(taskId)
+        : ((['tests', 'chores'] as const).find((collection) =>
+            data.taskCollection
+              ? data.taskCollection === collection
+              : definitions[collection].has(taskId)
+          ) ?? 'activity')
+      const definition = definitions[kind === 'activity' ? 'chores' : kind].get(
+        reward ? text(data.rewardId) : taskId
+      )
       const date = asDate(data.occurredAt) ?? asDate(data.createdAt)
       const storedDay = text(data.dateKey)
       const dateKey =

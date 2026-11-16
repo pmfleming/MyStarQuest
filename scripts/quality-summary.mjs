@@ -10,6 +10,14 @@ export const artifactNames = [
   'lint_health',
 ]
 
+// Schema/package versions alone do not identify metric formulas. For example,
+// Lens 0.3.0 changed from overlapping bodies to exclusive function metrics.
+export const comparableArtifacts = (current, previous) =>
+  artifactNames.every((name) => {
+    const identity = current[name]?.analysis_identity?.id
+    return identity && identity === previous[name]?.analysis_identity?.id
+  })
+
 export function metrics(artifacts) {
   const records = artifacts.hotspots.records
   const sumSignal = (kind, files) =>
@@ -49,25 +57,24 @@ export function writeComparison(root, base, mode, audit) {
   )
   let before = null
   try {
-    before = metrics(
-      Object.fromEntries(
-        artifactNames.map((name) => [
-          name,
-          JSON.parse(
-            execFileSync(
-              'git',
-              ['show', `${base}:target/analysis/${name}.json`],
-              {
-                cwd: root,
-                encoding: 'utf8',
-                stdio: ['ignore', 'pipe', 'ignore'],
-                maxBuffer: 32 * 1024 * 1024,
-              }
-            )
-          ),
-        ])
-      )
+    const previous = Object.fromEntries(
+      artifactNames.map((name) => [
+        name,
+        JSON.parse(
+          execFileSync(
+            'git',
+            ['show', `${base}:target/analysis/${name}.json`],
+            {
+              cwd: root,
+              encoding: 'utf8',
+              stdio: ['ignore', 'pipe', 'ignore'],
+              maxBuffer: 32 * 1024 * 1024,
+            }
+          )
+        ),
+      ])
     )
+    if (comparableArtifacts(current, previous)) before = metrics(previous)
   } catch {
     /* Initial adoption may have no committed measurements. */
   }
@@ -77,7 +84,7 @@ export function writeComparison(root, base, mode, audit) {
     mode,
     verdict: audit.summary.verdict,
     methodology:
-      'Baseline uses committed Lens artifacts at the merge base; current uses this run. Complexity/effort sum callables; lines sum files; locality/leverage sum risk scores (lower is better). Aggregates are comparison aids, not additional Lens scores.',
+      'Baseline uses committed merge-base artifacts only when all analysis identities match this run; otherwise it is unavailable. Complexity/effort sum callables; lines sum files; locality/leverage sum risk scores (lower is better). Aggregates are comparison aids, not additional Lens scores.',
     before,
     after,
     delta: before

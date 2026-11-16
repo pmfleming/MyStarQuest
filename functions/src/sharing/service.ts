@@ -6,6 +6,7 @@ import {
   type Firestore,
   type Transaction,
   type DocumentSnapshot,
+  type DocumentReference,
 } from 'firebase-admin/firestore'
 import { HttpsError } from 'firebase-functions/v2/https'
 import {
@@ -26,7 +27,13 @@ import {
   storedNumber,
   type ChildScope,
   type SharedReceipt,
+  type SharedAction,
+  type SharedOperation,
 } from './protocol'
+
+const precondition = (message: string): never => {
+  throw new HttpsError('failed-precondition', message)
+}
 
 type DocumentData = Record<string, unknown>
 const dataOf = (snapshot: DocumentSnapshot): DocumentData | undefined =>
@@ -147,10 +154,7 @@ export class SharingService {
         dataOf(owner)?.sharingMigrationChild &&
         dataOf(owner)?.sharingMigrationChild !== childId
       )
-        throw new HttpsError(
-          'failed-precondition',
-          'Finish the other child migration first.'
-        )
+        precondition('Finish the other child migration first.')
       if (!dryRun && child.sharedDataVersion !== 1) {
         if (storedNumber(child, 'sharingMigrationLeaseUntil') > this.now())
           throw new HttpsError(
@@ -291,8 +295,7 @@ export class SharingService {
         continue
       const path = `users/${ownerUid}/tests/default-${type}-${childId}`
       if ((await this.db.doc(path).get()).exists)
-        throw new HttpsError(
-          'failed-precondition',
+        precondition(
           'A default test identifier is already in use. Resolve it before resuming migration.'
         )
       writes.push([
@@ -371,10 +374,7 @@ export class SharingService {
         true
       )
       if (child.sharedDataVersion !== 1)
-        throw new HttpsError(
-          'failed-precondition',
-          'Enable shared progress for this child first.'
-        )
+        precondition('Enable shared progress for this child first.')
       const [oldInvite, oldJob, parents, rate] = await Promise.all([
         tx.get(invitation),
         tx.get(job),
@@ -489,8 +489,7 @@ export class SharingService {
       )
         return accepted
       if (data.state !== 'pending' || Number(data.expiresAt) <= this.now())
-        throw new HttpsError(
-          'failed-precondition',
+        precondition(
           'This invitation has expired or was cancelled. Ask the admin for a new invitation.'
         )
       const version = storedNumber(dataOf(membership), 'membershipVersion') + 1
@@ -586,10 +585,7 @@ export class SharingService {
         scope.membershipVersion
       )
       if (child.sharedDataVersion !== 1)
-        throw new HttpsError(
-          'failed-precondition',
-          'This child is not ready for sharing.'
-        )
+        precondition('This child is not ready for sharing.')
       const receiptRef = ref
         .collection('operationReceipts')
         .doc(hash(`${caller.uid}/${scope.membershipVersion}/${operation.id}`))
@@ -614,262 +610,23 @@ export class SharingService {
         entity.childId !== childId
       )
         deny()
-      let result: SharedReceipt
-      if (action.kind === 'document') {
-        if (
-          action.collection === 'children' &&
-          (action.mode !== 'patch' || !admin)
-        )
-          deny('Only the admin can change child settings.')
-        const tombstone = await tx.get(
-          ref
-            .collection('deletedActivities')
-            .doc(hash(`${collection}/${action.entityId}`))
-        )
-        if (tombstone.exists && action.mode !== 'delete')
-          throw new HttpsError(
-            'failed-precondition',
-            'This activity was deleted. Create a new activity instead.'
-          )
-        if (action.mode === 'put' && entity)
-          throw new HttpsError(
-            'already-exists',
-            'This activity already exists. Refresh before editing.'
-          )
-        if (action.mode === 'patch' && !entity)
-          throw new HttpsError('not-found', 'This item was deleted.')
-        const patch = documentPatch(collection, action.data, childId, admin)
-        if (
-          entity?.taskType &&
-          patch.taskType &&
-          patch.taskType !== entity.taskType
-        )
-          fail('An activity type cannot be changed.')
-        const document: DocumentData | null =
-          action.mode === 'delete'
-            ? null
-            : {
-                ...entity,
-                ...patch,
-                ...(action.mode === 'put' ? { createdAt: time, childId } : {}),
-                offlineRevision: storedNumber(entity, 'offlineRevision') + 1,
-              }
-        if (
-          document &&
-          ['chores', 'tests'].includes(collection) &&
-          (!document.taskType || document.childId !== childId)
-        )
-          fail('An activity needs a type and a child.')
-        if (collection === 'children' && document)
-          document.offlineBalanceRevision =
-            storedNumber(child, 'offlineBalanceRevision') + 1
-        if (document) tx.set(entityRef, document)
-        else {
-          tx.delete(entityRef)
-          tx.set(tombstone.ref, { deletedAt: time, actorUid: caller.uid })
-        }
-        result = { collection, entityId: action.entityId, document }
-      } else {
-        if (!entity)
-          throw new HttpsError(
-            'not-found',
-            'This activity or reward no longer exists.'
-          )
-        const before = Math.max(0, Number(child.totalStars) || 0)
-        let delta = 0
-        result = {
-          collection: 'children',
-          entityId: childId,
-          document: null,
-          starsBefore: before,
-        }
-        if (action.kind === 'redeem') {
-          const cost = Number(entity.costStars)
-          if (!Number.isFinite(cost) || cost < 0 || before < cost)
-            throw new HttpsError(
-              'failed-precondition',
-              'Not enough stars for this reward.'
-            )
-          delta = -cost
-          if (entity.isRepeating !== true) {
-            tx.delete(entityRef)
-            result.removed = {
-              collection: 'rewards',
-              entityId: action.entityId,
-            }
-          }
-          result.title = String(entity.title)
-          const history = {
-            rewardId: action.entityId,
-            title: entity.title,
-            imageKey: String(entity.imageKey ?? ''),
-            occurredAt: operation.occurredAt,
-            operationId: operation.id,
-            costStars: cost,
-            childId,
-            actorUid: caller.uid,
-            createdAt: time,
-          }
-          tx.set(ref.collection('redemptions').doc(receiptRef.id), history)
-          result.history = {
-            collection: 'redemptions',
-            id: operation.id,
-            data: history,
-          }
-        } else {
-          const occurred = Number(operation.occurredAt)
-          if (
-            occurred > time + 300_000 ||
-            occurred < Number(child.sharedAt) - 300_000 ||
-            occurred < time - 30 * 86400_000 ||
-            action.dateKey !==
-              sharedDateKey(occurred, String(child.timeZone ?? 'Europe/London'))
-          )
-            fail('Invalid activity day. Refresh this child.')
-          const key = progressKey(collection, action.entityId, action.dateKey)
-          const progressRef = ref.collection('activityProgress').doc(key)
-          const prior: DocumentData | undefined = (
-            await tx.get(progressRef)
-          ).data()
-          const consumptionRef = ref
-            .collection('activityConsumptions')
-            .doc(hash(`${collection}/${action.entityId}`))
-          const consumption =
-            entity.isRepeating !== true
-              ? await tx.get(consumptionRef)
-              : undefined
-          if (
-            consumption?.exists &&
-            !action.reset &&
-            dataOf(consumption)?.dateKey !== action.dateKey
-          )
-            throw new HttpsError(
-              'failed-precondition',
-              'This one-time activity was already completed.'
-            )
-          const generation = storedNumber(prior, 'generation')
-          if (action.generation !== generation)
-            throw new HttpsError(
-              'failed-precondition',
-              'This activity was reset. Your older change was not applied.'
-            )
-          if (action.reset && !admin) deny('Only the admin can reset progress.')
-          const clean = activityPatch(
-            action.patch,
-            String(entity.taskType),
-            time,
-            action.dateKey,
-            occurred
-          )
-          const finishedField = completedFields[String(entity.taskType)]
-          if (
-            !action.reset &&
-            (clean[finishedField] === null || clean.lastAttemptedAt === null)
-          )
-            deny('Use an admin reset to clear saved progress.')
-          const alreadyComplete = prior?.complete === true
-          if (
-            !action.complete &&
-            !action.reset &&
-            !alreadyComplete &&
-            action.revision !== storedNumber(prior, 'revision')
-          )
-            throw new HttpsError(
-              'failed-precondition',
-              'Another parent updated this activity. Refresh before changing it.'
-            )
-          let patch: Record<string, unknown> = {
-            ...(prior?.patch ?? {}),
-            ...clean,
-          }
-          if (action.reset) patch = {}
-          else if (alreadyComplete) patch = record(prior?.patch ?? {})
-          else if (action.complete) {
-            delta = awardFor(entity, patch)
-            patch[finishedField] = time
-            if (collection === 'tests')
-              Object.assign(patch, {
-                lastAttemptedAt: time,
-                lastAttemptDateKey: action.dateKey,
-                lastAttemptOutcome: 'success',
-              })
-          }
-          const failure =
-            !action.reset &&
-            (patch.lastAttemptOutcome === 'failure' ||
-              Object.entries(patch).some(
-                ([key, value]) =>
-                  key.endsWith('LastOutcome') && value === 'failure'
-              ))
-          const progress = {
-            childId,
-            collection,
-            entityId: action.entityId,
-            dateKey: action.dateKey,
-            generation: generation + (action.reset ? 1 : 0),
-            revision: storedNumber(prior, 'revision') + 1,
-            complete:
-              !action.reset &&
-              (alreadyComplete ||
-                action.complete ||
-                failure ||
-                typeof patch[finishedField] === 'number'),
-            patch,
-            consumed:
-              !action.reset &&
-              (Boolean(prior?.consumed) ||
-                (action.complete && entity.isRepeating !== true)),
-            actorUid: caller.uid,
-            updatedAt: time,
-          }
-          if (action.reset && consumption?.exists) tx.delete(consumptionRef)
-          else if (action.complete && entity.isRepeating !== true)
-            tx.set(consumptionRef, {
-              dateKey: action.dateKey,
-              completedAt: time,
-            })
-          tx.set(progressRef, progress)
-          result.progress = progress
-          result.progressKey = key
-          if (action.complete && !alreadyComplete) {
-            const history = {
-              childId,
-              taskId: action.entityId,
-              taskCollection: collection,
-              taskTitle: String(entity.title ?? ''),
-              taskType: String(entity.taskType ?? ''),
-              imageKey: String(entity.imageKey ?? ''),
-              outcome: 'success',
-              occurredAt: operation.occurredAt,
-              operationId: operation.id,
-              dateKey: action.dateKey,
-              delta: Math.max(-before, delta),
-              actorUid: caller.uid,
-              createdAt: time,
-            }
-            tx.set(ref.collection('starEvents').doc(receiptRef.id), history)
-            result.history = {
-              collection: 'starEvents',
-              id: operation.id,
-              data: history,
-            }
-          }
-        }
-        const after = Math.max(0, before + delta)
-        const document = {
-          ...child,
-          totalStars: after,
-          offlineBalanceRevision:
-            storedNumber(child, 'offlineBalanceRevision') + 1,
-          offlineDeviceSequences: {
-            ...(child.offlineDeviceSequences ?? {}),
-            [operation.deviceId]: operation.sequence,
-          },
-        }
-        tx.set(ref, document)
-        result.document = document
-        result.appliedDelta = after - before
+      const context: MutationContext = {
+        tx,
+        ref,
+        child,
+        childId,
+        admin,
+        caller,
+        time,
+        operation,
+        entityRef,
+        entity,
+        receiptRef,
       }
+      let result =
+        action.kind === 'document'
+          ? await editDocument(context, action)
+          : await updateBalance(context, action)
       result = wireValue(result) as SharedReceipt
       tx.set(receiptRef, {
         actorUid: caller.uid,
@@ -913,4 +670,279 @@ export class SharingService {
     for (const invitation of invitations.docs)
       await invitation.ref.update({ state: 'revoked', revokedAt: this.now() })
   }
+}
+
+type MutationContext = {
+  tx: Transaction
+  ref: DocumentReference
+  child: DocumentData
+  childId: string
+  admin: boolean
+  caller: Caller
+  time: number
+  operation: SharedOperation
+  entityRef: DocumentReference
+  entity: DocumentData | undefined
+  receiptRef: DocumentReference
+}
+
+async function editDocument(
+  context: MutationContext,
+  action: Extract<SharedAction, { kind: 'document' }>
+): Promise<SharedReceipt> {
+  const { tx, ref, child, childId, admin, caller, time, entityRef, entity } =
+    context
+  const collection = action.collection
+  if (action.collection === 'children' && (action.mode !== 'patch' || !admin))
+    deny('Only the admin can change child settings.')
+  const tombstone = await tx.get(
+    ref
+      .collection('deletedActivities')
+      .doc(hash(`${collection}/${action.entityId}`))
+  )
+  if (tombstone.exists && action.mode !== 'delete')
+    precondition('This activity was deleted. Create a new activity instead.')
+  if (action.mode === 'put' && entity)
+    throw new HttpsError(
+      'already-exists',
+      'This activity already exists. Refresh before editing.'
+    )
+  if (action.mode === 'patch' && !entity)
+    throw new HttpsError('not-found', 'This item was deleted.')
+  const patch = documentPatch(collection, action.data, childId, admin)
+  if (entity?.taskType && patch.taskType && patch.taskType !== entity.taskType)
+    fail('An activity type cannot be changed.')
+  const document: DocumentData | null =
+    action.mode === 'delete'
+      ? null
+      : {
+          ...entity,
+          ...patch,
+          ...(action.mode === 'put' ? { createdAt: time, childId } : {}),
+          offlineRevision: storedNumber(entity, 'offlineRevision') + 1,
+        }
+  if (
+    document &&
+    ['chores', 'tests'].includes(collection) &&
+    (!document.taskType || document.childId !== childId)
+  )
+    fail('An activity needs a type and a child.')
+  if (collection === 'children' && document)
+    document.offlineBalanceRevision =
+      storedNumber(child, 'offlineBalanceRevision') + 1
+  if (document) tx.set(entityRef, document)
+  else {
+    tx.delete(entityRef)
+    tx.set(tombstone.ref, { deletedAt: time, actorUid: caller.uid })
+  }
+  return { collection, entityId: action.entityId, document }
+}
+
+function redeemReward(
+  context: MutationContext,
+  action: Extract<SharedAction, { kind: 'redeem' }>,
+  entity: DocumentData,
+  result: SharedReceipt,
+  before: number
+) {
+  const { tx, entityRef } = context
+  const cost = Number(entity.costStars)
+  if (!Number.isFinite(cost) || cost < 0 || before < cost)
+    precondition('Not enough stars for this reward.')
+  if (entity.isRepeating !== true) {
+    tx.delete(entityRef)
+    result.removed = {
+      collection: 'rewards',
+      entityId: action.entityId,
+    }
+  }
+  result.title = String(entity.title)
+  result.history = writeHistory(context, 'redemptions', {
+    rewardId: action.entityId,
+    title: entity.title,
+    imageKey: String(entity.imageKey ?? ''),
+    costStars: cost,
+  })
+  return -cost
+}
+
+async function updateActivity(
+  context: MutationContext,
+  action: Extract<SharedAction, { kind: 'activity' }>,
+  entity: DocumentData,
+  result: SharedReceipt,
+  before: number
+) {
+  const { tx, ref, child, childId, admin, caller, time, operation } = context
+  const collection = action.collection
+  let delta = 0
+  const occurred = Number(operation.occurredAt)
+  if (
+    occurred > time + 300_000 ||
+    occurred < Number(child.sharedAt) - 300_000 ||
+    occurred < time - 30 * 86400_000 ||
+    action.dateKey !==
+      sharedDateKey(occurred, String(child.timeZone ?? 'Europe/London'))
+  )
+    fail('Invalid activity day. Refresh this child.')
+  const key = progressKey(collection, action.entityId, action.dateKey)
+  const progressRef = ref.collection('activityProgress').doc(key)
+  const prior: DocumentData | undefined = (await tx.get(progressRef)).data()
+  const consumptionRef = ref
+    .collection('activityConsumptions')
+    .doc(hash(`${collection}/${action.entityId}`))
+  const consumption =
+    entity.isRepeating !== true ? await tx.get(consumptionRef) : undefined
+  if (
+    consumption?.exists &&
+    !action.reset &&
+    dataOf(consumption)?.dateKey !== action.dateKey
+  )
+    precondition('This one-time activity was already completed.')
+  const generation = storedNumber(prior, 'generation')
+  if (action.generation !== generation)
+    precondition('This activity was reset. Your older change was not applied.')
+  if (action.reset && !admin) deny('Only the admin can reset progress.')
+  const clean = activityPatch(
+    action.patch,
+    String(entity.taskType),
+    time,
+    action.dateKey,
+    occurred
+  )
+  const finishedField = completedFields[String(entity.taskType)]
+  if (
+    !action.reset &&
+    (clean[finishedField] === null || clean.lastAttemptedAt === null)
+  )
+    deny('Use an admin reset to clear saved progress.')
+  const alreadyComplete = prior?.complete === true
+  if (
+    !action.complete &&
+    !action.reset &&
+    !alreadyComplete &&
+    action.revision !== storedNumber(prior, 'revision')
+  )
+    precondition(
+      'Another parent updated this activity. Refresh before changing it.'
+    )
+  let patch: Record<string, unknown> = {
+    ...(prior?.patch ?? {}),
+    ...clean,
+  }
+  if (action.reset) patch = {}
+  else if (alreadyComplete) patch = record(prior?.patch ?? {})
+  else if (action.complete) {
+    delta = awardFor(entity, patch)
+    patch[finishedField] = time
+    if (collection === 'tests')
+      Object.assign(patch, {
+        lastAttemptedAt: time,
+        lastAttemptDateKey: action.dateKey,
+        lastAttemptOutcome: 'success',
+      })
+  }
+  const failure =
+    !action.reset &&
+    (patch.lastAttemptOutcome === 'failure' ||
+      Object.entries(patch).some(
+        ([key, value]) => key.endsWith('LastOutcome') && value === 'failure'
+      ))
+  const progress = {
+    childId,
+    collection,
+    entityId: action.entityId,
+    dateKey: action.dateKey,
+    generation: generation + (action.reset ? 1 : 0),
+    revision: storedNumber(prior, 'revision') + 1,
+    complete:
+      !action.reset &&
+      (alreadyComplete ||
+        action.complete ||
+        failure ||
+        typeof patch[finishedField] === 'number'),
+    patch,
+    consumed:
+      !action.reset &&
+      (Boolean(prior?.consumed) ||
+        (action.complete && entity.isRepeating !== true)),
+    actorUid: caller.uid,
+    updatedAt: time,
+  }
+  if (action.reset && consumption?.exists) tx.delete(consumptionRef)
+  else if (action.complete && entity.isRepeating !== true)
+    tx.set(consumptionRef, {
+      dateKey: action.dateKey,
+      completedAt: time,
+    })
+  tx.set(progressRef, progress)
+  result.progress = progress
+  result.progressKey = key
+  if (action.complete && !alreadyComplete) {
+    result.history = writeHistory(context, 'starEvents', {
+      taskId: action.entityId,
+      taskCollection: collection,
+      taskTitle: String(entity.title ?? ''),
+      taskType: String(entity.taskType ?? ''),
+      imageKey: String(entity.imageKey ?? ''),
+      outcome: 'success',
+      dateKey: action.dateKey,
+      delta: Math.max(-before, delta),
+    })
+  }
+  return delta
+}
+
+function writeHistory(
+  { tx, ref, childId, caller, time, operation, receiptRef }: MutationContext,
+  collection: 'starEvents' | 'redemptions',
+  details: DocumentData
+) {
+  const data = {
+    ...details,
+    childId,
+    actorUid: caller.uid,
+    createdAt: time,
+    occurredAt: operation.occurredAt,
+    operationId: operation.id,
+  }
+  tx.set(ref.collection(collection).doc(receiptRef.id), data)
+  return { collection, id: operation.id, data }
+}
+
+async function updateBalance(
+  context: MutationContext,
+  action: Exclude<SharedAction, { kind: 'document' }>
+): Promise<SharedReceipt> {
+  const { tx, ref, child, childId, operation, entity } = context
+  if (!entity)
+    throw new HttpsError(
+      'not-found',
+      'This activity or reward no longer exists.'
+    )
+  const before = Math.max(0, Number(child.totalStars) || 0)
+  const result: SharedReceipt = {
+    collection: 'children',
+    entityId: childId,
+    document: null,
+    starsBefore: before,
+  }
+  const delta =
+    action.kind === 'redeem'
+      ? redeemReward(context, action, entity, result, before)
+      : await updateActivity(context, action, entity, result, before)
+  const after = Math.max(0, before + delta)
+  const document = {
+    ...child,
+    totalStars: after,
+    offlineBalanceRevision: storedNumber(child, 'offlineBalanceRevision') + 1,
+    offlineDeviceSequences: {
+      ...(child.offlineDeviceSequences ?? {}),
+      [operation.deviceId]: operation.sequence,
+    },
+  }
+  tx.set(ref, document)
+  result.document = document
+  result.appliedDelta = after - before
+  return result
 }

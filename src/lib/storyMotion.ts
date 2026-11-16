@@ -162,16 +162,44 @@ export function animateStorySurface(
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
   )
     return null
+  const bezel = '0 0 0 12px #1a1a2e, 0 0 0 14px #333'
+  const noBezel = '0 0 0 0px #1a1a2e00, 0 0 0 0px #3330'
   const book = {
     left: 0,
     top: 0,
     ...viewportSize(),
     radius: 0,
   }
-  const phone = phoneBounds(frame, book.width, book.height)
-  const opening = direction === 'open'
-  const start = opening ? phone : (current ?? book)
-  const end = opening ? book : phone
+  const phoneGeometry = phoneBounds(frame, book.width, book.height)
+  const phone = {
+    ...phoneGeometry,
+    opacity: 0,
+    snapshotOpacity: 1,
+    shadow: bezel,
+    stageScale: Math.min(
+      phoneGeometry.width / book.width,
+      phoneGeometry.height / book.height
+    ),
+  }
+  const expanded = {
+    ...book,
+    opacity: 1,
+    snapshotOpacity: 0,
+    shadow: noBezel,
+    stageScale: 1,
+  }
+  const start =
+    direction === 'open'
+      ? phone
+      : {
+          ...(current ?? book),
+          opacity: current?.opacity ?? 1,
+          snapshotOpacity: current?.snapshotOpacity ?? 0,
+          shadow: current?.shadow ?? getComputedStyle(dialog).boxShadow,
+          stageScale: current?.stageScale ?? 1,
+        }
+  const end = direction === 'open' ? expanded : phone
+  const frames = [start, end]
   const stage = dialog.querySelector<HTMLElement>('.story-stage')
   const stageStyle = stage?.getAttribute('style') ?? null
   let stageTransform = (scale: number) =>
@@ -205,26 +233,15 @@ export function animateStorySurface(
     easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
     fill: 'both',
   }
-  const bezel = '0 0 0 12px #1a1a2e, 0 0 0 14px #333'
-  const noBezel = '0 0 0 0px #1a1a2e00, 0 0 0 0px #3330'
-  const geometry = (bounds: StorySurfaceBounds, shadow: string): Keyframe => ({
-    left: `${bounds.left}px`,
-    top: `${bounds.top}px`,
-    width: `${bounds.width}px`,
-    height: `${bounds.height}px`,
-    borderRadius: `${bounds.radius}px`,
-    boxShadow: shadow,
-  })
   const surface = dialog.animate(
-    [
-      geometry(
-        start,
-        opening
-          ? bezel
-          : (current?.shadow ?? getComputedStyle(dialog).boxShadow)
-      ),
-      geometry(end, opening ? noBezel : bezel),
-    ],
+    frames.map((bounds) => ({
+      left: `${bounds.left}px`,
+      top: `${bounds.top}px`,
+      width: `${bounds.width}px`,
+      height: `${bounds.height}px`,
+      borderRadius: `${bounds.radius}px`,
+      boxShadow: bounds.shadow,
+    })),
     options
   )
   surface.id = `story-book-${direction}`
@@ -232,49 +249,26 @@ export function animateStorySurface(
   if (stage)
     animations.push(
       stage.animate(
-        [
-          {
-            opacity: opening ? 0 : (current?.opacity ?? 1),
-            transform: stageTransform(
-              opening
-                ? Math.min(start.width / book.width, start.height / book.height)
-                : (current?.stageScale ?? 1)
-            ),
-          },
-          {
-            opacity: opening ? 1 : 0,
-            transform: stageTransform(
-              opening
-                ? 1
-                : Math.min(end.width / book.width, end.height / book.height)
-            ),
-          },
-        ],
+        frames.map((bounds) => ({
+          opacity: bounds.opacity,
+          transform: stageTransform(bounds.stageScale),
+        })),
         options
       )
     )
-  if (snapshot) {
+  if (snapshot)
     animations.push(
       snapshot.host.animate(
-        [
-          { opacity: opening ? 1 : (current?.snapshotOpacity ?? 0) },
-          { opacity: opening ? 0 : 1 },
-        ],
+        frames.map((bounds) => ({ opacity: bounds.snapshotOpacity })),
         options
-      )
-    )
-    const scale = (bounds: StorySurfaceBounds) =>
-      Math.min(bounds.width / frame.width, bounds.height / frame.height)
-    animations.push(
+      ),
       snapshot.copy.animate(
-        [
-          { transform: `translate(-50%, -50%) scale(${scale(start)})` },
-          { transform: `translate(-50%, -50%) scale(${scale(end)})` },
-        ],
+        frames.map((bounds) => ({
+          transform: `translate(-50%, -50%) scale(${Math.min(bounds.width / frame.width, bounds.height / frame.height)})`,
+        })),
         options
       )
     )
-  }
   return {
     finished: Promise.all(
       animations.map((animation) => animation.finished)

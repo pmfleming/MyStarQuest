@@ -18,10 +18,10 @@ export type DinosaurFlightLayout = {
 }
 
 export const dinosaurFlightLayouts = layout as DinosaurFlightLayout[]
-const layers = import.meta.glob(
+const layers = import.meta.glob<string>(
   '../assets/comic/layers/rainbowasaurus-flight/*.webp',
   { eager: true, query: '?url', import: 'default' }
-) as Record<string, string>
+)
 
 export function dinosaurFlightAsset(name: string) {
   return layers[`../assets/comic/layers/rainbowasaurus-flight/${name}.webp`]!

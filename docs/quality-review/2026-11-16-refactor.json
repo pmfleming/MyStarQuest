@@ -1,0 +1,369 @@
+{
+  "lens": {
+    "version": "0.3.0",
+    "commit": "8e8349c19fa22b1971bca3689d2712b5fdeebcd0",
+    "verified_main": "2026-11-16"
+  },
+  "methodology": "Fresh working-tree baseline including prior changes. Same Lens revision and unchanged measurement config for both runs, gate all with empty base. Complexity/effort sum exclusive callable signals; lines sum file signals; locality/leverage sum module risk scores (lower is better). Aggregates are comparison aids, not official global Lens scores. Physical counts include CSS/tests/scripts/Java and exclude the phantom final line after a trailing newline; reports and artwork excluded.",
+  "scopes": {
+    "frontend": {
+      "before": {
+        "source_lines": 40487,
+        "cognitive_complexity": 3437,
+        "cyclomatic_complexity": 5414,
+        "halstead_effort": 10345759,
+        "clone_groups": 7,
+        "locality_risk": 14192,
+        "leverage_risk": 608,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 40250,
+        "cognitive_complexity": 3366,
+        "cyclomatic_complexity": 5365,
+        "halstead_effort": 10085702,
+        "clone_groups": 2,
+        "locality_risk": 14174,
+        "leverage_risk": 572,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": -237,
+        "cognitive_complexity": -71,
+        "cyclomatic_complexity": -49,
+        "halstead_effort": -260057,
+        "clone_groups": -5,
+        "locality_risk": -18,
+        "leverage_risk": -36,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "warn",
+        "verification_failures": [],
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 4723,
+        "active_findings": 71,
+        "introduced_findings": 4723,
+        "inherited_findings": 0,
+        "high_risk_findings": 458,
+        "blocking_findings": 0,
+        "warning_findings": 71,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    },
+    "functions": {
+      "before": {
+        "source_lines": 2091,
+        "cognitive_complexity": 459,
+        "cyclomatic_complexity": 464,
+        "halstead_effort": 496825,
+        "clone_groups": 0,
+        "locality_risk": 222,
+        "leverage_risk": 72,
+        "lint_blockers": 0
+      },
+      "after": {
+        "source_lines": 2123,
+        "cognitive_complexity": 413,
+        "cyclomatic_complexity": 470,
+        "halstead_effort": 592348,
+        "clone_groups": 0,
+        "locality_risk": 222,
+        "leverage_risk": 72,
+        "lint_blockers": 0
+      },
+      "delta": {
+        "source_lines": 32,
+        "cognitive_complexity": -46,
+        "cyclomatic_complexity": 6,
+        "halstead_effort": 95523,
+        "clone_groups": 0,
+        "locality_risk": 0,
+        "leverage_risk": 0,
+        "lint_blockers": 0
+      },
+      "audit": {
+        "verdict": "pass",
+        "verification_failures": [],
+        "complete": true,
+        "incomplete_reasons": [],
+        "gate": "all",
+        "base": null,
+        "changed_files": 0,
+        "changed_hunks": 0,
+        "base_snapshot_available": false,
+        "base_snapshot_compatible": null,
+        "findings": 197,
+        "active_findings": 0,
+        "introduced_findings": 197,
+        "inherited_findings": 0,
+        "high_risk_findings": 22,
+        "blocking_findings": 0,
+        "warning_findings": 0,
+        "baseline_suppressed": 0,
+        "config_suppressed": 0,
+        "stale_suppressions": 0
+      }
+    }
+  },
+  "totals": {
+    "before": {
+      "source_lines": 42578,
+      "cognitive_complexity": 3896,
+      "cyclomatic_complexity": 5878,
+      "halstead_effort": 10842584,
+      "clone_groups": 7,
+      "locality_risk": 14414,
+      "leverage_risk": 680,
+      "lint_blockers": 0
+    },
+    "after": {
+      "source_lines": 42373,
+      "cognitive_complexity": 3779,
+      "cyclomatic_complexity": 5835,
+      "halstead_effort": 10678050,
+      "clone_groups": 2,
+      "locality_risk": 14396,
+      "leverage_risk": 644,
+      "lint_blockers": 0
+    },
+    "delta": {
+      "source_lines": -205,
+      "cognitive_complexity": -117,
+      "cyclomatic_complexity": -43,
+      "halstead_effort": -164534,
+      "clone_groups": -5,
+      "locality_risk": -18,
+      "leverage_risk": -36,
+      "lint_blockers": 0
+    }
+  },
+  "physical_lines": {
+    "src/": {
+      "before": 45151,
+      "after": 45064,
+      "delta": -87
+    },
+    "functions/src/": {
+      "before": 2091,
+      "after": 2123,
+      "delta": 32
+    },
+    "tests/": {
+      "before": 12351,
+      "after": 12374,
+      "delta": 23
+    },
+    "scripts/": {
+      "before": 1638,
+      "after": 1681,
+      "delta": 43
+    },
+    "android/app/src/": {
+      "before": 435,
+      "after": 435,
+      "delta": 0
+    }
+  },
+  "physical_total_delta": 11,
+  "changed_files": [
+    {
+      "file": "functions/src/sharing/service.ts",
+      "before_sha256": "a44d449941f5d7542694ded0980dd3f2dcd168c1818d21a8e826a6d2b019cc33",
+      "after_sha256": "6af504c44c867e69c6e44f523f238c675ba17f2be56b90659388bbff6f5b2f56",
+      "before_lines": 916,
+      "after_lines": 948,
+      "delta": 32
+    },
+    {
+      "file": "scripts/quality-gate.mjs",
+      "before_sha256": "0b7743a01edbc118d36eb738de1b44cb9ded1d951553e8f19248dcd43cfe8026",
+      "after_sha256": "e6a5e9edb42aa1bade4d0a3abbba2a6ec1f638eabc60cef181af0ed0d2b08a3f",
+      "before_lines": 133,
+      "after_lines": 148,
+      "delta": 15
+    },
+    {
+      "file": "scripts/quality-summary.mjs",
+      "before_sha256": "e4607a815f77d303bcd53b40e97401c897ccad41b053377e178ccdf6b7aacbe5",
+      "after_sha256": "c343c3fc4ef69ff686037b60097286b50509e0d66607ca003bd81b8e02638ce2",
+      "before_lines": 111,
+      "after_lines": 118,
+      "delta": 7
+    },
+    {
+      "file": "scripts/quality-summary.test.mjs",
+      "before_sha256": "f83c8f5692a60a99ec9c82ec3c4815d9080da1571d561f9ea7b2c24abd0c09a7",
+      "after_sha256": "4107bc536e6806fa6f5160e542808e959937450c5e22b518aefd0178288c47eb",
+      "before_lines": 51,
+      "after_lines": 72,
+      "delta": 21
+    },
+    {
+      "file": "src/components/SchoolCalendar.css",
+      "before_sha256": "81abf0ae87042cb547a04fbcec4501e168aee9c3909907cfcc35f5d0a5dfaf0f",
+      "after_sha256": "49ccac97f2dcf0a03862cdfb1771fcd9da2a26621489bf0a73f319b26c8c5400",
+      "before_lines": 42,
+      "after_lines": 100,
+      "delta": 58
+    },
+    {
+      "file": "src/components/SchoolCalendar.tsx",
+      "before_sha256": "75f71def92fbf43266403651b32f25c0c4a65621d3140378c1a16920c6edc580",
+      "after_sha256": "d9e59399c694bd08d24f05294b59f52b80bd62b788be4e749f4bb6df394230db",
+      "before_lines": 398,
+      "after_lines": 310,
+      "delta": -88
+    },
+    {
+      "file": "src/components/ui/CardShell.tsx",
+      "before_sha256": "7d0efa15eea6d8715fb07eaf4de6962367f3d631da12881e2db8f898887e6f75",
+      "after_sha256": "d749ada2be98a94701b076ae22539ff839288738c23f09d62c1e1b5f93e52193",
+      "before_lines": 140,
+      "after_lines": 143,
+      "delta": 3
+    },
+    {
+      "file": "src/components/ui/StandardActionList.tsx",
+      "before_sha256": "806ac0f1ab6fae6fbf5ac543076502879d11b37af4a8083c707ae78b3b65dc5a",
+      "after_sha256": "bcaf0ad8fe4ab711a5cfcc22714a11ca96e8e34a49a37f93e0f991f33c11c1d1",
+      "before_lines": 386,
+      "after_lines": 379,
+      "delta": -7
+    },
+    {
+      "file": "src/components/ui/standardActionCard.css",
+      "before_sha256": null,
+      "after_sha256": "3666ba5ce92d975e75b70911d81414cbad36df80e61d3b5994a28c9d5205ba29",
+      "before_lines": 0,
+      "after_lines": 92,
+      "delta": 92
+    },
+    {
+      "file": "src/components/ui/standardActionCardAnimations.ts",
+      "before_sha256": "bdbddb51d120787c2e71831bbd0fdc1fa17f66b360816e879b708d40ddc48737",
+      "after_sha256": "c27c0e33b5c6d130ae585144df8f5ece0614d63fddb6517f38ab6a7732ee967c",
+      "before_lines": 135,
+      "after_lines": 54,
+      "delta": -81
+    },
+    {
+      "file": "src/data/animalKnowledge.ts",
+      "before_sha256": "7f263b29c94fdeead34470b334c2e2fc7663743ba2083d45f12951da130f1969",
+      "after_sha256": "e9aef399103cbb4433ee6ea2c2fad8543f8576978c1689168fe6f6acefb4090f",
+      "before_lines": 1796,
+      "after_lines": 1789,
+      "delta": -7
+    },
+    {
+      "file": "src/data/sharingFriends.ts",
+      "before_sha256": "354a12a8cdd302d9a53ff9d80f393bc07b93c05d191cfd21b4d6dbf4b884b1a2",
+      "after_sha256": "6a757555a75cfc25337c204e3ed3ab28e31f068cee982309d2d54fbef1c967f0",
+      "before_lines": 133,
+      "after_lines": 127,
+      "delta": -6
+    },
+    {
+      "file": "src/lib/calendarHistory.ts",
+      "before_sha256": "95a1fc8da30e494c44f976e633f26849a64f57ba0338f236cf66b680bd1a3d70",
+      "after_sha256": "c9f894d9b794ec565fb996265b059387b86705eb0ef3956efa73c752de237f5a",
+      "before_lines": 168,
+      "after_lines": 168,
+      "delta": 0
+    },
+    {
+      "file": "src/lib/storyAirScenes.ts",
+      "before_sha256": "55b767384e88104b8114196b5e962422653c2b48dd1355db8ba135b52a01e641",
+      "after_sha256": "2c16c1715ede0293bd41df34eafc61e9be5cc3d281c2983449ee7ef5c49bea84",
+      "before_lines": 434,
+      "after_lines": 412,
+      "delta": -22
+    },
+    {
+      "file": "src/lib/storyCleaningScene.ts",
+      "before_sha256": "47b0bc78fb52799f76314362946791e076dcff6f47c24c43ce192ae9eec98354",
+      "after_sha256": "afd664f2eb1c271c1230ac93e6ea9c0f7a14327468938d3df054c9b4f0dc49cd",
+      "before_lines": 144,
+      "after_lines": 118,
+      "delta": -26
+    },
+    {
+      "file": "src/lib/storyDinosaurFlightAssets.ts",
+      "before_sha256": "75fb49b6cc7ec6fd4d392319082c184c822af87c2e0c868487c71a51ef79549a",
+      "after_sha256": "5c05d8bd4bbfedbe0746239af5b916dee7957b7959b2bf7ddf45c85dc95e9d1c",
+      "before_lines": 38,
+      "after_lines": 38,
+      "delta": 0
+    },
+    {
+      "file": "src/lib/storyLayerScene.ts",
+      "before_sha256": "327f6cd5fc71329fff83e9e109e781c46b5d1646b28958b12aa8f3e306a8ee1e",
+      "after_sha256": "5ebbc2c5b3c10209c833046a90bea6abbb8b1cde47a1f95ee7461f9ed769df41",
+      "before_lines": 89,
+      "after_lines": 105,
+      "delta": 16
+    },
+    {
+      "file": "src/lib/storyMotion.ts",
+      "before_sha256": "cd02b083322ec8791cc534118ab767b46146cba5f3f3b4ca48adb41d6c9289e0",
+      "after_sha256": "ddbe78bc03785c0fa4eee56516c4c3200e69992eaa814afc5503362afda18b94",
+      "before_lines": 291,
+      "after_lines": 285,
+      "delta": -6
+    },
+    {
+      "file": "src/lib/storyTransitions.ts",
+      "before_sha256": "6a46555cecf9c3e2887e5eef7e62b47dc0cc36c999f0e5b586fe16c54c27e8b7",
+      "after_sha256": "e0262d20281b88e71b57f670dbede9208316089393433c0641b4d5296a69599f",
+      "before_lines": 671,
+      "after_lines": 666,
+      "delta": -5
+    },
+    {
+      "file": "src/lib/storyUnderwater.ts",
+      "before_sha256": "fb697d1b74229f3e602fce7955ca45cef68d366691cf06cead1be2c65f5a177a",
+      "after_sha256": "08ae1ad4a30644346aa1b7a2936e5679f8641111250000deb39d3d905623a547",
+      "before_lines": 138,
+      "after_lines": 130,
+      "delta": -8
+    },
+    {
+      "file": "src/offline/sync.ts",
+      "before_sha256": "5bcb348ffeb07fcf074c7e38828f5c7056a9f2df8c18dd5b083e9e73cc0c0eb5",
+      "after_sha256": "0132837b66a795cca0e78beaa939248acf5cc584c94825b2f06436fc8f9abcf7",
+      "before_lines": 145,
+      "after_lines": 145,
+      "delta": 0
+    },
+    {
+      "file": "tests/e2e/offline.spec.ts",
+      "before_sha256": "c266649a9d1eb54866ba4afef0b1963b0dfa2ebf902068d3e30fe2baf62b8d35",
+      "after_sha256": "5b15a577ef67042cbcf9644c41227bdb4e979b28456b7f4718d8ef0db9eff440",
+      "before_lines": 99,
+      "after_lines": 100,
+      "delta": 1
+    },
+    {
+      "file": "tests/unit/offlineRecovery.test.ts",
+      "before_sha256": "81ca1e476ce99687c57dacd72d9d7ffb93456ab0470a9c9dab2670afd1ca7ca9",
+      "after_sha256": "87fa12058041fc79af9ef2338172610f5a890f60d645d57b2348562fc7e4243f",
+      "before_lines": 105,
+      "after_lines": 127,
+      "delta": 22
+    }
+  ],
+  "test_execution": {
+    "status": "passed",
+    "command": "npm run test"
+  },
+  "artifact_directory": "C:\\Code\\MyStarQuest\\output\\quality-review-2026-11-16"
+}

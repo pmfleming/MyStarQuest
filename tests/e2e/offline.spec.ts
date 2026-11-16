@@ -8,6 +8,7 @@ test('concurrent offline actions survive reload and lost acknowledgement without
 }) => {
   const documents = new Map<string, LocalDocument>([
     ['users/parent/children/child', { totalStars: 5 }],
+    ['users/parent/rewards/toy', { costStars: 10, isRepeating: true }],
   ])
   let loseFirstResponse = true
   let accepted = 0

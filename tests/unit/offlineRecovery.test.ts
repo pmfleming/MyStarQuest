@@ -103,3 +103,25 @@ it('rejects an unavailable reward without blocking later changes or keeping the 
   expect(store.getSnapshot()?.history?.redemptions ?? {}).toEqual({})
   expect(send).toHaveBeenCalledTimes(2)
 })
+
+it('retries a committed operation if persisting its local acknowledgement fails', async () => {
+  vi.useFakeTimers()
+  const store = await queued()
+  const acknowledge = vi
+    .spyOn(store, 'acknowledge')
+    .mockRejectedValueOnce(
+      new RewardUnavailable('Local acknowledgement failed')
+    )
+  const send = vi.fn().mockResolvedValue(receipt)
+  const sync = new OfflineSync(store, send)
+  stops.push(sync.start())
+  await vi.advanceTimersByTimeAsync(0)
+  expect(sync.getSnapshot().state).toBe('attention')
+  expect(store.getSnapshot()?.pending).toHaveLength(1)
+  expect(store.getSnapshot()?.rejected ?? []).toHaveLength(0)
+  sync.retry()
+  await vi.advanceTimersByTimeAsync(0)
+  expect(acknowledge).toHaveBeenCalledTimes(2)
+  expect(send.mock.calls[0][1].id).toBe(send.mock.calls[1][1].id)
+  expect(store.getSnapshot()?.pending).toHaveLength(0)
+})

@@ -15,6 +15,8 @@ import PageHeader from './PageHeader'
 import BottomNav from './ui/BottomNav'
 import { AppDeviceFrame } from './AppDeviceFrame'
 import { useDeviceFrame } from '../hooks/useDeviceFrame'
+import ScrollHeader from './ui/ScrollHeader'
+import { useScrollHeader } from '../hooks/useScrollHeader'
 
 interface PageShellProps {
   theme: Theme
@@ -46,6 +48,9 @@ const PageShell = ({
   const navigation = useAsyncAction<'navigate'>()
   const { isNativePlatform, browserFrameHeight } = useDeviceFrame()
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const { headerRef, progress, onScroll } = useScrollHeader(
+    uiTokens.floatingNavHeight
+  )
 
   const effectiveBottomBar =
     bottomBar ||
@@ -89,12 +94,18 @@ const PageShell = ({
       browserFrameHeight={browserFrameHeight}
     >
       {title && (
-        <PageHeader
-          theme={theme}
-          title={title}
-          right={headerRight}
-          fontFamily={theme.fonts.heading}
-        />
+        <ScrollHeader
+          ref={headerRef}
+          progress={progress}
+          height={uiTokens.floatingNavHeight}
+        >
+          <PageHeader
+            theme={theme}
+            title={title}
+            right={headerRight}
+            fontFamily={theme.fonts.heading}
+          />
+        </ScrollHeader>
       )}
 
       <div
@@ -116,6 +127,7 @@ const PageShell = ({
           <DragScrollRegion
             className="min-h-0 flex-1"
             topNavPadding={!!title}
+            onScroll={onScroll}
             bottomNavPadding={!!activeTabId}
           >
             {children}
