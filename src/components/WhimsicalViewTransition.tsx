@@ -34,10 +34,7 @@ export default function WhimsicalViewTransition({
         const panel = root.current
         const scroller = panel?.closest<HTMLElement>('.app-scroll-region')
         if (!panel || !scroller) return
-        const padding =
-          parseFloat(
-            getComputedStyle(scroller.firstElementChild!).paddingTop
-          ) || 24
+        const padding = parseFloat(getComputedStyle(scroller).paddingTop) || 24
         scroller.scrollTo({
           top:
             scroller.scrollTop +

@@ -10,7 +10,13 @@ test('reveals a newly opened calendar below the clock on a short screen', async 
   await expect
     .poll(async () => {
       const bounds = await period.boundingBox()
-      return bounds !== null && bounds.y >= 0 && bounds.y + bounds.height < 600
+      const header = await page.locator('.scroll-header').boundingBox()
+      return (
+        bounds !== null &&
+        header !== null &&
+        bounds.y >= header.y + header.height &&
+        bounds.y + bounds.height < 600
+      )
     })
     .toBe(true)
   await period.click()
