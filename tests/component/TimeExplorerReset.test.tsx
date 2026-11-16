@@ -9,6 +9,7 @@ import { readTimeExplorerState } from '../../src/features/dayNightExplorer/timeE
 import useDayNightExplorerModel from '../../src/features/dayNightExplorer/useDayNightExplorerModel'
 import { getCurrentExplorerCity } from '../../src/features/dayNightExplorer/currentExplorerCity'
 import { DEFAULT_CALENDAR_SCHEDULE } from '../../src/lib/calendarSchedule'
+import * as solar from '../../src/lib/solar'
 
 const scene = vi.hoisted(() => ({
   render: vi.fn(),
@@ -67,6 +68,24 @@ afterEach(() => {
 })
 
 describe('shared explorer reset', () => {
+  it('skips hidden globe projection and reopens at the exact current clock time', async () => {
+    const project = vi.spyOn(solar, 'getSunPosition')
+    const { rerender } = renderHook(
+      ({ visible }) => useDayNightExplorerModel(themes.teenie, visible),
+      { initialProps: { visible: false }, wrapper: SelectedDateProvider }
+    )
+    await act(async () => {})
+    project.mockClear()
+    scene.update.mockClear()
+    act(() => vi.advanceTimersByTime(2000))
+    expect(project).not.toHaveBeenCalled()
+    expect(scene.update).not.toHaveBeenCalled()
+    expect(scene.render.mock.lastCall).toEqual([null, false])
+    rerender({ visible: true })
+    expect(project).toHaveBeenCalled()
+    expect(project.mock.lastCall![0].getUTCSeconds()).toBe(58)
+  })
+
   it('coalesces changes into one save and flushes the latest state on release and unmount', async () => {
     const { result, unmount } = renderHook(
       () => useDayNightExplorerModel(themes.teenie),

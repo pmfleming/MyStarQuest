@@ -107,18 +107,22 @@ export default function useDayNightExplorerModel(
       theme.fontFamily,
     ]
   )
-  const planetSceneState = useMemo(
-    () => buildSceneState(clock.minutes, clock.seconds),
-    [buildSceneState, clock.minutes, clock.seconds]
-  )
+  const { getClockTime } = clock
+  const planetSceneState = useMemo(() => {
+    if (!globeVisible) return null
+    const { minutes, seconds } = getClockTime()
+    return buildSceneState(minutes, seconds)
+  }, [buildSceneState, globeVisible, getClockTime])
 
   const { canvasRef, globeReady, globeFailed, retryGlobe, updateSceneState } =
     useSolarSystem3D(planetSceneState, globeVisible, handleOrbitChange)
 
   useEffect(() => {
-    onUpdateRef.current = (minutes, seconds) =>
-      updateSceneState(buildSceneState(minutes, seconds))
-  }, [buildSceneState, updateSceneState])
+    onUpdateRef.current = globeVisible
+      ? (minutes, seconds) =>
+          updateSceneState(buildSceneState(minutes, seconds))
+      : null
+  }, [buildSceneState, updateSceneState, globeVisible])
 
   const filteredOptions = useMemo(() => {
     // Show Sun icon when in Earth focus (to switch to Solar)

@@ -4,7 +4,7 @@ import type { SolarSystemSceneState } from './SolarSystem3DManager'
 import { markStartup } from '../../lib/startupPerformance'
 
 const useSolarSystem3D = (
-  sceneState: SolarSystemSceneState,
+  sceneState: SolarSystemSceneState | null,
   enabled = true,
   onOrbitChange?: (year: number, progress: number) => void
 ) => {
@@ -22,7 +22,7 @@ const useSolarSystem3D = (
 
   useEffect(() => {
     latestSceneStateRef.current = sceneState
-    managerRef.current?.setSceneState(sceneState)
+    if (sceneState) managerRef.current?.setSceneState(sceneState)
   }, [sceneState])
 
   useEffect(() => {
@@ -38,7 +38,8 @@ const useSolarSystem3D = (
       frame = requestAnimationFrame(() => {
         void import('./SolarSystem3DManager')
           .then(({ default: Manager }) => {
-            if (cancelled || !canvasRef.current) return
+            if (cancelled || !canvasRef.current || !latestSceneStateRef.current)
+              return
             manager = new Manager(
               canvasRef.current,
               latestSceneStateRef.current,
