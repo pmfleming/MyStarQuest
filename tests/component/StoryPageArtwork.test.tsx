@@ -40,6 +40,29 @@ afterEach(() => {
   vi.useRealTimers()
 })
 
+it('reports displayed progress only after decoding and the page turn finishes', async () => {
+  vi.useFakeTimers()
+  const displayed = vi.fn()
+  const view = render(
+    <StoryPageArtwork panels={panels} page={0} onPageDisplayed={displayed} />
+  )
+  view.rerender(
+    <StoryPageArtwork panels={panels} page={1} onPageDisplayed={displayed} />
+  )
+  expect(screen.getByRole('status')).toHaveTextContent('Loading page 2')
+  expect(displayed).toHaveBeenLastCalledWith(0)
+  await act(async () => requests.at(-1)!.onload!())
+  expect(displayed).toHaveBeenLastCalledWith(0)
+  act(() => vi.advanceTimersByTime(STORY_PAGE_TRANSITION_MS))
+  expect(displayed).toHaveBeenLastCalledWith(1)
+  view.rerender(
+    <StoryPageArtwork panels={panels} page={2} onPageDisplayed={displayed} />
+  )
+  act(() => requests.at(-1)!.onerror!())
+  expect(displayed).toHaveBeenLastCalledWith(1)
+  expect(screen.queryByRole('status')).toBeNull()
+})
+
 it('keeps the current page visible until the next image is decoded, then releases the outgoing page', async () => {
   vi.useFakeTimers()
   const view = render(<StoryPageArtwork panels={panels} page={0} />)

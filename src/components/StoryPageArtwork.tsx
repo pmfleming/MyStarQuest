@@ -31,10 +31,12 @@ export default function StoryPageArtwork({
   panels,
   page,
   active = true,
+  onPageDisplayed,
 }: {
   panels: Story['panels']
   page: number
   active?: boolean
+  onPageDisplayed?: (page: number) => void
 }) {
   const [frame, setFrame] = useState({
     page,
@@ -47,6 +49,9 @@ export default function StoryPageArtwork({
   const previousSurface = useRef<HTMLDivElement>(null)
   const transitionHost = useRef<HTMLDivElement>(null)
   const outgoingScene = useRef<HTMLElement | undefined>(undefined)
+  useEffect(() => {
+    if (frame.previous === null) onPageDisplayed?.(frame.page)
+  }, [frame.page, frame.previous, onPageDisplayed])
   useLayoutEffect(() => {
     const from = frame.fromPage === null ? null : panels[frame.fromPage]!
     const to = panels[frame.page]!
@@ -120,11 +125,16 @@ export default function StoryPageArtwork({
   useEffect(() => {
     if (frame.previous === null) return
     // Also release the outgoing image when reduced motion disables animation events.
-    const timer = setTimeout(() => {
-      setFrame((current) =>
-        current === frame ? { ...current, previous: null } : current
-      )
-    }, STORY_PAGE_TRANSITION_MS)
+    const timer = setTimeout(
+      () => {
+        setFrame((current) =>
+          current === frame ? { ...current, previous: null } : current
+        )
+      },
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+        ? 0
+        : STORY_PAGE_TRANSITION_MS
+    )
     return () => clearTimeout(timer)
   }, [frame])
 
@@ -146,8 +156,15 @@ export default function StoryPageArtwork({
       className="story-artwork"
       style={style}
       data-direction={frame.direction}
-      aria-busy={frame.page !== page && failedPage !== page}
+      aria-busy={
+        (frame.page !== page || frame.previous !== null) && failedPage !== page
+      }
     >
+      {frame.page !== page && failedPage !== page && (
+        <p className="story-image-loading" role="status">
+          Loading page {page + 1}…
+        </p>
+      )}
       {previous && !continuousUnderwater && (
         <div
           key={`previous-${frame.previous}`}

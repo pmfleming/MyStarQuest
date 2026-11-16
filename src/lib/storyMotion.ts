@@ -1,7 +1,7 @@
 import { uiTokens } from '../tokens'
 
-export const STORY_PAGE_TRANSITION_MS = 1600
-export const STORY_OPEN_TRANSITION_MS = 1200
+export const STORY_PAGE_TRANSITION_MS = 450
+export const STORY_OPEN_TRANSITION_MS = 450
 
 const viewportSize = () => ({
   width: window.innerWidth,

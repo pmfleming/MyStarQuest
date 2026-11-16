@@ -28,6 +28,7 @@ export default function StoryReader({
   onClose: () => void
 }) {
   const [page, setPage] = useState(0)
+  const [displayedPage, setDisplayedPage] = useState(0)
   const [controlsOpen, setControlsOpen] = useState(false)
   const { dialogRef, close, isClosing } = useStoryPresentation({
     openingFrame,
@@ -36,13 +37,13 @@ export default function StoryReader({
   const stageRef = useRef<HTMLDivElement>(null)
   const gesture = useRef<{ x: number; y: number; bottom: boolean } | null>(null)
   const lastPage = story.panels.length - 1
-  const panel = story.panels[page]!
+  const panel = story.panels[displayedPage]!
   const chapters = getStoryChapters(story)
-  const activeChapter = currentStoryChapter(chapters, page)
+  const activeChapter = currentStoryChapter(chapters, displayedPage)
   const turn = (delta: number) =>
     setPage((current) => Math.max(0, Math.min(lastPage, current + delta)))
   const progressStyle: CSSProperties & Record<'--story-progress', string> = {
-    '--story-progress': `${lastPage > 0 ? (page / lastPage) * 100 : 0}%`,
+    '--story-progress': `${lastPage > 0 ? (displayedPage / lastPage) * 100 : 0}%`,
   }
 
   // Only the adjacent pages are prefetched, keeping the rest of the book on demand.
@@ -140,6 +141,7 @@ export default function StoryReader({
           panels={story.panels}
           page={page}
           active={!isClosing}
+          onPageDisplayed={setDisplayedPage}
         />
         <button
           className="story-turn story-turn-previous"
@@ -229,16 +231,16 @@ export default function StoryReader({
             type="range"
             min={0}
             max={lastPage}
-            value={page}
+            value={displayedPage}
             style={progressStyle}
             aria-label="Story progress"
-            aria-valuetext={`${page + 1} of ${story.panels.length}: ${panel.label}`}
+            aria-valuetext={`${displayedPage + 1} of ${story.panels.length}: ${panel.label}`}
             onChange={(event) => setPage(Number(event.target.value))}
           />
           <output
             htmlFor="story-progress"
             aria-live="polite"
-            aria-label={`Page ${page + 1} of ${story.panels.length}`}
+            aria-label={`Page ${displayedPage + 1} of ${story.panels.length}`}
           >
             <img
               src={getThemeAsset(theme.id, 'storyProgressIcon')}
@@ -246,7 +248,7 @@ export default function StoryReader({
               aria-hidden="true"
             />
             <span className="story-page-count" aria-hidden="true">
-              <strong>{page + 1}</strong>
+              <strong>{displayedPage + 1}</strong>
               <span className="story-page-total"> / {story.panels.length}</span>
             </span>
           </output>
