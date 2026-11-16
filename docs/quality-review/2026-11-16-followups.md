@@ -27,3 +27,17 @@ WeatherScene now composes the environment, condition layer, character, precipita
 Validation: weather component/data tests, **3 passed**; **3,072** before/after server-rendered combinations matched exactly after normalizing generated clip-path IDs. The combinations cover both themes, availability, day/night, every cloud/precipitation/intensity/wind value, and representative fog/thunder flags.
 
 Lens: the former 31-point WeatherScene callable is now 12, with the condition layer at 14. The complete module falls from cognitive 43 to 38, cyclomatic 46 to 43, and 334 to 329 lines. Estimated effort rises from 107,950 to 139,625; this is a readability/ownership improvement with a measured effort tradeoff, not a claim that every metric decreases.
+
+## 5. Keep child selection stable during menu actions
+
+Child-switch buttons now follow the same pending-action guard as reset, sign-out, navigation, and dismiss controls. A parent cannot switch the selected child's scope while a reset or sign-out is still running. After failure, the menu remains open with its error and restores child switching.
+
+Validation: AppMenu tests, **3 passed**. The new reset/sign-out cases verify blocked selection and dismissal during the operation, then successful selection and navigation after rejection. The existing StrictMode and reset-retry case remains green.
+
+## Combined validation and measured tradeoffs
+
+The final whole-project frontend Lens audit is complete: **0 blockers, 71 warnings**, with no new warnings relative to the follow-up baseline. Its configured full Vitest execution passed. Compiler diagnostics are zero; the two existing clone groups remain. `npm run lint`, `npm run build`, formatting checks, and staged diff checks passed. Vite retains its existing large-chunk warning.
+
+Across the five changed production modules, cognitive complexity falls **200 → 193** and cyclomatic complexity **263 → 260**. Source grows **1,293 → 1,296 lines**, and estimated effort rises **480,629 → 495,108**. The request was prioritized around concrete lifecycle/ownership failures and clearer rendering responsibilities; these are not five across-the-board metric reductions. Regression tests add coverage and code. [Detailed measurements](2026-11-16-followups.json) include per-module results.
+
+Existing uncommitted files were checked against the initial SHA-256 inventory and remain byte-identical. They are outside these five commits. Local audit exports, render-comparison evidence, preservation checks, and validation logs are under `output/quality-followups-2026-11-16/`. Validation ran on the installed Node 24.11/npm 11.7 toolchain; no deployment or push was performed.

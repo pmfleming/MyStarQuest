@@ -1,0 +1,122 @@
+{
+  "lens_commit": "8e8349c19fa22b1971bca3689d2712b5fdeebcd0",
+  "baseline": "Working tree at start of follow-up request; includes earlier uncommitted refactor.",
+  "methodology": "Same Lens revision and policy. Exclusive callable complexity/effort; physical TS/TSX file lines. Totals cover only the five changed production modules. Effort rounded per module. Locality/history metrics are not compared across the new commits.",
+  "changes": [
+    {
+      "file": "src/lib/weather/weatherStore.ts",
+      "before": {
+        "lines": 179,
+        "cognitive": 23,
+        "cyclomatic": 39,
+        "effort": 85898
+      },
+      "after": {
+        "lines": 181,
+        "cognitive": 23,
+        "cyclomatic": 40,
+        "effort": 82532
+      }
+    },
+    {
+      "file": "src/offline/runtime.ts",
+      "before": {
+        "lines": 258,
+        "cognitive": 45,
+        "cyclomatic": 67,
+        "effort": 47442
+      },
+      "after": {
+        "lines": 265,
+        "cognitive": 47,
+        "cyclomatic": 70,
+        "effort": 51685
+      }
+    },
+    {
+      "file": "src/lib/starActions.ts",
+      "before": {
+        "lines": 209,
+        "cognitive": 48,
+        "cyclomatic": 50,
+        "effort": 180427
+      },
+      "after": {
+        "lines": 207,
+        "cognitive": 44,
+        "cyclomatic": 46,
+        "effort": 162354
+      }
+    },
+    {
+      "file": "src/components/weather/WeatherScene.tsx",
+      "before": {
+        "lines": 334,
+        "cognitive": 43,
+        "cyclomatic": 46,
+        "effort": 107950
+      },
+      "after": {
+        "lines": 329,
+        "cognitive": 38,
+        "cyclomatic": 43,
+        "effort": 139625
+      }
+    },
+    {
+      "file": "src/components/AppMenu.tsx",
+      "before": {
+        "lines": 313,
+        "cognitive": 41,
+        "cyclomatic": 61,
+        "effort": 58912
+      },
+      "after": {
+        "lines": 314,
+        "cognitive": 41,
+        "cyclomatic": 61,
+        "effort": 58912
+      }
+    }
+  ],
+  "totals": {
+    "before": {
+      "lines": 1293,
+      "cognitive": 200,
+      "cyclomatic": 263,
+      "effort": 480629
+    },
+    "after": {
+      "lines": 1296,
+      "cognitive": 193,
+      "cyclomatic": 260,
+      "effort": 495108
+    }
+  },
+  "audit": {
+    "verdict": "warn",
+    "verification_failures": [],
+    "complete": true,
+    "incomplete_reasons": [],
+    "gate": "all",
+    "base": null,
+    "changed_files": 0,
+    "changed_hunks": 0,
+    "base_snapshot_available": false,
+    "base_snapshot_compatible": null,
+    "findings": 4729,
+    "active_findings": 71,
+    "introduced_findings": 4729,
+    "inherited_findings": 0,
+    "high_risk_findings": 458,
+    "blocking_findings": 0,
+    "warning_findings": 71,
+    "baseline_suppressed": 0,
+    "config_suppressed": 0,
+    "stale_suppressions": 0
+  },
+  "tests": {
+    "status": "passed",
+    "command": "npm run test"
+  }
+}

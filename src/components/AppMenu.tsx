@@ -199,6 +199,7 @@ const MenuSheet = ({
             {access.choices.map((child) => (
               <button
                 key={`${child.ownerUid}/${child.id}`}
+                disabled={pendingAction !== null}
                 style={actionStyle}
                 aria-pressed={access.selected === child}
                 onClick={() => {

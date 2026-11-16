@@ -11,6 +11,10 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import AppMenu from '../../src/components/AppMenu'
 import { themes } from '../../src/contexts/ThemeContext'
+import {
+  ChildAccessContext,
+  type ChildAccess,
+} from '../../src/sharing/ChildAccessContext'
 
 const state = vi.hoisted(() => ({
   childId: 'child' as string | null,
@@ -68,29 +72,84 @@ afterEach(() => {
   Reflect.deleteProperty(HTMLDialogElement.prototype, 'close')
 })
 
-const renderMenu = (onResetToday?: () => Promise<void>) =>
+const renderMenu = (
+  onResetToday?: () => Promise<void>,
+  access: ChildAccess | null = null
+) =>
   render(
     <StrictMode>
-      <MemoryRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <AppMenu theme={themes.princess} onResetToday={onResetToday} />
-            }
-          />
-          <Route
-            path="/settings/manage-children"
-            element={<h1>Manage children</h1>}
-          />
-        </Routes>
-      </MemoryRouter>
+      <ChildAccessContext.Provider value={access}>
+        <MemoryRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <AppMenu theme={themes.princess} onResetToday={onResetToday} />
+              }
+            />
+            <Route
+              path="/settings/manage-children"
+              element={<h1>Manage children</h1>}
+            />
+            <Route path="/tabs/chores" element={<h1>Chores</h1>} />
+          </Routes>
+        </MemoryRouter>
+      </ChildAccessContext.Provider>
     </StrictMode>
   )
 const openMenu = () =>
   fireEvent.click(screen.getByRole('button', { name: 'Open menu' }))
 
 describe('shared app menu', () => {
+  it.each(['Reset today', 'Sign out'])(
+    'keeps the selected child stable during %s and restores switching after failure',
+    async (actionName) => {
+      vi.spyOn(console, 'error').mockImplementation(() => {})
+      const choices = ['First', 'Second'].map((displayName) => ({
+        id: displayName,
+        displayName,
+        ownerUid: 'parent',
+        membershipVersion: 1,
+        avatarToken: 'star',
+        totalStars: 0,
+        testFailureModeEnabled: false,
+      }))
+      const select = vi.fn()
+      let reject!: (error: Error) => void
+      const pending = new Promise<void>((_resolve, fail) => {
+        reject = fail
+      })
+      state.logout.mockReturnValue(pending)
+      renderMenu(() => pending, {
+        choices,
+        selected: choices[0],
+        actorUid: 'parent',
+        loading: false,
+        error: null,
+        select,
+      })
+      await act(async () => openMenu())
+      fireEvent.click(screen.getByRole('button', { name: actionName }))
+      const switchChild = screen.getByRole('button', { name: 'Second' })
+      expect(switchChild).toBeDisabled()
+      fireEvent.click(switchChild)
+      fireEvent(
+        screen.getByRole('dialog'),
+        new Event('cancel', { cancelable: true })
+      )
+      expect(select).not.toHaveBeenCalled()
+      expect(screen.getByRole('dialog')).toBeVisible()
+      await act(async () => reject(new Error('Disconnected')))
+      expect(screen.getByRole('alert')).toHaveTextContent(
+        `${actionName} failed`
+      )
+      expect(switchChild).toBeEnabled()
+      fireEvent.click(switchChild)
+      expect(select).toHaveBeenCalledWith(choices[1])
+      expect(screen.getByRole('heading', { name: 'Chores' })).toBeVisible()
+    }
+  )
+
   it('survives StrictMode dialog replay and keeps failed resets available for retry', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
     const reset = vi
