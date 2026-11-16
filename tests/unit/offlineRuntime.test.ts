@@ -190,3 +190,50 @@ it('loads only relevant legacy reward reconciliation and releases its listeners'
   stop()
   expect(listeners.has(path)).toBe(false)
 })
+
+it('batches large reward catalogues without restarting partially redeemed batches', async () => {
+  const runtime = offlineRuntime('reward-batches')
+  const stop = runtime.connect()
+  const prefix = 'users/reward-batches/'
+  const rewardPaths = () =>
+    [...listeners.keys()].filter((path) =>
+      path.startsWith(`${prefix}redemptions|`)
+    )
+  try {
+    await vi.waitFor(() => expect(listeners.has(`${prefix}rewards`)).toBe(true))
+    const definitions = Array.from({ length: 61 }, (_, i) => ({
+      id: `reward-${i}`,
+      data: () => ({ isRepeating: false }),
+    }))
+    listeners.get(`${prefix}rewards`)!({
+      metadata: { fromCache: false },
+      docs: definitions,
+    })
+    await vi.waitFor(() => expect(rewardPaths()).toHaveLength(3))
+    const paths = rewardPaths()
+    expect(
+      paths.map((path) => path.split('rewardId:')[1].split(',').length)
+    ).toEqual([30, 30, 1])
+    const calls = subscribe.mock.calls.length
+    listeners.get(paths[0])!({
+      metadata: { fromCache: false },
+      docs: [{ id: 'event', data: () => ({ rewardId: 'reward-0' }) }],
+    })
+    await runtime.store.mutate(() => {})
+    expect(rewardPaths()).toEqual(paths)
+    expect(subscribe.mock.calls).toHaveLength(calls)
+    listeners.get(paths[0])!({
+      metadata: { fromCache: false },
+      docs: definitions
+        .slice(0, 30)
+        .map(({ id }) => ({ id, data: () => ({ rewardId: id }) })),
+    })
+    await runtime.store.mutate(() => {})
+    await vi.waitFor(() => expect(rewardPaths()).toEqual(paths.slice(1)))
+  } finally {
+    stop()
+  }
+  expect(
+    [...listeners.keys()].filter((path) => path.startsWith(prefix))
+  ).toEqual([])
+})

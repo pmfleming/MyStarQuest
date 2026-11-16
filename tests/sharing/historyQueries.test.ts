@@ -4,10 +4,20 @@ import {
   initializeTestEnvironment,
   type RulesTestEnvironment,
 } from '@firebase/rules-unit-testing'
-import { doc, setDoc, type Firestore } from 'firebase/firestore'
+import {
+  doc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+  type Firestore,
+} from 'firebase/firestore'
 import { childStorageKey } from '../../src/sharing/scope'
 import { calendarHistoryWindow } from '../../src/offline/historyRetention'
-import { subscribeHistoryWindow } from '../../src/offline/historyQueries'
+import {
+  historySources,
+  subscribeHistoryWindow,
+} from '../../src/offline/historyQueries'
 
 const state = vi.hoisted(() => ({ db: undefined as Firestore | undefined }))
 vi.mock('../../src/firebaseDb', () => ({
@@ -34,6 +44,22 @@ beforeAll(async () => {
     const jan = Date.parse('2024-01-15T12:00:00Z')
     const docs: Record<string, Record<string, unknown>> = {
       'users/owner/children/child': {},
+      'users/owner/redemptions/legacy': {
+        childId: 'child',
+        rewardId: 'reward-0',
+      },
+      'users/owner/redemptions/sibling': {
+        childId: 'other',
+        rewardId: 'reward-0',
+      },
+      'users/owner/children/child/redemptions/shared': {
+        childId: 'child',
+        rewardId: 'reward-29',
+      },
+      'users/owner/children/child/redemptions/outside': {
+        childId: 'child',
+        rewardId: 'reward-30',
+      },
       'users/owner/children/child/parents/parent': { status: 'active' },
       'users/owner/starEvents/numeric': { childId: 'child', createdAt: jan },
       'users/owner/starEvents/timestamp': {
@@ -72,6 +98,23 @@ beforeAll(async () => {
 })
 afterAll(async () => {
   await env?.cleanup()
+})
+it('authorizes bounded reward batches across shared and legacy paths without including siblings', async () => {
+  const key = childStorageKey({
+    actorUid: 'parent',
+    ownerUid: 'owner',
+    childId: 'child',
+    membershipVersion: 1,
+  })
+  const ids = Array.from({ length: 30 }, (_, i) => `reward-${i}`)
+  const results = await Promise.all(
+    historySources(key, 'redemptions').map(({ source }) =>
+      getDocs(query(source, where('rewardId', 'in', ids)))
+    )
+  )
+  expect(results.map((snapshot) => snapshot.docs.map((doc) => doc.id))).toEqual(
+    [['legacy'], ['shared']]
+  )
 })
 it('queries every legacy date format in a bounded period, deduplicates migration copies and respects child access', async () => {
   const receive = vi.fn(),

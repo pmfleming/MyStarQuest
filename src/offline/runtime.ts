@@ -202,14 +202,20 @@ function createRuntime(userId: string) {
             )
           }
           // Reconcile old one-time rewards independently of the visible history.
-          const rewardWatches = new Map<string, () => void>()
+          const rewardWatches = new Map<
+            string,
+            { ids: string[]; stop: () => void }
+          >()
+          let rewardDefinitions: Record<string, LocalDocument> = {}
           cleanup.push(() => {
-            rewardWatches.forEach((stop) => stop())
+            rewardWatches.forEach(({ stop }) => stop())
             rewardWatches.clear()
           })
           const reconcileRewards = (
             documents: Record<string, LocalDocument>
           ) => {
+            if (disposed) return
+            rewardDefinitions = documents
             const ids = new Set(
               Object.keys(documents).filter(
                 (id) =>
@@ -217,29 +223,37 @@ function createRuntime(userId: string) {
                   !store.getSnapshot()?.redeemedRewards?.[id]
               )
             )
-            for (const [id, stop] of rewardWatches) {
-              if (!ids.has(id)) {
-                stop()
-                rewardWatches.delete(id)
+            // Keep partially resolved batches stable to avoid rereading all the
+            // remaining rewards whenever a single reward is redeemed.
+            for (const [batchKey, batch] of rewardWatches) {
+              if (!batch.ids.some((id) => ids.has(id))) {
+                batch.stop()
+                rewardWatches.delete(batchKey)
               }
+              batch.ids.forEach((id) => ids.delete(id))
             }
-            for (const id of ids) {
-              if (rewardWatches.has(id)) continue
+            const unwatched = [...ids]
+            // A single `in` filter supports at most 30 disjunctions.
+            for (let offset = 0; offset < unwatched.length; offset += 30) {
+              const batchIds = unwatched.slice(offset, offset + 30)
+              const batchKey = JSON.stringify(batchIds)
               const stops: (() => void)[] = []
-              rewardWatches.set(id, () => stops.forEach((stop) => stop()))
+              const batch = {
+                ids: batchIds,
+                stop: () => stops.forEach((stop) => stop()),
+              }
+              rewardWatches.set(batchKey, batch)
               for (const { source, key } of historySources(
                 userId,
                 'redemptions'
               )) {
                 stops.push(
                   watch(
-                    query(source, where('rewardId', '==', id)),
+                    query(source, where('rewardId', 'in', batchIds)),
                     async (documents) => {
                       await store.mergeRewardRedemptions(documents)
-                      if (store.getSnapshot()?.redeemedRewards?.[id]) {
-                        rewardWatches.get(id)?.()
-                        rewardWatches.delete(id)
-                      }
+                      if (rewardWatches.get(batchKey) === batch)
+                        reconcileRewards(rewardDefinitions)
                     },
                     key,
                     false
