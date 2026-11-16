@@ -25,10 +25,6 @@ if (missingConfigKeys.length > 0) {
   )
 }
 
-if (import.meta.env.DEV) {
-  console.log('Firebase API key in use:', import.meta.env.VITE_FIREBASE_API_KEY)
-}
-
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig)
 
