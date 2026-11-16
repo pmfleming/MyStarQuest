@@ -98,7 +98,9 @@ export function saveTimeExplorerState(patch: Partial<ExplorerState>) {
       }),
       ...patch,
     })
-    localStorage.setItem(TIME_EXPLORER_STORAGE_KEY, JSON.stringify(state))
+    const serialized = JSON.stringify(state)
+    if (serialized !== localStorage.getItem(TIME_EXPLORER_STORAGE_KEY))
+      localStorage.setItem(TIME_EXPLORER_STORAGE_KEY, serialized)
   } catch {
     // Storage may be disabled or full; exploration must remain usable.
   }

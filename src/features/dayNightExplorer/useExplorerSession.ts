@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useSelectedDate } from '../../contexts/SelectedDateContext'
 import { buildDateKey, getTodayDescriptor } from '../../lib/today'
 import {
@@ -101,31 +108,25 @@ export function useExplorerSession(
     }
   }, [nightlyResetKey, locationResetKey, syncInstant])
   const dateKey = buildDateKey(selectedDate)
+  const save = useEffectEvent(() => {
+    if (pendingDateRestore.current && pendingDateRestore.current !== dateKey)
+      return
+    saveTimeExplorerState({
+      displayMode,
+      activeFocusId,
+      activeCalculationCityId,
+      explorationResetKey: locationResetKey,
+      exploration: { dateKey, ...getClockTime() },
+    })
+  })
   useEffect(() => {
     if (pendingDateRestore.current && pendingDateRestore.current !== dateKey) {
       setSelectedDateKey(pendingDateRestore.current)
       return
     }
     pendingDateRestore.current = undefined
-    const save = () =>
-      saveTimeExplorerState({
-        displayMode,
-        activeFocusId,
-        activeCalculationCityId,
-        explorationResetKey: locationResetKey,
-        exploration: { dateKey, ...getClockTime() },
-      })
-    save()
-    const onVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') save()
-    }
-    window.addEventListener('pagehide', save)
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    return () => {
-      save()
-      window.removeEventListener('pagehide', save)
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-    }
+    const timer = window.setTimeout(() => save(), 250)
+    return () => window.clearTimeout(timer)
   }, [
     dateKey,
     displayMode,
@@ -137,6 +138,23 @@ export function useExplorerSession(
     locationResetKey,
     setSelectedDateKey,
   ])
+  useEffect(() => {
+    const flush = () => save()
+    const onVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') flush()
+    }
+    window.addEventListener('pagehide', flush)
+    document.addEventListener('pointerup', flush)
+    document.addEventListener('pointercancel', flush)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      flush()
+      window.removeEventListener('pagehide', flush)
+      document.removeEventListener('pointerup', flush)
+      document.removeEventListener('pointercancel', flush)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  }, [])
 
   const handleFocusSelection = useCallback(
     (focusId: ExplorerFocusId) => {

@@ -67,6 +67,34 @@ afterEach(() => {
 })
 
 describe('shared explorer reset', () => {
+  it('coalesces changes into one save and flushes the latest state on release and unmount', async () => {
+    const { result, unmount } = renderHook(
+      () => useDayNightExplorerModel(themes.teenie),
+      { wrapper: SelectedDateProvider }
+    )
+    await act(async () => {})
+    act(() => vi.advanceTimersByTime(250))
+    const write = vi.spyOn(Storage.prototype, 'setItem')
+    act(() => result.current.clock.onAdjust(10))
+    act(() => result.current.clock.onAdjust(20))
+    act(() => vi.advanceTimersByTime(249))
+    expect(write).not.toHaveBeenCalled()
+    act(() => vi.advanceTimersByTime(1))
+    expect(write).toHaveBeenCalledOnce()
+    act(() => result.current.clock.onAdjust(30))
+    act(() => document.dispatchEvent(new Event('pointerup')))
+    expect(write).toHaveBeenCalledTimes(2)
+    act(() => vi.advanceTimersByTime(250))
+    expect(write).toHaveBeenCalledTimes(2)
+    act(() => result.current.clock.onAdjust(40))
+    const latest = {
+      minutes: (readTimeExplorerState().exploration!.minutes + 40) % 1440,
+    }
+    unmount()
+    expect(readTimeExplorerState().exploration).toMatchObject(latest)
+    expect(write).toHaveBeenCalledTimes(3)
+  })
+
   it('restores date, exact clock time, city and globe mode across sessions, including after reset', async () => {
     const useExplorer = () => ({
       explorer: useDayNightExplorerModel(themes.teenie, true),
