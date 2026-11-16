@@ -1,4 +1,5 @@
-import { buildDateKey, getTodayDescriptor, parseDateKey } from './today'
+import { buildDateKey, getDateKeyInTimeZone, parseDateKey } from './today'
+import { dateFormats } from './dateFormats'
 
 export type HistoryKind = 'chores' | 'tests' | 'rewards' | 'activity'
 export type HistoryView = 'all' | 'completed' | 'chores' | 'tests' | 'rewards'
@@ -77,7 +78,7 @@ export function buildCalendarHistory(
         buildDateKey(parseDateKey(storedDay)) === storedDay
           ? storedDay
           : date
-            ? getTodayDescriptor(date, timeZone).dateKey
+            ? getDateKeyInTimeZone(date, timeZone)
             : ''
       if (!dateKey) return []
       return [
@@ -89,12 +90,7 @@ export function buildCalendarHistory(
             text(definition?.title) ||
             fallbackTitles[kind],
           dateKey,
-          time: date?.toLocaleTimeString('en-GB', {
-            timeZone,
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }),
+          time: date ? dateFormats(timeZone).time.format(date) : undefined,
           timestamp: date?.getTime() ?? 0,
           stars: finite(reward ? data.costStars : data.delta),
           imageKey: text(data.imageKey ?? definition?.imageKey),

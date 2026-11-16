@@ -1,4 +1,5 @@
 import { getSeason, getSeasonForMonth } from './seasons'
+import { dateFormats } from './dateFormats'
 
 export type CurrentDayType = 'schoolday' | 'nonschoolday'
 
@@ -17,13 +18,7 @@ const DEFAULT_CHORE_SCHEDULE: ChoreSchedule = {
 const padDatePart = (value: number) => String(value).padStart(2, '0')
 
 const getDatePartsInTimeZone = (date: Date, timeZone: string) => {
-  const formatter = new Intl.DateTimeFormat('en-GB', {
-    timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'long',
-  })
+  const formatter = dateFormats(timeZone).parts
 
   const parts = Object.fromEntries(
     formatter.formatToParts(date).map(({ type, value }) => [type, value])
@@ -57,6 +52,11 @@ export const parseDateKey = (dateKey: string) => {
 }
 
 export const getSeasonForDate = getSeason
+
+export const getDateKeyInTimeZone = (date: Date, timeZone = APP_TIME_ZONE) => {
+  const parts = getDatePartsInTimeZone(date, timeZone)
+  return `${parts.year}-${padDatePart(parts.month)}-${padDatePart(parts.day)}`
+}
 
 export const normalizeChoreSchedule = (value: {
   schoolDayEnabled?: unknown
@@ -111,10 +111,6 @@ export const getTodayDescriptor = (
     dayType,
     season: getSeasonForMonth(parts.month),
     dayName: parts.weekday,
-    formattedDate: date.toLocaleDateString(undefined, {
-      timeZone,
-      month: 'long',
-      day: 'numeric',
-    }),
+    formattedDate: dateFormats(timeZone).label.format(date),
   }
 }
